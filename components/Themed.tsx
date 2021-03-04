@@ -8,6 +8,7 @@ import {
 	ViewStyle,
 	TextStyle,
 	ButtonProps,
+	TextInputProps,
 } from "react-native";
 
 import Colors from "../constants/Colors";
@@ -37,27 +38,25 @@ export function TextMainTitle(props: TextProps) {
 	const fontSize = 40;
 	const fontWeight = "bold" as "bold";
 
-	return (
-		<DefaultText
-			style={[{ fontSize, fontWeight }, style]}
-			{...otherProps}
-		/>
-	);
+	return <Text style={[{ fontSize, fontWeight }, style]} {...otherProps} />;
 }
 
 export function TextLabel(props: TextProps) {
 	const { style, ...otherProps } = props;
 
-	return <DefaultText style={[style]} {...otherProps} />;
+	return <Text style={[style]} {...otherProps} />;
 }
 
 export function TextTitle(props: TextProps) {
 	const { style, ...otherProps } = props;
 	const fontSize = 28;
 
-	return <DefaultText style={[{ fontSize }, style]} {...otherProps} />;
+	return <Text style={[{ fontSize }, style]} {...otherProps} />;
 }
 
+export function LineBreak(props: TextProps) {
+	return <Text>{"\n"}</Text>;
+}
 //VIEW
 export function View(props: ViewProps) {
 	const { style, ...otherProps } = props;
@@ -99,7 +98,7 @@ export function ViewCenter(props: ViewProps) {
 }
 
 //FORM
-export function TextInput(props: ViewProps) {
+export function TextInput(props: TextInputProps) {
 	const { style, ...otherProps } = props;
 
 	const height = 44;
@@ -142,4 +141,11 @@ export function Button(props: ButtonProps) {
 	const { ...otherProps } = props;
 
 	return <DefaultButton {...props} />;
+}
+
+export function TextWarning(props: TextProps) {
+	const { style, ...otherProps } = props;
+	const color = "red";
+
+	return <Text style={[{ color }, style]} {...otherProps} />;
 }
