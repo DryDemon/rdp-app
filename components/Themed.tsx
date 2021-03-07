@@ -149,3 +149,24 @@ export function TextWarning(props: TextProps) {
 
 	return <Text style={[{ color }, style]} {...otherProps} />;
 }
+
+//protected
+
+export function ProtectedHeader(props: ViewProps) {
+	
+	const backgroundColor = useThemeColor("rdpColor");
+
+	
+	const height = 44;
+	const padding = 10;
+	const width = "100%";
+
+	const marginBottom = 10;
+	const marginTop = 10;
+
+	return (
+		<View style={[{backgroundColor, height, padding, width, marginBottom, marginTop}]}>
+			<Text>ROI DU PRONO</Text>
+		</View>
+	);
+}

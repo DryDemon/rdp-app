@@ -21,11 +21,10 @@ import {
 import { SERVER_API_URL } from "../constants/Server";
 import { FontAwesome } from "@expo/vector-icons";
 
-firebase.initializeApp(firebaseConfig);
 var facebookProvider = new firebase.auth.FacebookAuthProvider();
 var googleProvider = new firebase.auth.GoogleAuthProvider();
 
-export default function Login() {
+export default function Login({navigation}: any) {
 	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
 
@@ -44,6 +43,7 @@ export default function Login() {
 
 				// The signed-in user info.
 				var user = result.user;
+				navigation.navigate('Dashboard')
 
 				// ...
 			})
@@ -68,6 +68,7 @@ export default function Login() {
 
 				// The signed-in user info.
 				var user = result.user;
+				navigation.navigate('Dashboard')
 			})
 			.catch((error) => {
 				// Handle Errors here.
@@ -88,6 +89,7 @@ export default function Login() {
 			.then((userCredential) => {
 				// Signed in
 				var user = userCredential.user;
+				navigation.navigate('Dashboard')
 				//redirect
 				// ...
 			})
@@ -154,7 +156,7 @@ export default function Login() {
 			<Button title={"M'inscrire"} onPress={onLogin} />
 			<LineBreak />
 
-			<Text>Tu n'as pas de compte? Inscris toi!</Text>
+			<Text onPress={()=>navigation.navigate('Register')}>Tu n'as pas de compte? Inscris toi!</Text>
 			<LineBreak />
 			<LineBreak />
 			<LineBreak />

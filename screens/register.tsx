@@ -21,12 +21,10 @@ import {
 } from "../components/Themed";
 import { FontAwesome } from "@expo/vector-icons";
 
-//TODO wtf
-// firebase.initializeApp(firebaseConfig);
 var facebookProvider = new firebase.auth.FacebookAuthProvider();
 var googleProvider = new firebase.auth.GoogleAuthProvider();
 
-export default function TabTwoScreen() {
+export default function Register({navigation} :any) {
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -60,13 +58,14 @@ export default function TabTwoScreen() {
 
 				// The signed-in user info.
 				var user = result.user;
-				if (user) {
-					user.updateProfile({
-						displayName: username, // Update successful.
-					}).catch(function (error) {
-						// An error happened.
-					});
-				}
+				navigation.navigate('Dashboard')
+				// if (user) {
+				// 	user.updateProfile({
+				// 		displayName: username, // Update successful.
+				// 	}).catch(function (error) {
+				// 		// An error happened.
+				// 	});
+				// }
 				// ...
 			})
 			.catch((error) => {
@@ -91,18 +90,20 @@ export default function TabTwoScreen() {
 				// The signed-in user info.
 				var user = result.user;
 
-				if (user) {
-					user.updateProfile({
-						displayName: username,
-					})
-						.then(function () {
-							// Update successful.
-						})
-						.catch(function (error) {
-							// An error happened.
-						});
-					// ...
-				}
+				navigation.navigate('Dashboard')
+
+				// if (user) {
+				// 	user.updateProfile({
+				// 		displayName: username,
+				// 	})
+				// 		.then(function () {
+				// 			// Update successful.
+				// 		})
+				// 		.catch(function (error) {
+				// 			// An error happened.
+				// 		});
+				// 	// ...
+				// }
 			})
 			.catch((error) => {
 				// Handle Errors here.
@@ -126,17 +127,18 @@ export default function TabTwoScreen() {
 						.then((userCredential) => {
 							// registered!!
 							var user = userCredential.user;
-							if (user) {
-								user.updateProfile({
-									displayName: username,
-								})
-									.then(function () {
-										// Update successful.
-									})
-									.catch(function (error) {
-										// An error happened.
-									});
-							}
+							navigation.navigate('Dashboard')
+							// if (user) {
+							// 	user.updateProfile({
+							// 		displayName: username,
+							// 	})
+							// 		.then(function () {
+							// 			// Update successful.
+							// 		})
+							// 		.catch(function (error) {
+							// 			// An error happened.
+							// 		});
+							// }
 							//redirect
 						})
 						.catch((error) => {
@@ -298,7 +300,7 @@ export default function TabTwoScreen() {
 			<Button title={"M'inscrire"} onPress={onRegister} />
 			<LineBreak />
 
-			<Text>Tu as déjà un compte? Connectes-toi</Text>
+			<Text onPress={()=>navigation.navigate('Login')}>Tu as déjà un compte? Connectes-toi</Text>
 			<LineBreak />
 			<LineBreak />
 			<LineBreak />
