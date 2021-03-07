@@ -19,6 +19,7 @@ import {
 	LineBreak,
 } from "../components/Themed";
 import { SERVER_API_URL } from "../constants/Server";
+import { FontAwesome } from "@expo/vector-icons";
 
 firebase.initializeApp(firebaseConfig);
 var facebookProvider = new firebase.auth.FacebookAuthProvider();
@@ -27,10 +28,10 @@ var googleProvider = new firebase.auth.GoogleAuthProvider();
 export default function Login() {
 	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
-	
+
 	const [alertEmail, setAlertEmail] = useState(" ");
 	const [alertPassword, setAlertPassword] = useState(" ");
-	
+
 	function registerWithFacebook() {
 		firebase
 			.auth()
@@ -67,7 +68,6 @@ export default function Login() {
 
 				// The signed-in user info.
 				var user = result.user;
-
 			})
 			.catch((error) => {
 				// Handle Errors here.
@@ -81,27 +81,47 @@ export default function Login() {
 			});
 	}
 
-
-	function onLogin(){
-		firebase.auth().signInWithEmailAndPassword(email, password)
-		.then((userCredential) => {
-		  // Signed in
-		  var user = userCredential.user;
-			//redirect
-		  // ...
-		})
-		.catch((error: any) => {
-		  var errorCode = error.code;
-		  var errorMessage = error.message;
-		  Alert.alert("Erreur : ", errorMessage);
-		});
+	function onLogin() {
+		firebase
+			.auth()
+			.signInWithEmailAndPassword(email, password)
+			.then((userCredential) => {
+				// Signed in
+				var user = userCredential.user;
+				//redirect
+				// ...
+			})
+			.catch((error: any) => {
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				Alert.alert("Erreur : ", errorMessage);
+			});
 	}
 
-	
 	return (
 		<ViewContainer>
 			<TextTitle>Bon retour parmi nous,</TextTitle>
-			{/* <TextMainTitle>Futur Roi</TextMainTitle> //TODO ROI PAUL...*/} 
+			{/* <TextMainTitle>Futur Roi</TextMainTitle> //TODO ROI PAUL...*/}
+
+			<View style={{ flexDirection: "row" }}>
+				<View style={{ flex: 1, alignItems: "center" }}>
+					<FontAwesome.Button
+						size={100}
+						name="facebook"
+						backgroundColor="#3b5998"
+						onPress={registerWithFacebook}
+					></FontAwesome.Button>
+				</View>
+				<View style={{ flex: 1, alignItems: "center" }}>
+					<FontAwesome.Button
+						size={100}
+						name="google"
+						color="#FFFFFF"
+						backgroundColor="#8B0000"
+						onPress={registerWithGoogle}
+					></FontAwesome.Button>
+				</View>
+			</View>
 
 			<View
 				style={styles.separator}
