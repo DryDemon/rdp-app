@@ -1,7 +1,10 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Alert, StyleSheet } from "react-native";
-import { SERVER_API_URL } from "../constants/server";
+import { Image, Alert, StyleSheet } from "react-native";
+import { SERVER_API_URL } from "../constants/Server";
+import firebase from "firebase";
+import "firebase/auth";
+import { firebaseConfig } from "../constants/FirebaseConfig";
 
 import {
 	Text,
@@ -16,6 +19,12 @@ import {
 	TextWarning,
 	LineBreak,
 } from "../components/Themed";
+import { FontAwesome } from "@expo/vector-icons";
+
+//TODO wtf
+// firebase.initializeApp(firebaseConfig);
+var facebookProvider = new firebase.auth.FacebookAuthProvider();
+var googleProvider = new firebase.auth.GoogleAuthProvider();
 
 export default function TabTwoScreen() {
 	const [username, setUsername] = useState("");
@@ -39,55 +48,74 @@ export default function TabTwoScreen() {
 		checkUsername();
 	}, [username]);
 
-	async function sendDataRegisterUser(
-		username: string,
-		password: string,
-		email: string
-	) {
-		const rawRep = await fetch(
-			SERVER_API_URL +
-				`/userregister?email=${email}&password=${password}&username=${username}`
-		);
-		const rep = await rawRep.json();
-		if (rep.isConnected == 1) {
-			alert(rep.redirect);
-		}else{
-			switch (rep.error) {
-				case "USERNAME_ALREADY_TAKEN":
-					setAlertUsername(
-						"Ton super pseudo est déjà pris par un autre joueur :/"
-					);
-					break;
-				case "USER_ALREADY_REGISTERED":
-					setAlertEmail(
-						"Ton email est déjà enregistré. Merci de te connecter."
-					);
-					break;
-				case "BAD_EMAIL":
-					setAlertEmail(
-						"Votre email n'est pas correct, Merci de le verifier"
-					);
-					break;
-				case "BAD_USERNAME":
-					setAlertUsername(
-						"Ton pseudo doit faire au moins 4 charactères"
-					);
-					break;
-				case "BAD_PASSWORD":
-					setAlertPassword(
-						"Le mot de passe est sensé contenir au moins 8 characteres et une majuscule"
-					);
-					break;
-			}
-		}
-	}
+	function registerWithFacebook() {
+		firebase
+			.auth()
+			.signInWithPopup(facebookProvider)
+			.then((result) => {
+				/** @type {firebase.auth.OAuthCredential} */
+				var credential = result.credential;
 
+				// This gives you a Google Access Token. You can use it to access the Google API.
+				var token = credential?.accessToken;
+				// The signed-in user info.
+				var user = result.user;
+				// ...
+			})
+			.catch((error) => {
+				// Handle Errors here.
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				// The email of the user's account used.
+				var email = error.email;
+				// The firebase.auth.AuthCredential type that was used.
+				var credential = error.credential;
+				// ...
+			});
+	}
+	function registerWithGoogle() {
+		firebase
+			.auth()
+			.signInWithPopup(googleProvider)
+			.then((result) => {
+				/** @type {firebase.auth.OAuthCredential} */
+				var credential = result.credential;
+
+				// This gives you a Google Access Token. You can use it to access the Google API.
+				var token = credential.accessToken;
+				// The signed-in user info.
+				var user = result.user;
+				// ...
+			})
+			.catch((error) => {
+				// Handle Errors here.
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				// The email of the user's account used.
+				var email = error.email;
+				// The firebase.auth.AuthCredential type that was used.
+				var credential = error.credential;
+				// ...
+			});
+	}
 	function onRegister() {
 		if (username && password && confirmPassword && email && checkForm()) {
 			checkUsername().then((ok: boolean) => {
 				if (ok) {
 					//On peut send les données.
-					sendDataRegisterUser(username, password, email);
+					firebase
+						.auth()
+						.createUserWithEmailAndPassword(email, password)
+						.then((userCredential) => {
+							// registered!!
+							var user = userCredential.user;
+							//redirect
+						})
+						.catch((error) => {
+							var errorCode = error.code;
+							var errorMessage = error.message;
+							Alert.alert("Erreur : ", errorMessage);
+						});
 				}
 			});
 		}
@@ -164,7 +192,25 @@ export default function TabTwoScreen() {
 		<ViewContainer>
 			<TextTitle>Bienvenu parmi nous,</TextTitle>
 			<TextMainTitle>Futur Roi</TextMainTitle>
-
+			<View style={{ flexDirection: "row" }}>
+				<View style={{ flex: 1, alignItems: "center" }}>
+					<FontAwesome.Button
+						size={100}
+						name="facebook"
+						backgroundColor="#3b5998"
+						onPress={registerWithFacebook}
+					></FontAwesome.Button>
+				</View>
+				<View style={{ flex: 1, alignItems: "center" }}>
+					<FontAwesome.Button
+						size={100}
+						name="google"
+						color="#FFFFFF"
+						backgroundColor="#8B0000"
+						onPress={registerWithGoogle}
+					></FontAwesome.Button>
+				</View>
+			</View>
 			<View
 				style={styles.separator}
 				lightColor="#eee"
