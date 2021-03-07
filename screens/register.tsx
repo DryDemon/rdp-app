@@ -57,9 +57,16 @@ export default function TabTwoScreen() {
 				var credential = result.credential;
 
 				// This gives you a Google Access Token. You can use it to access the Google API.
-				var token = credential?.accessToken;
+
 				// The signed-in user info.
 				var user = result.user;
+				if (user) {
+					user.updateProfile({
+						displayName: username, // Update successful.
+					}).catch(function (error) {
+						// An error happened.
+					});
+				}
 				// ...
 			})
 			.catch((error) => {
@@ -81,11 +88,21 @@ export default function TabTwoScreen() {
 				/** @type {firebase.auth.OAuthCredential} */
 				var credential = result.credential;
 
-				// This gives you a Google Access Token. You can use it to access the Google API.
-				var token = credential.accessToken;
 				// The signed-in user info.
 				var user = result.user;
-				// ...
+
+				if (user) {
+					user.updateProfile({
+						displayName: username,
+					})
+						.then(function () {
+							// Update successful.
+						})
+						.catch(function (error) {
+							// An error happened.
+						});
+					// ...
+				}
 			})
 			.catch((error) => {
 				// Handle Errors here.
@@ -109,6 +126,17 @@ export default function TabTwoScreen() {
 						.then((userCredential) => {
 							// registered!!
 							var user = userCredential.user;
+							if (user) {
+								user.updateProfile({
+									displayName: username,
+								})
+									.then(function () {
+										// Update successful.
+									})
+									.catch(function (error) {
+										// An error happened.
+									});
+							}
 							//redirect
 						})
 						.catch((error) => {
@@ -129,6 +157,7 @@ export default function TabTwoScreen() {
 			noAlert = false;
 		} else {
 			const rawRep = await fetch(
+				//TODO
 				SERVER_API_URL + `/doesusernameexist?username=${username}`
 			);
 			const rep = await rawRep.json();

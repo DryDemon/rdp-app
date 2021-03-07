@@ -21,8 +21,8 @@ import {
 import { SERVER_API_URL } from "../constants/Server";
 
 firebase.initializeApp(firebaseConfig);
-
-
+var facebookProvider = new firebase.auth.FacebookAuthProvider();
+var googleProvider = new firebase.auth.GoogleAuthProvider();
 
 export default function Login() {
 	const [password, setPassword] = useState("");
@@ -31,6 +31,57 @@ export default function Login() {
 	const [alertEmail, setAlertEmail] = useState(" ");
 	const [alertPassword, setAlertPassword] = useState(" ");
 	
+	function registerWithFacebook() {
+		firebase
+			.auth()
+			.signInWithPopup(facebookProvider)
+			.then((result) => {
+				/** @type {firebase.auth.OAuthCredential} */
+				var credential = result.credential;
+
+				// This gives you a Google Access Token. You can use it to access the Google API.
+
+				// The signed-in user info.
+				var user = result.user;
+
+				// ...
+			})
+			.catch((error) => {
+				// Handle Errors here.
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				// The email of the user's account used.
+				var email = error.email;
+				// The firebase.auth.AuthCredential type that was used.
+				var credential = error.credential;
+				// ...
+			});
+	}
+	function registerWithGoogle() {
+		firebase
+			.auth()
+			.signInWithPopup(googleProvider)
+			.then((result) => {
+				/** @type {firebase.auth.OAuthCredential} */
+				var credential = result.credential;
+
+				// The signed-in user info.
+				var user = result.user;
+
+			})
+			.catch((error) => {
+				// Handle Errors here.
+				var errorCode = error.code;
+				var errorMessage = error.message;
+				// The email of the user's account used.
+				var email = error.email;
+				// The firebase.auth.AuthCredential type that was used.
+				var credential = error.credential;
+				// ...
+			});
+	}
+
+
 	function onLogin(){
 		firebase.auth().signInWithEmailAndPassword(email, password)
 		.then((userCredential) => {
