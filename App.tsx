@@ -26,7 +26,12 @@ export default function App() {
 		return (
 			<SafeAreaProvider>
 				<NavigationContainer>
-					<Stack.Navigator initialRouteName="Dashboard">
+					<Stack.Navigator
+						screenOptions={{
+							headerShown: false,
+						}}
+						initialRouteName="Register"
+					>
 						<Stack.Screen name="Login" component={Login} />
 						<Stack.Screen name="Register" component={Register} />
 						<Stack.Screen name="Dashboard" component={Dashboard} />
