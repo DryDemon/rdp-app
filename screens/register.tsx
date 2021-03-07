@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { Alert, StyleSheet } from "react-native";
+import { SERVER_API_URL } from "../constants/server";
 
 import {
 	Text,
@@ -27,36 +28,107 @@ export default function TabTwoScreen() {
 	const [alertPassword, setAlertPassword] = useState(" ");
 	const [alertConfirmPassword, setAlertConfirmPassword] = useState(" ");
 
-	const validateEmailRegexStr =	"^[A-za-z0-9._%+-]+@[A-za-z.-]+\\.[A-za-z]{2,4}$";
-	const validateEmailRegex =  new RegExp(validateEmailRegexStr)
-	
+	const validateEmailRegexStr =
+		"^[A-za-z0-9._%+-]+@[A-za-z.-]+\\.[A-za-z]{2,4}$";
+	const validateEmailRegex = new RegExp(validateEmailRegexStr);
+
 	useEffect(() => {
 		checkForm();
 	}, [password, confirmPassword, email]);
 	useEffect(() => {
 		checkUsername();
 	}, [username]);
-	
-	function onRegister() {
-		if (username && password && confirmPassword && email) {
-			//On peut send les données.
+
+	async function sendDataRegisterUser(
+		username: string,
+		password: string,
+		email: string
+	) {
+		const rawRep = await fetch(
+			SERVER_API_URL +
+				`/userregister?email=${email}&password=${password}&username=${username}`
+		);
+		const rep = await rawRep.json();
+		if (rep.isConnected == 1) {
+			alert(rep.redirect);
+		}else{
+			switch (rep.error) {
+				case "USERNAME_ALREADY_TAKEN":
+					setAlertUsername(
+						"Ton super pseudo est déjà pris par un autre joueur :/"
+					);
+					break;
+				case "USER_ALREADY_REGISTERED":
+					setAlertEmail(
+						"Ton email est déjà enregistré. Merci de te connecter."
+					);
+					break;
+				case "BAD_EMAIL":
+					setAlertEmail(
+						"Votre email n'est pas correct, Merci de le verifier"
+					);
+					break;
+				case "BAD_USERNAME":
+					setAlertUsername(
+						"Ton pseudo doit faire au moins 4 charactères"
+					);
+					break;
+				case "BAD_PASSWORD":
+					setAlertPassword(
+						"Le mot de passe est sensé contenir au moins 8 characteres et une majuscule"
+					);
+					break;
+			}
 		}
 	}
 
-	async function checkUsername() {}
+	function onRegister() {
+		if (username && password && confirmPassword && email && checkForm()) {
+			checkUsername().then((ok: boolean) => {
+				if (ok) {
+					//On peut send les données.
+					sendDataRegisterUser(username, password, email);
+				}
+			});
+		}
+	}
+
+	async function checkUsername() {
+		let noAlert = true;
+
+		if (username.length < 4) {
+			setAlertUsername("Ton pseudo doit faire au moins 4 charactères");
+			noAlert = false;
+		} else {
+			const rawRep = await fetch(
+				SERVER_API_URL + `/doesusernameexist?username=${username}`
+			);
+			const rep = await rawRep.json();
+
+			if (rep.exists) {
+				setAlertUsername(
+					"Ton super pseudo est déjà pris par un autre joueur :/"
+				);
+				noAlert = false;
+			}
+		}
+
+		if (noAlert) setAlertUsername(" ");
+		return noAlert;
+	}
 
 	function checkForm() {
+		let ok = true;
 		//check Email
-		if(!validateEmailRegex.test(email)){
+		if (!validateEmailRegex.test(email)) {
+			ok = false;
 			if (email != "")
 				setAlertEmail(
-					"Votre email n'est pas correct, merci de le verifier"
+					"Votre email n'est pas correct, Merci de le verifier"
 				);
 		} else {
 			setAlertEmail(" ");
 		}
-
-		
 
 		//check password
 		if (
@@ -66,6 +138,7 @@ export default function TabTwoScreen() {
 				password.split("").some((char) => char.toLowerCase() != char)
 			)
 		) {
+			ok = false;
 			if (password != "")
 				setAlertPassword(
 					"Le mot de passe est sensé contenir au moins 8 characteres et une majuscule"
@@ -76,6 +149,7 @@ export default function TabTwoScreen() {
 
 		//check confirm password
 		if (password != confirmPassword) {
+			ok = false;
 			if (confirmPassword != "")
 				setAlertConfirmPassword(
 					"Les mots de passent ne sont pas pareils"
@@ -83,6 +157,7 @@ export default function TabTwoScreen() {
 		} else {
 			setAlertConfirmPassword(" ");
 		}
+		return ok;
 	}
 
 	return (
