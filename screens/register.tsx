@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { Image, Alert, StyleSheet } from "react-native";
+import { Image, Alert, StyleSheet, ScrollView } from "react-native";
 import { SERVER_API_URL } from "../constants/Server";
 import firebase from "firebase";
 import "firebase/auth";
@@ -24,7 +24,7 @@ import { FontAwesome } from "@expo/vector-icons";
 var facebookProvider = new firebase.auth.FacebookAuthProvider();
 var googleProvider = new firebase.auth.GoogleAuthProvider();
 
-export default function Register({navigation} :any) {
+export default function Register({ navigation }: any) {
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -58,7 +58,7 @@ export default function Register({navigation} :any) {
 
 				// The signed-in user info.
 				var user = result.user;
-				navigation.navigate('Dashboard')
+				navigation.navigate("Dashboard");
 				// if (user) {
 				// 	user.updateProfile({
 				// 		displayName: username, // Update successful.
@@ -90,7 +90,7 @@ export default function Register({navigation} :any) {
 				// The signed-in user info.
 				var user = result.user;
 
-				navigation.navigate('Dashboard')
+				navigation.navigate("Dashboard");
 
 				// if (user) {
 				// 	user.updateProfile({
@@ -127,7 +127,7 @@ export default function Register({navigation} :any) {
 						.then((userCredential) => {
 							// registered!!
 							var user = userCredential.user;
-							navigation.navigate('Dashboard')
+							navigation.navigate("Dashboard");
 							// if (user) {
 							// 	user.updateProfile({
 							// 		displayName: username,
@@ -193,8 +193,8 @@ export default function Register({navigation} :any) {
 		if (
 			!(
 				password.length > 7 &&
-				password.split("").some((char) => char.toUpperCase() != char) &&
-				password.split("").some((char) => char.toLowerCase() != char)
+				password.split("").some((char: any) => char.toUpperCase() != char) &&
+				password.split("").some((char: any) => char.toLowerCase() != char)
 			)
 		) {
 			ok = false;
@@ -221,9 +221,10 @@ export default function Register({navigation} :any) {
 
 	return (
 		<ViewContainer>
+			<ScrollView>
 			<TextTitle>Bienvenu parmi nous,</TextTitle>
 			<TextMainTitle>Futur Roi</TextMainTitle>
-			<View style={{ flexDirection: "row" }}>
+			{/* <View style={{ flexDirection: "row" }}>
 				<View style={{ flex: 1, alignItems: "center" }}>
 					<FontAwesome.Button
 						size={100}
@@ -241,69 +242,69 @@ export default function Register({navigation} :any) {
 						onPress={registerWithGoogle}
 					></FontAwesome.Button>
 				</View>
-			</View>
+			</View> */}
 			<View
 				style={styles.separator}
 				lightColor="#eee"
 				darkColor="rgba(255,255,255,0.1)"
 			/>
+				<TextLabel>Pseudo</TextLabel>
+				<TextInput
+					value={username}
+					onChangeText={(username: any) => {
+						setUsername(username);
+					}}
+					placeholder={"LeParieurDu93"}
+				/>
+				<TextWarning>{alertUsername}</TextWarning>
 
-			<TextLabel>Pseudo</TextLabel>
-			<TextInput
-				value={username}
-				onChangeText={(username) => {
-					setUsername(username);
-				}}
-				placeholder={"LeParieurDu93"}
-			/>
-			<TextWarning>{alertUsername}</TextWarning>
+				<TextLabel>Email</TextLabel>
+				<TextInput
+					value={email}
+					onChangeText={(email: any) => {
+						setEmail(email);
+					}}
+					placeholder={"exemple@mail.com"}
+				/>
+				<TextWarning>{alertEmail}</TextWarning>
 
-			<TextLabel>Email</TextLabel>
-			<TextInput
-				value={email}
-				onChangeText={(email) => {
-					setEmail(email);
-				}}
-				placeholder={"exemple@mail.com"}
-			/>
-			<TextWarning>{alertEmail}</TextWarning>
+				<TextLabel>Mot De Passe</TextLabel>
+				<TextInput
+					value={password}
+					onChangeText={(password: any) => {
+						setPassword(password);
+					}}
+					placeholder={"8 lettres minimum, une majuscule"}
+					secureTextEntry={true}
+				/>
+				<TextWarning>{alertPassword}</TextWarning>
 
-			<TextLabel>Mot De Passe</TextLabel>
-			<TextInput
-				value={password}
-				onChangeText={(password) => {
-					setPassword(password);
-				}}
-				placeholder={"8 lettres minimum, une majuscule"}
-				secureTextEntry={true}
-			/>
-			<TextWarning>{alertPassword}</TextWarning>
+				<TextLabel>Confirmation De Mot De Passe</TextLabel>
+				<TextInput
+					value={confirmPassword}
+					onChangeText={(p: any) => {
+						setConfirmPassword(p);
+					}}
+					placeholder={"Le même stp"}
+					secureTextEntry={true}
+				/>
+				<TextWarning>{alertConfirmPassword}</TextWarning>
 
-			<TextLabel>Confirmation De Mot De Passe</TextLabel>
-			<TextInput
-				value={confirmPassword}
-				onChangeText={(p) => {
-					setConfirmPassword(p);
-				}}
-				placeholder={"Le même stp"}
-				secureTextEntry={true}
-			/>
-			<TextWarning>{alertConfirmPassword}</TextWarning>
+				<Text style={styles.conditions}>
+					En vous inscrivant, vous déclarez accepter les conditions
+					générales d'utilisations de RDP.
+				</Text>
+				{/* TODO faire les conditions */}
 
-			<Text style={styles.conditions}>
-				En vous inscrivant, vous déclarez accepter les conditions
-				générales d'utilisations de RDP.
-			</Text>
-			{/* TODO faire les conditions */}
+				<LineBreak />
+				<Button title={"M'inscrire"} onPress={onRegister} />
+				<LineBreak />
 
-			<LineBreak />
-			<Button title={"M'inscrire"} onPress={onRegister} />
-			<LineBreak />
-
-			<Text onPress={()=>navigation.navigate('Login')}>Tu as déjà un compte? Connectes-toi</Text>
-			<LineBreak />
-			<LineBreak />
-			<LineBreak />
+				<Text onPress={() => navigation.navigate("Login")}>
+					Tu as déjà un compte? Connectes-toi
+				</Text>
+				<LineBreak />
+			</ScrollView>
 		</ViewContainer>
 	);
 }

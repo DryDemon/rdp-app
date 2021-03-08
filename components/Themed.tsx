@@ -72,11 +72,13 @@ export function ViewContainer(props: ViewProps) {
 	const paddingTop = "10%";
 	const paddingLeft = "10%";
 	const paddingRight = "7%";
+	const  overflow= "scroll";
 
 	return (
 		<DefaultView
 			style={[
 				{
+					overflow,
 					backgroundColor,
 					flex,
 					paddingLeft,

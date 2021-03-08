@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import { Alert, StyleSheet } from "react-native";
+import { Alert, StyleSheet, ScrollView } from "react-native";
 import firebase from "firebase";
 import "firebase/auth";
 import { firebaseConfig } from "../constants/FirebaseConfig";
@@ -24,40 +24,45 @@ import { FontAwesome } from "@expo/vector-icons";
 var facebookProvider = new firebase.auth.FacebookAuthProvider();
 var googleProvider = new firebase.auth.GoogleAuthProvider();
 
-export default function Login({navigation}: any) {
+export default function Login({ navigation }: any) {
 	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
 
 	const [alertEmail, setAlertEmail] = useState(" ");
 	const [alertPassword, setAlertPassword] = useState(" ");
 
-	function registerWithFacebook() {
-		firebase
-			.auth()
-			.signInWithPopup(facebookProvider)
-			.then((result) => {
-				/** @type {firebase.auth.OAuthCredential} */
-				var credential = result.credential;
 
-				// This gives you a Google Access Token. You can use it to access the Google API.
+	async function registerWithFacebook() {
+		const appId = 232887001646631;
+		const permissions = ['public_profile', 'email'];  // Permissions required, consult Facebook docs
+		
+		const {
+		  type,
+		  token,
+		} = await Expo.Facebook.logInWithReadPermissionsAsync(
+		  appId,
+		  {permissions}
+		);
+	  
+		switch (type) {
+		  case 'success': {
+			await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);  // Set persistent auth state
+			const credential = firebase.auth.FacebookAuthProvider.credential(token);
+			const facebookProfileData = await firebase.auth().signInWithCredential(credential);  // Sign in with Facebook credential
+	  
+			// Do something with Facebook profile data
+			// OR you have subscribed to auth state change, authStateChange handler will process the profile data
+			
+			return Promise.resolve({type: 'success'});
+		  }
+		  case 'cancel': {
+			return Promise.reject({type: 'cancel'});
+		  }
+		}
+	  }
 
-				// The signed-in user info.
-				var user = result.user;
-				navigation.navigate('Dashboard')
 
-				// ...
-			})
-			.catch((error) => {
-				// Handle Errors here.
-				var errorCode = error.code;
-				var errorMessage = error.message;
-				// The email of the user's account used.
-				var email = error.email;
-				// The firebase.auth.AuthCredential type that was used.
-				var credential = error.credential;
-				// ...
-			});
-	}
+
 	function registerWithGoogle() {
 		firebase
 			.auth()
@@ -68,7 +73,7 @@ export default function Login({navigation}: any) {
 
 				// The signed-in user info.
 				var user = result.user;
-				navigation.navigate('Dashboard')
+				navigation.navigate("Dashboard");
 			})
 			.catch((error) => {
 				// Handle Errors here.
@@ -89,7 +94,7 @@ export default function Login({navigation}: any) {
 			.then((userCredential) => {
 				// Signed in
 				var user = userCredential.user;
-				navigation.navigate('Dashboard')
+				navigation.navigate("Dashboard");
 				//redirect
 				// ...
 			})
@@ -105,61 +110,63 @@ export default function Login({navigation}: any) {
 			<TextTitle>Bon retour parmi nous,</TextTitle>
 			{/* <TextMainTitle>Futur Roi</TextMainTitle> //TODO ROI PAUL...*/}
 
-			<View style={{ flexDirection: "row" }}>
-				<View style={{ flex: 1, alignItems: "center" }}>
-					<FontAwesome.Button
-						size={100}
-						name="facebook"
-						backgroundColor="#3b5998"
-						onPress={registerWithFacebook}
-					></FontAwesome.Button>
-				</View>
-				<View style={{ flex: 1, alignItems: "center" }}>
-					<FontAwesome.Button
-						size={100}
-						name="google"
-						color="#FFFFFF"
-						backgroundColor="#8B0000"
-						onPress={registerWithGoogle}
-					></FontAwesome.Button>
-				</View>
-			</View>
+			<ScrollView showsHorizontalScrollIndicator={false}>
+				{/* <View style={{ flexDirection: "row" }}>
+					<View style={{ flex: 1, alignItems: "center" }}>
+						<FontAwesome.Button
+							size={100}
+							name="facebook"
+							backgroundColor="#3b5998"
+							onPress={registerWithFacebook}
+						></FontAwesome.Button>
+					</View>
+					<View style={{ flex: 1, alignItems: "center" }}>
+						<FontAwesome.Button
+							size={100}
+							name="google"
+							color="#FFFFFF"
+							backgroundColor="#8B0000"
+							onPress={registerWithGoogle}
+						></FontAwesome.Button>
+					</View>
+				</View> */}
 
-			<View
-				style={styles.separator}
-				lightColor="#eee"
-				darkColor="rgba(255,255,255,0.1)"
-			/>
+				<View
+					style={styles.separator}
+					lightColor="#eee"
+					darkColor="rgba(255,255,255,0.1)"
+				/>
 
-			<TextLabel>Email</TextLabel>
-			<TextInput
-				value={email}
-				onChangeText={(email) => {
-					setEmail(email);
-				}}
-				placeholder={"exemple@mail.com"}
-			/>
-			<TextWarning>{alertEmail}</TextWarning>
+				<TextLabel>Email</TextLabel>
+				<TextInput
+					value={email}
+					onChangeText={(email) => {
+						setEmail(email);
+					}}
+					placeholder={"exemple@mail.com"}
+				/>
+				<TextWarning>{alertEmail}</TextWarning>
 
-			<TextLabel>Mot De Passe</TextLabel>
-			<TextInput
-				value={password}
-				onChangeText={(password) => {
-					setPassword(password);
-				}}
-				placeholder={"8 lettres minimum, une majuscule"}
-				secureTextEntry={true}
-			/>
-			<TextWarning>{alertPassword}</TextWarning>
+				<TextLabel>Mot De Passe</TextLabel>
+				<TextInput
+					value={password}
+					onChangeText={(password) => {
+						setPassword(password);
+					}}
+					placeholder={"8 lettres minimum, une majuscule"}
+					secureTextEntry={true}
+				/>
+				<TextWarning>{alertPassword}</TextWarning>
 
-			<LineBreak />
-			<Button title={"M'inscrire"} onPress={onLogin} />
-			<LineBreak />
+				<LineBreak />
+				<Button title={"M'inscrire"} onPress={onLogin} />
+				<LineBreak />
 
-			<Text onPress={()=>navigation.navigate('Register')}>Tu n'as pas de compte? Inscris toi!</Text>
-			<LineBreak />
-			<LineBreak />
-			<LineBreak />
+				<Text onPress={() => navigation.navigate("Register")}>
+					Tu n'as pas de compte? Inscris toi!
+				</Text>
+				<LineBreak />
+			</ScrollView>
 		</ViewContainer>
 	);
 }

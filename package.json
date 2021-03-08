@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "expo": "^40.0.1",
+    "expo-facebook": "^10.0.0",
     "firebase": "7.9.0"
   }
 }
