@@ -18,6 +18,7 @@ import {
 	LineBreak,
 } from "../components/Themed";
 import { FontAwesome } from "@expo/vector-icons";
+import Constants from 'expo-constants'
 
 export default function Register({ navigation }: any) {
 	const [username, setUsername] = useState("");
@@ -196,7 +197,7 @@ export default function Register({ navigation }: any) {
 	return (
 		<ViewContainer>
 			<ScrollView>
-				<TextTitle>Bienvenu parmi nous,</TextTitle>
+				<TextTitle style={styles.topTitle}>Bienvenu parmi nous,</TextTitle>
 				<TextMainTitle>Futur Roi</TextMainTitle>
 				{/* <View style={{ flexDirection: "row" }}>
 				<View style={{ flex: 1, alignItems: "center" }}>
@@ -292,5 +293,7 @@ const styles = StyleSheet.create({
 	conditions: {
 		fontSize: 12,
 		fontStyle: "italic",
+	},topTitle:{
+		marginTop : Constants.statusBarHeight,
 	},
 });

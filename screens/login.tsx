@@ -18,6 +18,7 @@ import {
 import { SERVER_API_URL } from "../constants/Server";
 import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from 'expo-constants'
 
 export default function Login({ navigation }: any) {
 	const [password, setPassword] = useState("");
@@ -82,7 +83,7 @@ export default function Login({ navigation }: any) {
 
 	return (
 		<ViewContainer>
-			<TextTitle>Bon retour parmi nous,</TextTitle>
+			<TextTitle style={styles.topTitle}>Bon retour parmi nous,</TextTitle>
 			{/* <TextMainTitle>Futur Roi</TextMainTitle> //TODO ROI PAUL...*/}
 
 			<ScrollView showsHorizontalScrollIndicator={false}>
@@ -160,5 +161,7 @@ const styles = StyleSheet.create({
 		marginVertical: 30,
 		height: 1,
 		width: "80%",
-	},
+	},topTitle:{
+		marginTop : Constants.statusBarHeight,
+	}
 });

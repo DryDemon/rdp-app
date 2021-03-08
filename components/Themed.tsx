@@ -10,6 +10,7 @@ import {
 	ButtonProps,
 	TextInputProps,
 } from "react-native";
+import Constants from "expo-constants";
 
 import Colors from "../constants/Colors";
 
@@ -30,7 +31,9 @@ export function Text(props: TextProps) {
 	const { style, ...otherProps } = props;
 	const color = useThemeColor("text");
 
-	return <DefaultText style={[{ color }, style]} {...otherProps} />;
+	const fontFamily = "Neue Haas Grotesk Display Pro";
+
+	return <DefaultText style={[{ color, fontFamily }, style]} {...otherProps} />;
 }
 
 export function TextMainTitle(props: TextProps) {
@@ -69,10 +72,9 @@ export function ViewContainer(props: ViewProps) {
 	const { style, ...otherProps } = props;
 	const backgroundColor = useThemeColor("background");
 	const flex = 1;
-	const paddingTop = "10%";
 	const paddingLeft = "10%";
 	const paddingRight = "7%";
-	const  overflow= "scroll";
+	const overflow = "scroll";
 
 	return (
 		<DefaultView
@@ -82,7 +84,6 @@ export function ViewContainer(props: ViewProps) {
 					backgroundColor,
 					flex,
 					paddingLeft,
-					paddingTop,
 					paddingRight,
 				},
 				style,
@@ -155,20 +156,44 @@ export function TextWarning(props: TextProps) {
 //protected
 
 export function ProtectedHeader(props: ViewProps) {
-	
 	const backgroundColor = useThemeColor("rdpColor");
 
-	
-	const height = 44;
+	const height = 56;
 	const padding = 10;
 	const width = "100%";
+	const fontWeight = "700";
 
-	const marginBottom = 10;
-	const marginTop = 10;
+	const marginTop = Constants.statusBarHeight;
+
+	const color = "#FFFFFF";
 
 	return (
-		<View style={[{backgroundColor, height, padding, width, marginBottom, marginTop}]}>
-			<Text>ROI DU PRONO</Text>
+		<View
+			style={[
+				{
+					backgroundColor,
+					height,
+					padding,
+					width,
+					marginTop,
+				},
+			]}
+		>
+			<Text
+				style={[
+					{
+						color,
+						fontWeight,
+						fontStyle: "italic",
+						fontSize: 20,
+						lineHeight: 26,
+						textAlignVertical: "center",
+						fontFamily: "Orkney",
+					},
+				]}
+			>
+				ROI DU PRONO
+			</Text>
 		</View>
 	);
 }
