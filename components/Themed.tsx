@@ -31,9 +31,9 @@ export function Text(props: TextProps) {
 	const { style, ...otherProps } = props;
 	const color = useThemeColor("text");
 
-	const fontFamily = "Neue Haas Grotesk Display Pro";
+	// const fontFamily = "Neue Haas Grotesk Display Pro";
 
-	return <DefaultText style={[{ color, fontFamily }, style]} {...otherProps} />;
+	return <DefaultText style={[{ color }, style]} {...otherProps} />;
 }
 
 export function TextMainTitle(props: TextProps) {
@@ -188,7 +188,7 @@ export function ProtectedHeader(props: ViewProps) {
 						fontSize: 20,
 						lineHeight: 26,
 						textAlignVertical: "center",
-						fontFamily: "Orkney",
+						// fontFamily: "Orkney",
 					},
 				]}
 			>

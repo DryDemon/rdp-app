@@ -1,7 +1,7 @@
 import React from "react";
 import { SERVER_LOGO_URL } from "../constants/Server";
 import { View, Text, TextTitle } from "./Themed";
-import { Image, StyleSheet } from "react-native";
+import { Alert, Image, StyleSheet } from "react-native";
 import { GameSchema } from "../src/interaces/interfacesGame";
 
 function validURL(str) {
@@ -24,7 +24,7 @@ export function GameIcon(props: any) {
 	if (game.logoUrl && validURL(game.logoUrl)) {
 		url = game.logoUrl;
 	}
-
+    
 	return (
 		<View style={styles.gameContainer}>
 			<Image

@@ -80,7 +80,10 @@ export default function Dashboard({ navigation }: any) {
 
 	useEffect(() => {
 		if (ENVIRONEMENT == "dev") {
-			console.log(games);
+			// Alert.alert("", JSON.stringify(games));
+			// games.map((data) => {
+			// Alert.alert("", JSON.stringify(data))
+			// })
 		}
 	}, [games]);
 
@@ -104,7 +107,7 @@ export default function Dashboard({ navigation }: any) {
 				</View>
 
 				<ScrollView horizontal={true}>
-					{games.map((data) => {
+					{games.map((data: any) => {
 						return <GameIcon key={data.joinCode} game={data} />;
 					})}
 				</ScrollView>

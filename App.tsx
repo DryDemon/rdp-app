@@ -10,22 +10,20 @@ import Dashboard from "./screens/dashboard";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { ENVIRONEMENT } from "./constants/Environement";
-import { useFonts } from 'expo-font';
+import { useFonts } from "expo-font";
+import { Font } from "expo";
 
 const Stack = createStackNavigator();
 
 let customFonts = {
 	"Neue Haas Grotesk Display Pro":
 		"require('./assets/fonts/NeueHaasDisplayMedium.otf')",
-	"Orkney": "require('./assets/fonts/orkney-medium.otf')",
+	Orkney: "require('./assets/fonts/orkney-medium.otf')",
 };
 
 export default function App() {
-  
-  useFonts(customFonts);
 
-
-  const isLoadingComplete = useCachedResources();
+	const isLoadingComplete = useCachedResources();
 
 	let InitialRoute = "Login";
 
