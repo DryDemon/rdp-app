@@ -14,31 +14,31 @@ import { ENVIRONEMENT } from "./constants/Environement";
 const Stack = createStackNavigator();
 
 export default function App() {
-	const isLoadingComplete = useCachedResources();
+  const isLoadingComplete = useCachedResources();
 
-	let InitialRoute = "Login";
-	
-	if (ENVIRONEMENT != "dev") InitialRoute = "Login";
-	else InitialRoute = "Dashboard";
+  let InitialRoute = "Login";
 
-	if (!isLoadingComplete) {
-		return null;
-	} else {
-		return (
-			<SafeAreaProvider>
-				<NavigationContainer>
-					<Stack.Navigator
-						screenOptions={{
-							headerShown: false,
-						}}
-						initialRouteName={InitialRoute}
-					>
-						<Stack.Screen name="Login" component={Login} />
-						<Stack.Screen name="Register" component={Register} />
-						<Stack.Screen name="Dashboard" component={Dashboard} />
-					</Stack.Navigator>
-				</NavigationContainer>
-			</SafeAreaProvider>
-		);
-	}
+  if (ENVIRONEMENT != "dev") InitialRoute = "Login";
+  else InitialRoute = "Dashboard";
+
+  if (!isLoadingComplete) {
+    return null;
+  } else {
+    return (
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}
+            initialRouteName={InitialRoute}
+          >
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Register" component={Register} />
+            <Stack.Screen name="Dashboard" component={Dashboard} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
+    );
+  }
 }

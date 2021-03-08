@@ -41,6 +41,23 @@ export default function Register({ navigation }: any) {
 		checkUsername();
 	}, [username]);
 
+	//redirect ifconnected
+	useEffect(() => {
+		AsyncStorage.getItem("@jwt").then((value: string | null) => {
+			if (value) {
+				let jwt = value;
+				AsyncStorage.getItem("@user").then((value: string | null) => {
+					if (value) {
+						let user = value;
+						if (jwt && user) {
+							navigation.navigate("Dashboard");
+						}
+					}
+				});
+			}
+		});
+	}, []);
+
 	async function sendDataRegisterUser(
 		username: string,
 		password: string,
@@ -104,24 +121,27 @@ export default function Register({ navigation }: any) {
 
 	async function checkUsername() {
 		let noAlert = true;
-
-		if (username.length < 4) {
-			setAlertUsername("Ton pseudo doit faire au moins 4 charactères");
-			noAlert = false;
-		} else {
-			const rawRep = await fetch(
-				SERVER_API_URL + `/doesusernameexist?username=${username}`
-			);
-			const rep = await rawRep.json();
-
-			if (rep.exists) {
+		if (username != "") {
+			if (username.length < 4) {
 				setAlertUsername(
-					"Ton super pseudo est déjà pris par un autre joueur :/"
+					"Ton pseudo doit faire au moins 4 charactères"
 				);
 				noAlert = false;
+			} else {
+				const rawRep = await fetch(
+					SERVER_API_URL + `/doesusernameexist?username=${username}`
+				);
+				const rep = await rawRep.json();
+
+				if (rep.exists) {
+					setAlertUsername(
+						"Ton super pseudo est déjà pris par un autre joueur :/"
+					);
+					noAlert = false;
+				}
 			}
 		}
-
+		
 		if (noAlert) setAlertUsername(" ");
 		return noAlert;
 	}

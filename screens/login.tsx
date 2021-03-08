@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, StyleSheet, ScrollView } from "react-native";
 
 import {
@@ -26,6 +26,11 @@ export default function Login({ navigation }: any) {
 	const [alertEmailUsername, setAlertEmailUsername] = useState(" ");
 	const [alertPassword, setAlertPassword] = useState(" ");
 
+	// //DELETE VARS
+	// AsyncStorage.removeItem("@jwt")
+	// AsyncStorage.removeItem("@user")
+
+
 	async function sendDataLoginUser(userauth: string, password: string) {
 		const rawRep = await fetch(
 			SERVER_API_URL +
@@ -43,14 +48,31 @@ export default function Login({ navigation }: any) {
 		} else {
 			switch (rep.error) {
 				case "WRONG_PASSWORD":
-					setAlertEmailUsername("Mauvais mot de passe");
+					setAlertPassword("Mauvais mot de passe");
 					break;
 				case "WRONG_USER":
-					setAlertPassword("Tu as rentré un mauvais pseudo ou email");
+					setAlertEmailUsername("Tu as rentré un mauvais pseudo ou email");
 					break;
 			}
 		}
 	}
+
+	//redirect ifconnected
+	useEffect(() => {
+		AsyncStorage.getItem("@jwt").then((value: string | null) => {
+			if (value) {
+				let jwt = value;
+				AsyncStorage.getItem("@user").then((value: string | null) => {
+					if (value) {
+						let user = value;
+						if (jwt && user) {
+							navigation.navigate("Dashboard");
+						}
+					}
+				});
+			}
+		});
+	}, []);
 
 	function onLogin() {
 		if (emailUsername && password) {
@@ -108,7 +130,7 @@ export default function Login({ navigation }: any) {
 					}}
 					placeholder={"8 lettres minimum, une majuscule"}
 					secureTextEntry={true}
-				/>
+					/>
 				<TextWarning>{alertPassword}</TextWarning>
 
 				<LineBreak />

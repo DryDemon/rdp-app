@@ -1,5 +1,3 @@
-import getDbElement from "../clientConnexion"
-
 export interface GameSchema {
     _id: { $oid: string };
     name: string;
@@ -47,10 +45,4 @@ export interface betObjectInterface{
    matchId: string;
    betStatus: number; //0 : unresolved, 1 : win, 2 : lost
    quote: number;
-}
-
-export default async function getDbGameElement(){
-   const db = await getDbElement();
-   const dbGame = db.collection<GameSchema>("games");
-   return dbGame;
 }

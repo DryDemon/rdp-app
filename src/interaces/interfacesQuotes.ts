@@ -1,5 +1,3 @@
-import getDbElement from "../clientConnexion"
-
 export interface SportSchema {
     _id: { $oid: string };
     sportName: string;
@@ -30,24 +28,6 @@ export interface MatchSchema {
    prematchOdds: any;
    results: any;
    matchEvent: string;
-   matchOdds: object; //TODO
-   matchStats: object; //TODO
-}
-
-export async function getDbSportsElement(){
-   const db = await getDbElement();
-   const dbSport = db.collection<SportSchema>("sports");
-   return dbSport;
-}
-
-export async function getDbLeaguesElement(){
-   const db = await getDbElement();
-   const dbLeagues = db.collection<LeagueSchema>("leagues");
-   return dbLeagues;
-}
-
-export async function getDbMatchsElement(){
-   const db = await getDbElement();
-   const dbMatch = db.collection<MatchSchema>("matchs");
-   return dbMatch;
+   matchOdds: object; 
+   matchStats: object; 
 }
