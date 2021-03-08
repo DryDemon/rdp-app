@@ -9,12 +9,17 @@ import Register from "./screens/register";
 import Dashboard from "./screens/dashboard";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { ENVIRONEMENT } from "./constants/Environement";
 
 const Stack = createStackNavigator();
 
-
 export default function App() {
 	const isLoadingComplete = useCachedResources();
+
+	let InitialRoute = "Login";
+	
+	if (ENVIRONEMENT != "dev") InitialRoute = "Login";
+	else InitialRoute = "Dashboard";
 
 	if (!isLoadingComplete) {
 		return null;
@@ -26,7 +31,7 @@ export default function App() {
 						screenOptions={{
 							headerShown: false,
 						}}
-						initialRouteName="Register"
+						initialRouteName={InitialRoute}
 					>
 						<Stack.Screen name="Login" component={Login} />
 						<Stack.Screen name="Register" component={Register} />

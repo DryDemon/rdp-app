@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\jeanc\Documents\GitHub\rdp-app\node_modules\@babel\helper-compilation-targets\node_modules\.bin'
+  Error: EPERM: operation not permitted, unlink 'C:\Users\jeanc\Documents\GitHub\rdp-app\node_modules\@babel\generator\node_modules\.bin'
 
 npm manifest: 
   {
@@ -26,7 +26,8 @@ npm manifest:
       "expo-facebook": "~9.1.0",
       "firebase": "7.9.0",
       "react": "^17.0.1",
-      "react-native": "^0.63.4"
+      "react-native": "^0.63.4",
+      "react-native-mmkv-storage": "^0.5.2"
     },
     "devDependencies": {
       "@types/react": "~16.9.35",
@@ -5987,6 +5988,11 @@ Lockfile:
     version "1.3.1"
     resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
     integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
+  
+  react-native-mmkv-storage@^0.5.2:
+    version "0.5.2"
+    resolved "https://registry.yarnpkg.com/react-native-mmkv-storage/-/react-native-mmkv-storage-0.5.2.tgz#1463e5b443ce3a1d3eb0c2fa89cdb424d49e9883"
+    integrity sha512-GtxYu0oTYwNfx2Ts+zpYfFyyVy8NJM96YMjQnHII8KaMRo/SYx81YR/EALYlWXLg/bBzErqUR4R9pKEu0N7jQQ==
   
   react-native-safe-area-context@3.1.9:
     version "3.1.9"

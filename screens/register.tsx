@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState, useEffect } from "react";
 import { Image, Alert, StyleSheet, ScrollView } from "react-native";
 import { SERVER_API_URL } from "../constants/Server";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {
 	Text,
@@ -17,9 +18,6 @@ import {
 	LineBreak,
 } from "../components/Themed";
 import { FontAwesome } from "@expo/vector-icons";
-import MMKVStorage from "react-native-mmkv-storage";
-
-const MMKV = new MMKVStorage.Loader().initialize(); // Returns an MMKV Instance
 
 export default function Register({ navigation }: any) {
 	const [username, setUsername] = useState("");
@@ -54,8 +52,14 @@ export default function Register({ navigation }: any) {
 		);
 		const rep = await rawRep.json();
 		if (rep.isConnected == 1) {
-			await MMKV.setStringAsync("jwt", rep.jwt);
-			navigation.navigate("Login");
+			alert("there");
+			try {
+				await AsyncStorage.setItem("@jwt", rep.jwt);
+				await AsyncStorage.setItem("@user", JSON.stringify(rep.user));
+				navigation.navigate("Dashboard");
+			} catch (e) {
+				alert(e);
+			}
 		} else {
 			switch (rep.error) {
 				case "USERNAME_ALREADY_TAKEN":
@@ -106,7 +110,6 @@ export default function Register({ navigation }: any) {
 			noAlert = false;
 		} else {
 			const rawRep = await fetch(
-				//TODO
 				SERVER_API_URL + `/doesusernameexist?username=${username}`
 			);
 			const rep = await rawRep.json();

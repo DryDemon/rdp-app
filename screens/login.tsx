@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
 import { Alert, StyleSheet, ScrollView } from "react-native";
-import MMKVStorage from "react-native-mmkv-storage";
 
 import {
 	Text,
@@ -18,8 +17,7 @@ import {
 } from "../components/Themed";
 import { SERVER_API_URL } from "../constants/Server";
 import { FontAwesome } from "@expo/vector-icons";
-
-const MMKV = new MMKVStorage.Loader().initialize(); // Returns an MMKV Instance
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Login({ navigation }: any) {
 	const [password, setPassword] = useState("");
@@ -31,12 +29,17 @@ export default function Login({ navigation }: any) {
 	async function sendDataLoginUser(userauth: string, password: string) {
 		const rawRep = await fetch(
 			SERVER_API_URL +
-				`/userauthemailOrUsername=${emailUsername}&password=${password}`
+				`/userauth?emailOrUsername=${emailUsername}&password=${password}`
 		);
 		const rep = await rawRep.json();
 		if (rep.isConnected == 1) {
-			await MMKV.setStringAsync("jwt", rep.jwt);
-			navigation.navigate("Login");
+			try {
+				await AsyncStorage.setItem("@jwt", rep.jwt);
+				await AsyncStorage.setItem("@user", JSON.stringify(rep.user));
+				navigation.navigate("Dashboard");
+			} catch (e) {
+				alert(e);
+			}
 		} else {
 			switch (rep.error) {
 				case "WRONG_PASSWORD":
@@ -109,7 +112,7 @@ export default function Login({ navigation }: any) {
 				<TextWarning>{alertPassword}</TextWarning>
 
 				<LineBreak />
-				<Button title={"M'inscrire"} onPress={onLogin} />
+				<Button title={"Me Connecter"} onPress={onLogin} />
 				<LineBreak />
 
 				<Text onPress={() => navigation.navigate("Register")}>

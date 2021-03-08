@@ -1,7 +1,8 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, StyleSheet, ScrollView } from "react-native";
-import MMKVStorage from "react-native-mmkv-storage";
+import {User} from "../src/interaces/interfacesUsers"
 
 import {
 	ProtectedHeader,
@@ -19,24 +20,32 @@ import {
 } from "../components/Themed";
 import { ENVIRONEMENT } from "../constants/Environement";
 
-const MMKV = new MMKVStorage.Loader().initialize(); // Returns an MMKV Instance
-
 export default function Dashboard({ navigation }: any) {
-
+	const [jwt, setJwt] = useState("");
+	const [user, setUser] = useState<User>();
 	function joinGame() {}
 
 	function createGame() {}
 
-	let jwt = "";
+	try {
+		AsyncStorage.getItem("@jwt").then((value: any) => {
+			if (value) setJwt(value);
+		});
+		AsyncStorage.getItem("@user").then((value: any) => {
+			console.log(value)
+			if (value) setUser(JSON.parse(value));
+		});
+	} catch (e) {
+		if (ENVIRONEMENT == "dev") alert(e);
+	}
 
-	MMKV.getStringAsync("jwt").then((value) => {
-		if (value) jwt = value;
-		else
-		if (ENVIRONEMENT != "dev") {
+	useEffect(() => {		
+		// if (ENVIRONEMENT != "dev" && (!jwt || !user)) {
+		if ((!jwt || !user)) {
 			navigation.navigate("Login");
 		}
-	});
-
+		console.log(user)
+	}, [jwt, user])
 
 
 	return (
@@ -44,7 +53,7 @@ export default function Dashboard({ navigation }: any) {
 			<ProtectedHeader />
 			<ViewContainer>
 				<TextTitle>Mes Contests</TextTitle>
-				<TextTitle>{jwt}</TextTitle>
+				<TextTitle>{user?.username}</TextTitle>
 				<TextTitle>Mes Contests</TextTitle>
 				<LineBreak />
 				<View style={{ flexDirection: "row" }}>
@@ -59,10 +68,7 @@ export default function Dashboard({ navigation }: any) {
 					<Button title={"+ Créer"} onPress={createGame} />
 				</View>
 
-
-				<ScrollView horizontal={true}>
-					
-				</ScrollView>
+				<ScrollView horizontal={true}></ScrollView>
 
 				<LineBreak />
 			</ViewContainer>
