@@ -12,7 +12,6 @@
     "react-native": "^0.63.4",
     "react-native-async-storage": "^0.0.1",
     "react-native-gesture-handler": "~1.8.0",
-    "react-native-mmkv": "^1.0.6",
     "react-native-mmkv-storage": "^0.5.2",
     "react-native-screens": "~2.15.2",
     "react-native-web": "^0.15.0"

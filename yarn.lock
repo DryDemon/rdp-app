@@ -5407,11 +5407,6 @@ react-native-mmkv-storage@^0.5.2:
   resolved "https://registry.yarnpkg.com/react-native-mmkv-storage/-/react-native-mmkv-storage-0.5.2.tgz#1463e5b443ce3a1d3eb0c2fa89cdb424d49e9883"
   integrity sha512-GtxYu0oTYwNfx2Ts+zpYfFyyVy8NJM96YMjQnHII8KaMRo/SYx81YR/EALYlWXLg/bBzErqUR4R9pKEu0N7jQQ==
 
-react-native-mmkv@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/react-native-mmkv/-/react-native-mmkv-1.0.6.tgz#b4ae75e47dfbdd9c94cb3a19c3caa305935af761"
-  integrity sha512-SKrn9uYJwR/00200ooc+jF/VAAukXQMZlwcGq3OT6y5VVq5fQRHcKsYRBLZfCjQE2iUDCZOZYTvbYZDmW4XDIw==
-
 react-native-safe-area-context@3.1.9:
   version "3.1.9"
   resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-3.1.9.tgz#48864ea976b0fa57142a2cc523e1fd3314e7247e"

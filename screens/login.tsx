@@ -35,7 +35,7 @@ export default function Login({ navigation }: any) {
 		if (rep.isConnected == 1) {
 			try {
 				await AsyncStorage.setItem("@jwt", rep.jwt);
-				await AsyncStorage.setItem("@user", JSON.stringify(rep.user));
+				await AsyncStorage.setItem("@user", (rep.user));
 				navigation.navigate("Dashboard");
 			} catch (e) {
 				alert(e);
