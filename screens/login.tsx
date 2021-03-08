@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, StyleSheet, ScrollView } from "react-native";
 
 import {
@@ -35,7 +35,7 @@ export default function Login({ navigation }: any) {
 		if (rep.isConnected == 1) {
 			try {
 				await AsyncStorage.setItem("@jwt", rep.jwt);
-				await AsyncStorage.setItem("@user", (rep.user));
+				await AsyncStorage.setItem("@user", JSON.stringify(rep.user));
 				navigation.navigate("Dashboard");
 			} catch (e) {
 				alert(e);
@@ -51,6 +51,23 @@ export default function Login({ navigation }: any) {
 			}
 		}
 	}
+
+	//redirect ifconnected
+	useEffect(() => {
+		AsyncStorage.getItem("@jwt").then((value: string | null) => {
+			if (value) {
+				let jwt = value;
+				AsyncStorage.getItem("@user").then((value: string | null) => {
+					if (value) {
+						let user = value;
+						if (jwt && user) {
+							navigation.navigate("Dashboard");
+						}
+					}
+				});
+			}
+		});
+	}, []);
 
 	function onLogin() {
 		if (emailUsername && password) {
