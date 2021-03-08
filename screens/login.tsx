@@ -1,9 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { Alert, StyleSheet, ScrollView } from "react-native";
-import firebase from "firebase";
-import "firebase/auth";
-import { firebaseConfig } from "../constants/FirebaseConfig";
+import MMKVStorage from "react-native-mmkv-storage";
 
 import {
 	Text,
@@ -21,88 +19,40 @@ import {
 import { SERVER_API_URL } from "../constants/Server";
 import { FontAwesome } from "@expo/vector-icons";
 
-var facebookProvider = new firebase.auth.FacebookAuthProvider();
-var googleProvider = new firebase.auth.GoogleAuthProvider();
+const MMKV = new MMKVStorage.Loader().initialize(); // Returns an MMKV Instance
 
 export default function Login({ navigation }: any) {
 	const [password, setPassword] = useState("");
-	const [email, setEmail] = useState("");
+	const [emailUsername, setEmailUsername] = useState("");
 
-	const [alertEmail, setAlertEmail] = useState(" ");
+	const [alertEmailUsername, setAlertEmailUsername] = useState(" ");
 	const [alertPassword, setAlertPassword] = useState(" ");
 
-
-	async function registerWithFacebook() {
-		const appId = 232887001646631;
-		const permissions = ['public_profile', 'email'];  // Permissions required, consult Facebook docs
-		
-		const {
-		  type,
-		  token,
-		} = await Expo.Facebook.logInWithReadPermissionsAsync(
-		  appId,
-		  {permissions}
+	async function sendDataLoginUser(userauth: string, password: string) {
+		const rawRep = await fetch(
+			SERVER_API_URL +
+				`/userauthemailOrUsername=${emailUsername}&password=${password}`
 		);
-	  
-		switch (type) {
-		  case 'success': {
-			await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);  // Set persistent auth state
-			const credential = firebase.auth.FacebookAuthProvider.credential(token);
-			const facebookProfileData = await firebase.auth().signInWithCredential(credential);  // Sign in with Facebook credential
-	  
-			// Do something with Facebook profile data
-			// OR you have subscribed to auth state change, authStateChange handler will process the profile data
-			
-			return Promise.resolve({type: 'success'});
-		  }
-		  case 'cancel': {
-			return Promise.reject({type: 'cancel'});
-		  }
+		const rep = await rawRep.json();
+		if (rep.isConnected == 1) {
+			await MMKV.setStringAsync("jwt", rep.jwt);
+			navigation.navigate("Login");
+		} else {
+			switch (rep.error) {
+				case "WRONG_PASSWORD":
+					setAlertEmailUsername("Mauvais mot de passe");
+					break;
+				case "WRONG_USER":
+					setAlertPassword("Tu as rentré un mauvais pseudo ou email");
+					break;
+			}
 		}
-	  }
-
-
-
-	function registerWithGoogle() {
-		firebase
-			.auth()
-			.signInWithPopup(googleProvider)
-			.then((result) => {
-				/** @type {firebase.auth.OAuthCredential} */
-				var credential = result.credential;
-
-				// The signed-in user info.
-				var user = result.user;
-				navigation.navigate("Dashboard");
-			})
-			.catch((error) => {
-				// Handle Errors here.
-				var errorCode = error.code;
-				var errorMessage = error.message;
-				// The email of the user's account used.
-				var email = error.email;
-				// The firebase.auth.AuthCredential type that was used.
-				var credential = error.credential;
-				// ...
-			});
 	}
 
 	function onLogin() {
-		firebase
-			.auth()
-			.signInWithEmailAndPassword(email, password)
-			.then((userCredential) => {
-				// Signed in
-				var user = userCredential.user;
-				navigation.navigate("Dashboard");
-				//redirect
-				// ...
-			})
-			.catch((error: any) => {
-				var errorCode = error.code;
-				var errorMessage = error.message;
-				Alert.alert("Erreur : ", errorMessage);
-			});
+		if (emailUsername && password) {
+			sendDataLoginUser(emailUsername, password);
+		}
 	}
 
 	return (
@@ -137,15 +87,15 @@ export default function Login({ navigation }: any) {
 					darkColor="rgba(255,255,255,0.1)"
 				/>
 
-				<TextLabel>Email</TextLabel>
+				<TextLabel>EmailUsername ou Pseudo</TextLabel>
 				<TextInput
-					value={email}
-					onChangeText={(email) => {
-						setEmail(email);
+					value={emailUsername}
+					onChangeText={(emailUsername) => {
+						setEmailUsername(emailUsername);
 					}}
 					placeholder={"exemple@mail.com"}
 				/>
-				<TextWarning>{alertEmail}</TextWarning>
+				<TextWarning>{alertEmailUsername}</TextWarning>
 
 				<TextLabel>Mot De Passe</TextLabel>
 				<TextInput

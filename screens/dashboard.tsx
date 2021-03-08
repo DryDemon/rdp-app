@@ -1,9 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
-import { Alert, StyleSheet } from "react-native";
-import firebase from "firebase";
-import "firebase/auth";
-import { firebaseConfig } from "../constants/FirebaseConfig";
+import { Alert, StyleSheet, ScrollView } from "react-native";
+import MMKVStorage from "react-native-mmkv-storage";
 
 import {
 	ProtectedHeader,
@@ -21,22 +19,51 @@ import {
 } from "../components/Themed";
 import { ENVIRONEMENT } from "../constants/Environement";
 
-export default function Dashboard({ navigation }: any) {
-	var user = firebase.auth().currentUser;
+const MMKV = new MMKVStorage.Loader().initialize(); // Returns an MMKV Instance
 
-	if (ENVIRONEMENT != "dev") {
-		if (user) {
-			// User is signed in.
-		} else {
+export default function Dashboard({ navigation }: any) {
+
+	function joinGame() {}
+
+	function createGame() {}
+
+	let jwt = "";
+
+	MMKV.getStringAsync("jwt").then((value) => {
+		if (value) jwt = value;
+		else
+		if (ENVIRONEMENT != "dev") {
 			navigation.navigate("Login");
 		}
-	}
+	});
+
+
 
 	return (
 		<View>
 			<ProtectedHeader />
 			<ViewContainer>
-				<Text>Salut Protected</Text>
+				<TextTitle>Mes Contests</TextTitle>
+				<TextTitle>{jwt}</TextTitle>
+				<TextTitle>Mes Contests</TextTitle>
+				<LineBreak />
+				<View style={{ flexDirection: "row" }}>
+					<View style={{ flex: 1 }}>
+						<Text>En Cours</Text>
+					</View>
+					<View style={{ flex: 1 }}>
+						<Text onPress={joinGame}>Rejoindre</Text>
+					</View>
+				</View>
+				<View style={{ alignItems: "flex-end" }}>
+					<Button title={"+ Créer"} onPress={createGame} />
+				</View>
+
+
+				<ScrollView horizontal={true}>
+					
+				</ScrollView>
+
 				<LineBreak />
 			</ViewContainer>
 		</View>

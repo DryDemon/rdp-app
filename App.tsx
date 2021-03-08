@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -10,12 +9,9 @@ import Register from "./screens/register";
 import Dashboard from "./screens/dashboard";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import firebase from "firebase";
-import { firebaseConfig } from "./constants/FirebaseConfig";
 
 const Stack = createStackNavigator();
 
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
 export default function App() {
 	const isLoadingComplete = useCachedResources();
