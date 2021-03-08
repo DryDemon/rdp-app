@@ -58,17 +58,23 @@ export default function Dashboard({ navigation }: any) {
 		}
 	}
 
-	useEffect(() => {
-		console.log(jwt, user);
-		// if (ENVIRONEMENT != "dev" && (!jwt || !user)) {
-		if (!jwt || !user) {
-			console.log("there");
-			navigation.navigate("Login");
-		}
+	//onFocus
+	navigation.addListener('focus', () => {
+		// The screen is focused
+		// Call any action
+		
 		if (jwt) {
 			fetchUserGames(jwt).then((data: any) => {
 				setGames(data);
 			});
+		}
+	  });
+
+	useEffect(() => {
+		// if (ENVIRONEMENT != "dev" && (!jwt || !user)) {
+		if (!jwt && !user) {
+			console.log("there");
+			navigation.navigate("Login");
 		}
 	}, [jwt, user]);
 
@@ -99,7 +105,7 @@ export default function Dashboard({ navigation }: any) {
 
 				<ScrollView horizontal={true}>
 					{games.map((data) => {
-						return <GameIcon game={data} />;
+						return <GameIcon key={data.joinCode} game={data} />;
 					})}
 				</ScrollView>
 
