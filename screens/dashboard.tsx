@@ -71,7 +71,6 @@ export default function Dashboard({ navigation }: any) {
 	useEffect(() => {
 		// if (ENVIRONEMENT != "dev" && (!jwt || !user)) {
 		if (!jwt && !user) {
-			console.log("there");
 			navigation.navigate("Login");
 		}
 	}, [jwt, user]);
