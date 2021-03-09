@@ -49,6 +49,9 @@ export default function Dashboard({ navigation }: any) {
 			<ProtectedHeader />
 			<ViewContainer>
 
+
+            <Button title={"goto dash"} onPress={() => navigation.navigate("Dashboard")} />
+            
 			</ViewContainer>
 		</View>
 	);

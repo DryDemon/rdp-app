@@ -32,6 +32,7 @@ export function MyLeaguesDash(props: any) {
     const games: Array<GameSchema> = props.games;
     const navigation: any = props.navigation;
     const jwt: any = props.jwt;
+    const username: string = props.username;
 
     function gotoGame(joinCode: string) {
         AsyncStorage.setItem("@joinCode", joinCode);
@@ -86,9 +87,9 @@ export function MyLeaguesDash(props: any) {
                     <SmallLineBreak />
 
                     <ScrollView horizontal={true}>
-                        <GameIcon create={1} navigation={navigation} />
+                        <GameIcon create={1} navigation={navigation} username={username} />
                         {games.map((data: any) => {
-                            return <GameIcon key={data.joinCode} game={data} navigation={navigation} />;
+                            return <GameIcon key={data.joinCode} game={data} username={username} navigation={navigation} />;
                         })}
                     </ScrollView>
                 </View>

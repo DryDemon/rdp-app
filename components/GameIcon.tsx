@@ -2,9 +2,9 @@ import React from "react";
 import { SERVER_LOGO_URL } from "../constants/Server";
 import { View, Text, TextTitle, SubText } from "./Themed";
 import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { GameSchema } from "../src/interaces/interfacesGame";
+import { GameSchema, userStatsInterface } from "../src/interaces/interfacesGame";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import plusIcon from "../assets/images/plusIcon.svg"
+import plusIcon from "../assets/images/plusIcon.png"
 
 function validURL(str: string) {
 	var pattern = new RegExp(
@@ -23,6 +23,7 @@ export function GameIcon(props: any) {
 	const game: GameSchema = props.game;
 	const create = props.create;
 	const navigation: any = props.navigation;
+	const username: string = props.username;
 
 	function gotoGame(joinCode: string) {
 		AsyncStorage.setItem("@joinCode", joinCode);
@@ -50,6 +51,15 @@ export function GameIcon(props: any) {
 
 	}
 	if (game) {
+		let userList = "";
+		if (game.userStats && username)
+			game.userStats.forEach((stat: userStatsInterface) => { if(stat.username != username) userList = userList + ", " + stat.username })
+		if (userList.length > 22) {
+			userList = userList.slice(2, 18)
+			userList += "..."
+		}
+		else
+			userList = userList.slice(2, 20)
 		return (
 			<TouchableOpacity onPress={() => gotoGame(game.joinCode)}>
 				<View style={styles.gameContainer}>
@@ -60,7 +70,7 @@ export function GameIcon(props: any) {
 						}}
 					/>
 					<TextTitle style={styles.gameTitle}>{game.name}</TextTitle>
-					{/* <Text>{game.joinCode}</Text> */}
+					<SubText style={styles.gameSubText}>{userList}</SubText>
 				</View>
 			</TouchableOpacity>
 		);
@@ -73,6 +83,9 @@ const styles = StyleSheet.create({
 	gameLogo: {
 		width: 100,
 		height: 100,
+		// display: "block",
+		marginLeft: "auto",
+		marginRight: "auto",
 	},
 	gameTitle: {
 		fontSize: 15,
