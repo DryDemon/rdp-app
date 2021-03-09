@@ -45,8 +45,8 @@ async function getLeaguesForSportsBetweenTwoDates(
 ) {
     // const startedAtTimestamp = startedAt.getTime() / 1000;
     // const endingAtTimestamp = endingAt.getTime() / 1000;
-    const endingAtTimestamp = 999999999999999999;
-    const startedAtTimestamp = 0;
+    const endingAtTimestamp = 1622160000;
+    const startedAtTimestamp = 1609286400;
     //extract id from sports
 
     const rawResponse = await fetch(SERVER_API_URL +
@@ -86,7 +86,7 @@ export default function Dashboard({ navigation }: any) {
     const [dateEndForm, setDateEndForm] = useState("");
     const [logoUrl, setLogoUrl] = useState("");
 
-    const [leaguesList, setLeaguesList] = useState<Array<LeagueSchema>>([]);
+    const [leaguesList, setLeaguesList] = useState<any>([]);
     const [leaguesMultiselectChoice, setLeaguesMultiselectChoice] = useState<Array<LeagueSchema>>([]);
 
 
@@ -134,11 +134,19 @@ export default function Dashboard({ navigation }: any) {
             new Date(),
             ["1"]
         ).then((leagues) => {
-            setLeaguesList(leagues);
+            setLeaguesList([
+                {
+                    leagueName: 'Foot',
+                    leagueId: 0,
+
+                    children: leagues,
+                },
+
+            ]);
         });
 
     }, [])
-
+    useEffect(()=>{console.log(leaguesMultiselectChoice)}, [leaguesMultiselectChoice])
 
     return (
         <View>
@@ -146,7 +154,7 @@ export default function Dashboard({ navigation }: any) {
             <ViewContainer>
                 <View>
 
-                    <SectionedMultiSelect icons={undefined} IconRenderer={Icon} items={leaguesList} uniqueKey="leagueId" onSelectedItemsChange={(choice: any) => setLeaguesMultiselectChoice(choice)} />
+                    <SectionedMultiSelect icons={undefined} IconRenderer={Icon} single={false} items={leaguesList} showDropDowns={false} subKey="children" displayKey="leagueName" uniqueKey="leagueId" onSelectedItemsChange={(choice: any) => setLeaguesMultiselectChoice(choice)} />
                 </View>
                 <Button title={"goto dash"} onPress={() => navigation.navigate("Dashboard")} />
 
