@@ -46,12 +46,12 @@ export default function Dashboard({ navigation }: any) {
 
 	return (
 		<View>
-			<ProtectedHeader />
+			<ProtectedHeader back={"Dashboard"} navigation={navigation}/>
 			<ViewContainer>
 
 
             <Button title={"goto dash"} onPress={() => navigation.navigate("Dashboard")} />
-            
+
 			</ViewContainer>
 		</View>
 	);

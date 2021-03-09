@@ -9,10 +9,16 @@ import {
 	TextStyle,
 	ButtonProps,
 	TextInputProps,
+	Image,
+	TouchableOpacity,
 } from "react-native";
 import Constants from "expo-constants";
 
 import Colors from "../constants/Colors";
+import { useEffect, useState } from "react";
+
+import arrowIcon from "../assets/images/arrow.png"
+
 
 export function useThemeColor(colorName: keyof typeof Colors) {
 	return Colors[colorName];
@@ -33,7 +39,7 @@ export function Text(props: TextProps) {
 
 	// const fontFamily = "Neue Haas Grotesk Display Pro";
 
-	return <DefaultText style={[{ color, fontSize:17 }, style]} {...otherProps} />;
+	return <DefaultText style={[{ color, fontSize: 17 }, style]} {...otherProps} />;
 }
 
 export function TextMainTitle(props: TextProps) {
@@ -41,7 +47,7 @@ export function TextMainTitle(props: TextProps) {
 	const fontSize = 40;
 	const fontWeight = "bold" as "bold";
 
-	return <Text style={[{ fontSize, fontWeight}, style]} {...otherProps} />;
+	return <Text style={[{ fontSize, fontWeight }, style]} {...otherProps} />;
 }
 
 export function TextLabel(props: TextProps) {
@@ -69,14 +75,14 @@ export function LineBreak(props: TextProps) {
 	return <Text>{"\n"}</Text>;
 }
 export function SmallLineBreak(props: TextProps) {
-	return <Text style={[{fontSize:10}]} >{"\n"}</Text>;
+	return <Text style={[{ fontSize: 10 }]} >{"\n"}</Text>;
 }
 //VIEW
 export function View(props: ViewProps) {
 	const { style, ...otherProps } = props;
 	const backgroundColor = useThemeColor("background");
 
-	return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
+	return <DefaultView style={[{}, style]} {...otherProps} />;
 }
 
 export function ViewContainer(props: ViewProps) {
@@ -164,7 +170,11 @@ export function TextWarning(props: TextProps) {
 
 //protected
 
-export function ProtectedHeader(props: ViewProps) {
+export function ProtectedHeader(props: any) {
+	const [arrow, setarrow] = useState(<></>)
+
+	const { back, navigation, ...otherProps } = props;
+
 	const backgroundColor = useThemeColor("rdpColor");
 
 	const height = 56;
@@ -176,33 +186,61 @@ export function ProtectedHeader(props: ViewProps) {
 
 	const color = "#FFFFFF";
 
+	useEffect(() => {
+		if (back && navigation) {
+			setarrow(
+				<TouchableOpacity onPress={() => navigation.navigate(back)} style={
+					[{paddingHorizontal:7,paddingVertical:7,paddingRight:10,}]}>
+
+					<Image
+						style={[{
+							height: 12,
+							width: 16,
+						}]
+						}
+						source={arrowIcon}
+					/>
+				</TouchableOpacity>
+			);
+		}
+	}, [back, navigation])
+
 	return (
 		<View
 			style={[
 				{
 					backgroundColor,
 					height,
+					paddingTop:15,
 					padding,
 					width,
 					marginTop,
 				},
 			]}
 		>
-			<Text
-				style={[
-					{
-						color,
-						fontWeight,
-						fontStyle: "italic",
-						fontSize: 20,
-						lineHeight: 26,
-						textAlignVertical: "center",
-						// fontFamily: "Orkney",
-					},
-				]}
-			>
-				ROI DU PRONO
-			</Text>
+			<View style={{ flexDirection: "row" }}>
+				<View>
+					{arrow}
+				</View>
+				<View >
+
+					<Text
+						style={[
+							{
+								color,
+								fontWeight,
+								fontStyle: "italic",
+								fontSize: 20,
+								lineHeight: 26,
+								textAlignVertical: "center",
+								// fontFamily: "Orkney",
+							},
+						]}
+					>
+						ROI DU PRONO
+					</Text>
+				</View>
+			</View>
 		</View>
 	);
 }

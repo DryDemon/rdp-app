@@ -89,7 +89,7 @@ export default function Dashboard({ navigation }: any) {
 		<View>
 			<ProtectedHeader />
 			<ViewContainer>
-				<MyLeaguesDash username={user?.username} games={games} navigation={navigation} jwt={jwt}/>
+			<MyLeaguesDash username={user?.username} games={games} navigation={navigation} jwt={jwt}/>
 				<LineBreak />
 			</ViewContainer>
 		</View>
