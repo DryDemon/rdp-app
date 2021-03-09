@@ -86,6 +86,7 @@ export function MyLeaguesDash(props: any) {
                     <SmallLineBreak />
 
                     <ScrollView horizontal={true}>
+                        <GameIcon create={1} navigation={navigation} />
                         {games.map((data: any) => {
                             return <GameIcon key={data.joinCode} game={data} navigation={navigation} />;
                         })}

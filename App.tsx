@@ -7,6 +7,7 @@ import Navigation from "./navigation";
 import Login from "./screens/login";
 import Register from "./screens/register";
 import Dashboard from "./screens/dashboard";
+import Create from "./screens/create";
 import GamePrincipal from "./screens/gamePrincipal";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -44,9 +45,12 @@ export default function App() {
 						initialRouteName={InitialRoute}
 					>
 						<Stack.Screen name="Login" component={Login} />
-						<Stack.Screen name="GamePrincipal" component={GamePrincipal} />
 						<Stack.Screen name="Register" component={Register} />
+
 						<Stack.Screen name="Dashboard" component={Dashboard} />
+						<Stack.Screen name="Create" component={Create} />
+						
+						<Stack.Screen name="GamePrincipal" component={GamePrincipal} />
 					</Stack.Navigator>
 				</NavigationContainer>
 			</SafeAreaProvider>
