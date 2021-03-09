@@ -33,7 +33,7 @@ export function Text(props: TextProps) {
 
 	// const fontFamily = "Neue Haas Grotesk Display Pro";
 
-	return <DefaultText style={[{ color }, style]} {...otherProps} />;
+	return <DefaultText style={[{ color, fontSize:17 }, style]} {...otherProps} />;
 }
 
 export function TextMainTitle(props: TextProps) {
@@ -41,7 +41,7 @@ export function TextMainTitle(props: TextProps) {
 	const fontSize = 40;
 	const fontWeight = "bold" as "bold";
 
-	return <Text style={[{ fontSize, fontWeight }, style]} {...otherProps} />;
+	return <Text style={[{ fontSize, fontWeight}, style]} {...otherProps} />;
 }
 
 export function TextLabel(props: TextProps) {
@@ -57,8 +57,19 @@ export function TextTitle(props: TextProps) {
 	return <Text style={[{ fontSize }, style]} {...otherProps} />;
 }
 
+export function SubText(props: TextProps) {
+	const { style, ...otherProps } = props;
+	const fontWeight = "500";
+	const fontSize = 12;
+
+	return <Text style={[{ fontSize, fontWeight }, style]} {...otherProps} />;
+}
+
 export function LineBreak(props: TextProps) {
 	return <Text>{"\n"}</Text>;
+}
+export function SmallLineBreak(props: TextProps) {
+	return <Text style={[{fontSize:10}]} >{"\n"}</Text>;
 }
 //VIEW
 export function View(props: ViewProps) {

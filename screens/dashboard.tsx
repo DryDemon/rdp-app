@@ -22,10 +22,11 @@ import { ENVIRONEMENT } from "../constants/Environement";
 import { SERVER_API_URL } from "../constants/Server";
 import { GameIcon } from "../components/GameIcon";
 import { GameSchema } from "../src/interaces/interfacesGame";
+import { MyLeaguesDash } from "../components/MyLeaguesDash";
 
 async function fetchUserGames(jwt: string) {
 	const rawResponse = await fetch(
-		`${SERVER_API_URL}/getusergameslist?jwt=${jwt}`
+		`${SERVER_API_URL}/getusergameslist?jwt=${jwt}` //TODO seulmenent les games en cours
 	);
 	const content = await rawResponse.json();
 
@@ -37,9 +38,6 @@ export default function Dashboard({ navigation }: any) {
 	const [user, setUser] = useState<User>();
 	const [games, setGames] = useState<Array<GameSchema>>([]);
 
-	function joinGame() {}
-
-	function createGame() {}
 
 	if (!jwt || !user) {
 		try {
@@ -91,27 +89,7 @@ export default function Dashboard({ navigation }: any) {
 		<View>
 			<ProtectedHeader />
 			<ViewContainer>
-				<TextTitle>Mes Contests</TextTitle>
-
-				<LineBreak />
-				<View style={{ flexDirection: "row" }}>
-					<View style={{ flex: 1 }}>
-						<Text>En Cours</Text>
-					</View>
-					<View style={{ flex: 1 }}>
-						<Text onPress={joinGame}>Rejoindre</Text>
-					</View>
-				</View>
-				<View style={{ alignItems: "flex-end" }}>
-					<Button title={"+ Créer"} onPress={createGame} />
-				</View>
-
-				<ScrollView horizontal={true}>
-					{games.map((data: any) => {
-						return <GameIcon key={data.joinCode} game={data} />;
-					})}
-				</ScrollView>
-
+				<MyLeaguesDash games={games} navigation={navigation} jwt={jwt}/>
 				<LineBreak />
 			</ViewContainer>
 		</View>

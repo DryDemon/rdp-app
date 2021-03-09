@@ -1,8 +1,9 @@
 import React from "react";
 import { SERVER_LOGO_URL } from "../constants/Server";
 import { View, Text, TextTitle } from "./Themed";
-import { Alert, Image, StyleSheet } from "react-native";
+import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { GameSchema } from "../src/interaces/interfacesGame";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function validURL(str: string) {
 	var pattern = new RegExp(
@@ -19,25 +20,32 @@ function validURL(str: string) {
 
 export function GameIcon(props: any) {
 	const game: GameSchema = props.game;
+	const navigation: any = props.navigation;
+
+	function gotoGame(joinCode: string){
+		AsyncStorage.setItem("@joinCode", joinCode);
+		navigation.navigate("GamePrincipal")		
+	}
 
 	let url: string = SERVER_LOGO_URL;
 	if (game && game.logoUrl && validURL(game.logoUrl)) {
 		url = game.logoUrl;
 	}
 
-    if (game) {
-
-        return (
-			<View style={styles.gameContainer}>
-				<Image
-					style={styles.gameLogo}
-					source={{
-						uri: url,
-					}}
-				/>
-				<TextTitle style={styles.gameTitle}>{game.name}</TextTitle>
-				<Text>{game.joinCode}</Text>
-			</View>
+	if (game) {
+		return (
+			<TouchableOpacity onPress={()=>gotoGame(game.joinCode)}>
+				<View style={styles.gameContainer}>
+					<Image
+						style={styles.gameLogo}
+						source={{
+							uri: url,
+						}}
+					/>
+					<TextTitle style={styles.gameTitle}>{game.name}</TextTitle>
+					{/* <Text>{game.joinCode}</Text> */}
+				</View>
+			</TouchableOpacity>
 		);
 	} else {
 		return null;
@@ -54,6 +62,7 @@ const styles = StyleSheet.create({
 		fontWeight: "600",
 		paddingHorizontal: 10,
 		paddingVertical: 16,
+		textAlign: "center",
 	},
 	gameContainer: {
 		backgroundColor: "#ECF2FE",
