@@ -71,7 +71,6 @@ export function View(props: ViewProps) {
 export function ViewContainer(props: ViewProps) {
 	const { style, ...otherProps } = props;
 	const backgroundColor = useThemeColor("background");
-	const flex = 1;
 	const paddingLeft = "10%";
 	const paddingRight = "7%";
 	const overflow = "scroll";
@@ -82,7 +81,6 @@ export function ViewContainer(props: ViewProps) {
 				{
 					overflow,
 					backgroundColor,
-					flex,
 					paddingLeft,
 					paddingRight,
 				},
