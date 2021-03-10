@@ -5,7 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import format from 'date-fns/format'
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import Colors from "../constants/Colors";
 
 export function DatePicker(props: any) {
 
@@ -16,8 +16,8 @@ export function DatePicker(props: any) {
 
         <TouchableOpacity style={styles.dateContainer} onPress={() => { setshowDatePicker(true); }}>
             <View style={{ flexDirection: "row" }}>
-                <View >
-                    <Icon style={styles.gameLogo} name="calendar" size={20} color="#FFF" />
+                <View style={styles.iconContainer}>
+                    <Icon style={styles.gameLogo} name="calendar" size={20} color="#FFF"  />
                 </View>
                 <View >
                     {!beenSet && (<Text style={styles.text}>{props.initText}</Text>)}
@@ -48,10 +48,10 @@ const styles = StyleSheet.create({
     dateContainer: {
         height: 48,
         padding: 5,
-        paddingVertical: 14,
-        backgroundColor: "#115AEE",
         borderRadius: 8,
         maxWidth: 200,
+        paddingVertical: 14,
+        backgroundColor: Colors.rdpColor,
     },
     gameLogo: {
         marginLeft: "auto",

@@ -5,4 +5,5 @@ export default {
   tint: '#2f95dc',
   tabIconDefault: '#ccc',
   tabIconSelected: '#fff',
+  alert:"red",
 };

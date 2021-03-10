@@ -155,14 +155,16 @@ export function TextInput(props: TextInputProps) {
 }
 
 export function Button(props: ButtonProps) {
-	const { ...otherProps } = props;
+	let { color, ...otherProps } = props;
+	
+	if(!color) color=useThemeColor("rdpColor");
 
-	return <DefaultButton {...props} />;
+	return <DefaultButton color={color} {...props} />;
 }
 
 export function TextWarning(props: TextProps) {
 	const { style, ...otherProps } = props;
-	const color = "red";
+	const color = useThemeColor("alert");
 
 	return <Text style={[{ color }, style]} {...otherProps} />;
 }
