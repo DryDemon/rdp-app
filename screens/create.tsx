@@ -28,7 +28,18 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { DatePicker } from "../components/DatePicker";
 
 
-
+function validURL(str: string) {
+    var pattern = new RegExp(
+        "^(https?:\\/\\/)?" + // protocol
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "(\\#[-a-z\\d_]*)?$",
+        "i"
+    ); // fragment locator
+    return !!pattern.test(str);
+}
 
 async function getSportBetweenTwoDates(startedAt: Date, endingAt: Date) {
     const startedAtTimestamp = startedAt.getTime() / 1000;
@@ -49,10 +60,9 @@ async function getLeaguesForSportsBetweenTwoDates(
     endingAt: Date,
     sportIds: Array<string>
 ) {
-    // const startedAtTimestamp = startedAt.getTime() / 1000;
-    // const endingAtTimestamp = endingAt.getTime() / 1000;
-    const endingAtTimestamp = 1622160000;
-    const startedAtTimestamp = 1609286400;
+    const startedAtTimestamp = startedAt.getTime() / 1000;
+    const endingAtTimestamp = endingAt.getTime() / 1000;
+
     //extract id from sports
 
     const rawResponse = await fetch(SERVER_API_URL +
@@ -69,8 +79,8 @@ async function getLeaguesForSportsBetweenTwoDates(
 }
 
 
-async function sendRequestCreateGame(query: string) {
-    const rawResponse = await fetch("/api/creategame?" + query);
+async function sendQueryCreateGame(query: string) {
+    const rawResponse = await fetch(SERVER_API_URL + "/creategame?" + query);
     const content = await rawResponse.json();
     if (content.isCreated == 1) {
         alert(content.redirect)
@@ -93,6 +103,9 @@ export default function Dashboard({ navigation }: any) {
     const [logoUrl, setLogoUrl] = useState("");
 
     const [alertName, setalertName] = useState(" ");
+    const [alertLogo, setalertLogo] = useState(" ");
+    const [alertDates, setalertDates] = useState(" ");
+    const [alertLeagues, setalertLeagues] = useState(" ");
 
     const [leaguesList, setLeaguesList] = useState<any>([]);
     const [leaguesMultiselectChoice, setLeaguesMultiselectChoice] = useState<Array<LeagueSchema>>([]);
@@ -115,7 +128,55 @@ export default function Dashboard({ navigation }: any) {
         }
     }
 
+    function validateForm() {
+        if (name.length < 4) {
+            if (name) {
+                setalertName("Le nom doit faire au moins de 4 charactères")
+            }
+        } else {
+            setalertName(" ")
+        }
 
+        if (logoUrl && !validURL(logoUrl)) {
+            setalertLogo("Merci de rentrer un url valide.")
+        } else {
+            setalertLogo(" ")
+        }
+
+        if (dateCreationForm && dateEndForm) {
+            let changeDateAlert = false;
+
+            const dateDifference = (dateEndForm.getTime() - dateCreationForm.getTime()) / (3600 * 24 * 1000);
+
+            if (dateDifference < 0) {
+                setalertDates("La date de fin doit être après le début")
+                changeDateAlert = true;
+            }
+            if (7 < dateDifference && ENVIRONEMENT != "dev") {
+                setalertDates("Le contest ne peux pas durer plus de 7 jours")
+                changeDateAlert = true;
+            }
+
+            if (!changeDateAlert)
+                setalertDates(" ")
+
+        } else {
+            setalertDates(" ")
+        }
+
+        if (leaguesMultiselectChoice && leaguesMultiselectChoice.length > 5)
+            setalertLeagues("Tu peux selectionner au maximum 5 leagues");
+        else
+            setalertLeagues(" ");
+    }
+
+    function onCreate() {
+
+    }
+
+    useEffect(() => {
+        validateForm()
+    }, [name, logoUrl, leaguesMultiselectChoice, dateEndForm, dateCreationForm])
 
     useEffect(() => {
         let creationDateInFunct = new Date(dateCreationForm); // dateCreation est en fait un string
@@ -131,32 +192,22 @@ export default function Dashboard({ navigation }: any) {
                 ["1"]
             ).then((leagues) => {
                 setLeaguesList(leagues);
+
+                //code si on ajoute plus de sports
+                // setLeaguesList([
+                //     {
+                //         leagueName: 'Foot',
+                //         leagueId: 0,
+
+                //         children: leagues,
+                //     },
+
+                // ]);
+
             });
         }
     }, [dateCreationForm, dateEndForm]);
 
-    useEffect(() => {
-
-        getLeaguesForSportsBetweenTwoDates(
-            new Date(),
-            new Date(),
-            ["1"]
-        ).then((leagues) => {
-            setLeaguesList(leagues);
-
-            //code si on ajoute plus de sports
-            // setLeaguesList([
-            //     {
-            //         leagueName: 'Foot',
-            //         leagueId: 0,
-
-            //         children: leagues,
-            //     },
-
-            // ]);
-        });
-
-    }, [])
 
 
     return (
@@ -179,20 +230,30 @@ export default function Dashboard({ navigation }: any) {
                 />
                 <TextWarning>{alertName}</TextWarning>
 
+                <Text>Url Du Logo</Text>
+                <TextInput
+                    value={logoUrl}
+                    onChangeText={(logoUrl) => {
+                        setLogoUrl(logoUrl);
+                    }}
+                    placeholder={"Optionnel, si tu veux un logo personalisé"}
+                />
+                <TextWarning>{alertLogo}</TextWarning>
+
                 <Text>Dates des évènements</Text>
                 <SubText>Maximum 7 jours, le mode “contest pro” arrive bientôt !</SubText>
-                
-                <SmallLineBreak/>
+
+                <SmallLineBreak />
 
                 <View style={{ flexDirection: "row" }}>
-                    <View style={{flex:1, marginRight:12}} >
+                    <View style={{ flex: 1, marginRight: 12 }} >
                         <DatePicker
                             value={dateCreationForm}
                             onChange={(date: Date) => setDateCreationForm(date)}
                             initText={"Date de Début"}
                         />
                     </View>
-                    <View style={{flex:1, marginLeft:12}} >
+                    <View style={{ flex: 1, marginLeft: 12 }} >
                         <DatePicker
                             value={dateEndForm}
                             onChange={(date: Date) => setDateEndForm(date)}
@@ -200,15 +261,41 @@ export default function Dashboard({ navigation }: any) {
                         />
                     </View>
                 </View>
+                <TextWarning>{alertDates}</TextWarning>
 
+                <SmallLineBreak />
+
+                <Text>Choix des compétitions</Text>
+                <SubText>Attention futur roi, tu peux sélectionner au maximum 5 compétitions !</SubText>
 
                 <View>
 
-                    <SectionedMultiSelect icons={undefined} IconRenderer={Icon} single={false} items={leaguesList} showDropDowns={false} subKey="children" displayKey="leagueName" uniqueKey="leagueId" selectedItems={leaguesMultiselectChoice} onSelectedItemsChange={(choice: any) => { console.log(choice); setLeaguesMultiselectChoice(choice) }} />
+                    <SectionedMultiSelect
+
+                        selectText="Cherche ta compétition"
+                        confirmText="Confirmer"
+                        selectedText="Selectionné"
+                        searchPlaceholderText="Chercher une ligue"
+                        removeAllText="Tout enlever"
+                        noResultsComponent={<Text style={styles.alertMultiSelect}>Pas de compétition de ce nom là :/</Text>}
+                        noItemsComponent={<Text style={styles.alertMultiSelect}>Pas de compétition entre ces dates. As tu bien choisi des dates?</Text>}
+
+                        icons={undefined}
+                        IconRenderer={Icon}
+                        single={false}
+                        items={leaguesList}
+                        showDropDowns={false}
+                        subKey="children"
+                        displayKey="leagueName"
+                        uniqueKey="leagueId"
+                        selectedItems={leaguesMultiselectChoice}
+                        onSelectedItemsChange={(choice: any) => { setLeaguesMultiselectChoice(choice) }}
+                    />
 
                 </View>
+                <TextWarning>{alertLeagues}</TextWarning>
 
-                <Button title={"send"} onPress={() => console.log(leaguesMultiselectChoice)} />
+                <Button title={"Creer"} onPress={() => onCreate()} />
 
             </ViewContainer>
         </View>
@@ -216,4 +303,8 @@ export default function Dashboard({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
+    alertMultiSelect: {
+        marginTop: 20,
+        textAlign: "center",
+    }
 });
