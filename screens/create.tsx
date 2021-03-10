@@ -98,8 +98,8 @@ export default function Dashboard({ navigation }: any) {
     const [user, setUser] = useState<User>();
 
     const [name, setName] = useState("");
-    const [dateCreationForm, setDateCreationForm] = useState(new Date());
-    const [dateEndForm, setDateEndForm] = useState(new Date());
+    const [dateCreationForm, setDateCreationForm] = useState(ENVIRONEMENT == "dev" ? new Date() : new Date(2014, 1, 1));
+    const [dateEndForm, setDateEndForm] = useState(ENVIRONEMENT == "dev" ? new Date() : new Date(2025, 1, 1));
     const [logoUrl, setLogoUrl] = useState("");
 
     const [alertName, setalertName] = useState(" ");
@@ -211,7 +211,7 @@ export default function Dashboard({ navigation }: any) {
 
 
     return (
-        <View>
+        <View style={{ flex: 1, marginHorizontal: 1 }}>
             <ProtectedHeader back={"Dashboard"} navigation={navigation} />
             <ViewContainer>
                 <SmallLineBreak />
@@ -220,83 +220,89 @@ export default function Dashboard({ navigation }: any) {
 
                 <SmallLineBreak />
 
-                <Text>Nom Du Contest</Text>
-                <TextInput
-                    value={name}
-                    onChangeText={(name) => {
-                        setName(name);
-                    }}
-                    placeholder={"La Ligue Des Champions"}
-                />
-                <TextWarning>{alertName}</TextWarning>
 
-                <Text>Url Du Logo</Text>
-                <TextInput
-                    value={logoUrl}
-                    onChangeText={(logoUrl) => {
-                        setLogoUrl(logoUrl);
-                    }}
-                    placeholder={"Optionnel, si tu veux un logo personalisé"}
-                />
-                <TextWarning>{alertLogo}</TextWarning>
+                <ScrollView showsHorizontalScrollIndicator={false}>
 
-                <Text>Dates des évènements</Text>
-                <SubText>Maximum 7 jours, le mode “contest pro” arrive bientôt !</SubText>
-
-                <SmallLineBreak />
-
-                <View style={{ flexDirection: "row" }}>
-                    <View style={{ flex: 1, marginRight: 12 }} >
-                        <DatePicker
-                            value={dateCreationForm}
-                            onChange={(date: Date) => setDateCreationForm(date)}
-                            initText={"Date de Début"}
-                        />
-                    </View>
-                    <View style={{ flex: 1, marginLeft: 12 }} >
-                        <DatePicker
-                            value={dateEndForm}
-                            onChange={(date: Date) => setDateEndForm(date)}
-                            initText={"Date de Fin"}
-                        />
-                    </View>
-                </View>
-                <TextWarning>{alertDates}</TextWarning>
-
-                <SmallLineBreak />
-
-                <Text>Choix des compétitions</Text>
-                <SubText>Attention futur roi, tu peux sélectionner au maximum 5 compétitions !</SubText>
-
-                <View>
-
-                    <SectionedMultiSelect
-
-                        selectText="Cherche ta compétition"
-                        confirmText="Confirmer"
-                        selectedText="Selectionné"
-                        searchPlaceholderText="Chercher une ligue"
-                        removeAllText="Tout enlever"
-                        noResultsComponent={<Text style={styles.alertMultiSelect}>Pas de compétition de ce nom là :/</Text>}
-                        noItemsComponent={<Text style={styles.alertMultiSelect}>Pas de compétition entre ces dates. As tu bien choisi des dates?</Text>}
-
-                        icons={undefined}
-                        IconRenderer={Icon}
-                        single={false}
-                        items={leaguesList}
-                        showDropDowns={false}
-                        subKey="children"
-                        displayKey="leagueName"
-                        uniqueKey="leagueId"
-                        selectedItems={leaguesMultiselectChoice}
-                        onSelectedItemsChange={(choice: any) => { setLeaguesMultiselectChoice(choice) }}
+                    <Text>Nom Du Contest</Text>
+                    <TextInput
+                        value={name}
+                        onChangeText={(name) => {
+                            setName(name);
+                        }}
+                        placeholder={"La Ligue Des Champions"}
                     />
+                    <TextWarning>{alertName}</TextWarning>
 
-                </View>
-                <TextWarning>{alertLeagues}</TextWarning>
+                    <Text>Url Du Logo</Text>
+                    <TextInput
+                        value={logoUrl}
+                        onChangeText={(logoUrl) => {
+                            setLogoUrl(logoUrl);
+                        }}
+                        placeholder={"Optionnel, si tu veux un logo personalisé"}
+                    />
+                    <TextWarning>{alertLogo}</TextWarning>
 
-                <Button title={"Creer"} onPress={() => onCreate()} />
+                    <Text>Dates des évènements</Text>
+                    <SubText>Maximum 7 jours, le mode “contest pro” arrive bientôt !</SubText>
 
+                    <SmallLineBreak />
+
+                    <View style={{ flexDirection: "row" }}>
+                        <View style={{ flex: 1, marginRight: 12 }} >
+                            <DatePicker
+                                value={dateCreationForm}
+                                onChange={(date: Date) => setDateCreationForm(date)}
+                                initText={"Date de Début"}
+                            />
+                        </View>
+                        <View style={{ flex: 1, marginLeft: 12 }} >
+                            <DatePicker
+                                value={dateEndForm}
+                                onChange={(date: Date) => setDateEndForm(date)}
+                                initText={"Date de Fin"}
+                            />
+                        </View>
+                    </View>
+                    <TextWarning>{alertDates}</TextWarning>
+
+                    <SmallLineBreak />
+
+                    <Text>Choix des compétitions</Text>
+                    <SubText>Attention futur roi, tu peux sélectionner au maximum 5 compétitions !</SubText>
+
+                    <View>
+
+                        <SectionedMultiSelect
+
+                            selectText="Cherche ta compétition"
+                            confirmText="Confirmer"
+                            selectedText="Selectionné"
+                            searchPlaceholderText="Chercher une ligue"
+                            removeAllText="Tout enlever"
+                            noResultsComponent={<Text style={styles.alertMultiSelect}>Pas de compétition de ce nom là :/</Text>}
+                            noItemsComponent={<Text style={styles.alertMultiSelect}>Pas de compétition entre ces dates. As tu bien choisi des dates?</Text>}
+
+                            icons={undefined}
+                            IconRenderer={Icon}
+                            single={false}
+                            items={leaguesList}
+                            showDropDowns={false}
+                            subKey="children"
+                            displayKey="leagueName"
+                            uniqueKey="leagueId"
+                            selectedItems={leaguesMultiselectChoice}
+                            onSelectedItemsChange={(choice: any) => { setLeaguesMultiselectChoice(choice) }}
+                        />
+
+                    </View>
+                    <TextWarning>{alertLeagues}</TextWarning>
+
+                    <Button title={"Creer"} onPress={() => onCreate()} />
+                    <View
+                        style={styles.separator} //forandroid manly
+                    ></View>
+                </ScrollView>
             </ViewContainer>
         </View>
     );
@@ -306,5 +312,9 @@ const styles = StyleSheet.create({
     alertMultiSelect: {
         marginTop: 20,
         textAlign: "center",
+    }, separator: {
+        marginVertical: 60,
+        height: 1,
+        width: "80%",
     }
 });
