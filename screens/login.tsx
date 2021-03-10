@@ -19,6 +19,7 @@ import { SERVER_API_URL } from "../constants/Server";
 import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from 'expo-constants'
+import { User } from "../src/interaces/interfacesUsers";
 
 export default function Login({ navigation }: any) {
 	const [password, setPassword] = useState("");
@@ -57,6 +58,7 @@ export default function Login({ navigation }: any) {
 			}
 		}
 	}
+	let user:User = {};
 
 	//redirect ifconnected
 	useEffect(() => {
@@ -65,7 +67,7 @@ export default function Login({ navigation }: any) {
 				let jwt = value;
 				AsyncStorage.getItem("@user").then((value: string | null) => {
 					if (value) {
-						let user = value;
+						user = JSON.parse(value);
 						if (jwt && user) {
 							navigation.navigate("Dashboard");
 						}
@@ -85,7 +87,7 @@ export default function Login({ navigation }: any) {
 		<ViewContainer>
 			<TextTitle style={styles.topTitle}>Bon retour parmi nous,</TextTitle>
 			{/* <TextMainTitle>Futur Roi</TextMainTitle> //TODO ROI PAUL...*/}
-
+			{user?.username? <TextMainTitle>Roi {user?.username}!</TextMainTitle> : <></>}
 			<ScrollView showsHorizontalScrollIndicator={false}>
 				{/* <View style={{ flexDirection: "row" }}>
 					<View style={{ flex: 1, alignItems: "center" }}>
