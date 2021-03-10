@@ -68,7 +68,7 @@ export function SubText(props: TextProps) {
 	const fontWeight = "500";
 	const fontSize = 12;
 
-	return <Text style={[{ fontSize, fontWeight }, style]} {...otherProps} />;
+	return <Text style={[{ fontSize, fontWeight, color:"#808080" }, style]} {...otherProps} />;
 }
 
 export function LineBreak(props: TextProps) {
