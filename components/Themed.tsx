@@ -19,7 +19,6 @@ import { useEffect, useState } from "react";
 
 import arrowIcon from "../assets/images/arrow.png"
 
-
 export function useThemeColor(colorName: keyof typeof Colors) {
 	return Colors[colorName];
 }

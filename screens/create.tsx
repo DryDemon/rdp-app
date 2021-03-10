@@ -17,12 +17,15 @@ import {
     ViewCenter,
     TextWarning,
     LineBreak,
+    SubText,
+    SmallLineBreak,
 } from "../components/Themed";
 import { ENVIRONEMENT } from "../constants/Environement";
 import { SERVER_API_URL } from "../constants/Server";
 import { LeagueSchema, SportSchema } from "../src/interaces/interfacesQuotes";
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import { DatePicker } from "../components/DatePicker";
 
 
 
@@ -85,9 +88,11 @@ export default function Dashboard({ navigation }: any) {
     const [user, setUser] = useState<User>();
 
     const [name, setName] = useState("");
-    const [dateCreationForm, setDateCreationForm] = useState("");
-    const [dateEndForm, setDateEndForm] = useState("");
+    const [dateCreationForm, setDateCreationForm] = useState(new Date());
+    const [dateEndForm, setDateEndForm] = useState(new Date());
     const [logoUrl, setLogoUrl] = useState("");
+
+    const [alertName, setalertName] = useState(" ");
 
     const [leaguesList, setLeaguesList] = useState<any>([]);
     const [leaguesMultiselectChoice, setLeaguesMultiselectChoice] = useState<Array<LeagueSchema>>([]);
@@ -153,17 +158,56 @@ export default function Dashboard({ navigation }: any) {
 
     }, [])
 
-    
+
     return (
         <View>
             <ProtectedHeader back={"Dashboard"} navigation={navigation} />
             <ViewContainer>
+                <SmallLineBreak />
+                <TextTitle>Créer un contest</TextTitle>
+                <SubText>Crée ton contest et éclate tes amis pour devinir le roi !</SubText>
+
+                <SmallLineBreak />
+
+                <Text>Nom Du Contest</Text>
+                <TextInput
+                    value={name}
+                    onChangeText={(name) => {
+                        setName(name);
+                    }}
+                    placeholder={"La Ligue Des Champions"}
+                />
+                <TextWarning>{alertName}</TextWarning>
+
+                <Text>Dates des évènements</Text>
+                <SubText>Maximum 7 jours, le mode “contest pro” arrive bientôt !</SubText>
+                
+                <SmallLineBreak/>
+
+                <View style={{ flexDirection: "row" }}>
+                    <View style={{flex:1, marginRight:12}} >
+                        <DatePicker
+                            value={dateCreationForm}
+                            onChange={(date: Date) => setDateCreationForm(date)}
+                            initText={"Date de Début"}
+                        />
+                    </View>
+                    <View style={{flex:1, marginLeft:12}} >
+                        <DatePicker
+                            value={dateEndForm}
+                            onChange={(date: Date) => setDateEndForm(date)}
+                            initText={"Date de Fin"}
+                        />
+                    </View>
+                </View>
+
+
                 <View>
 
                     <SectionedMultiSelect icons={undefined} IconRenderer={Icon} single={false} items={leaguesList} showDropDowns={false} subKey="children" displayKey="leagueName" uniqueKey="leagueId" selectedItems={leaguesMultiselectChoice} onSelectedItemsChange={(choice: any) => { console.log(choice); setLeaguesMultiselectChoice(choice) }} />
-                
+
                 </View>
-                
+
                 <Button title={"send"} onPress={() => console.log(leaguesMultiselectChoice)} />
 
             </ViewContainer>
