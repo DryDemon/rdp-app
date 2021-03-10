@@ -24,6 +24,9 @@ import { LeagueSchema, SportSchema } from "../src/interaces/interfacesQuotes";
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
+
+
+
 async function getSportBetweenTwoDates(startedAt: Date, endingAt: Date) {
     const startedAtTimestamp = startedAt.getTime() / 1000;
     const endingAtTimestamp = endingAt.getTime() / 1000;
@@ -134,29 +137,34 @@ export default function Dashboard({ navigation }: any) {
             new Date(),
             ["1"]
         ).then((leagues) => {
-            setLeaguesList([
-                {
-                    leagueName: 'Foot',
-                    leagueId: 0,
+            setLeaguesList(leagues);
 
-                    children: leagues,
-                },
+            //code si on ajoute plus de sports
+            // setLeaguesList([
+            //     {
+            //         leagueName: 'Foot',
+            //         leagueId: 0,
 
-            ]);
+            //         children: leagues,
+            //     },
+
+            // ]);
         });
 
     }, [])
-    useEffect(()=>{console.log(leaguesMultiselectChoice)}, [leaguesMultiselectChoice])
 
+    
     return (
         <View>
             <ProtectedHeader back={"Dashboard"} navigation={navigation} />
             <ViewContainer>
                 <View>
 
-                    <SectionedMultiSelect icons={undefined} IconRenderer={Icon} single={false} items={leaguesList} showDropDowns={false} subKey="children" displayKey="leagueName" uniqueKey="leagueId" onSelectedItemsChange={(choice: any) => setLeaguesMultiselectChoice(choice)} />
+                    <SectionedMultiSelect icons={undefined} IconRenderer={Icon} single={false} items={leaguesList} showDropDowns={false} subKey="children" displayKey="leagueName" uniqueKey="leagueId" selectedItems={leaguesMultiselectChoice} onSelectedItemsChange={(choice: any) => { console.log(choice); setLeaguesMultiselectChoice(choice) }} />
+                
                 </View>
-                <Button title={"goto dash"} onPress={() => navigation.navigate("Dashboard")} />
+                
+                <Button title={"send"} onPress={() => console.log(leaguesMultiselectChoice)} />
 
             </ViewContainer>
         </View>
