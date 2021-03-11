@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { Alert, StyleSheet, ScrollView, Image } from "react-native";
+import { Alert, StyleSheet, ScrollView, Image, Share, TouchableOpacity } from "react-native";
 import { User } from "../src/interaces/interfacesUsers";
 
 import {
@@ -20,11 +20,13 @@ import {
 	SmallLineBreak,
 	TextSubTitle,
 } from "../components/Themed";
+
 import { ENVIRONEMENT } from "../constants/Environement";
 import { SERVER_API_URL, SERVER_LOGO_URL } from "../constants/Server";
 import { GameSchema } from "../src/interaces/interfacesGame";
 import { validURL } from "../src/smallFuncts";
 import { FlatList } from "react-native-gesture-handler";
+import Clipboard from "expo-clipboard";
 
 async function getCurrentGame(joinCode: string, jwt: string) {
 	const rawResponse = await fetch(
@@ -66,6 +68,26 @@ export default function GameInfo({ navigation }: any) {
 			navigation.navigate("Dashboard");
 		}
 	}
+	const onShare = async () => {
+		try {
+			const result = await Share.share({
+				message:
+					"Rejoins moi sur Roi Du Prono et viens dans mon contest : " +
+					joinCode,
+			});
+			if (result.action === Share.sharedAction) {
+				if (result.activityType) {
+					// shared with activity type of result.activityType
+				} else {
+					// shared
+				}
+			} else if (result.action === Share.dismissedAction) {
+				// dismissed
+			}
+		} catch (error) {
+			alert(error.message);
+		}
+	};
 
 	//reload game data each time
 	useEffect(() => {
@@ -116,6 +138,7 @@ export default function GameInfo({ navigation }: any) {
 
 		if (game && game.logoUrl && validURL(game.logoUrl))
 			setlogoUrl(game.logoUrl);
+
 	}, [game]);
 
 	const renderBulletList = (item: any, index: any) => (
@@ -163,6 +186,18 @@ export default function GameInfo({ navigation }: any) {
 						<SmallLineBreak />
 						<TextSubTitle>Code du Contest : </TextSubTitle>
 						<SmallLineBreak />
+						<TouchableOpacity
+							onPress={() => {Clipboard.setString(joinCode)}}
+						>
+							<View>
+								<Text
+    selectable={true}
+								>
+									{joinCode}
+								</Text>
+							</View>
+						</TouchableOpacity>
+						<Button title={"Partager"} onPress={onShare} />
 					</View>
 
 					<Button
@@ -172,7 +207,6 @@ export default function GameInfo({ navigation }: any) {
 					<View
 						style={styles.separator} //forandroid manly
 					></View>
-
 				</ScrollView>
 			</ViewContainer>
 		</View>

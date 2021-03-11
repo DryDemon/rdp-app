@@ -8,6 +8,7 @@
     "date-fns": "^2.19.0",
     "expo": "^40.0.1",
     "expo-asset": "~8.2.1",
+    "expo-clipboard": "~1.0.1",
     "expo-constants": "~9.3.3",
     "expo-facebook": "~9.1.0",
     "expo-font": "~8.4.0",

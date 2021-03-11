@@ -1,8 +1,8 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\jean_win\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add date-fns
+  C:\Program Files\nodejs\node.exe C:\Users\jean_win\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-native-community
 
 PATH: 
-  C:\Python39\Scripts\;C:\Python39\;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\libnvvp;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\GnuWin32\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.1\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Users\jean_win\AppData\Local\Programs\Python\Python37\Scripts\;C:\Users\jean_win\AppData\Local\Programs\Python\Python37\;C:\Users\jean_win\AppData\Local\Microsoft\WindowsApps;C:\Users\jean_win\.deno\bin;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2.4\bin;C:\Program Files\heroku\bin;C:\Program Files\JetBrains\DataGrip 2020.3\bin;C:\Users\jean_win\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\jean_win\AppData\Roaming\npm;C:\Users\jean_win\AppData\Local\gitkraken\bin
+  C:\Python39\Scripts\;C:\Python39\;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\libnvvp;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\GnuWin32\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.1\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Users\jean_win\AppData\Local\Programs\Python\Python37\Scripts\;C:\Users\jean_win\AppData\Local\Programs\Python\Python37\;C:\Users\jean_win\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\GnuWin32\bin;C:\Users\jean_win\.deno\bin;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2.4\bin;C:\Program Files\heroku\bin;C:\Program Files\JetBrains\DataGrip 2020.3\bin;C:\Users\jean_win\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\jean_win\AppData\Roaming\npm;C:\Users\jean_win\AppData\Local\gitkraken\bin
 
 Yarn version: 
   1.22.10
@@ -14,7 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\jean_win\Documents\Git\rdp-app\node_modules\@babel\generator\node_modules\.bin'
+  Error: https://registry.yarnpkg.com/react-native-community: Not found
+      at Request.params.callback [as _callback] (C:\Users\jean_win\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66988:18)
+      at Request.self.callback (C:\Users\jean_win\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140662:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (C:\Users\jean_win\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141634:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (C:\Users\jean_win\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141556:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (internal/streams/readable.js:1327:12)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)
 
 npm manifest: 
   {
@@ -24,6 +34,7 @@ npm manifest:
       "@react-native-community/datetimepicker": "3.0.4",
       "@react-navigation/native": "^5.9.3",
       "@react-navigation/stack": "^5.14.3",
+      "date-fns": "^2.19.0",
       "expo": "^40.0.1",
       "expo-asset": "~8.2.1",
       "expo-constants": "~9.3.3",
@@ -2834,6 +2845,11 @@ Lockfile:
     version "3.0.7"
     resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.7.tgz#2a5fb75e1015e84dd15692f71e89a1450290950b"
     integrity sha512-KxnUB0ZMlnUWCsx2Z8MUsr6qV6ja1w9ArPErJaJaF8a5SOWoHLIszeCTKGRGRgtLgYrs1E8CHkNSP1VZTTPc9g==
+  
+  date-fns@^2.19.0:
+    version "2.19.0"
+    resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.19.0.tgz#65193348635a28d5d916c43ec7ce6fbd145059e1"
+    integrity sha512-X3bf2iTPgCAQp9wvjOQytnf5vO5rESYRXlPIVcgSbtT5OTScPcsf9eZU+B/YIkKAtYr5WeCii58BgATrNitlWg==
   
   dayjs@^1.8.15:
     version "1.10.4"
