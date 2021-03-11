@@ -1,5 +1,5 @@
 export interface SportSchema {
-    _id?: { $oid?: string };
+    _id?: any;
     sportName?: string;
     sportId?: string;
     leagueIds?: Array<string>;
@@ -8,7 +8,7 @@ export interface SportSchema {
  }
 
 export  interface LeagueSchema {
-   _id?: { $oid?: string };
+   _id?: any;
    leagueName?: string;
    sportId?: string;
    leagueId?: string;
@@ -17,7 +17,7 @@ export  interface LeagueSchema {
 }
 
 export interface MatchSchema {
-   _id?: { $oid?: string };
+   _id?: any;
    teamHome?: string;
    teamAway?: string;
    sportId?: string;

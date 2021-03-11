@@ -26,20 +26,8 @@ import { LeagueSchema, SportSchema } from "../src/interaces/interfacesQuotes";
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { DatePicker } from "../components/DatePicker";
+import { validURL } from "../src/smallFuncts";
 
-
-function validURL(str: string) {
-    var pattern = new RegExp(
-        "^(https?:\\/\\/)?" + // protocol
-        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-        "(\\#[-a-z\\d_]*)?$",
-        "i"
-    ); // fragment locator
-    return !!pattern.test(str);
-}
 
 async function getSportBetweenTwoDates(startedAt: Date, endingAt: Date) {
     const startedAtTimestamp = startedAt.getTime() / 1000;
@@ -183,7 +171,7 @@ export default function Dashboard({ navigation }: any) {
 
     function gotoGame(joinCode: string) {
         AsyncStorage.setItem("@joinCode", joinCode);
-        navigation.navigate("GamePrincipal")
+        navigation.navigate("GameInfo")
     }
     
 

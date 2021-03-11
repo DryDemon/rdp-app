@@ -77,10 +77,8 @@ export default function Dashboard({ navigation }: any) {
 
 	useEffect(() => {
 		if (ENVIRONEMENT == "dev") {
-			// Alert.alert("", JSON.stringify(games));
-			// games.map((data) => {
-			// Alert.alert("", JSON.stringify(data))
-			// })
+			// AsyncStorage.setItem("@joinCode", "ZIHQDU");
+			// navigation.navigate("GameInfo")
 		}
 	}, [games]);
 	

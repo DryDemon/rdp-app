@@ -8,7 +8,7 @@ import Login from "./screens/login";
 import Register from "./screens/register";
 import Dashboard from "./screens/dashboard";
 import Create from "./screens/create";
-import GamePrincipal from "./screens/gamePrincipal";
+import GameInfo from "./screens/gameInfo";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { ENVIRONEMENT } from "./constants/Environement";
@@ -50,7 +50,7 @@ export default function App() {
 						<Stack.Screen name="Dashboard" component={Dashboard} />
 						<Stack.Screen name="Create" component={Create} />
 						
-						<Stack.Screen name="GamePrincipal" component={GamePrincipal} />
+						<Stack.Screen name="GameInfo" component={GameInfo} />
 					</Stack.Navigator>
 				</NavigationContainer>
 			</SafeAreaProvider>

@@ -5,19 +5,8 @@ import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { GameSchema, userStatsInterface } from "../src/interaces/interfacesGame";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import plusIcon from "../assets/images/plusIcon.png"
+import { validURL } from "../src/smallFuncts";
 
-function validURL(str: string) {
-	var pattern = new RegExp(
-		"^(https?:\\/\\/)?" + // protocol
-		"((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-		"((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-		"(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-		"(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-		"(\\#[-a-z\\d_]*)?$",
-		"i"
-	); // fragment locator
-	return !!pattern.test(str);
-}
 
 export function GameIcon(props: any) {
 	const game: GameSchema = props.game;
@@ -27,7 +16,7 @@ export function GameIcon(props: any) {
 
 	function gotoGame(joinCode: string) {
 		AsyncStorage.setItem("@joinCode", joinCode);
-		navigation.navigate("GamePrincipal")
+		navigation.navigate("GameInfo")
 	}
 
 	let url: string = SERVER_LOGO_URL;
@@ -61,7 +50,7 @@ export function GameIcon(props: any) {
 		else
 			userList = userList.slice(2, 20)
 		return (
-			<TouchableOpacity onPress={() => gotoGame(game.joinCode)}>
+			<TouchableOpacity onPress={() => {if(game.joinCode) gotoGame(game.joinCode)}}>
 				<View style={styles.gameContainer}>
 					<Image
 						style={styles.gameLogo}

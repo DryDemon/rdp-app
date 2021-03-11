@@ -1,5 +1,5 @@
 export interface User {
-    _id?: { $oid?: string };
+    _id?: any;
     username?: string;
     email?: string;
     password?: string;

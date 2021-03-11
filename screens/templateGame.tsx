@@ -30,7 +30,9 @@ async function getCurrentGame(joinCode: string, jwt: string) {
     return content;
 }
 
-export default function GamePrincipal({ navigation }: any) {
+export default function GameInfo({ navigation }: any) {
+    // const { lastScreen } = route.params;, {route, navigation }: any
+
     const [jwt, setJwt] = useState<string>("");
     const [user, setUser] = useState<User>();
     const [joinCode, setJoinCode] = useState("");
@@ -48,13 +50,7 @@ export default function GamePrincipal({ navigation }: any) {
                 navigation.navigate("Dashboard");
             }
 
-        } else {
-            setTimeout(function () {
-
-                checkIfConnected()
-
-            }, 3000);
-        }
+        } 
 
     }
 
@@ -111,7 +107,7 @@ export default function GamePrincipal({ navigation }: any) {
 
     return (
         <View>
-            <ProtectedHeader />
+            <ProtectedHeader back={"Dashboard"} navigation={navigation}/>
             <ViewContainer>
 
                 <Text>{joinCode}</Text>
