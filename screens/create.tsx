@@ -79,19 +79,6 @@ async function getLeaguesForSportsBetweenTwoDates(
 }
 
 
-async function sendQueryCreateGame(query: string) {
-    const rawResponse = await fetch(SERVER_API_URL + "/creategame?" + query);
-    const content = await rawResponse.json();
-    if (content.isCreated == 1) {
-        alert(content.redirect)
-        //   window.location.href = content.redirect;
-        // redirect(content.redirect);
-    }
-
-    return content;
-}
-
-
 
 export default function Dashboard({ navigation }: any) {
     const [jwt, setJwt] = useState<string>("");
@@ -129,16 +116,19 @@ export default function Dashboard({ navigation }: any) {
     }
 
     function validateForm() {
+        let isValid = true;
         if (name.length < 4) {
             if (name) {
                 setalertName("Le nom doit faire au moins de 4 charactères")
             }
+            isValid = false;
         } else {
             setalertName(" ")
         }
 
         if (logoUrl && !validURL(logoUrl)) {
             setalertLogo("Merci de rentrer un url valide.")
+            isValid = false;
         } else {
             setalertLogo(" ")
         }
@@ -159,19 +149,65 @@ export default function Dashboard({ navigation }: any) {
 
             if (!changeDateAlert)
                 setalertDates(" ")
+            else
+                isValid = false;
 
         } else {
+            isValid = false;
             setalertDates(" ")
         }
 
-        if (leaguesMultiselectChoice && leaguesMultiselectChoice.length > 5)
+        if (leaguesMultiselectChoice && leaguesMultiselectChoice.length > 5) {
             setalertLeagues("Tu peux selectionner au maximum 5 leagues");
-        else
+            isValid = false;
+        } else
             setalertLeagues(" ");
+
+        if (!leaguesMultiselectChoice)
+            isValid = false;
+
+        return isValid;
     }
 
-    function onCreate() {
 
+    async function sendQueryCreateGame(query: string) {
+        const rawResponse = await fetch(SERVER_API_URL + "/creategame?" + query);
+        const content = await rawResponse.json();
+    
+        if (content.isCreated == 1) {
+            gotoGame(content.joinCode)
+        }
+    
+        return content;
+    }
+
+    function gotoGame(joinCode: string) {
+        AsyncStorage.setItem("@joinCode", joinCode);
+        navigation.navigate("GamePrincipal")
+    }
+    
+
+    function onCreate() {
+        if(validateForm()){
+            let query =
+            "name=" +
+            name +
+            "&logoUrl=" +
+            logoUrl +
+            "&createdAt=" +
+            dateCreationForm.getTime()/1000 +
+            "&endingAt=" +
+            dateEndForm.getTime()/1000 +
+            "&sports=" +
+            "1" +
+            "&leagues=" +
+            leaguesMultiselectChoice.toString() +
+            `&jwt=${jwt}`
+
+          sendQueryCreateGame(query).then((content: any) => {if(content.isCreated==0) Alert.alert("Erreur", "Merci de vérifier vos données")});    
+        }else{
+            Alert.alert("Erreur", "Merci de remplir tout les champs obligatoires et de choisir au moins une ligue!")
+        }
     }
 
     useEffect(() => {
