@@ -1,7 +1,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { Alert, StyleSheet, ScrollView, Image, Share, TouchableOpacity } from "react-native";
+import {
+	Alert,
+	StyleSheet,
+	ScrollView,
+	Image,
+	Share,
+	TouchableOpacity,
+} from "react-native";
 import { User } from "../src/interaces/interfacesUsers";
 
 import {
@@ -19,6 +26,7 @@ import {
 	LineBreak,
 	SmallLineBreak,
 	TextSubTitle,
+	SubText,
 } from "../components/Themed";
 
 import { ENVIRONEMENT } from "../constants/Environement";
@@ -27,6 +35,7 @@ import { GameSchema } from "../src/interaces/interfacesGame";
 import { validURL } from "../src/smallFuncts";
 import { FlatList } from "react-native-gesture-handler";
 import Clipboard from "expo-clipboard";
+import Icon from "react-native-vector-icons/Feather";
 
 async function getCurrentGame(joinCode: string, jwt: string) {
 	const rawResponse = await fetch(
@@ -138,7 +147,6 @@ export default function GameInfo({ navigation }: any) {
 
 		if (game && game.logoUrl && validURL(game.logoUrl))
 			setlogoUrl(game.logoUrl);
-
 	}, [game]);
 
 	const renderBulletList = (item: any, index: any) => (
@@ -149,6 +157,11 @@ export default function GameInfo({ navigation }: any) {
 				</View>
 				<Text style={styles.bulletSubText}>{item.name}</Text>
 			</View>
+		</View>
+	);
+	const renderPlayerList = (item: any, index: any) => (
+		<View style={styles.row} key={index}>
+			<Text>{item.username}</Text>
 		</View>
 	);
 	return (
@@ -187,23 +200,45 @@ export default function GameInfo({ navigation }: any) {
 						<TextSubTitle>Code du Contest : </TextSubTitle>
 						<SmallLineBreak />
 						<TouchableOpacity
-							onPress={() => {Clipboard.setString(joinCode)}}
+							onPress={() => {
+								Clipboard.setString(joinCode);
+							}}
 						>
-							<View>
-								<Text
-    selectable={true}
-								>
-									{joinCode}
-								</Text>
+							<View style={{ flexDirection: "row" }}>
+								<View style={styles.copyJoinCode}>
+									<Text>{joinCode}</Text>
+								</View>
+
+								<View style={styles.copyJoinCodeIcon}>
+									<Icon name="copy" size={20} color="#FFF" />
+								</View>
 							</View>
 						</TouchableOpacity>
-						<Button title={"Partager"} onPress={onShare} />
+
+						<SmallLineBreak />
+						<SubText>Ou bien partage le avec tes amis : </SubText>
+
+						<TouchableOpacity onPress={onShare}>
+							<View style={styles.share}>
+								<Text style={{ color: "white" }}>Partager</Text>
+							</View>
+						</TouchableOpacity>
+
+						<SmallLineBreak />
+						<TextSubTitle>Joueurs : </TextSubTitle>
+						<SmallLineBreak />
+
+						<View style={styles.playerContainer}>
+							{game?.userStats?.map(
+								(item: any, index: number) => {
+									console.log(item, index);
+									return renderPlayerList(item, index);
+								}
+							)}
+
+						</View>
 					</View>
 
-					<Button
-						title={"goto dash"}
-						onPress={() => navigation.navigate("Dashboard")}
-					/>
 					<View
 						style={styles.separator} //forandroid manly
 					></View>
@@ -253,5 +288,35 @@ const styles = StyleSheet.create({
 		marginVertical: 100,
 		height: 1,
 		width: "80%",
+	},
+	copyJoinCode: {
+		borderRadius: 8,
+		paddingVertical: 6,
+		paddingHorizontal: 17,
+		backgroundColor: "white",
+		borderBottomRightRadius: 0,
+		borderTopRightRadius: 0,
+	},
+	share: {
+		borderRadius: 3,
+		paddingVertical: 6,
+		paddingHorizontal: 17,
+		backgroundColor: "#115AEE",
+	},
+	copyJoinCodeIcon: {
+		borderRadius: 8,
+
+		borderBottomLeftRadius: 0,
+		borderTopLeftRadius: 0,
+
+		paddingVertical: 6,
+		paddingHorizontal: 17,
+		backgroundColor: "#115AEE",
+	},
+	playerContainer: {
+		justifyContent: "center",
+		flexDirection: "row",
+		flexWrap: "wrap",
+		flex: 1,
 	},
 });

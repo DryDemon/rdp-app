@@ -95,6 +95,7 @@ export function View(props: ViewProps) {
 
 export function ViewContainer(props: ViewProps) {
 	const { style, ...otherProps } = props;
+
 	const backgroundColor = useThemeColor("background");
 	const paddingLeft = "10%";
 	const paddingRight = "7%";
