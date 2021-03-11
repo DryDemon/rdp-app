@@ -18,6 +18,7 @@ import {
     TextWarning,
     LineBreak,
     SmallLineBreak,
+    TextSubTitle,
 } from "../components/Themed";
 import { ENVIRONEMENT } from "../constants/Environement";
 import { SERVER_API_URL, SERVER_LOGO_URL } from "../constants/Server";
@@ -110,43 +111,57 @@ export default function GameInfo({ navigation }: any) {
     }, [])
 
     useEffect(() => {
-        if(ENVIRONEMENT == "dev") console.log(game)
-        
+        if (ENVIRONEMENT == "dev") console.log(game)
+
         if (game && game.logoUrl && validURL(game.logoUrl))
             setlogoUrl(game.logoUrl);
     }, [game])
 
+    const renderBulletList = ({ item }: any) => <View style={styles.row}>
+        <View style={styles.bulletContainer}>
+            <View style={styles.bullet}>
+                <Text>{'\u2022' + " "}</Text>
+            </View>
+            <Text style={styles.bulletSubText}>{item.name}</Text>
+        </View>
+    </View>
+        ;
 
     return (
         <View>
             <ProtectedHeader back={"Dashboard"} navigation={navigation} />
             <ViewContainer>
                 <SmallLineBreak />
-                <Text style={styles.titleGame}>Info</Text>
+                <TextSubTitle style={styles.titleGame}>Info</TextSubTitle>
+                <ScrollView>
 
-                <Image
-                    style={styles.gameLogo}
-                    source={{
-                        uri: logoUrl,
-                    }}
-                />
-                <Text>Compétitions : </Text>
-                
-                <View style={styles.column}>
-                    <View style={styles.row}>
-                        <View style={styles.bullet}>
-                            <Text>{'\u2022' + " "}</Text>
+                    <View style={styles.textToMiddle}>
+
+                        {game ? <TextTitle>{game?.name}</TextTitle> : undefined}
+                        <SmallLineBreak />
+
+                        <Image
+                            style={styles.gameLogo}
+                            source={{
+                                uri: logoUrl,
+                            }}
+                        />
+                        <SmallLineBreak />
+
+                        <TextSubTitle>Compétitions : </TextSubTitle>
+                        <SmallLineBreak />
+
+                        <View style={styles.column}>
+                            <FlatList data={game?.leagueIdList} renderItem={renderBulletList} keyExtractor={(x) => x.id} />
                         </View>
-                        <View style={styles.bulletText}>
-                            <Text>
-                                <Text style={styles.boldText}> </Text>
-                                <Text >{"there"}</Text>
-                            </Text>
-                        </View>
+
+                        <SmallLineBreak />
+                        <TextSubTitle>Code du Contest : </TextSubTitle>
+                        <SmallLineBreak />
+
                     </View>
-                </View>
+                </ScrollView>
 
-                {game ? <TextTitle>{game?.name}</TextTitle> : undefined}
 
                 <Button title={"goto dash"} onPress={() => navigation.navigate("Dashboard")} />
             </ViewContainer>
@@ -180,10 +195,12 @@ const styles = StyleSheet.create({
     bullet: {
         width: 10
     },
-    bulletText: {
-        flex: 1
-    },
+    bulletContainer: {
+        flexDirection: 'row',
+    }, bulletSubText: { color: "black" },
     boldText: {
         fontWeight: 'bold'
-    },
+    }, textToMiddle: {
+        alignItems: "center",
+    }
 });

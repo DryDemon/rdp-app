@@ -62,12 +62,21 @@ export function TextTitle(props: TextProps) {
 	return <Text style={[{ fontSize }, style]} {...otherProps} />;
 }
 
+export function TextSubTitle(props: TextProps) {
+	const { style, ...otherProps } = props;
+
+	return <Text style={[{
+		fontSize: 22,
+		fontWeight: "500",
+	}, style]} {...otherProps} />;
+}
+
 export function SubText(props: TextProps) {
 	const { style, ...otherProps } = props;
 	const fontWeight = "500";
 	const fontSize = 12;
 
-	return <Text style={[{ fontSize, fontWeight, color:"#808080" }, style]} {...otherProps} />;
+	return <Text style={[{ fontSize, fontWeight, color: "#808080" }, style]} {...otherProps} />;
 }
 
 export function LineBreak(props: TextProps) {
@@ -156,8 +165,8 @@ export function TextInput(props: TextInputProps) {
 
 export function Button(props: ButtonProps) {
 	let { color, ...otherProps } = props;
-	
-	if(!color) color=useThemeColor("rdpColor");
+
+	if (!color) color = useThemeColor("rdpColor");
 
 	return <DefaultButton color={color} {...props} />;
 }
@@ -191,7 +200,7 @@ export function ProtectedHeader(props: any) {
 		if (back && navigation) {
 			setarrow(
 				<TouchableOpacity onPress={() => navigation.navigate(back)} style={
-					[{paddingHorizontal:7,paddingVertical:7,paddingRight:10,}]}>
+					[{ paddingHorizontal: 7, paddingVertical: 7, paddingRight: 10, }]}>
 
 					<Image
 						style={[{
@@ -212,7 +221,7 @@ export function ProtectedHeader(props: any) {
 				{
 					backgroundColor,
 					height,
-					paddingTop:15,
+					paddingTop: 15,
 					padding,
 					width,
 					marginTop,

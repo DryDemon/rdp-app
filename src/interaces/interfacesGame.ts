@@ -11,8 +11,8 @@ export interface GameSchema {
     createdAt?:Date;
     endingAt?:Date;
 
-    sportIdList ?: Array<string>;
-    leagueIdList ?: Array<string>;
+    sportIdList : Array<{name : string, id : string}>;
+    leagueIdList : Array<{name : string, id : string}>;
 
     logoUrl ?: string;
 
@@ -46,3 +46,4 @@ export interface betObjectInterface{
    betStatus?: number; //0 ?: unresolved, 1 ?: win, 2 ?: lost
    quote?: number;
 }
+
