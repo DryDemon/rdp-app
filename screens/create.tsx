@@ -195,9 +195,9 @@ export default function Dashboard({ navigation }: any) {
             "&logoUrl=" +
             logoUrl +
             "&createdAt=" +
-            dateCreationForm.getTime() +
+            dateCreationForm.getTime()/1000 +
             "&endingAt=" +
-            dateEndForm.getTime() +
+            dateEndForm.getTime()/1000 +
             "&sports=" +
             "1" +
             "&leagues=" +
