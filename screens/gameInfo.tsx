@@ -160,7 +160,7 @@ export default function GameInfo({ navigation }: any) {
 		</View>
 	);
 	const renderPlayerList = (item: any, index: any) => (
-		<View style={styles.row} key={index}>
+		<View style={styles.playerItem} key={index}>
 			<Text>{item.username}</Text>
 		</View>
 	);
@@ -217,6 +217,7 @@ export default function GameInfo({ navigation }: any) {
 
 						<SmallLineBreak />
 						<SubText>Ou bien partage le avec tes amis : </SubText>
+						<SmallLineBreak />
 
 						<TouchableOpacity onPress={onShare}>
 							<View style={styles.share}>
@@ -235,7 +236,6 @@ export default function GameInfo({ navigation }: any) {
 									return renderPlayerList(item, index);
 								}
 							)}
-
 						</View>
 					</View>
 
@@ -318,5 +318,14 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		flexWrap: "wrap",
 		flex: 1,
+	},
+	playerItem: {
+		borderColor: "black",
+		borderWidth: 1,
+		borderRadius: 15,
+		margin: 10,
+		padding: 10,
+		alignItems: "center",
+		width: "40%", // is 50% of container width
 	},
 });
