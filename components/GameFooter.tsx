@@ -10,7 +10,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 
 export function GameFooter(props: any) {
-	const { page, ...otherProps } = props;
+	const { page, navigation, ...otherProps } = props;
 
 	//EvilIcons chart
 	// MaterialCommunityIcons progress-clock
@@ -21,6 +21,11 @@ export function GameFooter(props: any) {
 
 	function gotoIcon(id: number) {
 		console.log(id);
+page == "gameClassement"
+page == "gameInfo"
+page == "gameListBets"
+page == "gameCart"
+page == "gameListBets"
 	}
 
 	return (
@@ -33,7 +38,7 @@ export function GameFooter(props: any) {
 			>
 				<View
 					style={
-						page == "gameInfo" ? styles.touched : styles.untouched
+						page == "gameClassement" ? styles.touched : styles.untouched
 					}
 				>
 					<EvilIcons name="chart" size={20} color="#000" />
@@ -65,7 +70,7 @@ export function GameFooter(props: any) {
 			>
 				<View
 					style={
-						page == "gameInfo" ? styles.touched : styles.untouched
+						page == "gameListBets" ? styles.touched : styles.untouched
 					}
 				>
 					<FontAwesome5 name="coins" size={20} color="#000" />
@@ -79,7 +84,7 @@ export function GameFooter(props: any) {
 			>
 				<View
 					style={
-						page == "gameInfo" ? styles.touched : styles.untouched
+						page == "gameCart" ? styles.touched : styles.untouched
 					}
 				>
 					<Feather name="shopping-cart" size={20} color="#000" />
@@ -93,7 +98,7 @@ export function GameFooter(props: any) {
 			>
 				<View
 					style={
-						page == "gameInfo" ? styles.touched : styles.untouched
+						page == "gameListBets" ? styles.touched : styles.untouched
 					}
 				>
 					<FontAwesome
