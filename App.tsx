@@ -14,12 +14,7 @@ import { ENVIRONEMENT } from "./constants/Environement";
 
 import { useFonts } from "expo-font";
 import { Font } from "expo";
-
-import GameInfo from "./screens/gameInfo";
-import GameClassement from "./screens/gameClassement";
-import GameListBets from "./screens/gameListBets";
-import GameCart from "./screens/gameCart";
-import GamePlayerStats from "./screens/gamePlayerStats";
+import GameHandler from "./screens/gameHandler";
 
 const Stack = createStackNavigator();
 
@@ -56,11 +51,7 @@ export default function App() {
 						<Stack.Screen name="Dashboard" component={Dashboard} />
 						<Stack.Screen name="Create" component={Create} />
 						
-						<Stack.Screen name="gameInfo" component={GameInfo} />
-						<Stack.Screen name="gameClassement" component={GameClassement} />
-						<Stack.Screen name="gameListBets" component={GameListBets} />
-						<Stack.Screen name="gameCart" component={GameCart} />
-						<Stack.Screen name="gamePlayerStats" component={GamePlayerStats} />
+						<Stack.Screen name="Game" component={GameHandler} />
 
 					</Stack.Navigator>
 				</NavigationContainer>

@@ -10,7 +10,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 
 export function GameFooter(props: any) {
-	const { page, navigation, ...otherProps } = props;
+	const { page, setPage, ...otherProps } = props;
 
 	//EvilIcons chart
 	// MaterialCommunityIcons progress-clock
@@ -22,19 +22,19 @@ export function GameFooter(props: any) {
 	function gotoIcon(id: number) {
 		switch (id) {
 			case 1:
-				navigation.navigate("gameClassement");
+				setPage("gameClassement");
 				break;
 			case 2:
-				navigation.navigate("gameInfo");
+				setPage("gameInfo");
 				break;
 			case 3:
-				navigation.navigate("gameListBets");
+				setPage("gameListBets");
 				break;
 			case 4:
-				navigation.navigate("gameCart");
+				setPage("gameCart");
 				break;
 			case 5:
-				navigation.navigate("gamePlayerStats");
+				setPage("gamePlayerStats");
 				break;
 		}
 	}

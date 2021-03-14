@@ -35,7 +35,7 @@ export function MyLeaguesDash(props: any) {
     const username: string = props.username;
 
     function gotoGame() {
-        AsyncStorage.setItem("@joinCode", joinCode).then(navigation.navigate("gameInfo"));
+        AsyncStorage.setItem("@joinCode", joinCode).then(navigation.navigate("Game"));
     }
 
     function inGame() {

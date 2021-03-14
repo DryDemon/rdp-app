@@ -34,7 +34,21 @@ import { SERVER_API_URL, SERVER_LOGO_URL } from "../constants/Server";
 import { GameSchema } from "../src/interaces/interfacesGame";
 import { validURL } from "../src/smallFuncts";
 
-import 	{GameFooter} from "../components/GameFooter"
+import { GameFooter } from "../components/GameFooter";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import GameClassement from "../components/gamePages/gameClassement";
+import GameInfo from "../components/gamePages/gameInfo";
+import GameListBets from "../components/gamePages/gameListBets";
+import GameCart from "../components/gamePages/gameCart";
+import GamePlayerStats from "../components/gamePages/gamePlayerStats";
+
+const listPages = [
+	"gameClassement",
+	"gameInfo",
+	"gameListBets",
+	"gameCart",
+	"gamePlayerStats",
+];
 
 async function getCurrentGame(joinCode: string, jwt: string) {
 	const rawResponse = await fetch(
@@ -45,15 +59,15 @@ async function getCurrentGame(joinCode: string, jwt: string) {
 	return content;
 }
 
-export default function GameCart({ navigation }: any) {
-	// const { lastScreen } = route.params;, {route, navigation }: any
-
+export default function GameHandler({ navigation }: any) {
 	const [jwt, setJwt] = useState<string>("");
 	const [user, setUser] = useState<User>();
 	const [joinCode, setJoinCode] = useState("");
 	const [game, setGame] = useState<GameSchema>();
 
 	const [logoUrl, setlogoUrl] = useState(SERVER_LOGO_URL);
+
+	const [page, setPage] = useState("gameInfo");
 
 	async function loadGameData() {
 		if (jwt && joinCode) {
@@ -150,43 +164,88 @@ export default function GameCart({ navigation }: any) {
 
 	return (
 		<View>
-						<Swipeable
-				renderLeftActions={() => {
-					console.log("Left");
-					return undefined;
-				}}
-				renderRightActions={() => {
-					console.log("Right");
-					return undefined;
-				}}
+			<Swipeable
+				// renderLeftActions={() => {
+				// 	let currentPage = listPages.indexOf(page);
+				// 	currentPage--;
+				// 	if (currentPage < 0) currentPage = listPages.length - 1;
+					
+				// 	setPage(listPages[currentPage]);
+					
+				// 	return undefined;
+				// }}
+				// renderRightActions={() => {
+				// 	let currentPage = listPages.indexOf(page);
+				// 	currentPage++;
+				// 	if (currentPage > listPages.length - 1) currentPage = 0;
+					
+				// 	setPage(listPages[currentPage]);
+					
+				// 	return undefined;
+				// }}
 			>
 				<ProtectedHeader back={"Dashboard"} navigation={navigation} />
-			<ViewContainer>
-				<GameScrollView>
-					<SmallLineBreak />
-					<TextSubTitle style={styles.titleGame}>Panier</TextSubTitle>
-					<View style={styles.textToMiddle}>
-						{game ? <TextTitle>{game?.name}</TextTitle> : undefined}
-						<SmallLineBreak />
+				<ViewContainer>
+					<GameScrollView>
+						{page == "gameClassement" ? (
+							<GameClassement
+								jwt={jwt}
+								user={user}
+								joinCode={joinCode}
+								game={game}
+								logoUrl={logoUrl}
+							/>
+						) : undefined}
 
+						{page == "gameInfo" ? (
+							<GameInfo
+								jwt={jwt}
+								user={user}
+								joinCode={joinCode}
+								game={game}
+								logoUrl={logoUrl}
+							/>
+						) : undefined}
 
-					</View>
+						{page == "gameListBets" ? (
+							<GameListBets
+								jwt={jwt}
+								user={user}
+								joinCode={joinCode}
+								game={game}
+								logoUrl={logoUrl}
+							/>
+						) : undefined}
 
-				</GameScrollView>
-			</ViewContainer>
-			<GameFooter page="gameCart"navigation={navigation} />
+						{page == "gameCart" ? (
+							<GameCart
+								jwt={jwt}
+								user={user}
+								joinCode={joinCode}
+								game={game}
+								logoUrl={logoUrl}
+							/>
+						) : undefined}
+
+						{page == "gamePlayerStats" ? (
+							<GamePlayerStats
+								jwt={jwt}
+								user={user}
+								joinCode={joinCode}
+								game={game}
+								logoUrl={logoUrl}
+							/>
+						) : undefined}
+					</GameScrollView>
+				</ViewContainer>
+
+				<GameFooter
+					page={page}
+					setPage={(goto: string) => setPage(goto)}
+				/>
 			</Swipeable>
 		</View>
 	);
 }
 
-const styles = StyleSheet.create({
-	titleGame: {
-		fontSize: 22,
-		fontWeight: "500",
-	},
-	textToMiddle: {
-		alignItems: "center",
-	},
-
-});
+const styles = StyleSheet.create({});
