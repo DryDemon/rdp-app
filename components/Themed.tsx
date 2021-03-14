@@ -281,7 +281,7 @@ export function ProtectedHeader(props: any) {
 export function GameScrollView(props:any){
 	const { style, ...otherProps } = props;
 
-	let height = Layout.window.height - 40 //height footer
+	let height = Layout.window.height - 56 //height footer
 	height -= 56 //height header
 	height -= Constants.statusBarHeight //padding top header
 

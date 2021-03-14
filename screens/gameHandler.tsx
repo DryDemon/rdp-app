@@ -165,6 +165,9 @@ export default function GameHandler({ navigation }: any) {
 	return (
 		<View>
 			<Swipeable
+			
+			//Swipe left and swipe right, but this action is too sensitive
+
 				// renderLeftActions={() => {
 				// 	let currentPage = listPages.indexOf(page);
 				// 	currentPage--;
@@ -236,6 +239,7 @@ export default function GameHandler({ navigation }: any) {
 								logoUrl={logoUrl}
 							/>
 						) : undefined}
+						
 					</GameScrollView>
 				</ViewContainer>
 

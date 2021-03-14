@@ -54,7 +54,7 @@ export function GameFooter(props: any) {
 							: styles.untouched
 					}
 				>
-					<EvilIcons name="chart" size={20} color="#000" />
+					<EvilIcons name="chart" size={20} color={page == "gameClassement" ?"#FFF" : "#000"} />
 				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
@@ -71,7 +71,7 @@ export function GameFooter(props: any) {
 					<MaterialCommunityIcons
 						name="progress-clock"
 						size={20}
-						color="#000"
+						color={page == "gameInfo" ?"#FFF" : "#000"}
 					/>
 				</View>
 			</TouchableOpacity>
@@ -88,7 +88,7 @@ export function GameFooter(props: any) {
 							: styles.untouched
 					}
 				>
-					<FontAwesome5 name="coins" size={20} color="#000" />
+					<FontAwesome5 name="coins" size={20} color={page == "gameListBets" ?"#FFF" : "#000"} />
 				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
@@ -102,7 +102,7 @@ export function GameFooter(props: any) {
 						page == "gameCart" ? styles.touched : styles.untouched
 					}
 				>
-					<Feather name="shopping-cart" size={20} color="#000" />
+					<Feather name="shopping-cart" size={20} color={page == "gameCart" ?"#FFF" : "#000"} />
 				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
@@ -121,7 +121,7 @@ export function GameFooter(props: any) {
 					<FontAwesome
 						name="calendar-check-o"
 						size={20}
-						color="#000"
+						color={page == "gamePlayerStats" ?"#FFF" : "#000"}
 					/>
 				</View>
 			</TouchableOpacity>
@@ -135,8 +135,8 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	footer: {
-		height: 40,
-		padding: 10,
+		height: 56,
+		// padding: 10,
 		width: "100%",
 
 		color: "#FFFFFF",
@@ -145,9 +145,15 @@ const styles = StyleSheet.create({
 		flexWrap: "wrap",
 	},
 	touched: {
-		backgroundColor: "red",
+    
+        padding:7,
+		borderRadius: 12,
+		margin: 12,
+        backgroundColor: "#5507e1",
+
 	},
 	untouched: {
-		backgroundColor: "red",
-	},
+        padding:7,
+        margin : 12
+    },
 });
