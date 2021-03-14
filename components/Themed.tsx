@@ -11,13 +11,15 @@ import {
 	TextInputProps,
 	Image,
 	TouchableOpacity,
+	ScrollView as DefaultScrollView,
 } from "react-native";
 import Constants from "expo-constants";
 
 import Colors from "../constants/Colors";
 import { useEffect, useState } from "react";
 
-import arrowIcon from "../assets/images/arrow.png"
+import arrowIcon from "../assets/images/arrow.png";
+import Layout from "../constants/Layout";
 
 export function useThemeColor(colorName: keyof typeof Colors) {
 	return Colors[colorName];
@@ -38,7 +40,9 @@ export function Text(props: TextProps) {
 
 	// const fontFamily = "Neue Haas Grotesk Display Pro";
 
-	return <DefaultText style={[{ color, fontSize: 17 }, style]} {...otherProps} />;
+	return (
+		<DefaultText style={[{ color, fontSize: 17 }, style]} {...otherProps} />
+	);
 }
 
 export function TextMainTitle(props: TextProps) {
@@ -65,10 +69,18 @@ export function TextTitle(props: TextProps) {
 export function TextSubTitle(props: TextProps) {
 	const { style, ...otherProps } = props;
 
-	return <Text style={[{
-		fontSize: 22,
-		fontWeight: "500",
-	}, style]} {...otherProps} />;
+	return (
+		<Text
+			style={[
+				{
+					fontSize: 22,
+					fontWeight: "500",
+				},
+				style,
+			]}
+			{...otherProps}
+		/>
+	);
 }
 
 export function SubText(props: TextProps) {
@@ -76,14 +88,19 @@ export function SubText(props: TextProps) {
 	const fontWeight = "500";
 	const fontSize = 12;
 
-	return <Text style={[{ fontSize, fontWeight, color: "#808080" }, style]} {...otherProps} />;
+	return (
+		<Text
+			style={[{ fontSize, fontWeight, color: "#808080" }, style]}
+			{...otherProps}
+		/>
+	);
 }
 
 export function LineBreak(props: TextProps) {
 	return <Text>{"\n"}</Text>;
 }
 export function SmallLineBreak(props: TextProps) {
-	return <Text style={[{ fontSize: 10 }]} >{"\n"}</Text>;
+	return <Text style={[{ fontSize: 10 }]}>{"\n"}</Text>;
 }
 //VIEW
 export function View(props: ViewProps) {
@@ -182,7 +199,7 @@ export function TextWarning(props: TextProps) {
 //protected
 
 export function ProtectedHeader(props: any) {
-	const [arrow, setarrow] = useState(<></>)
+	const [arrow, setarrow] = useState(<></>);
 
 	const { back, navigation, ...otherProps } = props;
 
@@ -200,21 +217,29 @@ export function ProtectedHeader(props: any) {
 	useEffect(() => {
 		if (back && navigation) {
 			setarrow(
-				<TouchableOpacity onPress={() => navigation.navigate(back)} style={
-					[{ paddingHorizontal: 7, paddingVertical: 7, paddingRight: 10, }]}>
-
+				<TouchableOpacity
+					onPress={() => navigation.navigate(back)}
+					style={[
+						{
+							paddingHorizontal: 7,
+							paddingVertical: 7,
+							paddingRight: 10,
+						},
+					]}
+				>
 					<Image
-						style={[{
-							height: 12,
-							width: 16,
-						}]
-						}
+						style={[
+							{
+								height: 12,
+								width: 16,
+							},
+						]}
 						source={arrowIcon}
 					/>
 				</TouchableOpacity>
 			);
 		}
-	}, [back, navigation])
+	}, [back, navigation]);
 
 	return (
 		<View
@@ -230,11 +255,8 @@ export function ProtectedHeader(props: any) {
 			]}
 		>
 			<View style={{ flexDirection: "row" }}>
+				<View>{arrow}</View>
 				<View>
-					{arrow}
-				</View>
-				<View >
-
 					<Text
 						style={[
 							{
@@ -254,4 +276,14 @@ export function ProtectedHeader(props: any) {
 			</View>
 		</View>
 	);
+}
+
+export function GameScrollView(props:any){
+	const { style, ...otherProps } = props;
+
+	let height = Layout.window.height - 40 //height footer
+	height -= 56 //height header
+	height -= Constants.statusBarHeight //padding top header
+
+	return <DefaultScrollView style={[{height}, style]} {...otherProps} />;
 }

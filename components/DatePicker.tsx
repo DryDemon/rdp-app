@@ -16,7 +16,7 @@ export function DatePicker(props: any) {
 
         <TouchableOpacity style={styles.dateContainer} onPress={() => { setshowDatePicker(true); }}>
             <View style={{ flexDirection: "row" }}>
-                <View style={styles.iconContainer}>
+                <View>
                     <Icon style={styles.gameLogo} name="calendar" size={20} color="#FFF"  />
                 </View>
                 <View >

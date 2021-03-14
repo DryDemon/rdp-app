@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import {
 	Alert,
 	StyleSheet,
-	ScrollView,
 	Image,
 	Share,
 	TouchableOpacity,
@@ -27,6 +26,7 @@ import {
 	SmallLineBreak,
 	TextSubTitle,
 	SubText,
+	GameScrollView,
 } from "../components/Themed";
 
 import { ENVIRONEMENT } from "../constants/Environement";
@@ -36,6 +36,7 @@ import { validURL } from "../src/smallFuncts";
 import { FlatList } from "react-native-gesture-handler";
 import Clipboard from "expo-clipboard";
 import Icon from "react-native-vector-icons/Feather";
+import 	{GameFooter} from "../components/GameFooter"
 
 async function getCurrentGame(joinCode: string, jwt: string) {
 	const rawResponse = await fetch(
@@ -168,9 +169,9 @@ export default function GameInfo({ navigation }: any) {
 		<View>
 			<ProtectedHeader back={"Dashboard"} navigation={navigation} />
 			<ViewContainer>
-				<SmallLineBreak />
-				<TextSubTitle style={styles.titleGame}>Info</TextSubTitle>
-				<ScrollView>
+				<GameScrollView>
+					<SmallLineBreak />
+					<TextSubTitle style={styles.titleGame}>Info</TextSubTitle>
 					<View style={styles.textToMiddle}>
 						{game ? <TextTitle>{game?.name}</TextTitle> : undefined}
 						<SmallLineBreak />
@@ -239,11 +240,12 @@ export default function GameInfo({ navigation }: any) {
 						</View>
 					</View>
 
-					<View
+					{/* <View
 						style={styles.separator} //forandroid manly
-					></View>
-				</ScrollView>
+					></View> */}
+				</GameScrollView>
 			</ViewContainer>
+			<GameFooter />
 		</View>
 	);
 }
