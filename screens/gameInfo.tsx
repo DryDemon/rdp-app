@@ -245,7 +245,7 @@ export default function GameInfo({ navigation }: any) {
 					></View> */}
 				</GameScrollView>
 			</ViewContainer>
-			<GameFooter />
+			<GameFooter page="gameInfo" />
 		</View>
 	);
 }

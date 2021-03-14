@@ -10,7 +10,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 
 export function GameFooter(props: any) {
-	const {idPage ,...otherProps } = props;
+	const { page, ...otherProps } = props;
 
 	//EvilIcons chart
 	// MaterialCommunityIcons progress-clock
@@ -31,7 +31,13 @@ export function GameFooter(props: any) {
 					gotoIcon(1);
 				}}
 			>
-				<EvilIcons name="chart" size={20} color="#000" />
+				<View
+					style={
+						page == "gameInfo" ? styles.touched : styles.untouched
+					}
+				>
+					<EvilIcons name="chart" size={20} color="#000" />
+				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
 				style={styles.iconContainer}
@@ -39,11 +45,17 @@ export function GameFooter(props: any) {
 					gotoIcon(2);
 				}}
 			>
-				<MaterialCommunityIcons
-					name="progress-clock"
-					size={20}
-					color="#000"
-				/>
+				<View
+					style={
+						page == "gameInfo" ? styles.touched : styles.untouched
+					}
+				>
+					<MaterialCommunityIcons
+						name="progress-clock"
+						size={20}
+						color="#000"
+					/>
+				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
 				style={styles.iconContainer}
@@ -51,7 +63,13 @@ export function GameFooter(props: any) {
 					gotoIcon(3);
 				}}
 			>
-				<FontAwesome5 name="coins" size={20} color="#000" />
+				<View
+					style={
+						page == "gameInfo" ? styles.touched : styles.untouched
+					}
+				>
+					<FontAwesome5 name="coins" size={20} color="#000" />
+				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
 				style={styles.iconContainer}
@@ -59,7 +77,13 @@ export function GameFooter(props: any) {
 					gotoIcon(4);
 				}}
 			>
-				<Feather name="shopping-cart" size={20} color="#000" />
+				<View
+					style={
+						page == "gameInfo" ? styles.touched : styles.untouched
+					}
+				>
+					<Feather name="shopping-cart" size={20} color="#000" />
+				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
 				style={styles.iconContainer}
@@ -67,7 +91,17 @@ export function GameFooter(props: any) {
 					gotoIcon(5);
 				}}
 			>
-				<FontAwesome name="calendar-check-o" size={20} color="#000" />
+				<View
+					style={
+						page == "gameInfo" ? styles.touched : styles.untouched
+					}
+				>
+					<FontAwesome
+						name="calendar-check-o"
+						size={20}
+						color="#000"
+					/>
+				</View>
 			</TouchableOpacity>
 		</View>
 	);
@@ -87,5 +121,11 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		flexDirection: "row",
 		flexWrap: "wrap",
+	},
+	touched: {
+		backgroundColor: "red",
+	},
+	untouched: {
+		backgroundColor: "red",
 	},
 });
