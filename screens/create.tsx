@@ -236,7 +236,17 @@ export default function Dashboard({ navigation }: any) {
 
     return (
         <View style={{ flex: 1, marginHorizontal: 1 }}>
-            <ProtectedHeader back={"Dashboard"} navigation={navigation} />
+            			<Swipeable
+				renderLeftActions={() => {
+					console.log("Left");
+					return undefined;
+				}}
+				renderRightActions={() => {
+					console.log("Right");
+					return undefined;
+				}}
+			>
+				<ProtectedHeader back={"Dashboard"} navigation={navigation} />
             <ViewContainer>
                 <SmallLineBreak />
                 <TextTitle>Créer un contest</TextTitle>

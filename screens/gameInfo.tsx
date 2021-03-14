@@ -36,7 +36,8 @@ import { validURL } from "../src/smallFuncts";
 import { FlatList } from "react-native-gesture-handler";
 import Clipboard from "expo-clipboard";
 import Icon from "react-native-vector-icons/Feather";
-import 	{GameFooter} from "../components/GameFooter"
+import { GameFooter } from "../components/GameFooter";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 
 async function getCurrentGame(joinCode: string, jwt: string) {
 	const rawResponse = await fetch(
@@ -167,85 +168,109 @@ export default function GameInfo({ navigation }: any) {
 	);
 	return (
 		<View>
-			<ProtectedHeader back={"Dashboard"} navigation={navigation} />
-			<ViewContainer>
-				<GameScrollView>
-					<SmallLineBreak />
-					<TextSubTitle style={styles.titleGame}>Info</TextSubTitle>
-					<View style={styles.textToMiddle}>
-						{game ? <TextTitle>{game?.name}</TextTitle> : undefined}
-						<SmallLineBreak />
+			<Swipeable
+				renderLeftActions={() => {
+					console.log("Left");
+					return undefined;
+				}}
+				renderRightActions={() => {
+					console.log("Right");
+					return undefined;
+				}}
+			>
 
-						<Image
-							style={styles.gameLogo}
-							source={{
-								uri: logoUrl,
-							}}
-						/>
+				<ProtectedHeader back={"Dashboard"} navigation={navigation} />
+				<ViewContainer>
+					<GameScrollView>
 						<SmallLineBreak />
+						<TextSubTitle style={styles.titleGame}>
+							Info
+						</TextSubTitle>
+						<View style={styles.textToMiddle}>
+							{game ? (
+								<TextTitle>{game?.name}</TextTitle>
+							) : undefined}
+							<SmallLineBreak />
 
-						<TextSubTitle>Compétitions : </TextSubTitle>
-						<SmallLineBreak />
+							<Image
+								style={styles.gameLogo}
+								source={{
+									uri: logoUrl,
+								}}
+							/>
+							<SmallLineBreak />
 
-						<View style={styles.column}>
-							{game?.leagueIdList.map(
-								(item: any, index: number) => {
-									console.log(item, index);
-									return renderBulletList(item, index);
-								}
-								//
-							)}
+							<TextSubTitle>Compétitions : </TextSubTitle>
+							<SmallLineBreak />
+
+							<View style={styles.column}>
+								{game?.leagueIdList.map(
+									(item: any, index: number) => {
+										console.log(item, index);
+										return renderBulletList(item, index);
+									}
+									//
+								)}
+							</View>
+
+							<SmallLineBreak />
+							<TextSubTitle>Code du Contest : </TextSubTitle>
+							<SmallLineBreak />
+							<TouchableOpacity
+								onPress={() => {
+									Clipboard.setString(joinCode);
+								}}
+							>
+								<View style={{ flexDirection: "row" }}>
+									<View style={styles.copyJoinCode}>
+										<Text>{joinCode}</Text>
+									</View>
+
+									<View style={styles.copyJoinCodeIcon}>
+										<Icon
+											name="copy"
+											size={20}
+											color="#FFF"
+										/>
+									</View>
+								</View>
+							</TouchableOpacity>
+
+							<SmallLineBreak />
+							<SubText>
+								Ou bien partage le avec tes amis :{" "}
+							</SubText>
+							<SmallLineBreak />
+
+							<TouchableOpacity onPress={onShare}>
+								<View style={styles.share}>
+									<Text style={{ color: "white" }}>
+										Partager
+									</Text>
+								</View>
+							</TouchableOpacity>
+
+							<SmallLineBreak />
+							<TextSubTitle>Joueurs : </TextSubTitle>
+							<SmallLineBreak />
+
+							<View style={styles.playerContainer}>
+								{game?.userStats?.map(
+									(item: any, index: number) => {
+										console.log(item, index);
+										return renderPlayerList(item, index);
+									}
+								)}
+							</View>
 						</View>
 
-						<SmallLineBreak />
-						<TextSubTitle>Code du Contest : </TextSubTitle>
-						<SmallLineBreak />
-						<TouchableOpacity
-							onPress={() => {
-								Clipboard.setString(joinCode);
-							}}
-						>
-							<View style={{ flexDirection: "row" }}>
-								<View style={styles.copyJoinCode}>
-									<Text>{joinCode}</Text>
-								</View>
-
-								<View style={styles.copyJoinCodeIcon}>
-									<Icon name="copy" size={20} color="#FFF" />
-								</View>
-							</View>
-						</TouchableOpacity>
-
-						<SmallLineBreak />
-						<SubText>Ou bien partage le avec tes amis : </SubText>
-						<SmallLineBreak />
-
-						<TouchableOpacity onPress={onShare}>
-							<View style={styles.share}>
-								<Text style={{ color: "white" }}>Partager</Text>
-							</View>
-						</TouchableOpacity>
-
-						<SmallLineBreak />
-						<TextSubTitle>Joueurs : </TextSubTitle>
-						<SmallLineBreak />
-
-						<View style={styles.playerContainer}>
-							{game?.userStats?.map(
-								(item: any, index: number) => {
-									console.log(item, index);
-									return renderPlayerList(item, index);
-								}
-							)}
-						</View>
-					</View>
-
-					{/* <View
+						{/* <View
 						style={styles.separator} //forandroid manly
 					></View> */}
-				</GameScrollView>
-			</ViewContainer>
-			<GameFooter page="gameInfo" navigation={navigation} />
+					</GameScrollView>
+				</ViewContainer>
+				<GameFooter page="gameInfo" navigation={navigation} />
+			</Swipeable>
 		</View>
 	);
 }

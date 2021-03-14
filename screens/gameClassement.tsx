@@ -150,7 +150,17 @@ export default function GameClassement({ navigation }: any) {
 
 	return (
 		<View>
-			<ProtectedHeader back={"Dashboard"} navigation={navigation} />
+						<Swipeable
+				renderLeftActions={() => {
+					console.log("Left");
+					return undefined;
+				}}
+				renderRightActions={() => {
+					console.log("Right");
+					return undefined;
+				}}
+			>
+				<ProtectedHeader back={"Dashboard"} navigation={navigation} />
 			<ViewContainer>
 				<GameScrollView>
 					<SmallLineBreak />
@@ -164,7 +174,8 @@ export default function GameClassement({ navigation }: any) {
 
 				</GameScrollView>
 			</ViewContainer>
-			<GameFooter page="gameClassement" navigation={navigation} />
+			<GameFooter page="gameClassement"navigation={navigation} />
+			</Swipeable>
 		</View>
 	);
 }

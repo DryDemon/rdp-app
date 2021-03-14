@@ -150,7 +150,17 @@ export default function GamePlayerStats({ navigation }: any) {
 
 	return (
 		<View>
-			<ProtectedHeader back={"Dashboard"} navigation={navigation} />
+						<Swipeable
+				renderLeftActions={() => {
+					console.log("Left");
+					return undefined;
+				}}
+				renderRightActions={() => {
+					console.log("Right");
+					return undefined;
+				}}
+			>
+				<ProtectedHeader back={"Dashboard"} navigation={navigation} />
 			<ViewContainer>
 				<GameScrollView>
 					<SmallLineBreak />
@@ -164,7 +174,8 @@ export default function GamePlayerStats({ navigation }: any) {
 
 				</GameScrollView>
 			</ViewContainer>
-			<GameFooter page="gamePlayerStats" navigation={navigation} />
+			<GameFooter page="gamePlayerStats"navigation={navigation} />
+			</Swipeable>
 		</View>
 	);
 }
