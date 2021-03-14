@@ -20,12 +20,23 @@ export function GameFooter(props: any) {
 	//                    <Icon style={styles.gameLogo} name="calendar" size={20} color="#FFF"  />
 
 	function gotoIcon(id: number) {
-		console.log(id);
-page == "gameClassement"
-page == "gameInfo"
-page == "gameListBets"
-page == "gameCart"
-page == "gameListBets"
+		switch (id) {
+			case 1:
+				navigation.navigate("gameClassement");
+				break;
+			case 2:
+				navigation.navigate("gameInfo");
+				break;
+			case 3:
+				navigation.navigate("gameListBets");
+				break;
+			case 4:
+				navigation.navigate("gameCart");
+				break;
+			case 5:
+				navigation.navigate("gamePlayerStats");
+				break;
+		}
 	}
 
 	return (
@@ -38,7 +49,9 @@ page == "gameListBets"
 			>
 				<View
 					style={
-						page == "gameClassement" ? styles.touched : styles.untouched
+						page == "gameClassement"
+							? styles.touched
+							: styles.untouched
 					}
 				>
 					<EvilIcons name="chart" size={20} color="#000" />
@@ -70,7 +83,9 @@ page == "gameListBets"
 			>
 				<View
 					style={
-						page == "gameListBets" ? styles.touched : styles.untouched
+						page == "gameListBets"
+							? styles.touched
+							: styles.untouched
 					}
 				>
 					<FontAwesome5 name="coins" size={20} color="#000" />
@@ -98,7 +113,9 @@ page == "gameListBets"
 			>
 				<View
 					style={
-						page == "gameListBets" ? styles.touched : styles.untouched
+						page == "gamePlayerStats"
+							? styles.touched
+							: styles.untouched
 					}
 				>
 					<FontAwesome

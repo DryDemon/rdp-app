@@ -171,7 +171,7 @@ export default function Dashboard({ navigation }: any) {
 
     function gotoGame(joinCode: string) {
         AsyncStorage.setItem("@joinCode", joinCode);
-        navigation.navigate("GameInfo")
+        navigation.navigate("gameInfo")
     }
     
 

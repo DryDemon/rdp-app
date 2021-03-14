@@ -16,7 +16,7 @@ export function GameIcon(props: any) {
 
 	function gotoGame(joinCode: string) {
 		AsyncStorage.setItem("@joinCode", joinCode);
-		navigation.navigate("GameInfo")
+		navigation.navigate("gameInfo")
 	}
 
 	let url: string = SERVER_LOGO_URL;

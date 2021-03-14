@@ -45,7 +45,7 @@ async function getCurrentGame(joinCode: string, jwt: string) {
 	return content;
 }
 
-export default function GameInfo({ navigation }: any) {
+export default function GamePlayerStats({ navigation }: any) {
 	// const { lastScreen } = route.params;, {route, navigation }: any
 
 	const [jwt, setJwt] = useState<string>("");
