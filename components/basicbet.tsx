@@ -18,10 +18,20 @@ function isEmptyObject(obj: any) {
 }
 
 export default function basicBet(props: any) {
-	const bet = props.bet;
-	const selected = undefined;
+	const [selected, setSelected] = useState(false);
 
-	function onPress() {}
+	const bet = props.bet;
+
+	function onPress() {
+		if (!selected) {
+			setSelected(true);
+            //update async storage cart
+		} else {
+			setSelected(false);
+            //update async storage cart
+		}
+	}
+    
 	function showMore() {}
 
 	if (bet) {
@@ -53,7 +63,7 @@ export default function basicBet(props: any) {
 				</View>
 			</TouchableOpacity>
 		);
-	} else if(props.plus){
+	} else if (props.plus) {
 		return (
 			<TouchableOpacity onPress={showMore}>
 				<View style={styles.betContainer}>
@@ -61,9 +71,9 @@ export default function basicBet(props: any) {
 				</View>
 			</TouchableOpacity>
 		);
-	}else{
-        return null;
-    }
+	} else {
+		return null;
+	}
 }
 
 const styles = StyleSheet.create({
