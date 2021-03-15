@@ -25,7 +25,7 @@ export function GameFooter(props: any) {
 				setPage("gameClassement");
 				break;
 			case 2:
-				setPage("gameInfo");
+				setPage("gamePlaceBet");
 				break;
 			case 3:
 				setPage("gameListBets");
@@ -65,13 +65,13 @@ export function GameFooter(props: any) {
 			>
 				<View
 					style={
-						page == "gameInfo" ? styles.touched : styles.untouched
+						page == "gamePlaceBet" ? styles.touched : styles.untouched
 					}
 				>
 					<MaterialCommunityIcons
 						name="progress-clock"
 						size={20}
-						color={page == "gameInfo" ?"#FFF" : "#000"}
+						color={page == "gamePlaceBet" ?"#FFF" : "#000"}
 					/>
 				</View>
 			</TouchableOpacity>

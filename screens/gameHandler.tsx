@@ -41,10 +41,11 @@ import GameInfo from "../components/gamePages/gameInfo";
 import GameListBets from "../components/gamePages/gameListBets";
 import GameCart from "../components/gamePages/gameCart";
 import GamePlayerStats from "../components/gamePages/gamePlayerStats";
+import GamePlaceBet from "../components/gamePages/gamePlaceBet";
 
 const listPages = [
 	"gameClassement",
-	"gameInfo",
+	"gamePlaceBet",
 	"gameListBets",
 	"gameCart",
 	"gamePlayerStats",
@@ -67,7 +68,7 @@ export default function GameHandler({ navigation }: any) {
 
 	const [logoUrl, setlogoUrl] = useState(SERVER_LOGO_URL);
 
-	const [page, setPage] = useState("gameInfo");
+	const [page, setPage] = useState("gamePlaceBet");
 
 	async function loadGameData() {
 		if (jwt && joinCode) {
@@ -200,8 +201,8 @@ export default function GameHandler({ navigation }: any) {
 							/>
 						) : undefined}
 
-						{page == "gameInfo" ? (
-							<GameInfo
+						{page == "gamePlaceBet" ? (
+							<GamePlaceBet
 								jwt={jwt}
 								user={user}
 								joinCode={joinCode}
