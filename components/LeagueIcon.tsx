@@ -5,21 +5,21 @@ import { LeagueSchema } from "../src/interaces/interfacesQuotes";
 
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 
-
 export function LeagueIcon(props: any) {
-	const callBack: any = props.callBack;
 	const league: LeagueSchema = props.league;
-    
-    
-    console.log(league)
+
 	return (
-		<TouchableOpacity onPress={callBack}>
+		<TouchableOpacity onPress={() => {if(league && league.leagueId) props.onPress(league.leagueId); else props.onPress();}}>
 			<View style={styles.leagueContainer}>
-            <EvilIcons style={styles.leagueLogo} name="chart" size={20} color={"#000"} />
-					
+				<EvilIcons
+					style={styles.leagueLogo}
+					name="chart"
+					size={20}
+					color={"#000"}
+				/>
 
 				<Text style={styles.leagueTitle}>
-					{league?league.leagueName:"Tous"}
+					{league ? league.leagueName : "Tous"}
 				</Text>
 			</View>
 		</TouchableOpacity>
@@ -32,15 +32,15 @@ const styles = StyleSheet.create({
 		marginRight: "auto",
 	},
 	leagueTitle: {
-        fontSize:11,
+		fontSize: 11,
 		textAlign: "center",
 	},
 	leagueContainer: {
-        margin:28,
-        backgroundColor:'white',
-        padding:4,
-        width:44,
-        height:44,
+		margin: 28,
+		backgroundColor: "white",
+		padding: 4,
+		width: 44,
+		height: 44,
 		flex: 1,
 		borderRadius: 8,
 	},

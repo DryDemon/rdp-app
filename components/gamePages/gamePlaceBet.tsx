@@ -59,6 +59,7 @@ export default function GamePlaceBet(props: any) {
 
 	const [matchs, setMatchs] = useState<Array<MatchSchema>>([]);
 	const [leagues, setLeagues] = useState<Array<LeagueSchema>>([]);
+	const [listFilter, setListFilter] = useState<Array<string>>([]);
 
 	useEffect(() => {
 		fetchBetData(joinCode, jwt).then((content) => {
@@ -73,22 +74,48 @@ export default function GamePlaceBet(props: any) {
 		if (ENVIRONEMENT == "dev") console.log(leagues, matchs);
 	}, [leagues, matchs]);
 
+	useEffect(() => {
+		if (ENVIRONEMENT == "dev") console.log(listFilter);
+	}, [listFilter]);
+
+    function updateFilterList(leagueId: string){
+        
+        let cpyListFilter = listFilter;
+
+        //toggle the league id from the list; remove itif it exist, otherwise, push it
+        if(cpyListFilter.some((x) => x == leagueId)) cpyListFilter = cpyListFilter.filter((value ) => value != leagueId);
+        else cpyListFilter.push(leagueId);
+
+        setListFilter(cpyListFilter);
+    }
+
 	return (
 		<View>
 			<SmallLineBreak />
 			<TextSubTitle style={styles.titleGame}>Parier</TextSubTitle>
 			<View style={styles.textToMiddle}>
 				<ScrollView horizontal={true}>
-                    <LeagueIcon/>
+					<LeagueIcon onPress={() => setListFilter([])} />
+
 					{leagues.map((league: LeagueSchema) => {
-						return (
-							<LeagueIcon key={league.leagueId} league={league} />
-						);
+						if (league.leagueId)
+							return (
+								<LeagueIcon
+									key={league.leagueId}
+									league={league}
+									onPress={(id: string) => updateFilterList(id)}
+								/>
+							);
+						else return null;
 					})}
 				</ScrollView>
 
 				<View>
-					<AllBets leagues={leagues} matchs={matchs} />
+					<AllBets
+						leagues={leagues}
+                        filter={listFilter}
+						matchs={matchs}
+					/>
 				</View>
 
 				<SmallLineBreak />
