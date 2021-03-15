@@ -4,21 +4,23 @@ import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { LeagueSchema } from "../src/interaces/interfacesQuotes";
 
 import EvilIcons from "react-native-vector-icons/EvilIcons";
+import Colors from "../constants/Colors";
 
 export function LeagueIcon(props: any) {
 	const league: LeagueSchema = props.league;
+    const filter : Array<string> = props.filter;
 
 	return (
 		<TouchableOpacity onPress={() => {if(league && league.leagueId) props.onPress(league.leagueId); else props.onPress();}}>
-			<View style={styles.leagueContainer}>
+			<View style={!((league?.leagueId && filter.some((value: any) => value == league.leagueId)) || (filter.length == 0 && !league))?styles.leagueContainer: styles.leagueContainerSelected}>
 				<EvilIcons
 					style={styles.leagueLogo}
 					name="chart"
 					size={20}
-					color={"#000"}
+					color={!((league?.leagueId && filter.some((value: any) => value == league.leagueId)) || (filter.length == 0 && !league))?"#000":"#FFF"}
 				/>
 
-				<Text style={styles.leagueTitle}>
+				<Text style={!((league?.leagueId && filter.some((value: any) => value == league.leagueId)) || (filter.length == 0 && !league))?styles.leagueTitle: styles.leagueTitleSelected}>
 					{league ? league.leagueName : "Tous"}
 				</Text>
 			</View>
@@ -35,9 +37,23 @@ const styles = StyleSheet.create({
 		fontSize: 11,
 		textAlign: "center",
 	},
+	leagueTitleSelected: {
+		fontSize: 11,
+		textAlign: "center",
+        color:"white",
+    },
 	leagueContainer: {
 		margin: 28,
 		backgroundColor: "white",
+		padding: 4,
+		width: 44,
+		height: 44,
+		flex: 1,
+		borderRadius: 8,
+	},
+	leagueContainerSelected: {
+		margin: 28,
+		backgroundColor: Colors.rdpColor,
 		padding: 4,
 		width: 44,
 		height: 44,

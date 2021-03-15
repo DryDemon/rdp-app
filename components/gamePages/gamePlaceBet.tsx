@@ -78,16 +78,16 @@ export default function GamePlaceBet(props: any) {
 		if (ENVIRONEMENT == "dev") console.log(listFilter);
 	}, [listFilter]);
 
-    function updateFilterList(leagueId: string){
-        
-        let cpyListFilter = listFilter;
+	function updateFilterList(leagueId: string) {
+		let cpyListFilter = listFilter;
 
-        //toggle the league id from the list; remove itif it exist, otherwise, push it
-        if(cpyListFilter.some((x) => x == leagueId)) cpyListFilter = cpyListFilter.filter((value ) => value != leagueId);
-        else cpyListFilter.push(leagueId);
-
-        setListFilter(cpyListFilter);
-    }
+		//toggle the league id from the list; remove itif it exist, otherwise, push it
+		if (listFilter.some((x) => x == leagueId)) {
+			setListFilter(listFilter.filter((value) => value != leagueId));
+		} else {
+            setListFilter([...listFilter, leagueId]);
+		}
+	}
 
 	return (
 		<View>
@@ -95,7 +95,7 @@ export default function GamePlaceBet(props: any) {
 			<TextSubTitle style={styles.titleGame}>Parier</TextSubTitle>
 			<View style={styles.textToMiddle}>
 				<ScrollView horizontal={true}>
-					<LeagueIcon onPress={() => setListFilter([])} />
+					<LeagueIcon onPress={() => setListFilter([])}  filter={listFilter}/>
 
 					{leagues.map((league: LeagueSchema) => {
 						if (league.leagueId)
@@ -103,7 +103,9 @@ export default function GamePlaceBet(props: any) {
 								<LeagueIcon
 									key={league.leagueId}
 									league={league}
-									onPress={(id: string) => updateFilterList(id)}
+									onPress={(id: string) =>
+										updateFilterList(id)
+									} filter={listFilter}
 								/>
 							);
 						else return null;
@@ -113,7 +115,7 @@ export default function GamePlaceBet(props: any) {
 				<View>
 					<AllBets
 						leagues={leagues}
-                        filter={listFilter}
+						filter={listFilter}
 						matchs={matchs}
 					/>
 				</View>
