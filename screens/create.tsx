@@ -180,8 +180,8 @@ export default function Dashboard({ navigation }: any) {
 
 	function onCreate() {
 		if (canCreate) {
-			setcanCreate(false);
 			if (validateForm()) {
+				setcanCreate(false);
 				let query =
 					"name=" +
 					name +

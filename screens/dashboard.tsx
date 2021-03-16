@@ -38,7 +38,6 @@ export default function Dashboard({ navigation }: any) {
 	const [user, setUser] = useState<User>();
 	const [games, setGames] = useState<Array<GameSchema>>([]);
 
-
 	if (!jwt || !user) {
 		try {
 			if (!jwt) {
@@ -57,16 +56,16 @@ export default function Dashboard({ navigation }: any) {
 	}
 
 	//onFocus
-	navigation.addListener('focus', () => {
+	navigation.addListener("focus", () => {
 		// The screen is focused
 		// Call any action
-		
+
 		if (jwt) {
 			fetchUserGames(jwt).then((data: any) => {
 				setGames(data);
 			});
 		}
-	  });
+	});
 
 	useEffect(() => {
 		// if (ENVIRONEMENT != "dev" && (!jwt || !user)) {
@@ -78,15 +77,29 @@ export default function Dashboard({ navigation }: any) {
 	useEffect(() => {
 		if (ENVIRONEMENT == "dev") {
 			AsyncStorage.setItem("@joinCode", "CFEVPU");
-			navigation.navigate("Game")
+			navigation.navigate("Game");
 		}
 	}, [games]);
-	
+
+	//if the usergoes back to dashboard, we reload the games
+	useEffect(() => {
+		if (jwt) {
+			fetchUserGames(jwt).then((data: any) => {
+				setGames(data);
+			});
+		}
+	}, []);
+
 	return (
 		<View>
 			<ProtectedHeader />
 			<ViewContainer>
-			<MyLeaguesDash username={user?.username} games={games} navigation={navigation} jwt={jwt}/>
+				<MyLeaguesDash
+					username={user?.username}
+					games={games}
+					navigation={navigation}
+					jwt={jwt}
+				/>
 				<LineBreak />
 			</ViewContainer>
 		</View>
