@@ -85,6 +85,8 @@ export default function Dashboard({ navigation }: any) {
 	const [alertDates, setalertDates] = useState(" ");
 	const [alertLeagues, setalertLeagues] = useState(" ");
 
+	const [canCreate, setcanCreate] = useState(true);
+
 	const [leaguesList, setLeaguesList] = useState<any>([]);
 	const [leaguesMultiselectChoice, setLeaguesMultiselectChoice] = useState<
 		Array<LeagueSchema>
@@ -177,31 +179,36 @@ export default function Dashboard({ navigation }: any) {
 	}
 
 	function onCreate() {
-		if (validateForm()) {
-			let query =
-				"name=" +
-				name +
-				"&logoUrl=" +
-				logoUrl +
-				"&createdAt=" +
-				dateCreationForm.getTime() / 1000 +
-				"&endingAt=" +
-				dateEndForm.getTime() / 1000 +
-				"&sports=" +
-				"1" +
-				"&leagues=" +
-				leaguesMultiselectChoice.toString() +
-				`&jwt=${jwt}`;
+		if (canCreate) {
+			setcanCreate(false);
+			if (validateForm()) {
+				let query =
+					"name=" +
+					name +
+					"&logoUrl=" +
+					logoUrl +
+					"&createdAt=" +
+					dateCreationForm.getTime() / 1000 +
+					"&endingAt=" +
+					dateEndForm.getTime() / 1000 +
+					"&sports=" +
+					"1" +
+					"&leagues=" +
+					leaguesMultiselectChoice.toString() +
+					`&jwt=${jwt}`;
 
-			sendQueryCreateGame(query).then((content: any) => {
-				if (content.isCreated == 0)
-					Alert.alert("Erreur", "Merci de vérifier vos données");
-			});
-		} else {
-			Alert.alert(
-				"Erreur",
-				"Merci de remplir tout les champs obligatoires et de choisir au moins une ligue!"
-			);
+				sendQueryCreateGame(query).then((content: any) => {
+					if (content.isCreated == 0)
+						Alert.alert("Erreur", "Merci de vérifier vos données");
+					setcanCreate(true);
+				});
+			} else {
+				Alert.alert(
+					"Erreur",
+					"Merci de remplir tout les champs obligatoires et de choisir au moins une ligue!"
+				);
+				setcanCreate(true);
+			}
 		}
 	}
 
