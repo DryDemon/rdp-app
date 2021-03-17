@@ -52,6 +52,7 @@ export default function GameMatchBets(props: any) {
 					<View>
 						<Text>{match.teamHome}</Text>
 						<Text>{match.teamAway}</Text>
+						<Text>{match.matchId}</Text>
 					</View>
 
 					<SmallLineBreak />

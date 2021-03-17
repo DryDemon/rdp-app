@@ -69,7 +69,7 @@ export default function GameHandler({ navigation }: any) {
 
 	const [logoUrl, setlogoUrl] = useState(SERVER_LOGO_URL);
 
-	const [page, setPage] = useState("gamePlaceBet");
+	const [page, setPage] = useState<"gameClassement"|"gamePlaceBet"|"gameMatchBets"|"gameListBets"|"gameCart"|"gamePlayerStats"|"gameMatchBets"|"gameInfo">("gamePlaceBet");
 	const [showGamePage, setshowGamePage] = useState(true); //Use this to show the game page bets
 	const [match, setmatch] = useState({});
 
@@ -227,7 +227,7 @@ export default function GameHandler({ navigation }: any) {
 				>
 					<GameScrollView>
 						<GamePlaceBet
-							callbackShowMatchBet={(match: any)=>{alert(match.matchId)}}
+							callbackShowMatchBet={(match: any)=>{setmatch(match); setPage("gameMatchBets")}}
 							jwt={jwt} 
 							user={user}
 							joinCode={joinCode}
@@ -330,7 +330,7 @@ export default function GameHandler({ navigation }: any) {
 
 				<GameFooter
 					page={page}
-					setPage={(goto: string) => setPage(goto)}
+					setPage={(goto: any) => setPage(goto)}
 				/>
 			</Swipeable>
 		</View>
