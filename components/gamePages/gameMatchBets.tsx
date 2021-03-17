@@ -40,25 +40,32 @@ import {
 import { validURL } from "../../src/smallFuncts";
 import AllBets from "../allbets";
 import { LeagueIcon } from "../LeagueIcon";
+import BetListForGameMatchBets from "../betListForGameMatchBets";
 
 export default function GameMatchBets(props: any) {
 	const { jwt, user, joinCode, game, logoUrl, match, ...otherProps } = props;
 
-		return (
-			<View>
-				<SmallLineBreak />
-				<TextSubTitle style={styles.titleGame}>Parier</TextSubTitle>
-				<View style={styles.textToMiddle}>
-					<View>
-						<Text>{match.teamHome}</Text>
-						<Text>{match.teamAway}</Text>
-						<Text>{match.matchId}</Text>
-					</View>
+	const odds = match.prematchOdds;
+	return (
+		<View>
+			<SmallLineBreak />
+			<TextSubTitle style={styles.titleGame}>
+				{match.teamHome + " - " + match.teamAway}
+			</TextSubTitle>
+			<View style={styles.textToMiddle}>
+				<View>
 
-					<SmallLineBreak />
+					{odds
+						? odds.map((bet: any) => (
+								<BetListForGameMatchBets key={bet.id} bet={bet}></BetListForGameMatchBets>
+						  ))
+						: null}
 				</View>
+
+				<SmallLineBreak />
 			</View>
-		);
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({

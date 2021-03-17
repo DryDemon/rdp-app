@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         color:"white",
     },
 	leagueContainer: {
-		margin: 28,
+		margin: 10,
 		backgroundColor: "white",
 		padding: 4,
 		// width: 44,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 		borderRadius: 8,
 	},
 	leagueContainerSelected: {
-		margin: 28,
+		margin: 10,
 		backgroundColor: Colors.rdpColor,
 		padding: 4,
 		// width: 44,

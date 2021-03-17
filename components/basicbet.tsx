@@ -9,6 +9,7 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import Colors from "../constants/Colors";
+import { ENVIRONEMENT } from "../constants/Environement";
 
 function isEmptyObject(obj: any) {
 	if (obj) {
@@ -17,9 +18,9 @@ function isEmptyObject(obj: any) {
 	return false;
 }
 
-export default function basicBet(props: any) {
+export default function BasicBet(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
-	const bet = props.bet;
+	const odd = props.odd;
 
 	const [selected, setSelected] = useState(false);
 
@@ -33,26 +34,33 @@ export default function basicBet(props: any) {
 		}
 	}
 
+	useEffect(() => {
+		if(ENVIRONEMENT == "dev" && props.plus && props.plus == 424 ){
+			showMore();
+		}
+
+	}, [props.plus])
+
 	function showMore() {
 		if (callbackShowMatchBet && props.match)
 			callbackShowMatchBet(props.match);
 	}
 
-	if (bet) {
+	if (odd) {
 		return (
 			<TouchableOpacity onPress={onPress}>
 				<View
-					key={bet.id}
+					key={odd.id}
 					style={
 						!selected
 							? styles.betContainer
 							: styles.betContainerSelected
 					}
 				>
-					<Text>{bet.header ? bet.header + " " : ""}</Text>
+					<Text>{odd.header ? odd.header + " " : ""}</Text>
 					<View style={{ flexDirection: "row" }}>
 						<View>
-							<Text style={styles.name}>{bet.name}</Text>
+							<Text style={styles.name}>{odd.name}</Text>
 						</View>
 						<View>
 							<Text
@@ -60,7 +68,7 @@ export default function basicBet(props: any) {
 									!selected ? styles.odd : styles.oddSelected
 								}
 							>
-								{parseInt(bet.odds).toFixed(2)}
+								{parseInt(odd.odds).toFixed(2)}
 							</Text>
 						</View>
 					</View>

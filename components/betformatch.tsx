@@ -42,7 +42,7 @@ export default function betForMatch(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
 	const match = props.matchData;
 
-	const time = format(parseISO(match.time), "dd/MM - H:m", {});
+	const time = format(parseISO(match.time), "dd/MM - H:mm", {});
 
 	let bets = match.prematchOdds;
 	const matchName = match.teamHome + " - " + match.teamAway;
@@ -61,8 +61,8 @@ export default function betForMatch(props: any) {
 			<SmallLineBreak />
 			<ScrollView horizontal={true}>
 				{fullMatchOdds
-					? fullMatchOdds.odds.map((bet: any) => (
-							<BasicBet key={bet.id} bet={bet}></BasicBet>
+					? fullMatchOdds.odds.map((odd: any) => (
+							<BasicBet key={odd.id} odd={odd}></BasicBet>
 					  ))
 					: null}
 				<BasicBet callbackShowMatchBet={callbackShowMatchBet} match={match} plus={numberOfOdds}></BasicBet>
