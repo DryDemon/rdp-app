@@ -258,13 +258,32 @@ export default function GameCart(props: any) {
 										<Text style={styles.removeBet}>x</Text>
 									</TouchableOpacity>
 								</View>
+								<View style={{ flexDirection: "row" }}>
+									{value.betSubName ? (
+										<Text style={{ flex: 1 }}>
+											{value.betSubName}
+										</Text>
+									) : null}
+									{value.betHeader ? (
+										<Text style={{ flex: 1 }}>
+											{value.betHeader}
+										</Text>
+									) : null}
+									{value.betHandicap ? (
+										<Text style={{ flex: 1 }}>
+											{value.betHandicap}
+										</Text>
+									) : null}
+								</View>
 
-								<Text>{value.betHandicap}</Text>
-								<Text>{value.betHeader}</Text>
-								<Text>{value.betName}</Text>
-								<Text>{value.matchName}</Text>
-								<Text>{value.betSubName}</Text>
-								<Text>{value.odd}</Text>
+								<View style={{ flexDirection: "row" }}>
+									<Text>{value.betName}</Text>
+									<View style={styles.betOddContainer}>
+										<Text style={styles.betOddText}>
+											{value.odd}
+										</Text>
+									</View>
+								</View>
 							</View>
 						))
 					) : (
@@ -329,5 +348,17 @@ const styles = StyleSheet.create({
 	removeBet: {
 		color: Colors.rdpColor,
 		fontSize: 20,
+	},
+	betOddContainer: {
+		marginLeft: "auto",
+		textAlign: "right",
+		alignSelf: "flex-end",
+		borderRadius: 4,
+		backgroundColor: "#ECF2FE",
+	},
+	betOddText: {
+		fontSize: 15,
+		fontWeight: "700",
+		color: Colors.rdpColor,
 	},
 });
