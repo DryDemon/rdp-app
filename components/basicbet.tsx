@@ -11,7 +11,7 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import Colors from "../constants/Colors";
-import { ENVIRONEMENT } from "../constants/Environement";
+import { CONST_BASE_MISE_PARI, ENVIRONEMENT } from "../constants/Environement";
 
 function isEmptyObject(obj: any) {
 	if (obj) {
@@ -55,7 +55,11 @@ export default function BasicBet(props: any) {
 				let cart: any = [];
 				if (input) cart = JSON.parse(input);
 
-				cart.push({ matchId: props.matchId, betId: odd.id });
+				cart.push({
+					matchId: props.matchId,
+					betId: odd.id,
+					mise: CONST_BASE_MISE_PARI,
+				});
 				AsyncStorage.setItem("@cart", JSON.stringify(cart));
 			});
 		} else {
