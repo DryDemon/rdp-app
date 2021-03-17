@@ -26,20 +26,20 @@ import {
 	TextSubTitle,
 	SubText,
 	GameScrollView,
-} from "../../components/Themed";
+} from "../Themed";
 
 import { ENVIRONEMENT } from "../../constants/Environement";
 import { SERVER_API_URL, SERVER_LOGO_URL } from "../../constants/Server";
 import { GameSchema } from "../../src/interaces/interfacesGame";
 import { validURL } from "../../src/smallFuncts";
 
-export default function GamePlayerStats(props: any) {
+export default function GameMatchsStats(props: any) {
 	const { jwt, user, joinCode, game, logoUrl, ...otherProps } = props;
 
 	return (
 		<View>
 			<SmallLineBreak />
-			<TextSubTitle style={styles.titleGame}>Statistiques Joueur</TextSubTitle>
+			<TextSubTitle style={styles.titleGame}>Statistiques matchs</TextSubTitle>
 			<View style={styles.textToMiddle}>
 				{game ? <TextTitle>{game?.name}</TextTitle> : undefined}
 				<SmallLineBreak />

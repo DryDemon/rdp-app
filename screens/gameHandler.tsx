@@ -40,8 +40,9 @@ import GameClassement from "../components/gamePages/gameClassement";
 import GameInfo from "../components/gamePages/gameInfo";
 import GameListBets from "../components/gamePages/gameListBets";
 import GameCart from "../components/gamePages/gameCart";
-import GamePlayerStats from "../components/gamePages/gamePlayerStats";
+import GameMatchsStats from "../components/gamePages/gameMatchsStats";
 import GamePlaceBet from "../components/gamePages/gamePlaceBet";
+import GameMatchBets from "../components/gamePages/gameMatchBets";
 
 const listPages = [
 	"gameClassement",
@@ -69,6 +70,8 @@ export default function GameHandler({ navigation }: any) {
 	const [logoUrl, setlogoUrl] = useState(SERVER_LOGO_URL);
 
 	const [page, setPage] = useState("gamePlaceBet");
+	const [showGamePage, setshowGamePage] = useState(true); //Use this to show the game page bets
+	const [match, setmatch] = useState({});
 
 	async function loadGameData() {
 		if (jwt && joinCode) {
@@ -111,6 +114,12 @@ export default function GameHandler({ navigation }: any) {
 			alert(error.message);
 		}
 	};
+
+	//When we want to show all the bets of a match
+	function loadMatch(match: any) {
+		setmatch(match);
+		setshowGamePage(false);
+	}
 
 	//reload game data each time
 	useEffect(() => {
@@ -166,81 +175,151 @@ export default function GameHandler({ navigation }: any) {
 	return (
 		<View>
 			<Swipeable
-			
+
 			//Swipe left and swipe right, but this action is too sensitive
 
-				// renderLeftActions={() => {
-				// 	let currentPage = listPages.indexOf(page);
-				// 	currentPage--;
-				// 	if (currentPage < 0) currentPage = listPages.length - 1;
-					
-				// 	setPage(listPages[currentPage]);
-					
-				// 	return undefined;
-				// }}
-				// renderRightActions={() => {
-				// 	let currentPage = listPages.indexOf(page);
-				// 	currentPage++;
-				// 	if (currentPage > listPages.length - 1) currentPage = 0;
-					
-				// 	setPage(listPages[currentPage]);
-					
-				// 	return undefined;
-				// }}
+			// renderLeftActions={() => {
+			// 	let currentPage = listPages.indexOf(page);
+			// 	currentPage--;
+			// 	if (currentPage < 0) currentPage = listPages.length - 1;
+
+			// 	setPage(listPages[currentPage]);
+
+			// 	return undefined;
+			// }}
+			// renderRightActions={() => {
+			// 	let currentPage = listPages.indexOf(page);
+			// 	currentPage++;
+			// 	if (currentPage > listPages.length - 1) currentPage = 0;
+
+			// 	setPage(listPages[currentPage]);
+
+			// 	return undefined;
+			// }}
 			>
 				<ProtectedHeader back={"Dashboard"} navigation={navigation} />
-				<ViewContainer>
+				{/* <Button title={"toggle"} onPress={() => {if(showGamePage) setshowGamePage(false); else setshowGamePage(true)}} /> */}
+
+				<ViewContainer
+					style={
+						page == "gameClassement"
+							? { display: "flex" }
+							: { display: "none" }
+					}
+				>
 					<GameScrollView>
-						{page == "gameClassement" ? (
-							<GameClassement
-								jwt={jwt}
-								user={user}
-								joinCode={joinCode}
-								game={game}
-								logoUrl={logoUrl}
-							/>
-						) : undefined}
+						<GameClassement
+							jwt={jwt}
+							user={user}
+							joinCode={joinCode}
+							game={game}
+							logoUrl={logoUrl}
+						/>
+					</GameScrollView>
+				</ViewContainer>
 
-						{page == "gamePlaceBet" ? (
-							<GamePlaceBet
-								jwt={jwt}
-								user={user}
-								joinCode={joinCode}
-								game={game}
-								logoUrl={logoUrl}
-							/>
-						) : undefined}
+				<ViewContainer
+					style={
+						page == "gamePlaceBet"
+							? { display: "flex" }
+							: { display: "none" }
+					}
+				>
+					<GameScrollView>
+						<GamePlaceBet
+							jwt={jwt}
+							user={user}
+							joinCode={joinCode}
+							game={game}
+							logoUrl={logoUrl}
+						/>
+					</GameScrollView>
+				</ViewContainer>
 
-						{page == "gameListBets" ? (
-							<GameListBets
-								jwt={jwt}
-								user={user}
-								joinCode={joinCode}
-								game={game}
-								logoUrl={logoUrl}
-							/>
-						) : undefined}
+				<ViewContainer
+					style={
+						page == "gameListBets"
+							? { display: "flex" }
+							: { display: "none" }
+					}
+				>
+					<GameScrollView>
+						<GameListBets
+							jwt={jwt}
+							user={user}
+							joinCode={joinCode}
+							game={game}
+							logoUrl={logoUrl}
+						/>
+					</GameScrollView>
+				</ViewContainer>
 
-						{page == "gameCart" ? (
-							<GameCart
-								jwt={jwt}
-								user={user}
-								joinCode={joinCode}
-								game={game}
-								logoUrl={logoUrl}
-							/>
-						) : undefined}
+				<ViewContainer
+					style={
+						page == "gameCart"
+							? { display: "flex" }
+							: { display: "none" }
+					}
+				>
+					<GameScrollView>
+						<GameCart
+							jwt={jwt}
+							user={user}
+							joinCode={joinCode}
+							game={game}
+							logoUrl={logoUrl}
+						/>
+					</GameScrollView>
+				</ViewContainer>
 
-						{page == "gamePlayerStats" ? (
-							<GamePlayerStats
+				<ViewContainer
+					style={
+						page == "gamePlayerStats"
+							? { display: "flex" }
+							: { display: "none" }
+					}
+				>
+					<GameScrollView>
+						<GameMatchsStats
+							jwt={jwt}
+							user={user}
+							joinCode={joinCode}
+							game={game}
+							logoUrl={logoUrl}
+						/>
+					</GameScrollView>
+				</ViewContainer>
+
+				<ViewContainer
+					style={
+						page == "gameMatchBets" ? { display: "flex" } : { display: "none" }
+					}
+				>
+					<GameScrollView>
+							<GameMatchBets
+								match={match}
 								jwt={jwt}
 								user={user}
 								joinCode={joinCode}
 								game={game}
 								logoUrl={logoUrl}
 							/>
-						) : undefined}
-						
+					</GameScrollView>
+				</ViewContainer>
+
+				<ViewContainer
+					style={
+						page == "gameInfo" ? { display: "flex" } : { display: "none" }
+					}
+				>
+					<GameScrollView>
+							<GameInfo
+								jwt={jwt}
+								user={user}
+								joinCode={joinCode}
+								game={game}
+								logoUrl={logoUrl}
+							/>
 					</GameScrollView>
 				</ViewContainer>
 

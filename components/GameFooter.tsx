@@ -24,11 +24,11 @@ export function GameFooter(props: any) {
 			case 1:
 				setPage("gameClassement");
 				break;
-			case 2:
-				setPage("gamePlaceBet");
-				break;
+				case 2:
+					setPage("gameListBets");
+					break;
 			case 3:
-				setPage("gameListBets");
+				setPage("gamePlaceBet");
 				break;
 			case 4:
 				setPage("gameCart");
@@ -65,13 +65,13 @@ export function GameFooter(props: any) {
 			>
 				<View
 					style={
-						page == "gamePlaceBet" ? styles.touched : styles.untouched
+						page == "gameListBets" ? styles.touched : styles.untouched
 					}
 				>
 					<MaterialCommunityIcons
 						name="progress-clock"
 						size={20}
-						color={page == "gamePlaceBet" ?"#FFF" : "#000"}
+						color={page == "gameListBets" ?"#FFF" : "#000"}
 					/>
 				</View>
 			</TouchableOpacity>
@@ -83,12 +83,12 @@ export function GameFooter(props: any) {
 			>
 				<View
 					style={
-						page == "gameListBets"
+						page == "gamePlaceBet"
 							? styles.touched
 							: styles.untouched
 					}
 				>
-					<FontAwesome5 name="coins" size={20} color={page == "gameListBets" ?"#FFF" : "#000"} />
+					<FontAwesome5 name="coins" size={20} color={page == "gamePlaceBet" ?"#FFF" : "#000"} />
 				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
