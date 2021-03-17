@@ -69,7 +69,7 @@ export default function GameHandler({ navigation }: any) {
 
 	const [logoUrl, setlogoUrl] = useState(SERVER_LOGO_URL);
 
-	const [page, setPage] = useState<"gameClassement"|"gamePlaceBet"|"gameMatchBets"|"gameListBets"|"gameCart"|"gamePlayerStats"|"gameMatchBets"|"gameInfo">("gamePlaceBet");
+	const [page, setPage] = useState<"gameClassement"|"gamePlaceBet"|"gameMatchBets"|"gameListBets"|"gameCart"|"gamePlayerStats"|"gameMatchBets"|"gameInfo">("gameCart");
 	const [showGamePage, setshowGamePage] = useState(true); //Use this to show the game page bets
 	const [match, setmatch] = useState({});
 
