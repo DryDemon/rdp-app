@@ -18,7 +18,6 @@ import Constants from "expo-constants";
 import Colors from "../constants/Colors";
 import { useEffect, useState } from "react";
 
-import arrowIcon from "../assets/images/arrow.png";
 import Layout from "../constants/Layout";
 
 export function useThemeColor(colorName: keyof typeof Colors) {
@@ -194,88 +193,6 @@ export function TextWarning(props: TextProps) {
 	const color = useThemeColor("alert");
 
 	return <Text style={[{ color }, style]} {...otherProps} />;
-}
-
-//protected
-
-export function ProtectedHeader(props: any) {
-	const [arrow, setarrow] = useState(<></>);
-
-	const { back, navigation, ...otherProps } = props;
-
-	const backgroundColor = useThemeColor("rdpColor");
-
-	const height = 56;
-	const padding = 10;
-	const width = "100%";
-	const fontWeight = "700";
-
-	const marginTop = Constants.statusBarHeight;
-
-	const color = "#FFFFFF";
-
-	useEffect(() => {
-		if (back && navigation) {
-			setarrow(
-				<TouchableOpacity
-					onPress={() => navigation.navigate(back)}
-					style={[
-						{
-							paddingHorizontal: 7,
-							paddingVertical: 7,
-							paddingRight: 10,
-						},
-					]}
-				>
-					<Image
-						style={[
-							{
-								height: 12,
-								width: 16,
-							},
-						]}
-						source={arrowIcon}
-					/>
-				</TouchableOpacity>
-			);
-		}
-	}, [back, navigation]);
-
-	return (
-		<View
-			style={[
-				{
-					backgroundColor,
-					height,
-					paddingTop: 15,
-					padding,
-					width,
-					marginTop,
-				},
-			]}
-		>
-			<View style={{ flexDirection: "row" }}>
-				<View>{arrow}</View>
-				<View>
-					<Text
-						style={[
-							{
-								color,
-								fontWeight,
-								fontStyle: "italic",
-								fontSize: 20,
-								lineHeight: 26,
-								textAlignVertical: "center",
-								// fontFamily: "Orkney",
-							},
-						]}
-					>
-						ROI DU PRONO
-					</Text>
-				</View>
-			</View>
-		</View>
-	);
 }
 
 export function GameScrollView(props:any){

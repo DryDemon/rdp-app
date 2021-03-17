@@ -5,7 +5,6 @@ import { Alert, StyleSheet, ScrollView } from "react-native";
 import { User } from "../src/interaces/interfacesUsers";
 
 import {
-	ProtectedHeader,
 	Text,
 	View,
 	TextInput,
@@ -27,6 +26,7 @@ import SectionedMultiSelect from "react-native-sectioned-multi-select";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { DatePicker } from "../components/DatePicker";
 import { validURL } from "../src/smallFuncts";
+import { GameHeader } from "../components/gameHeader";
 
 async function getSportBetweenTwoDates(startedAt: Date, endingAt: Date) {
 	const startedAtTimestamp = startedAt.getTime() / 1000;
@@ -253,7 +253,7 @@ export default function Dashboard({ navigation }: any) {
 
 	return (
 		<View style={{ flex: 1, marginHorizontal: 1 }}>
-			<ProtectedHeader back={"Dashboard"} navigation={navigation} />
+			<GameHeader back={"Dashboard"} navigation={navigation} />
 			<ViewContainer>
 				<SmallLineBreak />
 				<TextTitle>Créer un contest</TextTitle>

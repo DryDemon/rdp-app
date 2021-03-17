@@ -39,6 +39,7 @@ function getTotalNumberOfOdds(bets: any, fullMatchOdds: any) {
 }
 
 export default function betForMatch(props: any) {
+	const callbackShowMatchBet = props.callbackShowMatchBet;
 	const match = props.matchData;
 
 	const time = format(parseISO(match.time), "dd/MM - H:m", {});
@@ -64,7 +65,7 @@ export default function betForMatch(props: any) {
 							<BasicBet key={bet.id} bet={bet}></BasicBet>
 					  ))
 					: null}
-				<BasicBet plus={numberOfOdds}></BasicBet>
+				<BasicBet callbackShowMatchBet={callbackShowMatchBet} match={match} plus={numberOfOdds}></BasicBet>
 			</ScrollView>
 		</View>
 	);

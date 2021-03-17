@@ -11,7 +11,6 @@ import {
 import { User } from "../src/interaces/interfacesUsers";
 
 import {
-	ProtectedHeader,
 	Text,
 	View,
 	TextInput,
@@ -43,6 +42,7 @@ import GameCart from "../components/gamePages/gameCart";
 import GameMatchsStats from "../components/gamePages/gameMatchsStats";
 import GamePlaceBet from "../components/gamePages/gamePlaceBet";
 import GameMatchBets from "../components/gamePages/gameMatchBets";
+import { GameHeader } from "../components/gameHeader";
 
 const listPages = [
 	"gameClassement",
@@ -197,7 +197,7 @@ export default function GameHandler({ navigation }: any) {
 			// 	return undefined;
 			// }}
 			>
-				<ProtectedHeader back={"Dashboard"} navigation={navigation} />
+				<GameHeader back={"Dashboard"} navigation={navigation} callbackQuestionMark={()=>{setPage("gameInfo")}}/>
 				{/* <Button title={"toggle"} onPress={() => {if(showGamePage) setshowGamePage(false); else setshowGamePage(true)}} /> */}
 
 				<ViewContainer
@@ -227,7 +227,8 @@ export default function GameHandler({ navigation }: any) {
 				>
 					<GameScrollView>
 						<GamePlaceBet
-							jwt={jwt}
+							callbackShowMatchBet={(match: any)=>{alert(match.matchId)}}
+							jwt={jwt} 
 							user={user}
 							joinCode={joinCode}
 							game={game}
@@ -292,34 +293,38 @@ export default function GameHandler({ navigation }: any) {
 
 				<ViewContainer
 					style={
-						page == "gameMatchBets" ? { display: "flex" } : { display: "none" }
+						page == "gameMatchBets"
+							? { display: "flex" }
+							: { display: "none" }
 					}
 				>
 					<GameScrollView>
-							<GameMatchBets
-								match={match}
-								jwt={jwt}
-								user={user}
-								joinCode={joinCode}
-								game={game}
-								logoUrl={logoUrl}
-							/>
+						<GameMatchBets
+							match={match}
+							jwt={jwt}
+							user={user}
+							joinCode={joinCode}
+							game={game}
+							logoUrl={logoUrl}
+						/>
 					</GameScrollView>
 				</ViewContainer>
 
 				<ViewContainer
 					style={
-						page == "gameInfo" ? { display: "flex" } : { display: "none" }
+						page == "gameInfo"
+							? { display: "flex" }
+							: { display: "none" }
 					}
 				>
 					<GameScrollView>
-							<GameInfo
-								jwt={jwt}
-								user={user}
-								joinCode={joinCode}
-								game={game}
-								logoUrl={logoUrl}
-							/>
+						<GameInfo
+							jwt={jwt}
+							user={user}
+							joinCode={joinCode}
+							game={game}
+							logoUrl={logoUrl}
+						/>
 					</GameScrollView>
 				</ViewContainer>
 

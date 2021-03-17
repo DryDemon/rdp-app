@@ -5,7 +5,6 @@ import { Alert, StyleSheet, ScrollView } from "react-native";
 import { User } from "../src/interaces/interfacesUsers";
 
 import {
-	ProtectedHeader,
 	Text,
 	View,
 	TextInput,
@@ -23,6 +22,7 @@ import { SERVER_API_URL } from "../constants/Server";
 import { GameIcon } from "../components/GameIcon";
 import { GameSchema } from "../src/interaces/interfacesGame";
 import { MyLeaguesDash } from "../components/MyLeaguesDash";
+import { GameHeader } from "../components/gameHeader";
 
 async function fetchUserGames(jwt: string) {
 	const rawResponse = await fetch(
@@ -92,7 +92,7 @@ export default function Dashboard({ navigation }: any) {
 
 	return (
 		<View>
-			<ProtectedHeader />
+			<GameHeader />
 			<ViewContainer>
 				<MyLeaguesDash
 					username={user?.username}

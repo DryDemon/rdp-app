@@ -18,21 +18,25 @@ function isEmptyObject(obj: any) {
 }
 
 export default function basicBet(props: any) {
-	const [selected, setSelected] = useState(false);
-
+	const callbackShowMatchBet = props.callbackShowMatchBet;
 	const bet = props.bet;
+
+	const [selected, setSelected] = useState(false);
 
 	function onPress() {
 		if (!selected) {
 			setSelected(true);
-            //update async storage cart
+			//update async storage cart
 		} else {
 			setSelected(false);
-            //update async storage cart
+			//update async storage cart
 		}
 	}
-    
-	function showMore() {}
+
+	function showMore() {
+		if (callbackShowMatchBet && props.match)
+			callbackShowMatchBet(props.match);
+	}
 
 	if (bet) {
 		return (

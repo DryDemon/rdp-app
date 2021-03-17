@@ -6,6 +6,7 @@ export default function AllBets(props: any) {
 	const leagues = props.leagues;
 	const filter = props.filter;
 	const matchs = props.matchs;
+	const callbackShowMatchBet = props.callbackShowMatchBet;
 	return (
         <View>
 			{leagues.map((league: any) => {
@@ -14,6 +15,7 @@ export default function AllBets(props: any) {
 				return (
 					<BetForLeague
 						key={league.leagueName}
+						callbackShowMatchBet={callbackShowMatchBet}
 						leagueData={league}
 						matchs={matchs.filter(
 							(match: any) => match.leagueId == league.leagueId
