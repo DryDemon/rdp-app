@@ -133,6 +133,6 @@ const styles = StyleSheet.create({
 		fontWeight: "500",
 	},
 	textToMiddle: {
-		alignItems: "center",
+		// alignItems: "center", //Notpossible,too large
 	},
 });
