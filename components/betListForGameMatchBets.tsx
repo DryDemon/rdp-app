@@ -49,7 +49,7 @@ export default function BetListForGameMatchBets(props: any) {
 							{odd.header? <Text style={{flex:1}}>{odd.header}</Text>: null}
 							{odd.handicap? <Text style={{flex:1}}>{odd.handicap}</Text>: null}
 
-							<BasicBet key={odd.id} odd={odd}></BasicBet>
+							<BasicBet key={odd.id} odd={odd} matchId={props.matchId}></BasicBet>
 						</View>
 					))}
 				</View>

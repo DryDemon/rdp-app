@@ -62,7 +62,7 @@ export default function betForMatch(props: any) {
 			<ScrollView horizontal={true}>
 				{fullMatchOdds
 					? fullMatchOdds.odds.map((odd: any) => (
-							<BasicBet key={odd.id} odd={odd}></BasicBet>
+							<BasicBet key={odd.id} odd={odd} matchId={match.matchId}></BasicBet>
 					  ))
 					: null}
 				<BasicBet callbackShowMatchBet={callbackShowMatchBet} match={match} plus={numberOfOdds}></BasicBet>

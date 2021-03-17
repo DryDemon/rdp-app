@@ -1,3 +1,5 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import React, { useEffect, useState } from "react";
 import { View, Text } from "./Themed";
 
@@ -24,22 +26,61 @@ export default function BasicBet(props: any) {
 
 	const [selected, setSelected] = useState(false);
 
-	function onPress() {
-		if (!selected) {
-			setSelected(true);
-			//update async storage cart
-		} else {
-			setSelected(false);
-			//update async storage cart
+	async function isBetIdInCart(matchId: string, betId: string) {
+		let input = await AsyncStorage.getItem("@cart");
+		if (input) {
+			let cart = JSON.parse(input);
+			if (cart)
+				for (let cartElem of cart) {
+					if (cartElem.matchId == matchId && cartElem.betId == betId)
+						return true;
+				}
 		}
+		return false;
 	}
 
 	useEffect(() => {
-		if(ENVIRONEMENT == "dev" && props.plus && props.plus == 424 ){
-			showMore();
-		}
+		if (odd && props.matchId)
+			isBetIdInCart(props.matchId, odd.id).then((isBetHere: boolean) => {
+				if (isBetHere) setSelected(true);
+			});
+	}, [odd, props.matchId]);
 
-	}, [props.plus])
+	function onBet() {
+		// AsyncStorage.setItem("@cart", "[]");
+		if (!selected) {
+			setSelected(true);
+
+			AsyncStorage.getItem("@cart").then((input) => {
+				let cart: any = [];
+				if (input) cart = JSON.parse(input);
+
+				cart.push({ matchId: props.matchId, betId: odd.id });
+				AsyncStorage.setItem("@cart", JSON.stringify(cart));
+			});
+		} else {
+			setSelected(false);
+
+			AsyncStorage.getItem("@cart").then((input) => {
+				let cart: any = [];
+				if (input) cart = JSON.parse(input);
+
+				cart = cart.filter((elem: any) => {
+					return (
+						elem.matchId != props.matchId && elem.betId != odd.id
+					);
+				});
+
+				AsyncStorage.setItem("@cart", JSON.stringify(cart));
+			});
+		}
+	}
+
+	// useEffect(() => {
+	// 	if (ENVIRONEMENT == "dev" && props.plus && props.plus == 424) {
+	// 		showMore();
+	// 	}
+	// }, [props.plus]);
 
 	function showMore() {
 		if (callbackShowMatchBet && props.match)
@@ -48,7 +89,7 @@ export default function BasicBet(props: any) {
 
 	if (odd) {
 		return (
-			<TouchableOpacity onPress={onPress}>
+			<TouchableOpacity onPress={onBet}>
 				<View
 					key={odd.id}
 					style={

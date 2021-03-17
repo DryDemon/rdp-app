@@ -57,7 +57,7 @@ export default function GameMatchBets(props: any) {
 
 					{odds
 						? odds.map((bet: any) => (
-								<BetListForGameMatchBets key={bet.id} bet={bet}></BetListForGameMatchBets>
+								<BetListForGameMatchBets key={bet.id} bet={bet} matchId={match.matchId}></BetListForGameMatchBets>
 						  ))
 						: null}
 				</View>

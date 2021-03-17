@@ -10,7 +10,6 @@ import {
 } from "react-native";
 
 import {
-	ProtectedHeader,
 	Text,
 	View,
 	TextInput,
@@ -36,12 +35,37 @@ import { validURL } from "../../src/smallFuncts";
 export default function GameCart(props: any) {
 	const { jwt, user, joinCode, game, logoUrl, ...otherProps } = props;
 
+	const [bets, setBets] = useState<Array<object>>([]);
+
+	function loadCart() {
+		AsyncStorage.getItem("@cart").then((input) => {
+			let cart: any = [];
+			if (input) cart = JSON.parse(input);
+			console.log(cart)
+			setBets(cart);
+		});
+	}
+	useEffect(() => {
+		loadCart();
+	}, []);
+
 	return (
 		<View>
 			<SmallLineBreak />
 			<TextSubTitle style={styles.titleGame}>Panier</TextSubTitle>
+			<TextSubTitle style={styles.titleGame}>Panier</TextSubTitle>
 			<View style={styles.textToMiddle}>
 				{game ? <TextTitle>{game?.name}</TextTitle> : undefined}
+				<Button title={"reload"} onPress={loadCart} />
+				{bets
+					? bets.map((value: any) => (
+							<View>
+								<Text>{value.betId}</Text>
+								<Text>{value.matchId}</Text>
+							</View>
+					  ))
+					: undefined}
+
 				<SmallLineBreak />
 			</View>
 		</View>
