@@ -36,6 +36,7 @@ import { SERVER_API_URL, SERVER_LOGO_URL } from "../../constants/Server";
 import { GameSchema } from "../../src/interaces/interfacesGame";
 import { MatchSchema } from "../../src/interaces/interfacesQuotes";
 import { validURL } from "../../src/smallFuncts";
+import { RenderBetInput } from "../renderBetInput";
 
 type DisplayType = {
 	matchName: string;
@@ -115,6 +116,23 @@ export default function GameCart(props: any) {
 			AsyncStorage.setItem("@cart", JSON.stringify(cart));
 			setBets(cart);
 		});
+	}
+
+	function updateSimpleBetMise(betId: string, matchId: string, mise: number){
+		AsyncStorage.getItem("@cart").then((input) => {
+			let cart: any = [];
+			if (input) cart = JSON.parse(input);
+
+			for(let i = 0;i<cart.length;i++){
+				if( cart[i].matchId == matchId && cart[i].betId == betId){
+					cart[i].mise = mise;
+				}
+			}
+
+			AsyncStorage.setItem("@cart", JSON.stringify(cart));
+			setBets(cart);
+		});
+
 	}
 
 	useEffect(() => {
@@ -284,6 +302,7 @@ export default function GameCart(props: any) {
 										</Text>
 									</View>
 								</View>
+								{type == "simple"? <RenderBetInput onChange={(mise: any)=> updateSimpleBetMise(value.betId, value.matchId, mise)} odd={value.odd} value={value.mise}/>}
 							</View>
 						))
 					) : (
