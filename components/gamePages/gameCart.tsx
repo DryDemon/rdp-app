@@ -100,7 +100,7 @@ export default function GameCart(props: any) {
 			if (input) data = JSON.parse(input);
 			else data = { type, miseGlobal: CONST_BASE_MISE_PARI };
 			data.type = type;
-			AsyncStorage.setItem("@cart_info", data);
+			AsyncStorage.setItem("@cart_info", JSON.stringify(data));
 		});
 	}
 
@@ -302,7 +302,7 @@ export default function GameCart(props: any) {
 										</Text>
 									</View>
 								</View>
-								{type == "simple"? <RenderBetInput onChange={(mise: any)=> updateSimpleBetMise(value.betId, value.matchId, mise)} odd={value.odd} value={value.mise}/>}
+								{type == "simple"? <RenderBetInput onChange={(mise: any)=> updateSimpleBetMise(value.betId, value.matchId, mise)} odd={value.odd} value={value.mise}/>:null}
 							</View>
 						))
 					) : (

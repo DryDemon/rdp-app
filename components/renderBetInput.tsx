@@ -8,25 +8,34 @@ export function RenderBetInput(props: any) {
 
 	return (
 		<View>
-			<TouchableOpacity
-				style={styles.button}
-				onPress={() => onChange(++value)}
-			>
-				+
-			</TouchableOpacity>
-			<TextInput
-				value={value}
-				onChangeText={(mise) => {
-					onChange(mise);
-				}}
-				placeholder={"Le nombre de crédits que tu veux parier"}
-			/>
-			<TouchableOpacity
-				style={styles.button}
-				onPress={() => onChange(--value)}
-			>
-				-
-			</TouchableOpacity>
+			<View style={{ flexDirection: "row" }}>
+				<View style={{ flexDirection: "row" }}>
+					<TouchableOpacity
+						style={styles.buttonRevert}
+						onPress={() => onChange(++value)}
+					>
+						<Text style={styles.buttonRevertText}>+</Text>
+					</TouchableOpacity>
+					<TextInput
+						style={styles.input}
+						value={value}
+						onChangeText={(mise) => {
+							onChange(mise);
+						}}
+						placeholder={"Mise"}
+					/>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={() => onChange(--value)}
+					>
+						<Text style={styles.buttonText}>-</Text>
+					</TouchableOpacity>
+				</View>
+				<View style={styles.gainPotentiel}>
+					<Text>Gain potentiel : </Text>
+					<Text>{(value * odd).toFixed(2)}</Text>
+				</View>
+			</View>
 
 			<Text>input</Text>
 		</View>
@@ -34,5 +43,38 @@ export function RenderBetInput(props: any) {
 }
 
 const styles = StyleSheet.create({
-	button: { backgroundColor : Colors.rdpColor },
+	button: {
+		justifyContent: "center",
+		alignItems: "center",
+		width: 28,
+		height: 28,
+		borderRadius: 8,
+		margin: 5,
+		backgroundColor: Colors.rdpColor,
+	},
+	buttonText: {
+		color: "white",
+		fontSize: 14,
+	},
+	buttonRevert: {
+		justifyContent: "center",
+		alignItems: "center",
+		width: 28,
+		height: 28,
+		borderRadius: 8,
+		margin: 5,
+		backgroundColor: "#ECF2FE",
+	},
+	buttonRevertText: {
+		color: Colors.rdpColor,
+		fontSize: 14,
+	},
+	input: {
+		margin: 5,
+	},
+	gainPotentiel: {
+		marginLeft: "auto",
+		textAlign: "right",
+		alignSelf: "flex-end",
+	},
 });
