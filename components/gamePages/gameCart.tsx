@@ -118,13 +118,13 @@ export default function GameCart(props: any) {
 		});
 	}
 
-	function updateSimpleBetMise(betId: string, matchId: string, mise: number){
+	function updateSimpleBetMise(betId: string, matchId: string, mise: number) {
 		AsyncStorage.getItem("@cart").then((input) => {
 			let cart: any = [];
 			if (input) cart = JSON.parse(input);
 
-			for(let i = 0;i<cart.length;i++){
-				if( cart[i].matchId == matchId && cart[i].betId == betId){
+			for (let i = 0; i < cart.length; i++) {
+				if (cart[i].matchId == matchId && cart[i].betId == betId) {
 					cart[i].mise = mise;
 				}
 			}
@@ -132,8 +132,11 @@ export default function GameCart(props: any) {
 			AsyncStorage.setItem("@cart", JSON.stringify(cart));
 			setBets(cart);
 		});
-
 	}
+
+	function updateCombinedBetMise(mise: number) {}
+
+	function onSend() {}
 
 	useEffect(() => {
 		if (bets && jwt) {
@@ -258,59 +261,97 @@ export default function GameCart(props: any) {
 
 				<View style={styles.betsContainer}>
 					{betsToDisplay && betsToDisplay.length > 0 ? (
-						betsToDisplay.map((value: DisplayType) => (
-							<View key={value.betId} style={styles.betContainer}>
-								<View style={{ flexDirection: "row" }}>
-									<Text style={styles.betMatchName}>
-										{value.matchName}
-									</Text>
-									<TouchableOpacity
-										onPress={() => {
-											removeBet(
-												value.betId,
-												value.matchId
-											);
-										}}
-										style={styles.removeBetContainer}
+						<View>
+							<View>
+								{betsToDisplay.map((value: DisplayType) => (
+									<View
+										key={value.betId}
+										style={styles.betContainer}
 									>
-										<Text style={styles.removeBet}>x</Text>
-									</TouchableOpacity>
-								</View>
-								<View style={{ flexDirection: "row" }}>
-									{value.betSubName ? (
-										<Text style={{ flex: 1 }}>
-											{value.betSubName}
-										</Text>
-									) : null}
-									{value.betHeader ? (
-										<Text style={{ flex: 1 }}>
-											{value.betHeader}
-										</Text>
-									) : null}
-									{value.betHandicap ? (
-										<Text style={{ flex: 1 }}>
-											{value.betHandicap}
-										</Text>
-									) : null}
-								</View>
+										<View style={{ flexDirection: "row" }}>
+											<Text style={styles.betMatchName}>
+												{value.matchName}
+											</Text>
+											<TouchableOpacity
+												onPress={() => {
+													removeBet(
+														value.betId,
+														value.matchId
+													);
+												}}
+												style={
+													styles.removeBetContainer
+												}
+											>
+												<Text style={styles.removeBet}>
+													x
+												</Text>
+											</TouchableOpacity>
+										</View>
+										<View style={{ flexDirection: "row" }}>
+											{value.betSubName ? (
+												<Text style={{ flex: 1 }}>
+													{value.betSubName}
+												</Text>
+											) : null}
+											{value.betHeader ? (
+												<Text style={{ flex: 1 }}>
+													{value.betHeader}
+												</Text>
+											) : null}
+											{value.betHandicap ? (
+												<Text style={{ flex: 1 }}>
+													{value.betHandicap}
+												</Text>
+											) : null}
+										</View>
 
-								<View style={{ flexDirection: "row" }}>
-									<Text>{value.betName}</Text>
-									<View style={styles.betOddContainer}>
-										<Text style={styles.betOddText}>
-											{value.odd}
-										</Text>
+										<View style={{ flexDirection: "row" }}>
+											<Text>{value.betName}</Text>
+											<View
+												style={styles.betOddContainer}
+											>
+												<Text style={styles.betOddText}>
+													{value.odd}
+												</Text>
+											</View>
+										</View>
+										{type == "simple" ? (
+											<RenderBetInput
+												onChange={(mise: any) =>
+													updateSimpleBetMise(
+														value.betId,
+														value.matchId,
+														mise
+													)
+												}
+												odd={value.odd}
+												value={value.mise}
+											/>
+										) : null}
 									</View>
-								</View>
-								{type == "simple"? <RenderBetInput onChange={(mise: any)=> updateSimpleBetMise(value.betId, value.matchId, mise)} odd={value.odd} value={value.mise}/>:null}
+								))}
 							</View>
-						))
+							{type == "combiné" ? (
+								<RenderBetInput
+									onChange={(mise: any) =>
+										updateCombinedBetMise(mise)
+									}
+									nbBets={betsToDisplay.length}
+									odd={10}
+									// odd={mainOdd}
+									// value={mainMise}
+								/>
+							) : null}
+						</View>
 					) : (
 						<Text>
 							Essaye de placer des paris avant de venir ici ;)
 						</Text>
 					)}
 				</View>
+
+				<Button title={"Placer les paris"} onPress={onSend} />
 			</View>
 		</View>
 	);
