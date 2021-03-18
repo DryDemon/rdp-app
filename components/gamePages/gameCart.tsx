@@ -69,6 +69,7 @@ function generateBinarySystemCodes(nb: number, choice: number) {
 		if (code.reduce((prev, current) => prev + current, 0) == choice)
 			out.push(Object.assign([], code));
 	}
+
 	return out;
 }
 
@@ -227,7 +228,6 @@ export default function GameCart(props: any) {
 
 	useEffect(() => {
 		//Update the global odd for type == comboné
-		
 		if (type == "combiné") {
 			let totalQuote = 1.0;
 
@@ -241,19 +241,22 @@ export default function GameCart(props: any) {
 
 			let codes = generateBinarySystemCodes(
 				betsToDisplay.length,
-				1 + systemChoice
+				1 + (+systemChoice)
 			);
+
 			for (let code of codes) {
+
 				let localQuote = 1.0;
 				for (let i = 0; i < code.length; i++) {
 					if (code[i] == 1) localQuote *= betsToDisplay[i].odd;
 				}
+
 				totalQuote+=localQuote;
 			}
-			
+
 			if (mainOdd != totalQuote) setMainOdd(totalQuote);
 		}
-	}, [type, betsToDisplay]);
+	}, [type, betsToDisplay, systemChoice]);
 
 	function updateBetMainMise(mise: number) {
 		updateGlobalMise(mise);
