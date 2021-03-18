@@ -63,6 +63,7 @@ export default function BasicBet(props: any) {
 					matchId: props.matchId,
 					betId: odd.id,
 					mise: CONST_BASE_MISE_PARI,
+					isBase: false,
 				});
 				AsyncStorage.setItem("@cart", JSON.stringify(cart));
 			});

@@ -36,6 +36,7 @@ import { SERVER_API_URL, SERVER_LOGO_URL } from "../../constants/Server";
 import { GameSchema } from "../../src/interaces/interfacesGame";
 import { MatchSchema } from "../../src/interaces/interfacesQuotes";
 import { validURL } from "../../src/smallFuncts";
+import CheckBox from "../checkBox";
 import { RenderBetInput } from "../renderBetInput";
 
 type DisplayType = {
@@ -48,6 +49,7 @@ type DisplayType = {
 	betId: string;
 	matchId: string;
 	mise: number;
+	isBase:boolean;
 };
 
 //this function will make all the binary combinaisons forthe system choice
@@ -93,7 +95,10 @@ async function sendBetToServer(
 	betIds: Array<string>,
 	matchIds: Array<string>,
 	isSystem: number,
-	systemChoice:number
+	systemChoice: number,
+	listBaseBetId: Array<string>,
+	listBaseMatchId: Array<string>,
+
 ) {
 	if (
 		jwt &&
@@ -104,13 +109,18 @@ async function sendBetToServer(
 		matchIds.length == betIds.length
 	) {
 		let ids: Array<string> = [];
+		let baseIds: Array<string> = [];
 
 		for (let i = 0; i < betIds.length; i++) {
 			ids.push(betIds[i] + "@" + matchIds[i]);
 		}
 
+		for (let i = 0; i < listBaseBetId.length; i++) {
+			baseIds.push(listBaseBetId[i] + "@" + listBaseMatchId[i]);
+		}
+
 		const rawResponse = await fetch(
-			`${SERVER_API_URL}/addbetingame?jwt=${jwt}&joinCode=${joinCode}&credits=${credits}&ids=${ids.toString()}&system=${isSystem}&systemChoice=${systemChoice}`
+			`${SERVER_API_URL}/addbetingame?jwt=${jwt}&joinCode=${joinCode}&credits=${credits}&ids=${ids.toString()}&system=${isSystem}&systemChoice=${systemChoice}&baseIds=${baseIds.toString()}`
 		);
 
 		const content = await rawResponse.json();
@@ -216,6 +226,22 @@ export default function GameCart(props: any) {
 		});
 	}
 
+	function setisBaseBet(betId: string, matchId: string, value:boolean){
+		AsyncStorage.getItem("@cart").then((input) => {
+			let cart: any = [];
+			if (input) cart = JSON.parse(input);
+
+			for (let i = 0; i < cart.length; i++) {
+				if (cart[i].matchId == matchId && cart[i].betId == betId) {
+					cart[i].isBase = value;
+				}
+			}
+
+			AsyncStorage.setItem("@cart", JSON.stringify(cart));
+			setBets(cart);
+		});
+	}
+
 	//fonctions type == combiné
 	//load la mise globale de systeme et combiné dans le local storage
 	function updateGlobalMise(mise: number) {
@@ -239,7 +265,7 @@ export default function GameCart(props: any) {
 			if (mainOdd != totalQuote) setMainOdd(totalQuote);
 		}
 		if (type == "système") {
-			let totalQuote=0.0;
+			let totalQuote = 0.0;
 
 			let codes = generateBinarySystemCodes(
 				betsToDisplay.length,
@@ -247,13 +273,12 @@ export default function GameCart(props: any) {
 			);
 
 			for (let code of codes) {
-
 				let localQuote = 1.0;
 				for (let i = 0; i < code.length; i++) {
 					if (code[i] == 1) localQuote *= betsToDisplay[i].odd;
 				}
 
-				totalQuote+=localQuote;
+				totalQuote += localQuote;
 			}
 
 			if (mainOdd != totalQuote) setMainOdd(totalQuote);
@@ -272,9 +297,10 @@ export default function GameCart(props: any) {
 				joinCode,
 				bet.mise,
 				[bet.betId],
-				[bet.matchId]
-				,0 //simplebet
-				,-1 //simplebet
+				[bet.matchId],
+				0, //simplebet
+				-1 //simplebet
+				, [],[]
 			);
 			if (!rep) alert("Error");
 		}
@@ -305,8 +331,8 @@ export default function GameCart(props: any) {
 					mainMise,
 					betIds,
 					matchIds,
-					0,//combiné
-					0
+					0, //combiné
+					0, [], []
 				).then((rep) => {
 					if (rep) removeAllBet();
 					else alert("Erreur");
@@ -317,9 +343,18 @@ export default function GameCart(props: any) {
 				betIds = [];
 				matchIds = [];
 
+				let baseBetIds :string[]= [];
+				let baseMatchIds :string[]= [];
+
 				for (let i = 0; i < betsToDisplay.length; i++) {
 					betIds.push(betsToDisplay[i].betId);
 					matchIds.push(betsToDisplay[i].matchId);
+					
+					if(betsToDisplay[i].isBase){
+						baseBetIds.push(betsToDisplay[i].betId);
+						baseMatchIds.push(betsToDisplay[i].matchId);
+
+					}
 				}
 
 				sendBetToServer(
@@ -328,14 +363,15 @@ export default function GameCart(props: any) {
 					mainMise,
 					betIds,
 					matchIds,
-					1,//system
-					systemChoice
+					1, //system
+					systemChoice, baseBetIds, baseMatchIds
+
 				).then((rep) => {
 					if (rep) removeAllBet();
 					else alert("Erreur");
 				});
 
-			break;
+				break;
 		}
 	}
 
@@ -375,6 +411,7 @@ export default function GameCart(props: any) {
 														odds.handicap;
 													let betHeader = odds.header;
 													let mise = bet.mise;
+													let isBase= bet.isBase;
 
 													toDisplay.push({
 														matchName,
@@ -386,6 +423,7 @@ export default function GameCart(props: any) {
 														mise,
 														betId: bet.betId,
 														matchId: bet.matchId,
+														isBase,
 													});
 												}
 											}
@@ -518,8 +556,20 @@ export default function GameCart(props: any) {
 												</Text>
 											</View>
 										</View>
-										{type == "système" ? (<View></View>):null}
-										
+										{type == "système" ? (
+												<View style={{ flexDirection: "row", alignItems:"center" }}>
+												<CheckBox
+													style={{
+														flex: 1,
+														padding: 10,
+													}}
+													value={value.isBase}
+    												onValueChange={(newValue: boolean) => setisBaseBet(value.betId, value.matchId, newValue)}
+												/>
+												<Text> Base</Text>
+											</View>
+										) : null}
+
 										{type == "simple" ? (
 											<RenderBetInput
 												onChange={(mise: any) =>
@@ -561,7 +611,7 @@ export default function GameCart(props: any) {
 							) : null}
 						</View>
 					) : (
-						<Text style={{padding:15}}>
+						<Text style={{ padding: 15 }}>
 							Essaye de placer des paris avant de venir ici ;)
 						</Text>
 					)}
@@ -594,7 +644,7 @@ const styles = StyleSheet.create({
 	},
 	betChoiceButtonTouched: {
 		flexShrink: 1,
-		 flexWrap: 'wrap',
+		flexWrap: "wrap",
 		flex: 1,
 		fontSize: 12,
 		borderRadius: 12,
@@ -606,7 +656,7 @@ const styles = StyleSheet.create({
 	},
 	betChoiceButtonUntouched: {
 		flexShrink: 1,
-		 flexWrap: 'wrap',
+		flexWrap: "wrap",
 		flex: 1,
 		fontSize: 12,
 		borderRadius: 12,
