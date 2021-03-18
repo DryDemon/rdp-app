@@ -55,6 +55,7 @@ export default function Dashboard({ navigation }: any) {
 		}
 	}
 
+
 	//onFocus
 	navigation.addListener("focus", () => {
 		// The screen is focused
@@ -62,7 +63,12 @@ export default function Dashboard({ navigation }: any) {
 
 		if (jwt) {
 			fetchUserGames(jwt).then((data: any) => {
-				setGames(data);
+				if (data?.isConnected == 0) {
+					AsyncStorage.setItem("@jwt", "");
+					navigation.navigate("Login");
+				} else {
+					setGames(data);
+				}
 			});
 		}
 	});
@@ -85,7 +91,13 @@ export default function Dashboard({ navigation }: any) {
 	useEffect(() => {
 		if (jwt) {
 			fetchUserGames(jwt).then((data: any) => {
-				setGames(data);
+				if (data?.isConnected && data.isConnected == 0) {
+					AsyncStorage.setItem("@jwt", "");
+					AsyncStorage.setItem("@user", "");
+					navigation.navigate("Login");
+				} else {
+					setGames(data);
+				}
 			});
 		}
 	}, []);
