@@ -86,12 +86,14 @@ async function getMatchFromIds(jwt: string, matchsIds: Array<string>) {
 	}
 }
 
-async function sendNormalBetToServer(
+async function sendBetToServer(
 	jwt: string,
 	joinCode: string,
 	credits: number,
 	betIds: Array<string>,
-	matchIds: Array<string>
+	matchIds: Array<string>,
+	isSystem: number,
+	systemChoice:number
 ) {
 	if (
 		jwt &&
@@ -108,7 +110,7 @@ async function sendNormalBetToServer(
 		}
 
 		const rawResponse = await fetch(
-			`${SERVER_API_URL}/addbetingame?jwt=${jwt}&joinCode=${joinCode}&credits=${credits}&ids=${ids.toString()}`
+			`${SERVER_API_URL}/addbetingame?jwt=${jwt}&joinCode=${joinCode}&credits=${credits}&ids=${ids.toString()}&system=${isSystem}&systemChoice=${systemChoice}`
 		);
 
 		const content = await rawResponse.json();
@@ -265,12 +267,14 @@ export default function GameCart(props: any) {
 	async function sendSimpleBets() {
 		let cpy = betsToDisplay;
 		for (let bet of cpy) {
-			let rep = await sendNormalBetToServer(
+			let rep = await sendBetToServer(
 				jwt,
 				joinCode,
 				bet.mise,
 				[bet.betId],
 				[bet.matchId]
+				,0 //simplebet
+				,-1 //simplebet
 			);
 			if (!rep) alert("Error");
 		}
@@ -279,26 +283,30 @@ export default function GameCart(props: any) {
 
 	function onSend() {
 		setblockSendButton(true);
+		let betIds: Array<string> = [];
+		let matchIds: Array<string> = [];
 
 		switch (type) {
 			case "simple":
 				sendSimpleBets(); //TO launch the async function
 				break;
 			case "combiné":
-				let betIds: Array<string> = [];
-				let matchIds: Array<string> = [];
+				betIds = [];
+				matchIds = [];
 
 				for (let i = 0; i < betsToDisplay.length; i++) {
 					betIds.push(betsToDisplay[i].betId);
 					matchIds.push(betsToDisplay[i].matchId);
 				}
 
-				sendNormalBetToServer(
+				sendBetToServer(
 					jwt,
 					joinCode,
 					mainMise,
 					betIds,
-					matchIds
+					matchIds,
+					0,//combiné
+					0
 				).then((rep) => {
 					if (rep) removeAllBet();
 					else alert("Erreur");
@@ -306,7 +314,28 @@ export default function GameCart(props: any) {
 
 				break;
 			case "système":
-				break;
+				betIds = [];
+				matchIds = [];
+
+				for (let i = 0; i < betsToDisplay.length; i++) {
+					betIds.push(betsToDisplay[i].betId);
+					matchIds.push(betsToDisplay[i].matchId);
+				}
+
+				sendBetToServer(
+					jwt,
+					joinCode,
+					mainMise,
+					betIds,
+					matchIds,
+					1,//system
+					systemChoice
+				).then((rep) => {
+					if (rep) removeAllBet();
+					else alert("Erreur");
+				});
+
+			break;
 		}
 	}
 
