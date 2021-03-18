@@ -11,7 +11,7 @@ import {
 } from "react-native";
 
 import {
-	ProtectedHeader,
+	
 	Text,
 	View,
 	TextInput,

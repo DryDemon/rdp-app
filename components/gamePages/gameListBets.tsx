@@ -10,7 +10,6 @@ import {
 } from "react-native";
 
 import {
-	ProtectedHeader,
 	Text,
 	View,
 	TextInput,
@@ -27,6 +26,7 @@ import {
 	SubText,
 	GameScrollView,
 } from "../../components/Themed";
+import Colors from "../../constants/Colors";
 
 import { ENVIRONEMENT } from "../../constants/Environement";
 import { SERVER_API_URL, SERVER_LOGO_URL } from "../../constants/Server";
@@ -36,12 +36,69 @@ import { validURL } from "../../src/smallFuncts";
 export default function GameListBets(props: any) {
 	const { jwt, user, joinCode, game, logoUrl, isShow, ...otherProps } = props;
 
+	const [myBets, setMyBets] = useState(false);
+	const [filter, setFilter] = useState<
+		"En cours" | "Gagnés" | "Perdus" | "Terminés"
+	>("En cours");
+
 	return (
 		<View>
 			<SmallLineBreak />
 			<TextSubTitle style={styles.titleGame}>Les Paris</TextSubTitle>
+
+			<View style={{ flexDirection: "row" }}>
+				<TouchableOpacity onPress={() => setMyBets(true)}>
+					<Text
+						style={
+							myBets
+								? styles.choiceMyBetsSelected
+								: styles.choiceMyBetsNotSelected
+						}
+					>
+						Mes Paris
+					</Text>
+				</TouchableOpacity>
+				<TouchableOpacity onPress={() => setMyBets(false)}>
+					<Text
+						style={
+							!myBets
+								? styles.choiceMyBetsSelected
+								: styles.choiceMyBetsNotSelected
+						}
+					>
+						Tous
+					</Text>
+				</TouchableOpacity>
+			</View>
+			{/* Filter menu */}
+			<View style={{ flexDirection: "row" }}>
+				{["En cours", "Gagnés", "Perdus", "Terminés"].map(
+					(value: any) => (
+						<TouchableOpacity
+							onPress={() => {
+								setFilter(value);
+							}}
+							style={
+								filter == value
+									? styles.betChoiceButtonTouched
+									: styles.betChoiceButtonUntouched
+							}
+						>
+							<Text
+								style={
+									filter == value
+										? { color: "white", fontSize: 16 }
+										: { fontSize: 16 }
+								}
+							>
+								{value}
+							</Text>
+						</TouchableOpacity>
+					)
+				)}
+			</View>
+
 			<View style={styles.textToMiddle}>
-				{game ? <TextTitle>{game?.name}</TextTitle> : undefined}
 				<SmallLineBreak />
 			</View>
 		</View>
@@ -55,5 +112,39 @@ const styles = StyleSheet.create({
 	},
 	textToMiddle: {
 		alignItems: "center",
+	},
+	choiceMyBetsSelected: {
+		fontWeight: "400",
+		fontSize: 16,
+		color: "black",
+		margin: 12,
+	},
+	choiceMyBetsNotSelected: {
+		fontWeight: "400",
+		fontSize: 16,
+		color: "gray",
+		margin: 12,
+	},
+	betChoiceButtonTouched: {
+		flexShrink: 1,
+		flexWrap: "wrap",
+		flex: 1,
+		fontSize: 12,
+		borderRadius: 12,
+		backgroundColor: Colors.rdpColor,
+		minWidth: "auto",
+		paddingHorizontal: 8,
+		paddingVertical: 6,
+		color: "white",
+	},
+	betChoiceButtonUntouched: {
+		flexShrink: 1,
+		flexWrap: "wrap",
+		flex: 1,
+		fontSize: 12,
+		borderRadius: 12,
+		minWidth: "auto",
+		paddingHorizontal: 8,
+		paddingVertical: 6,
 	},
 });
