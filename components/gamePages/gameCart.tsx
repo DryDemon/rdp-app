@@ -109,6 +109,8 @@ export default function GameCart(props: any) {
 	const [mainMise, setMainMise] = useState<number>(CONST_BASE_MISE_PARI);
 	const [mainOdd, setMainOdd] = useState<number>(CONST_BASE_MISE_PARI);
 
+	const [blockSendButton, setblockSendButton] = useState(false)
+
 	function loadCart() {
 		AsyncStorage.getItem("@cart").then((input) => {
 			let cart: any = [];
@@ -167,6 +169,7 @@ export default function GameCart(props: any) {
 		await AsyncStorage.setItem("@cart", JSON.stringify(cart));
 
 		setBets(cart);
+		setblockSendButton(false)
 	}
 
 	//fonction type == simple
@@ -214,23 +217,27 @@ export default function GameCart(props: any) {
 		updateGlobalMise(mise);
 		setMainMise(mise);
 	}
+	async function sendSimpleBets(){
+		let cpy = betsToDisplay
+		for (let bet of cpy) {
+			let rep = await sendNormalBetToServer(
+				jwt,
+				joinCode,
+				bet.mise,
+				[bet.betId],
+				[bet.matchId]
+			);
+			if(!rep) alert("Error");
+		}
+		await removeAllBet();
+	}
 
 	function onSend() {
-		//todo make button unavailable while sending
+		setblockSendButton(true)
+
 		switch (type) {
 			case "simple":
-				for (let bet of betsToDisplay) {
-					sendNormalBetToServer(
-						jwt,
-						joinCode,
-						bet.mise,
-						[bet.betId],
-						[bet.matchId]
-					).then((rep) => {
-						if (rep) removeBet(bet.betId, bet.matchId);
-						else alert("Erreur");
-					});
-				}
+				sendSimpleBets(); //TO launch the async function
 				break;
 			case "combiné":
 				let betIds: Array<string> = [];
@@ -479,6 +486,7 @@ export default function GameCart(props: any) {
 							<Button
 								title={"Placer les paris"}
 								onPress={onSend}
+								disabled={blockSendButton}
 							/>
 						)}
 					</View>
