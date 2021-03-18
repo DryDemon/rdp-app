@@ -36,7 +36,7 @@ export function RenderBetInput(props: any) {
 						>
 							<Text>Côte totale</Text>
 							<View style={styles.coteTotalContainer}>
-								<Text style={styles.coteTotalText}>{odd}</Text>
+								<Text style={styles.coteTotalText}>{odd.toFixed(2)}</Text>
 							</View>
 						</View>
 					</View>

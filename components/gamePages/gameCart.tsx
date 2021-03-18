@@ -161,10 +161,10 @@ export default function GameCart(props: any) {
 		});
 	}
 
-	function removeAllBet(){
+	function removeAllBet() {
 		let cpy = betsToDisplay;
-		for (let bet of cpy){
-			removeBet(bet.betId, bet.matchId)
+		for (let bet of cpy) {
+			removeBet(bet.betId, bet.matchId);
 		}
 	}
 
@@ -232,13 +232,12 @@ export default function GameCart(props: any) {
 				}
 				break;
 			case "combiné":
+				let betIds: Array<string> = [];
+				let matchIds: Array<string> = [];
 
-				let betIds:Array<string> = [];
-				let matchIds:Array<string> = [];
-				
 				for (let i = 0; i < betsToDisplay.length; i++) {
-					betIds.push(betsToDisplay[i].betId)
-					matchIds.push(betsToDisplay[i].matchId)
+					betIds.push(betsToDisplay[i].betId);
+					matchIds.push(betsToDisplay[i].matchId);
 				}
 
 				sendNormalBetToServer(
@@ -246,13 +245,13 @@ export default function GameCart(props: any) {
 					joinCode,
 					mainMise,
 					betIds,
-					matchIds,
+					matchIds
 				).then((rep) => {
 					if (rep) removeAllBet();
 					else alert("Erreur");
 				});
 
-			break;
+				break;
 			case "système":
 				break;
 		}
@@ -471,12 +470,18 @@ export default function GameCart(props: any) {
 						</Text>
 					)}
 				</View>
-
-				{betsToDisplay.length == 1 ? (
-					<Button title={"Placer le pari"} onPress={onSend} />
-				) : (
-					<Button title={"Placer les paris"} onPress={onSend} />
-				)}
+				{betsToDisplay && betsToDisplay.length > 0 ? (
+					<View>
+						{betsToDisplay.length == 1 ? (
+							<Button title={"Placer le pari"} onPress={onSend} />
+						) : (
+							<Button
+								title={"Placer les paris"}
+								onPress={onSend}
+							/>
+						)}
+					</View>
+				) : null}
 			</View>
 		</View>
 	);
