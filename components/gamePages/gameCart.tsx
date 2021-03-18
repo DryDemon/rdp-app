@@ -518,6 +518,8 @@ export default function GameCart(props: any) {
 												</Text>
 											</View>
 										</View>
+										{type == "système" ? (<View></View>):null}
+										
 										{type == "simple" ? (
 											<RenderBetInput
 												onChange={(mise: any) =>

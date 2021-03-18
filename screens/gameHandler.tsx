@@ -77,7 +77,7 @@ export default function GameHandler({ navigation }: any) {
 		| "gamePlayerStats"
 		| "gameMatchBets"
 		| "gameInfo"
-	>("gameClassement");
+	>("gameCart");
 	const [showGamePage, setshowGamePage] = useState(true); //Use this to show the game page bets
 	const [match, setmatch] = useState({});
 
