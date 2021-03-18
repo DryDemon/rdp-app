@@ -75,6 +75,7 @@ export default function GameListBets(props: any) {
 				{["En cours", "Gagnés", "Perdus", "Terminés"].map(
 					(value: any) => (
 						<TouchableOpacity
+							key={value}
 							onPress={() => {
 								setFilter(value);
 							}}
