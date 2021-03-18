@@ -76,7 +76,7 @@ export default function Dashboard({ navigation }: any) {
 
 	useEffect(() => {
 		if (ENVIRONEMENT == "dev") {
-			AsyncStorage.setItem("@joinCode", "CFEVPU");
+			AsyncStorage.setItem("@joinCode", "ZIHQDU");
 			navigation.navigate("Game");
 		}
 	}, [games]);

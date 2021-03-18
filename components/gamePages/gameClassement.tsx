@@ -10,7 +10,6 @@ import {
 } from "react-native";
 
 import {
-	
 	Text,
 	View,
 	TextInput,
@@ -30,19 +29,107 @@ import {
 
 import { ENVIRONEMENT } from "../../constants/Environement";
 import { SERVER_API_URL, SERVER_LOGO_URL } from "../../constants/Server";
-import { GameSchema } from "../../src/interaces/interfacesGame";
+import {
+	GameSchema,
+	userStatsInterface,
+} from "../../src/interaces/interfacesGame";
 import { validURL } from "../../src/smallFuncts";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import Colors from "../../constants/Colors";
 
 export default function GameClassement(props: any) {
 	const { jwt, user, joinCode, game, logoUrl, isShow, ...otherProps } = props;
+
+	const [userList, setuserList] = useState<userStatsInterface[]>([]);
+
+	//sort the use list by credist at each load
+	useEffect(() => {
+		if (game?.userStats) {
+			const sorted = [...game?.userStats].sort(
+				(a: userStatsInterface, b: userStatsInterface) => {
+					if (a.credits && b.credits) {
+						if (a.credits < b.credits) return 1;
+						if (a.credits > b.credits) return -1;
+					}
+
+					return 0;
+				}
+			);
+			setuserList(sorted);
+		}
+	}, [game]);
 
 	return (
 		<View>
 			<SmallLineBreak />
 			<TextSubTitle style={styles.titleGame}>Classement</TextSubTitle>
 			<View style={styles.textToMiddle}>
-				{game ? <TextTitle>{game?.name}</TextTitle> : undefined}
+				<View style={{ flexDirection: "row" }}>
+					{userList.length > 1 ? (
+						<View style={styles.mainClassementContainer}>
+							<View style={styles.separator}></View>
+							<Text>2</Text>
+							<MaterialCommunityIcons
+								name="crown"
+								size={20}
+								color={"#000"}
+							/>
+
+							<Text style={styles.mainClassementUsername}>
+								{userList[1].username}
+							</Text>
+							<Text style={styles.mainClassementCredits}>
+								{userList[1].credits}
+							</Text>
+						</View>
+					) : null}
+					{userList.length > 0 ? (
+						<View style={styles.mainClassementContainer}>
+							<Text>1</Text>
+							<MaterialCommunityIcons
+								name="crown"
+								size={20}
+								color={"#000"}
+							/>
+
+							<Text style={styles.mainClassementUsername}>
+								{userList[0].username}
+							</Text>
+							<Text style={styles.mainClassementCredits}>
+								{userList[0].credits}
+							</Text>
+						</View>
+					) : null}
+					{userList.length > 2 ? (
+						<View style={styles.mainClassementContainer}>
+							<View style={styles.separator}></View>
+							<Text>3</Text>
+							<MaterialCommunityIcons
+								name="crown"
+								size={20}
+								color={"#000"}
+							/>
+
+							<Text style={styles.mainClassementUsername}>
+								{userList[2].username}
+							</Text>
+							<Text style={styles.mainClassementCredits}>
+								{userList[2].credits}
+							</Text>
+						</View>
+					) : null}
+				</View>
 				<SmallLineBreak />
+				{userList.map((user: userStatsInterface, index: number) => (
+					<View style={styles.subClassement}>
+						<Text style={styles.subClassementUsername}>
+							{(index+1) + " : " + user.username}
+						</Text>
+						<Text style={styles.subClassementCredits}>
+							{user.credits}
+						</Text>
+					</View>
+				))}
 			</View>
 		</View>
 	);
@@ -55,5 +142,46 @@ const styles = StyleSheet.create({
 	},
 	textToMiddle: {
 		alignItems: "center",
+	},
+	mainClassementContainer: {
+		flex: 1,
+		margin: 10,
+		alignItems: "center",
+	},
+	mainClassementUsername: {
+		fontSize: 14,
+		fontWeight: "500",
+	},
+	mainClassementCredits: {
+		fontWeight: "700",
+		fontSize: 16,
+		color: Colors.rdpColor,
+	},
+	separator: {
+		marginVertical: 30,
+		height: 1,
+		width: "80%",
+	},
+	subClassementUsername: {
+		fontSize: 14,
+		fontWeight: "500",
+	},
+	subClassement: {
+		width: "100%",
+
+		flexDirection: "row",
+		backgroundColor: "white",
+		borderRadius: 12,
+		padding: 21,
+		margin: 21,
+	},
+	subClassementCredits: {
+		fontWeight: "700",
+		fontSize: 16,
+		color: Colors.rdpColor,
+
+		marginLeft: "auto",
+		textAlign: "right",
+		alignSelf: "flex-end",
 	},
 });
