@@ -50,6 +50,28 @@ type DisplayType = {
 	mise: number;
 };
 
+//this function will make all the binary combinaisons forthe system choice
+//ex : 3 bets, 2/3 choice => 011, 101, 110
+function generateBinarySystemCodes(nb: number, choice: number) {
+	let out: Array<Array<number>> = [];
+
+	let code = Array.from({ length: nb }, () => 0);
+	while (code.reduce((prev, current) => prev + current, 0) != nb) {
+		for (let i = 0; i < nb; i++) {
+			if (code[i] == 0) {
+				code[i] = 1;
+				break;
+			} else {
+				code[i] = 0;
+			}
+		}
+
+		if (code.reduce((prev, current) => prev + current, 0) == choice)
+			out.push(Object.assign([], code));
+	}
+	return out;
+}
+
 async function getMatchFromIds(jwt: string, matchsIds: Array<string>) {
 	const rawRep = await fetch(
 		SERVER_API_URL +
@@ -109,9 +131,9 @@ export default function GameCart(props: any) {
 	const [mainMise, setMainMise] = useState<number>(CONST_BASE_MISE_PARI);
 	const [mainOdd, setMainOdd] = useState<number>(CONST_BASE_MISE_PARI);
 
-	const [blockSendButton, setblockSendButton] = useState(false)
+	const [blockSendButton, setblockSendButton] = useState(false);
 
-	const [systemChoice, setSystemChoice] = useState(0)
+	const [systemChoice, setSystemChoice] = useState(0);
 
 	function loadCart() {
 		AsyncStorage.getItem("@cart").then((input) => {
@@ -171,7 +193,7 @@ export default function GameCart(props: any) {
 		await AsyncStorage.setItem("@cart", JSON.stringify(cart));
 
 		setBets(cart);
-		setblockSendButton(false)
+		setblockSendButton(false);
 	}
 
 	//fonction type == simple
@@ -205,12 +227,30 @@ export default function GameCart(props: any) {
 
 	useEffect(() => {
 		//Update the global odd for type == comboné
-		let totalQuote = 1.0;
-
+		
 		if (type == "combiné") {
+			let totalQuote = 1.0;
+
 			for (let bet of betsToDisplay) {
 				totalQuote *= bet.odd;
 			}
+			if (mainOdd != totalQuote) setMainOdd(totalQuote);
+		}
+		if (type == "système") {
+			let totalQuote=0.0;
+
+			let codes = generateBinarySystemCodes(
+				betsToDisplay.length,
+				1 + systemChoice
+			);
+			for (let code of codes) {
+				let localQuote = 1.0;
+				for (let i = 0; i < code.length; i++) {
+					if (code[i] == 1) localQuote *= betsToDisplay[i].odd;
+				}
+				totalQuote+=localQuote;
+			}
+			
 			if (mainOdd != totalQuote) setMainOdd(totalQuote);
 		}
 	}, [type, betsToDisplay]);
@@ -219,8 +259,8 @@ export default function GameCart(props: any) {
 		updateGlobalMise(mise);
 		setMainMise(mise);
 	}
-	async function sendSimpleBets(){
-		let cpy = betsToDisplay
+	async function sendSimpleBets() {
+		let cpy = betsToDisplay;
 		for (let bet of cpy) {
 			let rep = await sendNormalBetToServer(
 				jwt,
@@ -229,13 +269,13 @@ export default function GameCart(props: any) {
 				[bet.betId],
 				[bet.matchId]
 			);
-			if(!rep) alert("Error");
+			if (!rep) alert("Error");
 		}
 		await removeAllBet();
 	}
 
 	function onSend() {
-		setblockSendButton(true)
+		setblockSendButton(true);
 
 		switch (type) {
 			case "simple":
@@ -470,12 +510,12 @@ export default function GameCart(props: any) {
 									nbBets={betsToDisplay.length}
 									odd={mainOdd}
 									value={mainMise}
-									/>
-									) : null}
+								/>
+							) : null}
 							{type == "système" ? (
 								<RenderBetInput
-								onChange={(mise: any) =>
-									updateBetMainMise(mise)
+									onChange={(mise: any) =>
+										updateBetMainMise(mise)
 									}
 									odd={mainOdd}
 									value={mainMise}
