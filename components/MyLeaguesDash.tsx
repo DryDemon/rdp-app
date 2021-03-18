@@ -103,9 +103,9 @@ export function MyLeaguesDash(props: any) {
 
                     <ScrollView horizontal={true}>
                         <GameIcon create={1} navigation={navigation} username={username} />
-                        {games.map((data: any) => {
+                        {games?games.map((data: any) => {
                             return <GameIcon key={data.joinCode} game={data} username={username} navigation={navigation} />;
-                        })}
+                        }):null}
                     </ScrollView>
 
                     :

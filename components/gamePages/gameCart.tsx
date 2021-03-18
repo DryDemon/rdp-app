@@ -559,7 +559,7 @@ export default function GameCart(props: any) {
 							) : null}
 						</View>
 					) : (
-						<Text>
+						<Text style={{padding:15}}>
 							Essaye de placer des paris avant de venir ici ;)
 						</Text>
 					)}

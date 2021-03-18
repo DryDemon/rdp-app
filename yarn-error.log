@@ -1,30 +1,20 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\jean_win\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-native-community
+  C:\Program Files\nodejs\node.exe C:\Users\jeanc\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
 
 PATH: 
-  C:\Python39\Scripts\;C:\Python39\;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\libnvvp;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\GnuWin32\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.1\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Users\jean_win\AppData\Local\Programs\Python\Python37\Scripts\;C:\Users\jean_win\AppData\Local\Programs\Python\Python37\;C:\Users\jean_win\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\GnuWin32\bin;C:\Users\jean_win\.deno\bin;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2.4\bin;C:\Program Files\heroku\bin;C:\Program Files\JetBrains\DataGrip 2020.3\bin;C:\Users\jean_win\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\jean_win\AppData\Roaming\npm;C:\Users\jean_win\AppData\Local\gitkraken\bin
+  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;D:\matlab\bin;C:\Program Files\nodejs\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\jeanc\AppData\Local\Programs\Python\Python38\Scripts\;C:\Users\jeanc\AppData\Local\Programs\Python\Python38\;C:\Users\jeanc\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\jeanc\AppData\Local\Programs\Python\Python39\;C:\Users\jeanc\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2.3\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2020.2.3\bin;C:\Users\jeanc\.deno\bin;C:\Users\jeanc\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\jeanc\AppData\Local\GitHubDesktop\bin;C:\Program Files\heroku\bin;c:\users\jeanc\appdata\local\programs\python\python38\python.exe;C:\Users\jeanc\AppData\Local\gitkraken\bin;C:\Program Files (x86)\GitHub CLI\;C:\Users\jeanc\AppData\Roaming\npm
 
 Yarn version: 
   1.22.10
 
 Node version: 
-  14.16.0
+  10.16.0
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/react-native-community: Not found
-      at Request.params.callback [as _callback] (C:\Users\jean_win\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66988:18)
-      at Request.self.callback (C:\Users\jean_win\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140662:22)
-      at Request.emit (events.js:315:20)
-      at Request.<anonymous> (C:\Users\jean_win\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141634:10)
-      at Request.emit (events.js:315:20)
-      at IncomingMessage.<anonymous> (C:\Users\jean_win\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141556:12)
-      at Object.onceWrapper (events.js:421:28)
-      at IncomingMessage.emit (events.js:327:22)
-      at endReadableNT (internal/streams/readable.js:1327:12)
-      at processTicksAndRejections (internal/process/task_queues.js:80:21)
+  Error: EPERM: operation not permitted, unlink 'C:\Users\jeanc\Documents\GitHub\rdp-app\node_modules\@babel\generator\node_modules\.bin'
 
 npm manifest: 
   {
@@ -32,11 +22,13 @@ npm manifest:
       "@expo/vector-icons": "^12.0.3",
       "@react-native-async-storage/async-storage": "^1.14.1",
       "@react-native-community/datetimepicker": "3.0.4",
+      "@react-native-community/picker": "^1.8.1",
       "@react-navigation/native": "^5.9.3",
       "@react-navigation/stack": "^5.14.3",
       "date-fns": "^2.19.0",
       "expo": "^40.0.1",
       "expo-asset": "~8.2.1",
+      "expo-clipboard": "~1.0.1",
       "expo-constants": "~9.3.3",
       "expo-facebook": "~9.1.0",
       "expo-font": "~8.4.0",
@@ -1826,6 +1818,11 @@ Lockfile:
     dependencies:
       invariant "^2.2.4"
   
+  "@react-native-community/picker@^1.8.1":
+    version "1.8.1"
+    resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.8.1.tgz#94f14f0aad98fa7592967b941be97deec95c3805"
+    integrity sha512-Sj9DzX1CSnmYiuEQ5fQhExoo4XjSKoZkqLPAAybycq6RHtCuWppf+eJXRMCOJki25BlKSSt+qVqg0fIe//ujNQ==
+  
   "@react-navigation/core@^5.15.2":
     version "5.15.2"
     resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-5.15.2.tgz#6aa374c7bcb6ffcaac8e2a7f8bdb2f9aba469b31"
@@ -3181,6 +3178,11 @@ Lockfile:
       md5-file "^3.2.3"
       path-browserify "^1.0.0"
       url-parse "^1.4.4"
+  
+  expo-clipboard@~1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/expo-clipboard/-/expo-clipboard-1.0.1.tgz#cc73e01dce83cca0df2c539d2c862aa892e70bfc"
+    integrity sha512-TQjMi9mAZr8jQOSl/XJLVwW6DTmjA3qAOUMk4BuxlMvJ1NqJbCITLEBwUcLW/rNewgmXLytoLzRpxadcxSfJAQ==
   
   expo-constants@~9.3.3:
     version "9.3.5"

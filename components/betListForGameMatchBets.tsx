@@ -12,15 +12,15 @@ import {
 } from "react-native";
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Colors from "../constants/Colors";
 
 export default function BetListForGameMatchBets(props: any) {
 	const [showDropDown, setShowDropDown] = useState(true);
 
 	const bet = props.bet;
 
-	console.log(bet);
 	if (bet && bet.odds)
-		return (    
+		return (
 			<View style={styles.betContainer}>
 				<TouchableOpacity
 					style={styles.title}
@@ -29,7 +29,7 @@ export default function BetListForGameMatchBets(props: any) {
 						else setShowDropDown(true);
 					}}
 				>
-					<Text>{bet.name}</Text>
+					<Text style={styles.betMainName}>{bet.name}</Text>
 					<View style={styles.arrowView}>
 						<MaterialIcons
 							name="keyboard-arrow-down"
@@ -44,12 +44,23 @@ export default function BetListForGameMatchBets(props: any) {
 					}
 				>
 					{bet.odds.map((odd: any) => (
-						<View style={{ flexDirection: "row" }} key={odd.id}>
-							{odd.name? <Text style={{flex:1}}>{odd.name}</Text>: null}
-							{odd.header? <Text style={{flex:1}}>{odd.header}</Text>: null}
-							{odd.handicap? <Text style={{flex:1}}>{odd.handicap}</Text>: null}
+						<View style={styles.oddContainer} key={odd.id}>
+							{odd.name ? (
+								<Text style={{ flex: 1 }}>{odd.name}</Text>
+							) : null}
+							{odd.header ? (
+								<Text style={{ flex: 1 }}>{odd.header}</Text>
+							) : null}
+							{odd.handicap ? (
+								<Text style={{ flex: 1 }}>{odd.handicap}</Text>
+							) : null}
 
-							<BasicBet isShow={props.isShow} key={odd.id} odd={odd} matchId={props.matchId}></BasicBet>
+							<BasicBet
+								isShow={props.isShow}
+								key={odd.id}
+								odd={odd}
+								matchId={props.matchId}
+							></BasicBet>
 						</View>
 					))}
 				</View>
@@ -58,8 +69,15 @@ export default function BetListForGameMatchBets(props: any) {
 	else return null;
 }
 const styles = StyleSheet.create({
-	betContainer: {},
+	betContainer: {
+		borderRadius: 12,
+		backgroundColor: "white",
+		margin: 6,
+	},
 	title: {
+		borderTopRightRadius: 12,
+		borderTopLeftRadius: 12,
+		backgroundColor: Colors.rdpColor,
 		flexDirection: "row",
 	},
 	arrowView: {
@@ -72,6 +90,18 @@ const styles = StyleSheet.create({
 		textAlign: "right",
 		alignSelf: "flex-end",
 	},
+	oddContainer: {
+		flexDirection: "row",
+		backgroundColor: "#F6F7F9",
+		margin: 4,
+		padding: 10,
+	},betMainName:{
+		color:"white",
+		fontWeight:"500",
+		fontSize:17,
+		marginVertical:9,
+		marginHorizontal:12,
+	}
 });
 // {
 //     "id": "10202",
