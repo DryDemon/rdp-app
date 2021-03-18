@@ -69,7 +69,16 @@ export default function GameHandler({ navigation }: any) {
 
 	const [logoUrl, setlogoUrl] = useState(SERVER_LOGO_URL);
 
-	const [page, setPage] = useState<"gameClassement"|"gamePlaceBet"|"gameMatchBets"|"gameListBets"|"gameCart"|"gamePlayerStats"|"gameMatchBets"|"gameInfo">("gameCart");
+	const [page, setPage] = useState<
+		| "gameClassement"
+		| "gamePlaceBet"
+		| "gameMatchBets"
+		| "gameListBets"
+		| "gameCart"
+		| "gamePlayerStats"
+		| "gameMatchBets"
+		| "gameInfo"
+	>("gameCart");
 	const [showGamePage, setshowGamePage] = useState(true); //Use this to show the game page bets
 	const [match, setmatch] = useState({});
 
@@ -197,7 +206,13 @@ export default function GameHandler({ navigation }: any) {
 			// 	return undefined;
 			// }}
 			>
-				<GameHeader back={"Dashboard"} navigation={navigation} callbackQuestionMark={()=>{setPage("gameInfo")}}/>
+				<GameHeader
+					back={"Dashboard"}
+					navigation={navigation}
+					callbackQuestionMark={() => {
+						setPage("gameInfo");
+					}}
+				/>
 				{/* <Button title={"toggle"} onPress={() => {if(showGamePage) setshowGamePage(false); else setshowGamePage(true)}} /> */}
 
 				<ViewContainer
@@ -209,6 +224,7 @@ export default function GameHandler({ navigation }: any) {
 				>
 					<GameScrollView>
 						<GameClassement
+							isShow={page == "gameClassement" ? 1 : 0}
 							jwt={jwt}
 							user={user}
 							joinCode={joinCode}
@@ -227,8 +243,12 @@ export default function GameHandler({ navigation }: any) {
 				>
 					<GameScrollView>
 						<GamePlaceBet
-							callbackShowMatchBet={(match: any)=>{setmatch(match); setPage("gameMatchBets")}}
-							jwt={jwt} 
+							callbackShowMatchBet={(match: any) => {
+								setmatch(match);
+								setPage("gameMatchBets");
+							}}
+							isShow={page == "gamePlaceBet" ? 1 : 0}
+							jwt={jwt}
 							user={user}
 							joinCode={joinCode}
 							game={game}
@@ -246,6 +266,7 @@ export default function GameHandler({ navigation }: any) {
 				>
 					<GameScrollView>
 						<GameListBets
+							isShow={page == "gameListBets" ? 1 : 0}
 							jwt={jwt}
 							user={user}
 							joinCode={joinCode}
@@ -264,6 +285,7 @@ export default function GameHandler({ navigation }: any) {
 				>
 					<GameScrollView>
 						<GameCart
+							isShow={page == "gameCart" ? 1 : 0}
 							jwt={jwt}
 							user={user}
 							joinCode={joinCode}
@@ -282,6 +304,7 @@ export default function GameHandler({ navigation }: any) {
 				>
 					<GameScrollView>
 						<GameMatchsStats
+							isShow={page == "gamePlayerStats" ? 1 : 0}
 							jwt={jwt}
 							user={user}
 							joinCode={joinCode}
@@ -301,6 +324,7 @@ export default function GameHandler({ navigation }: any) {
 					<GameScrollView>
 						<GameMatchBets
 							match={match}
+							isShow={page == "gameMatchBets" ? 1 : 0}
 							jwt={jwt}
 							user={user}
 							joinCode={joinCode}
@@ -319,6 +343,7 @@ export default function GameHandler({ navigation }: any) {
 				>
 					<GameScrollView>
 						<GameInfo
+							isShow={page == "gameInfo" ? 1 : 0}
 							jwt={jwt}
 							user={user}
 							joinCode={joinCode}

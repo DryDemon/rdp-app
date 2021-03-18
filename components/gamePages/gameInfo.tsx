@@ -39,7 +39,7 @@ import { GameFooter } from "../../components/GameFooter";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
 export default function GameInfo(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, ...otherProps } = props;
+	const { jwt, user, joinCode, game, logoUrl, isShow, ...otherProps } = props;
 
 	const onShare = async () => {
 		try {

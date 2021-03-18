@@ -91,6 +91,7 @@ export default function BasicBet(props: any) {
 			callbackShowMatchBet(props.match);
 	}
 
+	console.log(odd?.odds)
 	if (odd) {
 		return (
 			<TouchableOpacity onPress={onBet}>
@@ -113,7 +114,7 @@ export default function BasicBet(props: any) {
 									!selected ? styles.odd : styles.oddSelected
 								}
 							>
-								{parseInt(odd.odds).toFixed(2)}
+								{(+odd.odds).toFixed(2)}
 							</Text>
 						</View>
 					</View>

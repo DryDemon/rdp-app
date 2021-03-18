@@ -34,7 +34,7 @@ import { GameSchema } from "../../src/interaces/interfacesGame";
 import { validURL } from "../../src/smallFuncts";
 
 export default function GameMatchsStats(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, ...otherProps } = props;
+	const { jwt, user, joinCode, game, logoUrl, isShow, ...otherProps } = props;
 
 	return (
 		<View>

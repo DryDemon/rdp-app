@@ -53,9 +53,9 @@ export function RenderBetInput(props: any) {
 					>
 						<TouchableOpacity
 							style={styles.buttonRevert}
-							onPress={() => onChange(++value)}
+							onPress={() => onChange(--value)}
 						>
-							<Text style={styles.buttonRevertText}>+</Text>
+							<Text style={styles.buttonRevertText}>-</Text>
 						</TouchableOpacity>
 						<TextInput
 							maxLength={10}
@@ -69,9 +69,9 @@ export function RenderBetInput(props: any) {
 						/>
 						<TouchableOpacity
 							style={styles.button}
-							onPress={() => onChange(--value)}
+							onPress={() => onChange(++value)}
 						>
-							<Text style={styles.buttonText}>-</Text>
+							<Text style={styles.buttonText}>+</Text>
 						</TouchableOpacity>
 					</View>
 				</View>

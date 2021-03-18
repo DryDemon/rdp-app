@@ -40,7 +40,7 @@ import { RenderBetInput } from "../renderBetInput";
 
 type DisplayType = {
 	matchName: string;
-	odd: string;
+	odd: number;
 	betName: string;
 	betSubName: string;
 	betHandicap: string;
@@ -64,7 +64,7 @@ async function getMatchFromIds(jwt: string, matchsIds: Array<string>) {
 }
 
 export default function GameCart(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, ...otherProps } = props;
+	const { jwt, user, joinCode, game, logoUrl, isShow, ...otherProps } = props;
 
 	const [bets, setBets] = useState<Array<any>>([]);
 	const [betsToDisplay, setBetsToDisplay] = useState<Array<DisplayType>>([]);
@@ -72,6 +72,9 @@ export default function GameCart(props: any) {
 	const [type, setType] = useState<"simple" | "combiné" | "système">(
 		"simple"
 	);
+	
+	const [mainMise, setMainMise] = useState<number>(CONST_BASE_MISE_PARI);
+	const [mainOdd, setMainOdd] = useState<number>(CONST_BASE_MISE_PARI);
 
 	function loadCart() {
 		AsyncStorage.getItem("@cart").then((input) => {
@@ -83,16 +86,23 @@ export default function GameCart(props: any) {
 		AsyncStorage.getItem("@cart_info").then((input) => {
 			let data;
 			if (input) data = JSON.parse(input);
-			else data = { type, miseGlobal: CONST_BASE_MISE_PARI };
+			else {
+				data = { type, miseGlobal: CONST_BASE_MISE_PARI };
+				AsyncStorage.setItem("@cart_info", JSON.stringify(data));
+			}
 			setcartInfo(data);
+
+			setMainMise(data.miseGlobal);
 			setType(data.type);
 		});
 	}
 
+	//on load
 	useEffect(() => {
 		loadCart();
-	}, []);
+	}, [isShow]);
 
+	//fonctions principales du panier
 	function changeType(type: any) {
 		setType(type);
 		AsyncStorage.getItem("@cart_info").then((input) => {
@@ -118,6 +128,7 @@ export default function GameCart(props: any) {
 		});
 	}
 
+	//fonction type == simple
 	function updateSimpleBetMise(betId: string, matchId: string, mise: number) {
 		AsyncStorage.getItem("@cart").then((input) => {
 			let cart: any = [];
@@ -134,10 +145,38 @@ export default function GameCart(props: any) {
 		});
 	}
 
-	function updateCombinedBetMise(mise: number) {}
+	//fonctions type == combiné
+	//load la mise globale de systeme et combiné dans le local storage
+	function updateGlobalMise(mise: number) {
+		AsyncStorage.getItem("@cart_info").then((input) => {
+			let data;
+			if (input) data = JSON.parse(input);
+			else data = { type, miseGlobal: CONST_BASE_MISE_PARI };
+			data.miseGlobal = mise;
+			AsyncStorage.setItem("@cart_info", JSON.stringify(data));
+		});
+	}
+
+	useEffect(() => {
+		//Update the global odd for type == comboné
+		let totalQuote = 1.0;
+
+		if (type == "combiné") {
+			for (let bet of betsToDisplay) {
+				totalQuote *= bet.odd;
+			}
+			if (mainOdd != totalQuote) setMainOdd(totalQuote);
+		}
+	}, [type, betsToDisplay]);
+
+	function updateCombinedBetMise(mise: number) {
+		updateGlobalMise(mise);
+		setMainMise(mise);
+	}
 
 	function onSend() {}
 
+	//to load the display of the cart
 	useEffect(() => {
 		if (bets && jwt) {
 			let matchsIds: Array<string> = [];
@@ -165,7 +204,7 @@ export default function GameCart(props: any) {
 														match.teamHome +
 														" - " +
 														match.teamAway;
-													let oddForBet = odds.odds;
+													let oddForBet = +odds.odds;
 													let betName =
 														betFromMatch.name;
 													let betSubName = odds.name;
@@ -338,9 +377,8 @@ export default function GameCart(props: any) {
 										updateCombinedBetMise(mise)
 									}
 									nbBets={betsToDisplay.length}
-									odd={10}
-									// odd={mainOdd}
-									// value={mainMise}
+									odd={mainOdd}
+									value={mainMise}
 								/>
 							) : null}
 						</View>
