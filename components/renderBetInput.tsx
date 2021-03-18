@@ -11,7 +11,7 @@ import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
 
 export function RenderBetInput(props: any) {
-	let { onChange, odd, value, nbBets, ...otherProps } = props;
+	let { onChange, odd, value, nbBets, system, ...otherProps } = props;
 
 	return (
 		<View>
@@ -42,6 +42,7 @@ export function RenderBetInput(props: any) {
 					</View>
 				</View>
 			) : null}
+			{system ? <Text>system</Text> : null}
 			<View style={{ flexDirection: "row", alignItems: "center" }}>
 				<View style={{ flexShrink: 1 }}>
 					<View
@@ -137,10 +138,10 @@ const styles = StyleSheet.create({
 	coteTotalContainer: {
 		backgroundColor: Colors.rdpColor,
 		alignItems: "center",
-		margin:8,
-		paddingHorizontal:2,
-		paddingVertical:2,
-		borderRadius:4,
+		margin: 8,
+		paddingHorizontal: 2,
+		paddingVertical: 2,
+		borderRadius: 4,
 	},
 	coteTotalText: {
 		fontWeight: "bold",

@@ -63,6 +63,39 @@ async function getMatchFromIds(jwt: string, matchsIds: Array<string>) {
 	}
 }
 
+async function sendNormalBetToServer(
+	jwt: string,
+	joinCode: string,
+	credits: number,
+	betIds: Array<string>,
+	matchIds: Array<string>
+) {
+	if (
+		jwt &&
+		joinCode &&
+		credits &&
+		betIds &&
+		matchIds &&
+		matchIds.length == betIds.length
+	) {
+		let ids: Array<string> = [];
+
+		for (let i = 0; i < betIds.length; i++) {
+			ids.push(betIds[i] + "@" + matchIds[i]);
+		}
+
+		const rawResponse = await fetch(
+			`${SERVER_API_URL}/addbetingame?jwt=${jwt}&joinCode=${joinCode}&credits=${credits}&ids=${ids.toString()}`
+		);
+
+		const content = await rawResponse.json();
+
+		return content.success == 1;
+	}
+
+	return false;
+}
+
 export default function GameCart(props: any) {
 	const { jwt, user, joinCode, game, logoUrl, isShow, ...otherProps } = props;
 
@@ -72,7 +105,7 @@ export default function GameCart(props: any) {
 	const [type, setType] = useState<"simple" | "combiné" | "système">(
 		"simple"
 	);
-	
+
 	const [mainMise, setMainMise] = useState<number>(CONST_BASE_MISE_PARI);
 	const [mainOdd, setMainOdd] = useState<number>(CONST_BASE_MISE_PARI);
 
@@ -128,6 +161,13 @@ export default function GameCart(props: any) {
 		});
 	}
 
+	function removeAllBet(){
+		let cpy = betsToDisplay;
+		for (let bet of cpy){
+			removeBet(bet.betId, bet.matchId)
+		}
+	}
+
 	//fonction type == simple
 	function updateSimpleBetMise(betId: string, matchId: string, mise: number) {
 		AsyncStorage.getItem("@cart").then((input) => {
@@ -169,12 +209,54 @@ export default function GameCart(props: any) {
 		}
 	}, [type, betsToDisplay]);
 
-	function updateCombinedBetMise(mise: number) {
+	function updateBetMainMise(mise: number) {
 		updateGlobalMise(mise);
 		setMainMise(mise);
 	}
 
-	function onSend() {}
+	function onSend() {
+		//todo make button unavailable while sending
+		switch (type) {
+			case "simple":
+				for (let bet of betsToDisplay) {
+					sendNormalBetToServer(
+						jwt,
+						joinCode,
+						bet.mise,
+						[bet.betId],
+						[bet.matchId]
+					).then((rep) => {
+						if (rep) removeBet(bet.betId, bet.matchId);
+						else alert("Erreur");
+					});
+				}
+				break;
+			case "combiné":
+
+				let betIds:Array<string> = [];
+				let matchIds:Array<string> = [];
+				
+				for (let i = 0; i < betsToDisplay.length; i++) {
+					betIds.push(betsToDisplay[i].betId)
+					matchIds.push(betsToDisplay[i].matchId)
+				}
+
+				sendNormalBetToServer(
+					jwt,
+					joinCode,
+					mainMise,
+					betIds,
+					matchIds,
+				).then((rep) => {
+					if (rep) removeAllBet();
+					else alert("Erreur");
+				});
+
+			break;
+			case "système":
+				break;
+		}
+	}
 
 	//to load the display of the cart
 	useEffect(() => {
@@ -371,14 +453,15 @@ export default function GameCart(props: any) {
 									</View>
 								))}
 							</View>
-							{type == "combiné" ? (
+							{type == "combiné" || type == "système" ? (
 								<RenderBetInput
 									onChange={(mise: any) =>
-										updateCombinedBetMise(mise)
+										updateBetMainMise(mise)
 									}
 									nbBets={betsToDisplay.length}
 									odd={mainOdd}
 									value={mainMise}
+									system={type == "système" ? 1 : 0}
 								/>
 							) : null}
 						</View>
@@ -389,7 +472,11 @@ export default function GameCart(props: any) {
 					)}
 				</View>
 
-				<Button title={"Placer les paris"} onPress={onSend} />
+				{betsToDisplay.length == 1 ? (
+					<Button title={"Placer le pari"} onPress={onSend} />
+				) : (
+					<Button title={"Placer les paris"} onPress={onSend} />
+				)}
 			</View>
 		</View>
 	);
