@@ -111,6 +111,8 @@ export default function GameCart(props: any) {
 
 	const [blockSendButton, setblockSendButton] = useState(false)
 
+	const [systemChoice, setSystemChoice] = useState(0)
+
 	function loadCart() {
 		AsyncStorage.getItem("@cart").then((input) => {
 			let cart: any = [];
@@ -460,7 +462,7 @@ export default function GameCart(props: any) {
 									</View>
 								))}
 							</View>
-							{type == "combiné" || type == "système" ? (
+							{type == "combiné" ? (
 								<RenderBetInput
 									onChange={(mise: any) =>
 										updateBetMainMise(mise)
@@ -468,7 +470,19 @@ export default function GameCart(props: any) {
 									nbBets={betsToDisplay.length}
 									odd={mainOdd}
 									value={mainMise}
-									system={type == "système" ? 1 : 0}
+									/>
+									) : null}
+							{type == "système" ? (
+								<RenderBetInput
+								onChange={(mise: any) =>
+									updateBetMainMise(mise)
+									}
+									odd={mainOdd}
+									value={mainMise}
+									system={1}
+									nbBets={betsToDisplay.length}
+									systemChoice={systemChoice}
+									setSystemChoice={setSystemChoice}
 								/>
 							) : null}
 						</View>

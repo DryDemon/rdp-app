@@ -9,15 +9,47 @@ import {
 } from "./Themed";
 import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
+import { Picker } from "@react-native-community/picker";
 
 export function RenderBetInput(props: any) {
-	let { onChange, odd, value, nbBets, system, ...otherProps } = props;
+	let {
+		onChange,
+		odd,
+		value,
+		nbBets,
+		system,
+		systemChoice,
+		setSystemChoice,
+		...otherProps
+	} = props;
+
+	function renderSystemChoices() {
+		let choices: any[] = [];
+		for (let i = 0; i < nbBets; i++) {
+			if (i == 0)
+				choices.push(
+					<Picker.Item label={nbBets + " paris simples"} value={i} />
+				);
+			else if (i == nbBets - 1)
+				choices.push(
+					<Picker.Item label={nbBets + " paris combinés"} value={i} />
+				);
+			else
+				choices.push(
+					<Picker.Item
+						label={"Système " + (i + 1) + "/" + nbBets}
+						value={i}
+					/>
+				);
+		}
+		return choices;
+	}
 
 	return (
 		<View>
 			<SmallLineBreak />
 
-			{nbBets ? (
+			{nbBets && !system ? (
 				<View style={{ flexDirection: "row", alignItems: "center" }}>
 					<View
 						style={{ flexDirection: "row", alignItems: "center" }}
@@ -36,13 +68,28 @@ export function RenderBetInput(props: any) {
 						>
 							<Text>Côte totale</Text>
 							<View style={styles.coteTotalContainer}>
-								<Text style={styles.coteTotalText}>{odd.toFixed(2)}</Text>
+								<Text style={styles.coteTotalText}>
+									{odd.toFixed(2)}
+								</Text>
 							</View>
 						</View>
 					</View>
 				</View>
 			) : null}
-			{system ? <Text>system</Text> : null}
+			{system ? (
+				<View>
+					<Picker
+						selectedValue={systemChoice}
+						style={styles.systemPicker}
+						onValueChange={(itemValue: any) =>
+							setSystemChoice(itemValue)
+						}
+					>
+						{renderSystemChoices()}
+					</Picker>
+				</View>
+			) : null}
+
 			<View style={{ flexDirection: "row", alignItems: "center" }}>
 				<View style={{ flexShrink: 1 }}>
 					<View
@@ -75,6 +122,22 @@ export function RenderBetInput(props: any) {
 							<Text style={styles.buttonText}>+</Text>
 						</TouchableOpacity>
 					</View>
+
+					{system ? ( //partie system juste sous l'input
+						<View
+							style={{
+								flexDirection: "row",
+								alignItems: "center",
+							}}
+						>
+							<Text>Côte totale</Text>
+							<View style={styles.coteTotalContainer}>
+								<Text style={styles.coteTotalText}>
+									{odd.toFixed(2)}
+								</Text>
+							</View>
+						</View>
+					) : null}
 				</View>
 				<View style={styles.flexRight}>
 					<Text style={{ fontSize: 12, fontWeight: "500" }}>
@@ -147,5 +210,13 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		fontSize: 15,
 		color: "white",
+	},
+	systemPicker: {
+		
+		paddingHorizontal: 2,
+		paddingVertical: 2,
+		borderRadius:8,
+		borderColor:Colors.rdpColor,
+		margin:10,
 	},
 });
