@@ -55,7 +55,7 @@ async function fetchBetData(joinCode: string, jwt: string) {
 }
 
 export default function GamePlaceBet(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, callbackShowMatchBet, ...otherProps } = props;
+	const { jwt, user, joinCode, game, logoUrl, callbackShowMatchBet, isShow, ...otherProps } = props;
 
 	const [matchs, setMatchs] = useState<Array<MatchSchema>>([]);
 	const [leagues, setLeagues] = useState<Array<LeagueSchema>>([]);
@@ -114,6 +114,7 @@ export default function GamePlaceBet(props: any) {
 
 				<View>
 					<AllBets
+						isShow={isShow}
 						callbackShowMatchBet={callbackShowMatchBet}
 						leagues={leagues}
 						filter={listFilter}

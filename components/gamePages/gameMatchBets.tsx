@@ -38,12 +38,11 @@ import {
 	MatchSchema,
 } from "../../src/interaces/interfacesQuotes";
 import { validURL } from "../../src/smallFuncts";
-import AllBets from "../allbets";
 import { LeagueIcon } from "../LeagueIcon";
 import BetListForGameMatchBets from "../betListForGameMatchBets";
 
 export default function GameMatchBets(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, match, ...otherProps } = props;
+	const { jwt, user, joinCode, game, logoUrl, match, isShow, ...otherProps } = props;
 
 	const odds = match.prematchOdds;
 	return (
@@ -57,7 +56,7 @@ export default function GameMatchBets(props: any) {
 
 					{odds
 						? odds.map((bet: any) => (
-								<BetListForGameMatchBets key={bet.id} bet={bet} matchId={match.matchId}></BetListForGameMatchBets>
+								<BetListForGameMatchBets isShow={isShow} key={bet.id} bet={bet} matchId={match.matchId}></BetListForGameMatchBets>
 						  ))
 						: null}
 				</View>

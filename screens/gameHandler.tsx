@@ -72,7 +72,6 @@ export default function GameHandler({ navigation }: any) {
 	const [page, setPage] = useState<
 		| "gameClassement"
 		| "gamePlaceBet"
-		| "gameMatchBets"
 		| "gameListBets"
 		| "gameCart"
 		| "gamePlayerStats"

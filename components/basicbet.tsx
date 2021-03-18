@@ -23,6 +23,7 @@ function isEmptyObject(obj: any) {
 export default function BasicBet(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
 	const odd = props.odd;
+	const isShow = props.isShow
 
 	const [selected, setSelected] = useState(false);
 
@@ -32,8 +33,10 @@ export default function BasicBet(props: any) {
 			let cart = JSON.parse(input);
 			if (cart)
 				for (let cartElem of cart) {
-					if (cartElem.matchId == matchId && cartElem.betId == betId)
+					if (cartElem.matchId == matchId && cartElem.betId == betId){
+						if(ENVIRONEMENT == "dev") {console.log(cart, cartElem)}
 						return true;
+					}
 				}
 		}
 		return false;
@@ -43,8 +46,9 @@ export default function BasicBet(props: any) {
 		if (odd && props.matchId)
 			isBetIdInCart(props.matchId, odd.id).then((isBetHere: boolean) => {
 				if (isBetHere) setSelected(true);
+				else setSelected(false)
 			});
-	}, [odd, props.matchId]);
+	}, [odd, props.matchId, isShow]);
 
 	function onBet() {
 		// AsyncStorage.setItem("@cart", "[]");
@@ -91,7 +95,6 @@ export default function BasicBet(props: any) {
 			callbackShowMatchBet(props.match);
 	}
 
-	console.log(odd?.odds)
 	if (odd) {
 		return (
 			<TouchableOpacity onPress={onBet}>
