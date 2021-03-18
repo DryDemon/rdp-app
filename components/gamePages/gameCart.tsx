@@ -161,11 +161,12 @@ export default function GameCart(props: any) {
 		});
 	}
 
-	function removeAllBet() {
-		let cpy = betsToDisplay;
-		for (let bet of cpy) {
-			removeBet(bet.betId, bet.matchId);
-		}
+	async function removeAllBet() {
+		let cart: any[] = [];
+
+		await AsyncStorage.setItem("@cart", JSON.stringify(cart));
+
+		setBets(cart);
 	}
 
 	//fonction type == simple
