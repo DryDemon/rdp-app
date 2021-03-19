@@ -160,6 +160,10 @@ export default function GameCart(props: any) {
 
 	const [systemChoice, setSystemChoice] = useState(0);
 
+	useEffect(() => {
+		if (ENVIRONEMENT == "dev") console.log(systemChoice);
+	}, [systemChoice]);
+
 	function loadCart() {
 		AsyncStorage.getItem("@cart").then((input) => {
 			let cart: any = [];

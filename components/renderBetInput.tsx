@@ -25,6 +25,7 @@ export function RenderBetInput(props: any) {
 
 	function renderSystemChoices() {
 		let choices: any[] = [];
+		setSystemChoice(props.nbBase)
 		for (let i = props.nbBase; i < nbBets; i++) {
 			if (i == 0)
 				choices.push(
