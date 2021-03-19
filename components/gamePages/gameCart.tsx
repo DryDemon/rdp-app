@@ -75,12 +75,13 @@ function generateBinarySystemCodes(
 		let isBaseOk = true;
 
 		for (let i = 0; i < nb; i++) {
-			if(baseList[i])
-				if(code[i] != 1)
-					isBaseOk = false;
+			if (baseList[i]) if (code[i] != 1) isBaseOk = false;
 		}
 
-		if (code.reduce((prev, current) => prev + current, 0) == choice && isBaseOk)
+		if (
+			code.reduce((prev, current) => prev + current, 0) == choice &&
+			isBaseOk
+		)
 			out.push(Object.assign([], code));
 	}
 
@@ -276,6 +277,15 @@ export default function GameCart(props: any) {
 		}
 
 		return baseList;
+	}
+	function getNumberOfBase() {
+		let list = generateBaseList();
+		let out = 0;
+
+		for (let elem of list) {
+			if (elem) out++;
+		}
+		return out;
 	}
 
 	useEffect(() => {
@@ -647,6 +657,7 @@ export default function GameCart(props: any) {
 									nbBets={betsToDisplay.length}
 									systemChoice={systemChoice}
 									setSystemChoice={setSystemChoice}
+									nbBase={getNumberOfBase()}
 								/>
 							) : null}
 						</View>

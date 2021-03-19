@@ -25,7 +25,7 @@ export function RenderBetInput(props: any) {
 
 	function renderSystemChoices() {
 		let choices: any[] = [];
-		for (let i = 0; i < nbBets; i++) {
+		for (let i = props.nbBase; i < nbBets; i++) {
 			if (i == 0)
 				choices.push(
 					<Picker.Item label={nbBets + " paris simples"} value={i} />
