@@ -16,20 +16,22 @@ export function CheckBox(props: any) {
 	const onValueChange = props.onValueChange;
 
 	return (
-		<View style={props.style}>
-			<TouchableOpacity
-				style={styles.container}
-				onPress={onValueChange}
-			>
+		<View style={props.mainContainer}>
+			<TouchableOpacity style={styles.container} onPress={onValueChange}>
 				{props.value ? <View style={styles.check}></View> : null}
 			</TouchableOpacity>
+			{props.text ? (
+				<View style={{flex:1}}>
+					<Text>{props.text}</Text>
+				</View>
+			) : null}
 		</View>
 	);
 }
 const styles = StyleSheet.create({
 	container: {
-		borderColor:"black",
-		borderWidth:1,
+		borderColor: "black",
+		borderWidth: 1,
 		width: 12,
 		height: 12,
 		backgroundColor: "white",
@@ -41,5 +43,9 @@ const styles = StyleSheet.create({
 		borderRadius: 2,
 		width: 8,
 		height: 8,
+	},
+	mainContainer: {
+		padding: 10,
+		flexDirection: "row",
 	},
 });

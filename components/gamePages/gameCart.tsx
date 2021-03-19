@@ -36,7 +36,7 @@ import { SERVER_API_URL, SERVER_LOGO_URL } from "../../constants/Server";
 import { GameSchema } from "../../src/interaces/interfacesGame";
 import { MatchSchema } from "../../src/interaces/interfacesQuotes";
 import { validURL } from "../../src/smallFuncts";
-import CheckBox from "../checkBox";
+import { CheckBox } from "../checkBox";
 import { RenderBetInput } from "../renderBetInput";
 
 type DisplayType = {
@@ -49,12 +49,16 @@ type DisplayType = {
 	betId: string;
 	matchId: string;
 	mise: number;
-	isBase:boolean;
+	isBase: boolean;
 };
 
 //this function will make all the binary combinaisons forthe system choice
 //ex : 3 bets, 2/3 choice => 011, 101, 110
-function generateBinarySystemCodes(nb: number, choice: number) {
+function generateBinarySystemCodes(
+	nb: number,
+	choice: number,
+	baseList: boolean[]
+) {
 	let out: Array<Array<number>> = [];
 
 	let code = Array.from({ length: nb }, () => 0);
@@ -68,7 +72,15 @@ function generateBinarySystemCodes(nb: number, choice: number) {
 			}
 		}
 
-		if (code.reduce((prev, current) => prev + current, 0) == choice)
+		let isBaseOk = true;
+
+		for (let i = 0; i < nb; i++) {
+			if(baseList[i])
+				if(code[i] != 1)
+					isBaseOk = false;
+		}
+
+		if (code.reduce((prev, current) => prev + current, 0) == choice && isBaseOk)
 			out.push(Object.assign([], code));
 	}
 
@@ -97,8 +109,7 @@ async function sendBetToServer(
 	isSystem: number,
 	systemChoice: number,
 	listBaseBetId: Array<string>,
-	listBaseMatchId: Array<string>,
-
+	listBaseMatchId: Array<string>
 ) {
 	if (
 		jwt &&
@@ -226,20 +237,23 @@ export default function GameCart(props: any) {
 		});
 	}
 
-	function setisBaseBet(betId: string, matchId: string, value:boolean){
-		AsyncStorage.getItem("@cart").then((input) => {
-			let cart: any = [];
-			if (input) cart = JSON.parse(input);
+	async function setisBaseBet(
+		betId: string,
+		matchId: string,
+		value: boolean
+	) {
+		let input = await AsyncStorage.getItem("@cart");
+		let cart: any = [];
+		if (input) cart = JSON.parse(input);
 
-			for (let i = 0; i < cart.length; i++) {
-				if (cart[i].matchId == matchId && cart[i].betId == betId) {
-					cart[i].isBase = value;
-				}
+		for (let i = 0; i < cart.length; i++) {
+			if (cart[i].matchId == matchId && cart[i].betId == betId) {
+				cart[i].isBase = value;
 			}
+		}
 
-			AsyncStorage.setItem("@cart", JSON.stringify(cart));
-			setBets(cart);
-		});
+		AsyncStorage.setItem("@cart", JSON.stringify(cart));
+		setBets(cart);
 	}
 
 	//fonctions type == combiné
@@ -252,6 +266,16 @@ export default function GameCart(props: any) {
 			data.miseGlobal = mise;
 			AsyncStorage.setItem("@cart_info", JSON.stringify(data));
 		});
+	}
+
+	function generateBaseList() {
+		let baseList: boolean[] = [];
+
+		for (let bet of betsToDisplay) {
+			baseList.push(bet.isBase);
+		}
+
+		return baseList;
 	}
 
 	useEffect(() => {
@@ -269,7 +293,8 @@ export default function GameCart(props: any) {
 
 			let codes = generateBinarySystemCodes(
 				betsToDisplay.length,
-				1 + (+systemChoice)
+				1 + +systemChoice,
+				generateBaseList()
 			);
 
 			for (let code of codes) {
@@ -299,8 +324,9 @@ export default function GameCart(props: any) {
 				[bet.betId],
 				[bet.matchId],
 				0, //simplebet
-				-1 //simplebet
-				, [],[]
+				-1, //simplebet
+				[],
+				[]
 			);
 			if (!rep) alert("Error");
 		}
@@ -332,7 +358,9 @@ export default function GameCart(props: any) {
 					betIds,
 					matchIds,
 					0, //combiné
-					0, [], []
+					0,
+					[],
+					[]
 				).then((rep) => {
 					if (rep) removeAllBet();
 					else alert("Erreur");
@@ -343,17 +371,16 @@ export default function GameCart(props: any) {
 				betIds = [];
 				matchIds = [];
 
-				let baseBetIds :string[]= [];
-				let baseMatchIds :string[]= [];
+				let baseBetIds: string[] = [];
+				let baseMatchIds: string[] = [];
 
 				for (let i = 0; i < betsToDisplay.length; i++) {
 					betIds.push(betsToDisplay[i].betId);
 					matchIds.push(betsToDisplay[i].matchId);
-					
-					if(betsToDisplay[i].isBase){
+
+					if (betsToDisplay[i].isBase) {
 						baseBetIds.push(betsToDisplay[i].betId);
 						baseMatchIds.push(betsToDisplay[i].matchId);
-
 					}
 				}
 
@@ -364,8 +391,9 @@ export default function GameCart(props: any) {
 					betIds,
 					matchIds,
 					1, //system
-					systemChoice, baseBetIds, baseMatchIds
-
+					systemChoice,
+					baseBetIds,
+					baseMatchIds
 				).then((rep) => {
 					if (rep) removeAllBet();
 					else alert("Erreur");
@@ -411,7 +439,7 @@ export default function GameCart(props: any) {
 														odds.handicap;
 													let betHeader = odds.header;
 													let mise = bet.mise;
-													let isBase= bet.isBase;
+													let isBase = bet.isBase;
 
 													toDisplay.push({
 														matchName,
@@ -557,16 +585,28 @@ export default function GameCart(props: any) {
 											</View>
 										</View>
 										{type == "système" ? (
-												<View style={{ flexDirection: "row", alignItems:"center" }}>
+											<View
+												style={{
+													flexDirection: "row",
+													alignItems: "center",
+												}}
+											>
 												<CheckBox
-													style={{
-														flex: 1,
-														padding: 10,
-													}}
 													value={value.isBase}
-    												onValueChange={(newValue: boolean) => setisBaseBet(value.betId, value.matchId, newValue)}
+													onValueChange={() => {
+														setisBaseBet(
+															value.betId,
+															value.matchId,
+															!value.isBase
+														);
+														value.isBase = !value.isBase;
+													}}
 												/>
-												<Text> Base</Text>
+												<Text
+													style={{ marginLeft: 10 }}
+												>
+													Base
+												</Text>
 											</View>
 										) : null}
 
