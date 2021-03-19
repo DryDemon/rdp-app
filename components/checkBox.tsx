@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { format, parseISO } from "date-fns";
-import BasicBet from "./basicbet";
 import { SmallLineBreak, View, Text, SubText, TextTitle } from "./Themed";
 
 import {
@@ -11,17 +9,17 @@ import {
 	TouchableOpacity,
 } from "react-native";
 
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Colors from "../constants/Colors";
 
-export default function CheckBox(props: any) {
+export function CheckBox(props: any) {
 	const value = props.value;
+	const onValueChange = props.onValueChange;
 
 	return (
 		<View style={props.style}>
 			<TouchableOpacity
 				style={styles.container}
-				onPress={props.onValueChange(!value)}
+				onPress={onValueChange}
 			>
 				{props.value ? <View style={styles.check}></View> : null}
 			</TouchableOpacity>
@@ -30,11 +28,13 @@ export default function CheckBox(props: any) {
 }
 const styles = StyleSheet.create({
 	container: {
-		width: 10,
-		height: 10,
+		borderColor:"black",
+		borderWidth:1,
+		width: 12,
+		height: 12,
 		backgroundColor: "white",
 		borderRadius: 4,
-		padding: 2,
+		padding: 1,
 	},
 	check: {
 		backgroundColor: Colors.rdpColor,
