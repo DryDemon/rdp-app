@@ -192,7 +192,7 @@ export default function Dashboard({ navigation }: any) {
 					"&endingAt=" +
 					dateEndForm.getTime() / 1000 +
 					"&sports=" +
-					"1" +
+					"1,13,18" +
 					"&leagues=" +
 					leaguesMultiselectChoice.toString() +
 					`&jwt=${jwt}`;
@@ -233,7 +233,7 @@ export default function Dashboard({ navigation }: any) {
 			getLeaguesForSportsBetweenTwoDates(
 				creationDateInFunct,
 				endDateInFunct,
-				["1"]
+				["1", "13", "18"]
 			).then((leagues) => {
 				setLeaguesList(leagues);
 
@@ -314,7 +314,12 @@ export default function Dashboard({ navigation }: any) {
 					<TextWarning>{alertDates}</TextWarning>
 
 					<SmallLineBreak />
-
+					<Text>Sports : </Text>
+					<SubText> - Foot</SubText>
+					<SubText> - Tennis</SubText>
+					<SubText> - BasketBall</SubText>
+					<SmallLineBreak />
+					
 					<Text>Choix des compétitions</Text>
 					<SubText>
 						Attention futur roi, tu peux sélectionner au maximum 5
