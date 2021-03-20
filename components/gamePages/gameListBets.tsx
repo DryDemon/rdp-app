@@ -30,7 +30,10 @@ import Colors from "../../constants/Colors";
 
 import { ENVIRONEMENT } from "../../constants/Environement";
 import { SERVER_API_URL, SERVER_LOGO_URL } from "../../constants/Server";
-import { GameSchema } from "../../src/interaces/interfacesGame";
+import {
+	GameSchema,
+	userBetInterface,
+} from "../../src/interaces/interfacesGame";
 import { validURL } from "../../src/smallFuncts";
 
 export default function GameListBets(props: any) {
@@ -40,6 +43,43 @@ export default function GameListBets(props: any) {
 	const [filter, setFilter] = useState<
 		"En cours" | "Gagnés" | "Perdus" | "Terminés"
 	>("En cours");
+
+	const [betsToDisplay, setBetsToDisplay] = useState<userBetInterface[]>([]);
+
+	//update filter
+	useEffect(() => {
+		let toDisplay: userBetInterface[] = [];
+
+		let bets = game?.betList;
+		if (bets) {
+			for (let bet of bets) {
+				let okay = true;
+
+				if (myBets && bet.userId != user._id) {
+					//mes paris seulement et c'est un pari de qql d'autre
+					okay = false;
+				}
+				switch (filter) {
+					case "En cours":
+						if (bet.status != 0) okay = false;
+						break;
+					case "Gagnés":
+						if (bet.status != 1) okay = false;
+						break;
+					case "Perdus":
+						if (bet.status != 2) okay = false;
+						break;
+					case "Terminés":
+						if (bet.status == 0) okay = false;
+						break;
+				}
+
+				if (okay) toDisplay.push(bet);
+			}
+		}
+
+		setBetsToDisplay(toDisplay);
+	}, [myBets, filter]);
 
 	return (
 		<View>
@@ -100,6 +140,7 @@ export default function GameListBets(props: any) {
 			</View>
 
 			<View style={styles.textToMiddle}>
+				{betsToDisplay.map((bet: userBetInterface) => (<PlayerBet key={bet._id} bet={bet}/>))}
 				<SmallLineBreak />
 			</View>
 		</View>
