@@ -35,6 +35,7 @@ import {
 	userBetInterface,
 } from "../../src/interaces/interfacesGame";
 import { validURL } from "../../src/smallFuncts";
+import { PlayerBet } from "../playerBet";
 
 export default function GameListBets(props: any) {
 	const { jwt, user, joinCode, game, logoUrl, isShow, ...otherProps } = props;
@@ -79,7 +80,7 @@ export default function GameListBets(props: any) {
 		}
 
 		setBetsToDisplay(toDisplay);
-	}, [myBets, filter]);
+	}, [myBets, filter, game]);
 
 	return (
 		<View>

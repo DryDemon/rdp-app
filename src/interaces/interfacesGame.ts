@@ -35,6 +35,8 @@ export interface userBetInterface {
 	status?: number; //0 ?: unresolved, 1 ?: win, 2 ?: lost
 	credits?: number;
 	isSystem?: boolean;
+	mainQuote: number;
+	result?: string;
 
 	type?: number; //0 ?: prematch, 1 ?: live
 
@@ -42,6 +44,10 @@ export interface userBetInterface {
 }
 
 export interface betObjectInterface {
+	matchTime?: Date;
+	leagueName?: string;
+	matchName?: string;
+
 	betId?: string;
 	matchId?: string;
 	betStatus?: number; //0 ?: unresolved, 1 ?: win, 2 ?: lost
