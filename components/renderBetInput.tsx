@@ -9,7 +9,7 @@ import {
 } from "./Themed";
 import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
-import { Picker } from "@react-native-community/picker";
+import { Picker } from "@react-native-picker/picker";
 
 export function getSystemName(length: number, choice: number) {
 
