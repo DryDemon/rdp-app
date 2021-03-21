@@ -42,6 +42,7 @@ export function SeeDetails(props: any) {
 					{ display: show ? "flex" : "none" },
 				]}
 			>
+				<View style={styles.spacer}></View>
 				{bets.betsObjects.map((bet: any) => (
 					<View>
 						<Text style={styles.title}>{bet.matchName}</Text>
@@ -71,9 +72,7 @@ export function SeeDetails(props: any) {
 									alignItems: "center",
 								}}
 							>
-								<CheckBox
-									value={bet.isBase}
-								/>
+								<CheckBox value={bet.isBase} />
 								<Text style={{ marginLeft: 10 }}>Base</Text>
 							</View>
 						) : null}
@@ -95,6 +94,7 @@ const styles = StyleSheet.create({
 		fontWeight: "500",
 	},
 	dromDownContainer: {
+		marginTop: 24,
 		borderTopColor: "black",
 		borderTopWidth: 1,
 	},
@@ -125,5 +125,9 @@ const styles = StyleSheet.create({
 		fontWeight: "700",
 		color: "white",
 		fontSize: 15,
+	},
+	spacer: {
+		width: "100%",
+		height: 12,
 	},
 });
