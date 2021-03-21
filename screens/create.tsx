@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { Alert, StyleSheet, ScrollView } from "react-native";
+import { Alert, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { User } from "../src/interaces/interfacesUsers";
 
 import {
@@ -27,6 +27,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { DatePicker } from "../components/DatePicker";
 import { validURL } from "../src/smallFuncts";
 import { GameHeader } from "../components/gameHeader";
+import Colors from "../constants/Colors";
 
 async function getSportBetweenTwoDates(startedAt: Date, endingAt: Date) {
 	const startedAtTimestamp = startedAt.getTime() / 1000;
@@ -67,16 +68,16 @@ async function getLeaguesForSportsBetweenTwoDates(
 	return content;
 }
 
-export default function Dashboard({ navigation }: any) {
+export default function Create({ navigation }: any) {
 	const [jwt, setJwt] = useState<string>("");
 	const [user, setUser] = useState<User>();
 
 	const [name, setName] = useState("");
 	const [dateCreationForm, setDateCreationForm] = useState(
-		ENVIRONEMENT == "dev" ? new Date() : new Date(2014, 1, 1)
+		ENVIRONEMENT == "dev" ? new Date(2014, 1, 1) : new Date()
 	);
 	const [dateEndForm, setDateEndForm] = useState(
-		ENVIRONEMENT == "dev" ? new Date() : new Date(2025, 1, 1)
+		ENVIRONEMENT == "dev" ? new Date(2025, 1, 1) : new Date()
 	);
 	const [logoUrl, setLogoUrl] = useState("");
 
@@ -91,6 +92,9 @@ export default function Dashboard({ navigation }: any) {
 	const [leaguesMultiselectChoice, setLeaguesMultiselectChoice] = useState<
 		Array<LeagueSchema>
 	>([]);
+
+	const [sportShow, setSportShow] = useState(false);
+	const [sportChoice, setSportChoice] = useState<string[]>(["1"]);
 
 	if (!jwt || !user) {
 		try {
@@ -233,23 +237,56 @@ export default function Dashboard({ navigation }: any) {
 			getLeaguesForSportsBetweenTwoDates(
 				creationDateInFunct,
 				endDateInFunct,
-				["1", "13", "18"]
+				sportChoice
 			).then((leagues) => {
-				setLeaguesList(leagues);
+				// code si on met tout d'un coup
+				// setLeaguesList(leagues);
 
-				//code si on ajoute plus de sports
-				// setLeaguesList([
-				//     {
-				//         leagueName: 'Foot',
-				//         leagueId: 0,
+				// code si on ajoute plus de sports
+				if (leagues) {
+					setLeaguesList([
+						{
+							leagueName: "Foot",
+							leagueId: 0,
 
-				//         children: leagues,
-				//     },
+							children: leagues.filter(
+								(league: LeagueSchema) => league.sportId == "1"
+							),
+						},
+						{
+							leagueName: "Tennis",
+							leagueId: 0,
 
-				// ]);
+							children: leagues.filter(
+								(league: LeagueSchema) => league.sportId == "13"
+							),
+						},
+						{
+							leagueName: "BasketBall",
+							leagueId: 0,
+
+							children: leagues.filter(
+								(league: LeagueSchema) => league.sportId == "18"
+							),
+						},
+					]);
+				}
 			});
 		}
-	}, [dateCreationForm, dateEndForm]);
+	}, [dateCreationForm, dateEndForm, sportChoice]);
+
+	function toggleSportChoiceId(id: string) {
+		let cpySportChoice = [...sportChoice];
+
+		if (cpySportChoice.some((value) => value == id)) {
+			cpySportChoice = cpySportChoice.filter((value) => value != id);
+		} else {
+			cpySportChoice.push(id);
+		}
+		console.log(cpySportChoice);
+
+		setSportChoice(cpySportChoice);
+	}
 
 	return (
 		<View style={{ flex: 1, marginHorizontal: 1 }}>
@@ -314,12 +351,88 @@ export default function Dashboard({ navigation }: any) {
 					<TextWarning>{alertDates}</TextWarning>
 
 					<SmallLineBreak />
-					<Text>Sports : </Text>
-					<SubText> - Foot</SubText>
-					<SubText> - Tennis</SubText>
-					<SubText> - BasketBall</SubText>
+					<TouchableOpacity onPress={() => setSportShow(!sportShow)}>
+						<Text>Sports : </Text>
+					</TouchableOpacity>
+					<View
+						style={
+							sportShow
+								? { display: "flex" }
+								: { display: "none" }
+						}
+					>
+						<View>
+							<TouchableOpacity
+								style={
+									sportChoice.some((value) => value == "1")
+										? styles.sportChoiceSelected
+										: styles.sportChoiceUnselected
+								}
+								onPress={() => {
+									toggleSportChoiceId("1");
+								}}
+							>
+								<SubText
+									style={
+										sportChoice.some(
+											(value) => value == "1"
+										)
+											? styles.sportChoiceSelected
+											: styles.sportChoiceUnselected
+									}
+								>
+									- Foot
+								</SubText>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={
+									sportChoice.some((value) => value == "13")
+										? styles.sportChoiceSelected
+										: styles.sportChoiceUnselected
+								}
+								onPress={() => {
+									toggleSportChoiceId("13");
+								}}
+							>
+								<SubText
+									style={
+										sportChoice.some(
+											(value) => value == "13"
+										)
+											? styles.sportChoiceSelected
+											: styles.sportChoiceUnselected
+									}
+								>
+									- Tennis
+								</SubText>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={
+									sportChoice.some((value) => value == "18")
+										? styles.sportChoiceSelected
+										: styles.sportChoiceUnselected
+								}
+								onPress={() => {
+									toggleSportChoiceId("18");
+								}}
+							>
+								<SubText
+									style={
+										sportChoice.some(
+											(value) => value == "18"
+										)
+											? styles.sportChoiceSelected
+											: styles.sportChoiceUnselected
+									}
+								>
+									- Basketball
+								</SubText>
+							</TouchableOpacity>
+						</View>
+					</View>
+
 					<SmallLineBreak />
-					
+
 					<Text>Choix des compétitions</Text>
 					<SubText>
 						Attention futur roi, tu peux sélectionner au maximum 5
@@ -344,11 +457,12 @@ export default function Dashboard({ navigation }: any) {
 									bien choisi des dates?
 								</Text>
 							}
+							readOnlyHeadings={true}
 							icons={undefined}
 							IconRenderer={Icon}
 							single={false}
 							items={leaguesList}
-							showDropDowns={false}
+							showDropDowns={true}
 							subKey="children"
 							displayKey="leagueName"
 							uniqueKey="leagueId"
@@ -379,5 +493,26 @@ const styles = StyleSheet.create({
 		marginVertical: 60,
 		height: 1,
 		width: "80%",
+	},
+	sportChoiceSelected: {
+		flex: 1,
+		backgroundColor: Colors.rdpColor,
+		borderRadius: 8,
+		paddingVertical: 3,
+		paddingHorizontal: 5,
+		margin: 5,
+	},
+	sportChoiceTextSelected: {
+		color: "white",
+	},
+	sportChoiceTextUnselected: {
+		color: "black",
+	},
+
+	sportChoiceUnselected: {
+		backgroundColor: Colors.revertRdpColor,
+		borderRadius: 8,
+		paddingVertical: 8,
+		paddingHorizontal: 12,
 	},
 });
