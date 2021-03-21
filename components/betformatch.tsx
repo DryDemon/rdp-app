@@ -10,7 +10,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from "react-native";
-import { isBetIdWhitelisted } from "../constants/bets";
+import { isBetIdWhitelisted } from "../constants/Bets";
 
 function findFullTimeOdd(bets: any) {
 	for (let bet of bets) {

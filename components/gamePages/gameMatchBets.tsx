@@ -40,7 +40,7 @@ import {
 import { validURL } from "../../src/smallFuncts";
 import { LeagueIcon } from "../LeagueIcon";
 import BetListForGameMatchBets from "../betListForGameMatchBets";
-import { isBetIdWhitelisted } from "../../constants/bets";
+import { isBetIdWhitelisted } from "../../constants/Bets";
 
 export default function GameMatchBets(props: any) {
 	const { jwt, user, joinCode, game, logoUrl, match, isShow, ...otherProps } = props;
