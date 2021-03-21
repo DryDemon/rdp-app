@@ -93,7 +93,7 @@ export default function Create({ navigation }: any) {
 		Array<LeagueSchema>
 	>([]);
 
-	const [sportShow, setSportShow] = useState(false);
+	const [sportShow, setSportShow] = useState(true);
 	const [sportChoice, setSportChoice] = useState<string[]>(["1"]);
 
 	if (!jwt || !user) {

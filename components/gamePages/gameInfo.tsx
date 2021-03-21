@@ -229,6 +229,6 @@ const styles = StyleSheet.create({
 		margin: 10,
 		padding: 10,
 		alignItems: "center",
-		width: "40%", // is 50% of container width
+		minWidth: "40%", // is 50% of container width
 	},
 });
