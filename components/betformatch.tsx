@@ -10,6 +10,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 } from "react-native";
+import { isBetIdWhitelisted } from "../constants/bets";
 
 function findFullTimeOdd(bets: any) {
 	for (let bet of bets) {
@@ -18,8 +19,10 @@ function findFullTimeOdd(bets: any) {
 		}
 	}
 	//Si on ne l'a pas trouvé, on renvoie le premier
-	for (let odd of bets) {
-		return odd;
+	for (let bet of bets) {
+		if(isBetIdWhitelisted(bet.id)){
+			return bet;
+		}
 	}
 
 	return undefined;

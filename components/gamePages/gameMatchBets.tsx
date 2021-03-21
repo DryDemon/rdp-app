@@ -40,6 +40,7 @@ import {
 import { validURL } from "../../src/smallFuncts";
 import { LeagueIcon } from "../LeagueIcon";
 import BetListForGameMatchBets from "../betListForGameMatchBets";
+import { isBetIdWhitelisted } from "../../constants/bets";
 
 export default function GameMatchBets(props: any) {
 	const { jwt, user, joinCode, game, logoUrl, match, isShow, ...otherProps } = props;
@@ -55,7 +56,7 @@ export default function GameMatchBets(props: any) {
 				<View>
 
 					{odds
-						? odds.map((bet: any) => (
+						? odds.filter((bet: any) => isBetIdWhitelisted(bet.id)).map((bet: any) => (
 								<BetListForGameMatchBets isShow={isShow} key={bet.id} bet={bet} matchId={match.matchId}></BetListForGameMatchBets>
 						  ))
 						: null}

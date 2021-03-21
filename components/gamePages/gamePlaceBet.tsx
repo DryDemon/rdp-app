@@ -44,7 +44,7 @@ import { LeagueIcon } from "../LeagueIcon";
 async function fetchBetData(joinCode: string, jwt: string) {
 	if (joinCode && jwt) {
 		const rawResponse = await fetch(
-			`${SERVER_API_URL}/getmatchleaguedata?jwt=${jwt}&joinCode=${joinCode}`
+			`${SERVER_API_URL}/getnextmatchleaguedata?jwt=${jwt}&joinCode=${joinCode}`
 		);
 
 		const content = await rawResponse.json();
