@@ -17,14 +17,21 @@ import Colors from "../constants/Colors";
 import { SeeDetails } from "./seeDetailsPlayerBet";
 import { getSystemName } from "./renderBetInput";
 
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import EvilIcons from "react-native-vector-icons/EvilIcons";
+import Entypo from "react-native-vector-icons/Entypo";
+
 export function PlayerBet(props: any) {
 	let bet: userBetInterface = props.bet;
 	let simple = bet?.betsObjects?.length == 1;
 	let simpleBet = bet?.betsObjects?.[0];
 	let system = bet?.isSystem;
-	
+
 	if (bet && simpleBet && bet.betsObjects && bet.credits) {
-		let systemName = getSystemName(bet?.betsObjects?.length, bet?.systemChoice);
+		let systemName = getSystemName(
+			bet?.betsObjects?.length,
+			bet?.systemChoice
+		);
 
 		return (
 			<View style={styles.betContainer}>
@@ -36,6 +43,37 @@ export function PlayerBet(props: any) {
 							: null}
 						{system ? systemName : null}
 					</Text>
+					{bet.status == 0 ? ( //EN cOURS
+						<MaterialCommunityIcons
+							style={styles.icon}
+							name="progress-clock"
+							size={20}
+							color={"#000"}
+						/>
+					) : null}
+					{bet.status == 1 ? ( //WIN
+						<EvilIcons
+							style={styles.icon}
+							name="trophy"
+							size={20}
+							color={"#5BD18F"}
+						/>
+					) : null}
+					{bet.status == 2 ? ( //LOST
+						<View
+							style={{
+								borderRadius: 100,
+								backgroundColor: "#FDE7E7",
+							}}
+						>
+							<Entypo
+								style={styles.icon}
+								name="cross"
+								size={20}
+								color={"#000"}
+							/>
+						</View>
+					) : null}{" "}
 				</View>
 				{simple ? <SubText>{simpleBet.leagueName}</SubText> : null}
 				<View style={styles.lineRow}>
@@ -76,7 +114,7 @@ const styles = StyleSheet.create({
 		borderRadius: 12,
 		backgroundColor: "white",
 		padding: 12,
-		margin:6,
+		margin: 6,
 	},
 	header: {
 		flexDirection: "row",
@@ -112,5 +150,10 @@ const styles = StyleSheet.create({
 		fontWeight: "700",
 		color: "white",
 		fontSize: 15,
+	},
+	icon: {
+		marginLeft: "auto",
+		textAlign: "right",
+		alignSelf: "flex-end",
 	},
 });
