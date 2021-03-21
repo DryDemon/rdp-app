@@ -15,23 +15,27 @@ import { GameSchema, userBetInterface } from "../src/interaces/interfacesGame";
 import { GameIcon } from "./GameIcon";
 import Colors from "../constants/Colors";
 import { SeeDetails } from "./seeDetailsPlayerBet";
+import { getSystemName } from "./renderBetInput";
 
 export function PlayerBet(props: any) {
 	let bet: userBetInterface = props.bet;
 	let simple = bet?.betsObjects?.length == 1;
 	let simpleBet = bet?.betsObjects?.[0];
-
+	let system = bet?.isSystem;
+	
 	if (bet && simpleBet && bet.betsObjects && bet.credits) {
+		let systemName = getSystemName(bet?.betsObjects?.length, bet?.systemChoice);
+
 		return (
 			<View style={styles.betContainer}>
 				<View style={styles.header}>
-					{simple ? (
-						<Text style={styles.title}>{simpleBet.matchName}</Text>
-					) : (
-						<Text style={styles.title}>
-							Combiné ({bet.betsObjects.length})
-						</Text>
-					)}
+					<Text style={styles.title}>
+						{simple ? simpleBet.matchName : null}
+						{!simple && !system
+							? "Combiné (" + bet.betsObjects.length + ")"
+							: null}
+						{system ? systemName : null}
+					</Text>
 				</View>
 				{simple ? <SubText>{simpleBet.leagueName}</SubText> : null}
 				<View style={styles.lineRow}>

@@ -89,16 +89,18 @@ function generateBinarySystemCodes(
 }
 
 async function getMatchFromIds(jwt: string, matchsIds: Array<string>) {
-	const rawRep = await fetch(
-		SERVER_API_URL +
-			`/getmatchsdata?matchIds=${matchsIds.toString()}&jwt=${jwt}`
-	);
-	const rep = await rawRep.json();
-	if (rep.success == 1) {
-		return rep.matchs;
-	} else {
-		return undefined;
+	if (jwt && matchsIds.length != 0) {
+		const rawRep = await fetch(
+			SERVER_API_URL +
+				`/getmatchsdata?matchIds=${matchsIds.toString()}&jwt=${jwt}`
+		);
+		const rep = await rawRep.json();
+		if (rep.success == 1) {
+			return rep.matchs;
+		}
 	}
+	
+	return undefined;
 }
 
 async function sendBetToServer(

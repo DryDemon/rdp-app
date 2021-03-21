@@ -11,6 +11,14 @@ import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
 import { Picker } from "@react-native-community/picker";
 
+export function getSystemName(length: number, choice: number) {
+
+	if (choice == 0) return length + " paris simples";
+	else if (choice == length - 1) return length + " paris combinés";
+	else return "Système " + (choice + 1) + "/" + length;
+
+}
+
 export function RenderBetInput(props: any) {
 	let {
 		onChange,
@@ -25,24 +33,14 @@ export function RenderBetInput(props: any) {
 
 	function renderSystemChoices() {
 		let choices: any[] = [];
-		setSystemChoice(props.nbBase)
+		setSystemChoice(props.nbBase);
+
 		for (let i = props.nbBase; i < nbBets; i++) {
-			if (i == 0)
-				choices.push(
-					<Picker.Item label={nbBets + " paris simples"} value={i} />
-				);
-			else if (i == nbBets - 1)
-				choices.push(
-					<Picker.Item label={nbBets + " paris combinés"} value={i} />
-				);
-			else
-				choices.push(
-					<Picker.Item
-						label={"Système " + (i + 1) + "/" + nbBets}
-						value={i}
-					/>
-				);
+			choices.push(
+				<Picker.Item label={getSystemName(nbBets, i)} value={i} />
+			);
 		}
+
 		return choices;
 	}
 
@@ -213,11 +211,10 @@ const styles = StyleSheet.create({
 		color: "white",
 	},
 	systemPicker: {
-		
 		paddingHorizontal: 2,
 		paddingVertical: 2,
-		borderRadius:8,
-		borderColor:Colors.rdpColor,
-		margin:10,
+		borderRadius: 8,
+		borderColor: Colors.rdpColor,
+		margin: 10,
 	},
 });

@@ -20,6 +20,7 @@ import {
 import { GameSchema, userBetInterface } from "../src/interaces/interfacesGame";
 import { GameIcon } from "./GameIcon";
 import Colors from "../constants/Colors";
+import { CheckBox } from "./checkBox";
 
 export function SeeDetails(props: any) {
 	let bets = props.bet;
@@ -63,6 +64,19 @@ export function SeeDetails(props: any) {
 								</Text>
 							</View>
 						</View>
+						{bets.isSystem ? (
+							<View
+								style={{
+									flexDirection: "row",
+									alignItems: "center",
+								}}
+							>
+								<CheckBox
+									value={bet.isBase}
+								/>
+								<Text style={{ marginLeft: 10 }}>Base</Text>
+							</View>
+						) : null}
 					</View>
 				))}
 			</View>
@@ -112,5 +126,4 @@ const styles = StyleSheet.create({
 		color: "white",
 		fontSize: 15,
 	},
-
 });

@@ -17,11 +17,20 @@ export function CheckBox(props: any) {
 
 	return (
 		<View style={props.mainContainer}>
-			<TouchableOpacity style={styles.container} onPress={onValueChange}>
-				{props.value ? <View style={styles.check}></View> : null}
-			</TouchableOpacity>
+			{onValueChange ? (
+				<TouchableOpacity
+					style={styles.container}
+					onPress={onValueChange}
+				>
+					{props.value ? <View style={styles.check}></View> : null}
+				</TouchableOpacity>
+			) : (
+				<View style={styles.container}>
+					{props.value ? <View style={styles.check}></View> : null}
+				</View>
+			)}
 			{props.text ? (
-				<View style={{flex:1}}>
+				<View style={{ flex: 1 }}>
 					<Text>{props.text}</Text>
 				</View>
 			) : null}

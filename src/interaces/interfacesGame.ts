@@ -37,6 +37,8 @@ export interface userBetInterface {
 	isSystem?: boolean;
 	mainQuote: number;
 	result?: string;
+	systemChoice:number;
+
 
 	type?: number; //0 ?: prematch, 1 ?: live
 
@@ -52,4 +54,5 @@ export interface betObjectInterface {
 	matchId?: string;
 	betStatus?: number; //0 ?: unresolved, 1 ?: win, 2 ?: lost
 	quote?: number;
+	isBase?: boolean;
 }
