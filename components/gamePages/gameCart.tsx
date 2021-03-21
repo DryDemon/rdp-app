@@ -138,7 +138,7 @@ async function sendBetToServer(
 		);
 
 		const content = await rawResponse.json();
-
+			
 		return content.success == 1;
 	}
 
@@ -146,7 +146,7 @@ async function sendBetToServer(
 }
 
 export default function GameCart(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, isShow, ...otherProps } = props;
+	const { jwt, user, joinCode, game, logoUrl, isShow, reloadGame, ...otherProps } = props;
 
 	const [bets, setBets] = useState<Array<any>>([]);
 	const [betsToDisplay, setBetsToDisplay] = useState<Array<DisplayType>>([]);
@@ -220,6 +220,7 @@ export default function GameCart(props: any) {
 
 	async function removeAllBet() {
 		let cart: any[] = [];
+		reloadGame(); //Pour charger les paris qui viennentd'être places
 
 		await AsyncStorage.setItem("@cart", JSON.stringify(cart));
 

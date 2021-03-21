@@ -38,7 +38,7 @@ import { validURL } from "../../src/smallFuncts";
 import { PlayerBet } from "../playerBet";
 
 export default function GameListBets(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, isShow, ...otherProps } = props;
+	const { jwt, user, joinCode, game, logoUrl, isShow, reloadGame, ...otherProps } = props;
 
 	const [myBets, setMyBets] = useState(false);
 	const [filter, setFilter] = useState<

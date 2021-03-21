@@ -129,6 +129,10 @@ export default function GameHandler({ navigation }: any) {
 		setshowGamePage(false);
 	}
 
+	function reloadGame(){
+		loadGameData();
+	}
+
 	//reload game data each time
 	useEffect(() => {
 		if (!game) loadGameData();
@@ -224,6 +228,7 @@ export default function GameHandler({ navigation }: any) {
 					<GameScrollView>
 						<GameClassement
 							isShow={page == "gameClassement" ? 1 : 0}
+							reloadGame={reloadGame}
 							jwt={jwt}
 							user={user}
 							joinCode={joinCode}
@@ -247,6 +252,7 @@ export default function GameHandler({ navigation }: any) {
 								setPage("gameMatchBets");
 							}}
 							isShow={page == "gamePlaceBet" ? 1 : 0}
+							reloadGame={reloadGame}
 							jwt={jwt}
 							user={user}
 							joinCode={joinCode}
@@ -266,6 +272,7 @@ export default function GameHandler({ navigation }: any) {
 					<GameScrollView>
 						<GameListBets
 							isShow={page == "gameListBets" ? 1 : 0}
+							reloadGame={reloadGame}
 							jwt={jwt}
 							user={user}
 							joinCode={joinCode}
@@ -285,6 +292,7 @@ export default function GameHandler({ navigation }: any) {
 					<GameScrollView>
 						<GameCart
 							isShow={page == "gameCart" ? 1 : 0}
+							reloadGame={reloadGame}
 							jwt={jwt}
 							user={user}
 							joinCode={joinCode}
@@ -304,6 +312,7 @@ export default function GameHandler({ navigation }: any) {
 					<GameScrollView>
 						<GameMatchsStats
 							isShow={page == "gamePlayerStats" ? 1 : 0}
+							reloadGame={reloadGame}
 							jwt={jwt}
 							user={user}
 							joinCode={joinCode}
@@ -324,6 +333,7 @@ export default function GameHandler({ navigation }: any) {
 						<GameMatchBets
 							match={match}
 							isShow={page == "gameMatchBets" ? 1 : 0}
+							reloadGame={reloadGame}
 							jwt={jwt}
 							user={user}
 							joinCode={joinCode}
@@ -343,6 +353,7 @@ export default function GameHandler({ navigation }: any) {
 					<GameScrollView>
 						<GameInfo
 							isShow={page == "gameInfo" ? 1 : 0}
+							reloadGame={reloadGame}
 							jwt={jwt}
 							user={user}
 							joinCode={joinCode}
