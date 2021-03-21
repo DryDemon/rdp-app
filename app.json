@@ -12,6 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "owner": "roi-du-prono",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -32,6 +33,7 @@
     },
     "facebookScheme": "fb232887001646631",
     "facebookAppId": "232887001646631",
-    "facebookDisplayName": "Jean Chartier-kastler"
+    "facebookDisplayName": "Jean Chartier-kastler",
+    "description": ""
   }
 }
