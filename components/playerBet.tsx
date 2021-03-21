@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
 		borderRadius: 12,
 		backgroundColor: "white",
 		padding: 12,
+		margin:6,
 	},
 	header: {
 		flexDirection: "row",
