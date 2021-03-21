@@ -12,11 +12,9 @@ import Colors from "../constants/Colors";
 import { Picker } from "@react-native-picker/picker";
 
 export function getSystemName(length: number, choice: number) {
-
 	if (choice == 0) return length + " paris simples";
 	else if (choice == length - 1) return length + " paris combinés";
 	else return "Système " + (choice + 1) + "/" + length;
-
 }
 
 export function RenderBetInput(props: any) {
@@ -33,7 +31,6 @@ export function RenderBetInput(props: any) {
 
 	function renderSystemChoices() {
 		let choices: any[] = [];
-		setSystemChoice(props.nbBase);
 
 		for (let i = props.nbBase; i < nbBets; i++) {
 			choices.push(
@@ -81,7 +78,7 @@ export function RenderBetInput(props: any) {
 						selectedValue={systemChoice}
 						style={styles.systemPicker}
 						onValueChange={(itemValue: any) =>
-							setSystemChoice(itemValue)
+							{setSystemChoice(parseInt(itemValue));}
 						}
 					>
 						{renderSystemChoices()}

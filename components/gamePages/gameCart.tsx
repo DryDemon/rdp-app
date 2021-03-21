@@ -159,11 +159,11 @@ export default function GameCart(props: any) {
 	const [mainOdd, setMainOdd] = useState<number>(CONST_BASE_MISE_PARI);
 
 	const [blockSendButton, setblockSendButton] = useState(false);
-
 	const [systemChoice, setSystemChoice] = useState(0);
 
 	useEffect(() => {
 		if (ENVIRONEMENT == "dev") console.log(systemChoice);
+		
 	}, [systemChoice]);
 
 	function loadCart() {
@@ -309,7 +309,7 @@ export default function GameCart(props: any) {
 
 			let codes = generateBinarySystemCodes(
 				betsToDisplay.length,
-				1 + +systemChoice,
+				1 + systemChoice,
 				generateBaseList()
 			);
 
@@ -407,7 +407,7 @@ export default function GameCart(props: any) {
 					betIds,
 					matchIds,
 					1, //system
-					systemChoice,
+					systemChoice + 1,
 					baseBetIds,
 					baseMatchIds
 				).then((rep) => {
