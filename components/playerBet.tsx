@@ -18,10 +18,10 @@ import { SeeDetails } from "./seeDetailsPlayerBet";
 
 export function PlayerBet(props: any) {
 	let bet: userBetInterface = props.bet;
-	let simple = bet?.betsObjects?.length;
+	let simple = bet?.betsObjects?.length == 1;
 	let simpleBet = bet?.betsObjects?.[0];
 
-	if (bet && simple && simpleBet && bet.betsObjects && bet.credits) {
+	if (bet && simpleBet && bet.betsObjects && bet.credits) {
 		return (
 			<View style={styles.betContainer}>
 				<View style={styles.header}>
@@ -58,6 +58,7 @@ export function PlayerBet(props: any) {
 						</Text>
 					</View>
 				</View>
+				<Text>{simple}</Text>
 				{!simple ? <SeeDetails bet={bet} /> : null}
 			</View>
 		);
@@ -66,6 +67,8 @@ export function PlayerBet(props: any) {
 
 const styles = StyleSheet.create({
 	betContainer: {
+		width: "100%",
+
 		borderRadius: 12,
 		backgroundColor: "white",
 		padding: 12,
