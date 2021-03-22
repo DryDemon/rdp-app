@@ -11,7 +11,6 @@ import {
 } from "react-native";
 
 import {
-	
 	Text,
 	View,
 	TextInput,
@@ -42,9 +41,12 @@ import AllBets from "../allbets";
 import { LeagueIcon } from "../LeagueIcon";
 
 async function fetchBetData(joinCode: string, jwt: string) {
+	const apiRoute =
+		ENVIRONEMENT != "dev" ? "getnextmatchleaguedata" : "getmatchleaguedata";
+
 	if (joinCode && jwt) {
 		const rawResponse = await fetch(
-			`${SERVER_API_URL}/getnextmatchleaguedata?jwt=${jwt}&joinCode=${joinCode}`
+			`${SERVER_API_URL}/${apiRoute}?jwt=${jwt}&joinCode=${joinCode}`
 		);
 
 		const content = await rawResponse.json();
@@ -55,7 +57,16 @@ async function fetchBetData(joinCode: string, jwt: string) {
 }
 
 export default function GamePlaceBet(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, callbackShowMatchBet, isShow, ...otherProps } = props;
+	const {
+		jwt,
+		user,
+		joinCode,
+		game,
+		logoUrl,
+		callbackShowMatchBet,
+		isShow,
+		...otherProps
+	} = props;
 
 	const [matchs, setMatchs] = useState<Array<MatchSchema>>([]);
 	const [leagues, setLeagues] = useState<Array<LeagueSchema>>([]);
@@ -85,7 +96,7 @@ export default function GamePlaceBet(props: any) {
 		if (listFilter.some((x) => x == leagueId)) {
 			setListFilter(listFilter.filter((value) => value != leagueId));
 		} else {
-            setListFilter([...listFilter, leagueId]);
+			setListFilter([...listFilter, leagueId]);
 		}
 	}
 
@@ -95,7 +106,10 @@ export default function GamePlaceBet(props: any) {
 			<TextSubTitle style={styles.titleGame}>Parier</TextSubTitle>
 			<View style={styles.textToMiddle}>
 				<ScrollView horizontal={true}>
-					<LeagueIcon onPress={() => setListFilter([])}  filter={listFilter}/>
+					<LeagueIcon
+						onPress={() => setListFilter([])}
+						filter={listFilter}
+					/>
 
 					{leagues.map((league: LeagueSchema) => {
 						if (league.leagueId)
@@ -105,7 +119,8 @@ export default function GamePlaceBet(props: any) {
 									league={league}
 									onPress={(id: string) =>
 										updateFilterList(id)
-									} filter={listFilter}
+									}
+									filter={listFilter}
 								/>
 							);
 						else return null;
