@@ -44,13 +44,6 @@ import GamePlaceBet from "../components/gamePages/gamePlaceBet";
 import GameMatchBets from "../components/gamePages/gameMatchBets";
 import { GameHeader } from "../components/gameHeader";
 
-const listPages = [
-	"gameClassement",
-	"gamePlaceBet",
-	"gameListBets",
-	"gameCart",
-	"gamePlayerStats",
-];
 
 async function getCurrentGame(joinCode: string, jwt: string) {
 	const rawResponse = await fetch(
@@ -186,29 +179,7 @@ export default function GameHandler({ navigation }: any) {
 
 	return (
 		<View>
-			<Swipeable
-
-			//Swipe left and swipe right, but this action is too sensitive
-
-			// renderLeftActions={() => {
-			// 	let currentPage = listPages.indexOf(page);
-			// 	currentPage--;
-			// 	if (currentPage < 0) currentPage = listPages.length - 1;
-
-			// 	setPage(listPages[currentPage]);
-
-			// 	return undefined;
-			// }}
-			// renderRightActions={() => {
-			// 	let currentPage = listPages.indexOf(page);
-			// 	currentPage++;
-			// 	if (currentPage > listPages.length - 1) currentPage = 0;
-
-			// 	setPage(listPages[currentPage]);
-
-			// 	return undefined;
-			// }}
-			>
+			//todo add Swipeable?
 				<GameHeader
 					back={"Dashboard"}
 					navigation={navigation}
@@ -367,7 +338,6 @@ export default function GameHandler({ navigation }: any) {
 					page={page}
 					setPage={(goto: any) => setPage(goto)}
 				/>
-			</Swipeable>
 		</View>
 	);
 }
