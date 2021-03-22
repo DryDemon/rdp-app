@@ -25,10 +25,12 @@ import { User } from "../src/interaces/interfacesUsers";
 export default function Login({ navigation }: any) {
 	const [password, setPassword] = useState("");
 	const [emailUsername, setEmailUsername] = useState("");
-
+	
 	const [alertEmailUsername, setAlertEmailUsername] = useState(" ");
 	const [alertPassword, setAlertPassword] = useState(" ");
-
+	
+	
+	const [user, setUser] = useState<User>({})
 	// //DELETE VARS
 	// AsyncStorage.removeItem("@jwt")
 	// AsyncStorage.removeItem("@user")
@@ -60,7 +62,7 @@ export default function Login({ navigation }: any) {
 			}
 		}
 	}
-	let user: User = {};
+
 
 	//redirect ifconnected
 	useEffect(() => {
@@ -69,12 +71,18 @@ export default function Login({ navigation }: any) {
 				let jwt = value;
 				AsyncStorage.getItem("@user").then((value: string | null) => {
 					if (value) {
-						user = JSON.parse(value);
+						setUser(JSON.parse(value));
 						if (jwt && user) {
 							navigation.navigate("Dashboard");
 						}
 					}
 				});
+			}
+		});
+		
+		AsyncStorage.getItem("@user").then((value: string | null) => {
+			if (value) {
+				setUser(JSON.parse(value));
 			}
 		});
 	}, []);
@@ -88,15 +96,14 @@ export default function Login({ navigation }: any) {
 	return (
 		<ViewContainer>
 			<BasicScrollView>
+				<LineBreak/>
 				<TextTitle style={styles.topTitle}>
 					Bon retour parmi nous,
 				</TextTitle>
 				{/* <TextMainTitle>Futur Roi</TextMainTitle> //TODO ROI PAUL...*/}
 				{user?.username ? (
 					<TextMainTitle>Roi {user?.username}!</TextMainTitle>
-				) : (
-					<></>
-				)}
+				) : null}
 				{/* <View style={{ flexDirection: "row" }}>
 					<View style={{ flex: 1, alignItems: "center" }}>
 						<FontAwesome.Button

@@ -6,8 +6,11 @@ import { View, Text } from "./Themed";
 import arrowIcon from "../assets/images/arrow.png";
 
 import EvilIcons from "react-native-vector-icons/EvilIcons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Colors from "../constants/Colors";
 import Constants from "expo-constants";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function GameHeader(props: any) {
 	const [arrow, setarrow] = useState(<></>);
@@ -24,6 +27,12 @@ export function GameHeader(props: any) {
 	const marginTop = Constants.statusBarHeight;
 
 	const color = "#FFFFFF";
+
+	function logout() {
+		AsyncStorage.removeItem("@jwt").then(() => {
+			if (navigation) navigation.navigate("Login");
+		});
+	}
 
 	useEffect(() => {
 		if (back && navigation) {
@@ -65,7 +74,7 @@ export function GameHeader(props: any) {
 				},
 			]}
 		>
-			<View style={{ flexDirection: "row" }}>
+			<View style={{ flexDirection: "row", alignItems: "center" }}>
 				<View>{arrow}</View>
 				<View>
 					<Text
@@ -88,9 +97,9 @@ export function GameHeader(props: any) {
 					<TouchableOpacity
 						style={[
 							{
-                                marginLeft:5,
-                                marginTop:3,
-                            },
+								marginLeft: 5,
+								marginTop: 3,
+							},
 						]}
 						onPress={callbackQuestionMark}
 					>
@@ -101,6 +110,16 @@ export function GameHeader(props: any) {
 						/>
 					</TouchableOpacity>
 				) : undefined}
+				<TouchableOpacity
+					style={{ marginLeft: "auto", alignSelf: "flex-end" }}
+					onPress={logout}
+				>
+					<MaterialCommunityIcons
+						name="logout"
+						size={20}
+						color={"#fff"}
+					/>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);

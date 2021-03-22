@@ -106,7 +106,7 @@ export default function Dashboard({ navigation }: any) {
 
 	return (
 		<View>
-			<GameHeader />
+			<GameHeader navigation={navigation} />
 			<ViewContainer>
 				<BasicScrollView>
 					<MyLeaguesDash
