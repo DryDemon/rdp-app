@@ -14,3 +14,5 @@ web-build/
 
 #yarn
 yarn-error.log
+
+constants/Environement.ts
