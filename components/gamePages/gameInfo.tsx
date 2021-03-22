@@ -100,7 +100,6 @@ export default function GameInfo(props: any) {
 				<View style={styles.column}>
 					{game?.leagueIdList.map(
 						(item: any, index: number) => {
-							console.log(item, index);
 							return renderBulletList(item, index);
 						}
 						//
@@ -142,7 +141,6 @@ export default function GameInfo(props: any) {
 
 				<View style={styles.playerContainer}>
 					{game?.userStats?.map((item: any, index: number) => {
-						console.log(item, index);
 						return renderPlayerList(item, index);
 					})}
 				</View>
