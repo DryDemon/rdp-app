@@ -1,5 +1,5 @@
-// export const SERVER_URL = "https://rdp-server-n42utgw24-drydemon.vercel.app/";
-export const SERVER_URL = "http://localhost:3000/";
+export const SERVER_URL = "https://rdp-server-89eupv0tq-drydemon.vercel.app/";
+// export const SERVER_URL = "http://localhost:3000/";
 export const SERVER_API_URL = SERVER_URL + "api";
 // export const SERVER_API_URL = "https://rdp-server-22q3iglob-drydemon.vercel.app/api";
 
