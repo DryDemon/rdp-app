@@ -85,7 +85,7 @@ export function SeeDetails(props: any) {
 
 const styles = StyleSheet.create({
 	seeDetailsView: {
-		backgroundColor: "#E2F1FF",
+		backgroundColor: Colors.revertRdpColor,
 		padding: 4,
 		borderRadius: 4,
 	},
