@@ -108,7 +108,7 @@ export default function Dashboard({ navigation }: any) {
 		<View>
 			<GameHeader navigation={navigation} />
 			<ViewContainer>
-				<BasicScrollView>
+				<BasicScrollView isHeaderShown={true}>
 					<MyLeaguesDash
 						username={user?.username}
 						games={games}

@@ -195,22 +195,23 @@ export function TextWarning(props: TextProps) {
 	return <Text style={[{ color }, style]} {...otherProps} />;
 }
 
-export function GameScrollView(props:any){
+export function GameScrollView(props: any) {
 	const { style, ...otherProps } = props;
 
-	let height = Layout.window.height - 56 //height footer
-	height -= 56 //height header
-	height -= Constants.statusBarHeight //padding top header
+	let height = Layout.window.height - 56; //height footer
+	height -= 56; //height header
+	height -= Constants.statusBarHeight; //padding top header
 
-	return <DefaultScrollView style={[{height}, style]} {...otherProps} />;
+	return <DefaultScrollView style={[{ height }, style]} {...otherProps} />;
 }
 
-export function BasicScrollView(props:any){
-	const { style, ...otherProps } = props;
+export function BasicScrollView(props: any) {
+	const { style, isHeaderShown, ...otherProps } = props;
 
-	let height = Layout.window.height
-	height -= 56 //height header
-	height -= Constants.statusBarHeight //padding top header
+	let height = Layout.window.height;
+	if (isHeaderShown) height -= 56; //height header
+	
+	height -= Constants.statusBarHeight; //padding top header
 
-	return <GameScrollView style={[{height}, style]} {...otherProps} />;
+	return <GameScrollView style={[{ height }, style]} {...otherProps} />;
 }
