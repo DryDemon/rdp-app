@@ -1,3 +1,4 @@
+import { GameSchema } from "./interaces/interfacesGame";
 
 export function validURL(str: string) {
 	var pattern = new RegExp(
@@ -10,4 +11,19 @@ export function validURL(str: string) {
 		"i"
 	); // fragment locator
 	return !!pattern.test(str);
+}
+
+
+export function getUserNameFromId(game: GameSchema | undefined, userId: string | undefined){
+
+	if(game?.userStats && userId){
+		for(let user of game.userStats){
+			if(user.userId == userId){
+
+				return user.username
+			}
+		}
+	}
+
+	return "";
 }

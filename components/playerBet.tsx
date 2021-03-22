@@ -20,12 +20,14 @@ import { getSystemName } from "./renderBetInput";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import Entypo from "react-native-vector-icons/Entypo";
+import { getUserNameFromId } from "../src/smallFuncts";
 
 export function PlayerBet(props: any) {
 	let bet: userBetInterface = props.bet;
 	let simple = bet?.betsObjects?.length == 1;
 	let simpleBet = bet?.betsObjects?.[0];
 	let system = bet?.isSystem;
+	let game: GameSchema = props.game;
 
 	if (bet && simpleBet && bet.betsObjects && bet.credits) {
 		let systemName = getSystemName(
@@ -88,19 +90,21 @@ export function PlayerBet(props: any) {
 				</View>
 				<SmallLineBreak />
 				<View style={styles.lineRow}>
-					{bet.result ? (
 						<View>
-							<Text style={styles.credits}>Résultat : </Text>
-							<Text>{bet.result}</Text>
+							<Text style={styles.credits}>{getUserNameFromId(game, bet.userId)}</Text>
 						</View>
-					) : null}
 					<View style={styles.mainQuoteContainer}>
 						<Text style={styles.mainQuoteText}>
 							{bet.mainQuote}
 						</Text>
 					</View>
 				</View>
-				<Text>{simple}</Text>
+					{bet.result ? (
+						<View>
+							<Text style={styles.credits}>Résultat : </Text>
+							<Text>{bet.result}</Text>
+						</View>
+					) : null}
 				{!simple ? <SeeDetails bet={bet} /> : null}
 			</View>
 		);
