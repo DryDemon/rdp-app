@@ -22,6 +22,10 @@ import { GameIcon } from "./GameIcon";
 import Colors from "../constants/Colors";
 import { CheckBox } from "./checkBox";
 
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import EvilIcons from "react-native-vector-icons/EvilIcons";
+import Entypo from "react-native-vector-icons/Entypo";
+
 export function SeeDetails(props: any) {
 	let bets = props.bet;
 	const [show, setShow] = useState(false);
@@ -45,7 +49,40 @@ export function SeeDetails(props: any) {
 				<View style={styles.spacer}></View>
 				{bets.betsObjects.map((bet: any) => (
 					<View>
-						<Text style={styles.title}>{bet.matchName}</Text>
+						<View style={styles.header}>
+							<Text style={styles.title}>{bet.matchName}</Text>
+							{bet.betStatus == 0 ? ( //EN cOURS
+								<MaterialCommunityIcons
+									style={styles.icon}
+									name="progress-clock"
+									size={20}
+									color={"#000"}
+								/>
+							) : null}
+							{bet.betStatus == 1 ? ( //WIN
+								<EvilIcons
+									style={styles.icon}
+									name="trophy"
+									size={20}
+									color={"#5BD18F"}
+								/>
+							) : null}
+							{bet.betStatus == 2 ? ( //LOST
+								<View
+									style={{
+										borderRadius: 100,
+										backgroundColor: "#FDE7E7",
+									}}
+								>
+									<Entypo
+										style={styles.icon}
+										name="cross"
+										size={20}
+										color={"#000"}
+									/>
+								</View>
+							) : null}{" "}
+						</View>
 
 						<SubText>{bet.leagueName}</SubText>
 
@@ -129,5 +166,14 @@ const styles = StyleSheet.create({
 	spacer: {
 		width: "100%",
 		height: 12,
+	},
+	header: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	icon: {
+		marginLeft: "auto",
+		textAlign: "right",
+		alignSelf: "flex-end",
 	},
 });
