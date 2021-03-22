@@ -167,18 +167,18 @@ export default function GameCart(props: any) {
 	}, [systemChoice]);
 
 	function loadCart() {
-		AsyncStorage.getItem("@cart").then((input) => {
+		AsyncStorage.getItem("@cart_" + joinCode).then((input) => {
 			let cart: any = [];
 			if (input) cart = JSON.parse(input);
 			if (ENVIRONEMENT == "dev") console.log(cart);
 			setBets(cart);
 		});
-		AsyncStorage.getItem("@cart_info").then((input) => {
+		AsyncStorage.getItem("@cart_info_" + joinCode).then((input) => {
 			let data;
 			if (input) data = JSON.parse(input);
 			else {
 				data = { type, miseGlobal: CONST_BASE_MISE_PARI };
-				AsyncStorage.setItem("@cart_info", JSON.stringify(data));
+				AsyncStorage.setItem("@cart_info_" + joinCode, JSON.stringify(data));
 			}
 			setcartInfo(data);
 
@@ -195,17 +195,17 @@ export default function GameCart(props: any) {
 	//fonctions principales du panier
 	function changeType(type: any) {
 		setType(type);
-		AsyncStorage.getItem("@cart_info").then((input) => {
+		AsyncStorage.getItem("@cart_info_" + joinCode).then((input) => {
 			let data;
 			if (input) data = JSON.parse(input);
 			else data = { type, miseGlobal: CONST_BASE_MISE_PARI };
 			data.type = type;
-			AsyncStorage.setItem("@cart_info", JSON.stringify(data));
+			AsyncStorage.setItem("@cart_info_" + joinCode, JSON.stringify(data));
 		});
 	}
 
 	function removeBet(betId: string, matchId: string) {
-		AsyncStorage.getItem("@cart").then((input) => {
+		AsyncStorage.getItem("@cart_" + joinCode).then((input) => {
 			let cart: any = [];
 			if (input) cart = JSON.parse(input);
 
@@ -213,7 +213,7 @@ export default function GameCart(props: any) {
 				return elem.matchId != matchId && elem.betId != betId;
 			});
 
-			AsyncStorage.setItem("@cart", JSON.stringify(cart));
+			AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart));
 			setBets(cart);
 		});
 	}
@@ -222,7 +222,7 @@ export default function GameCart(props: any) {
 		let cart: any[] = [];
 		reloadGame(); //Pour charger les paris qui viennentd'être places
 
-		await AsyncStorage.setItem("@cart", JSON.stringify(cart));
+		await AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart));
 
 		setBets(cart);
 		setblockSendButton(false);
@@ -230,7 +230,7 @@ export default function GameCart(props: any) {
 
 	//fonction type == simple
 	function updateSimpleBetMise(betId: string, matchId: string, mise: number) {
-		AsyncStorage.getItem("@cart").then((input) => {
+		AsyncStorage.getItem("@cart_" + joinCode).then((input) => {
 			let cart: any = [];
 			if (input) cart = JSON.parse(input);
 
@@ -240,7 +240,7 @@ export default function GameCart(props: any) {
 				}
 			}
 
-			AsyncStorage.setItem("@cart", JSON.stringify(cart));
+			AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart));
 			setBets(cart);
 		});
 	}
@@ -250,7 +250,7 @@ export default function GameCart(props: any) {
 		matchId: string,
 		value: boolean
 	) {
-		let input = await AsyncStorage.getItem("@cart");
+		let input = await AsyncStorage.getItem("@cart_" + joinCode);
 		let cart: any = [];
 		if (input) cart = JSON.parse(input);
 
@@ -260,19 +260,19 @@ export default function GameCart(props: any) {
 			}
 		}
 
-		AsyncStorage.setItem("@cart", JSON.stringify(cart));
+		AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart));
 		setBets(cart);
 	}
 
 	//fonctions type == combiné
 	//load la mise globale de systeme et combiné dans le local storage
 	function updateGlobalMise(mise: number) {
-		AsyncStorage.getItem("@cart_info").then((input) => {
+		AsyncStorage.getItem("@cart_info_" + joinCode).then((input) => {
 			let data;
 			if (input) data = JSON.parse(input);
 			else data = { type, miseGlobal: CONST_BASE_MISE_PARI };
 			data.miseGlobal = mise;
-			AsyncStorage.setItem("@cart_info", JSON.stringify(data));
+			AsyncStorage.setItem("@cart_info_" + joinCode, JSON.stringify(data));
 		});
 	}
 

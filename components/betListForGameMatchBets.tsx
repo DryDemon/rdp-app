@@ -57,6 +57,7 @@ export default function BetListForGameMatchBets(props: any) {
 
 							<BasicBet
 								isShow={props.isShow}
+								joinCode={props.joinCode}
 								key={odd.id}
 								odd={odd}
 								matchId={props.matchId}

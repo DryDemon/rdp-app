@@ -24,11 +24,12 @@ export default function BasicBet(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
 	const odd = props.odd;
 	const isShow = props.isShow
+	const joinCode = props.joinCode
 
 	const [selected, setSelected] = useState(false);
 
 	async function isBetIdInCart(matchId: string, betId: string) {
-		let input = await AsyncStorage.getItem("@cart");
+		let input = await AsyncStorage.getItem("@cart_" + joinCode);
 		if (input) {
 			let cart = JSON.parse(input);
 			if (cart)
@@ -51,11 +52,11 @@ export default function BasicBet(props: any) {
 	}, [odd, props.matchId, isShow]);
 
 	function onBet() {
-		// AsyncStorage.setItem("@cart", "[]");
+		// AsyncStorage.setItem("@cart_" + joinCode, "[]");
 		if (!selected) {
 			setSelected(true);
 
-			AsyncStorage.getItem("@cart").then((input) => {
+			AsyncStorage.getItem("@cart_" + joinCode).then((input) => {
 				let cart: any = [];
 				if (input) cart = JSON.parse(input);
 
@@ -65,12 +66,12 @@ export default function BasicBet(props: any) {
 					mise: CONST_BASE_MISE_PARI,
 					isBase: false,
 				});
-				AsyncStorage.setItem("@cart", JSON.stringify(cart));
+				AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart));
 			});
 		} else {
 			setSelected(false);
 
-			AsyncStorage.getItem("@cart").then((input) => {
+			AsyncStorage.getItem("@cart_" + joinCode).then((input) => {
 				let cart: any = [];
 				if (input) cart = JSON.parse(input);
 
@@ -80,7 +81,7 @@ export default function BasicBet(props: any) {
 					);
 				});
 
-				AsyncStorage.setItem("@cart", JSON.stringify(cart));
+				AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart));
 			});
 		}
 	}

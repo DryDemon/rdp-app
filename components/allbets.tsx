@@ -8,6 +8,7 @@ export default function AllBets(props: any) {
 	const matchs = props.matchs;
 	const callbackShowMatchBet = props.callbackShowMatchBet;
 	const isShow = props.isShow;
+	const joinCode = props.joinCode;
 
 	return (
         <View>
@@ -18,6 +19,7 @@ export default function AllBets(props: any) {
 					<BetForLeague
 						key={league.leagueName}
 						isShow={isShow}
+						joinCode={joinCode}
 						callbackShowMatchBet={callbackShowMatchBet}
 						leagueData={league}
 						matchs={matchs.filter(

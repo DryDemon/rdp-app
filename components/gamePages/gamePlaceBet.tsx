@@ -130,6 +130,7 @@ export default function GamePlaceBet(props: any) {
 				<View>
 					<AllBets
 						isShow={isShow}
+						joinCode={joinCode}
 						callbackShowMatchBet={callbackShowMatchBet}
 						leagues={leagues}
 						filter={listFilter}

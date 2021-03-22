@@ -5,6 +5,7 @@ import { SmallLineBreak, TextTitle, View } from "./Themed";
 export default function BetForLeague(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
 	const isShow = props.isShow;
+	const joinCode = props.joinCode;
 
 	return (
 		<View>
@@ -14,6 +15,7 @@ export default function BetForLeague(props: any) {
 			{props.matchs.map((match: any) => (
 				<BetForMatch
 					isShow={isShow}
+					joinCode={joinCode}
 					callbackShowMatchBet={callbackShowMatchBet}
 					key={match.matchId}
 					matchData={match}

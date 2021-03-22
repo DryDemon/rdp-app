@@ -45,6 +45,7 @@ export default function betForMatch(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
 	const match = props.matchData;
 	const isShow = props.isShow;
+	const joinCode = props.joinCode;
 
 	const time = format(parseISO(match.time), "dd/MM - H:mm", {});
 
@@ -66,10 +67,10 @@ export default function betForMatch(props: any) {
 			<ScrollView horizontal={true}>
 				{fullMatchOdds
 					? fullMatchOdds.odds.map((odd: any) => (
-							<BasicBet isShow={isShow} key={odd.id} odd={odd} matchId={match.matchId}></BasicBet>
+							<BasicBet joinCode={joinCode} isShow={isShow} key={odd.id} odd={odd} matchId={match.matchId}></BasicBet>
 					  ))
 					: null}
-				<BasicBet isShow={isShow} callbackShowMatchBet={callbackShowMatchBet} match={match} plus={numberOfOdds}></BasicBet>
+				<BasicBet joinCode={joinCode} isShow={isShow} callbackShowMatchBet={callbackShowMatchBet} match={match} plus={numberOfOdds}></BasicBet>
 			</ScrollView>
 		</View>
 	);
