@@ -16,6 +16,7 @@ import {
 	ViewCenter,
 	TextWarning,
 	LineBreak,
+	BasicScrollView,
 } from "../components/Themed";
 import { ENVIRONEMENT } from "../constants/Environement";
 import { SERVER_API_URL } from "../constants/Server";
@@ -41,20 +42,29 @@ export default function Dashboard({ navigation }: any) {
 	if (!jwt || !user) {
 		try {
 			if (!jwt) {
-				AsyncStorage.getItem("@jwt").then((value: string | null) => {
-					if (value) setJwt(value);
-				});
+				AsyncStorage.getItem("@jwt")
+					.then((value: string | null) => {
+						if (value) setJwt(value);
+						else navigation.navigate("Login");
+					})
+					.catch((e) => {
+						navigation.navigate("Login");
+					});
 			}
 			if (!user) {
-				AsyncStorage.getItem("@user").then((value: string | null) => {
-					if (value) setUser(JSON.parse(value));
-				});
+				AsyncStorage.getItem("@user")
+					.then((value: string | null) => {
+						if (value) setUser(JSON.parse(value));
+						else navigation.navigate("Login");
+					})
+					.catch((e) => {
+						navigation.navigate("Login");
+					});
 			}
 		} catch (e) {
 			if (ENVIRONEMENT == "dev") alert(e);
 		}
 	}
-
 
 	//onFocus
 	navigation.addListener("focus", () => {
@@ -74,13 +84,6 @@ export default function Dashboard({ navigation }: any) {
 	});
 
 	useEffect(() => {
-		// if (ENVIRONEMENT != "dev" && (!jwt || !user)) {
-		if (!jwt && !user) {
-			navigation.navigate("Login");
-		}
-	}, [jwt, user]);
-
-	useEffect(() => {
 		if (ENVIRONEMENT == "dev") {
 			// AsyncStorage.setItem("@joinCode", "CFEVPU");
 			// navigation.navigate("Game");
@@ -93,26 +96,27 @@ export default function Dashboard({ navigation }: any) {
 			fetchUserGames(jwt).then((data: any) => {
 				if (data?.isConnected && data.isConnected == 0) {
 					AsyncStorage.setItem("@jwt", "");
-					AsyncStorage.setItem("@user", "");
 					navigation.navigate("Login");
 				} else {
 					setGames(data);
 				}
 			});
 		}
-	}, []);
+	}, [jwt]);
 
 	return (
 		<View>
 			<GameHeader />
 			<ViewContainer>
-				<MyLeaguesDash
-					username={user?.username}
-					games={games}
-					navigation={navigation}
-					jwt={jwt}
-				/>
-				<LineBreak />
+				<BasicScrollView>
+					<MyLeaguesDash
+						username={user?.username}
+						games={games}
+						navigation={navigation}
+						jwt={jwt}
+					/>
+					<LineBreak />
+				</BasicScrollView>
 			</ViewContainer>
 		</View>
 	);

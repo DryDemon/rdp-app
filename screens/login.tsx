@@ -14,11 +14,12 @@ import {
 	ViewCenter,
 	TextWarning,
 	LineBreak,
+	BasicScrollView,
 } from "../components/Themed";
 import { SERVER_API_URL } from "../constants/Server";
 import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Constants from 'expo-constants'
+import Constants from "expo-constants";
 import { User } from "../src/interaces/interfacesUsers";
 
 export default function Login({ navigation }: any) {
@@ -31,7 +32,6 @@ export default function Login({ navigation }: any) {
 	// //DELETE VARS
 	// AsyncStorage.removeItem("@jwt")
 	// AsyncStorage.removeItem("@user")
-
 
 	async function sendDataLoginUser(userauth: string, password: string) {
 		const rawRep = await fetch(
@@ -53,12 +53,14 @@ export default function Login({ navigation }: any) {
 					setAlertPassword("Mauvais mot de passe");
 					break;
 				case "WRONG_USER":
-					setAlertEmailUsername("Tu as rentré un mauvais pseudo ou email");
+					setAlertEmailUsername(
+						"Tu as rentré un mauvais pseudo ou email"
+					);
 					break;
 			}
 		}
 	}
-	let user:User = {};
+	let user: User = {};
 
 	//redirect ifconnected
 	useEffect(() => {
@@ -85,10 +87,16 @@ export default function Login({ navigation }: any) {
 
 	return (
 		<ViewContainer>
-			<TextTitle style={styles.topTitle}>Bon retour parmi nous,</TextTitle>
-			{/* <TextMainTitle>Futur Roi</TextMainTitle> //TODO ROI PAUL...*/}
-			{user?.username? <TextMainTitle>Roi {user?.username}!</TextMainTitle> : <></>}
-			<ScrollView showsHorizontalScrollIndicator={false}>
+			<BasicScrollView>
+				<TextTitle style={styles.topTitle}>
+					Bon retour parmi nous,
+				</TextTitle>
+				{/* <TextMainTitle>Futur Roi</TextMainTitle> //TODO ROI PAUL...*/}
+				{user?.username ? (
+					<TextMainTitle>Roi {user?.username}!</TextMainTitle>
+				) : (
+					<></>
+				)}
 				{/* <View style={{ flexDirection: "row" }}>
 					<View style={{ flex: 1, alignItems: "center" }}>
 						<FontAwesome.Button
@@ -133,7 +141,7 @@ export default function Login({ navigation }: any) {
 					}}
 					placeholder={"8 lettres minimum, une majuscule"}
 					secureTextEntry={true}
-					/>
+				/>
 				<TextWarning>{alertPassword}</TextWarning>
 
 				<LineBreak />
@@ -144,7 +152,7 @@ export default function Login({ navigation }: any) {
 					Tu n'as pas de compte? Inscris toi!
 				</Text>
 				<LineBreak />
-			</ScrollView>
+			</BasicScrollView>
 		</ViewContainer>
 	);
 }
@@ -163,7 +171,8 @@ const styles = StyleSheet.create({
 		marginVertical: 30,
 		height: 1,
 		width: "80%",
-	},topTitle:{
-		marginTop : Constants.statusBarHeight,
-	}
+	},
+	topTitle: {
+		marginTop: Constants.statusBarHeight,
+	},
 });

@@ -204,3 +204,13 @@ export function GameScrollView(props:any){
 
 	return <DefaultScrollView style={[{height}, style]} {...otherProps} />;
 }
+
+export function BasicScrollView(props:any){
+	const { style, ...otherProps } = props;
+
+	let height = Layout.window.height
+	height -= 56 //height header
+	height -= Constants.statusBarHeight //padding top header
+
+	return <GameScrollView style={[{height}, style]} {...otherProps} />;
+}
