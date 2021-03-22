@@ -377,8 +377,8 @@ export default function Create({ navigation }: any) {
 										sportChoice.some(
 											(value) => value == "1"
 										)
-											? styles.sportChoiceSelected
-											: styles.sportChoiceUnselected
+											? styles.sportChoiceTextSelected
+											: styles.sportChoiceTextUnselected
 									}
 								>
 									- Foot
@@ -399,8 +399,8 @@ export default function Create({ navigation }: any) {
 										sportChoice.some(
 											(value) => value == "13"
 										)
-											? styles.sportChoiceSelected
-											: styles.sportChoiceUnselected
+										? styles.sportChoiceTextSelected
+										: styles.sportChoiceTextUnselected
 									}
 								>
 									- Tennis
@@ -421,8 +421,8 @@ export default function Create({ navigation }: any) {
 										sportChoice.some(
 											(value) => value == "18"
 										)
-											? styles.sportChoiceSelected
-											: styles.sportChoiceUnselected
+										? styles.sportChoiceTextSelected
+										: styles.sportChoiceTextUnselected
 									}
 								>
 									- Basketball
@@ -504,9 +504,11 @@ const styles = StyleSheet.create({
 	},
 	sportChoiceTextSelected: {
 		color: "white",
+		margin:5,
 	},
 	sportChoiceTextUnselected: {
 		color: "black",
+		margin:5,
 	},
 
 	sportChoiceUnselected: {

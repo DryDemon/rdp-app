@@ -130,7 +130,7 @@ export default function Login({ navigation }: any) {
 					darkColor="rgba(255,255,255,0.1)"
 				/>
 
-				<TextLabel>EmailUsername ou Pseudo</TextLabel>
+				<TextLabel>Email ou Pseudo</TextLabel>
 				<TextInput
 					value={emailUsername}
 					onChangeText={(emailUsername) => {
