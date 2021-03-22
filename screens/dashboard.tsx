@@ -16,6 +16,7 @@ import {
 	ViewCenter,
 	TextWarning,
 	LineBreak,
+	BasicScrollView,
 } from "../components/Themed";
 import { ENVIRONEMENT } from "../constants/Environement";
 import { SERVER_API_URL } from "../constants/Server";
@@ -107,13 +108,15 @@ export default function Dashboard({ navigation }: any) {
 		<View>
 			<GameHeader />
 			<ViewContainer>
-				<MyLeaguesDash
-					username={user?.username}
-					games={games}
-					navigation={navigation}
-					jwt={jwt}
-				/>
-				<LineBreak />
+				<BasicScrollView>
+					<MyLeaguesDash
+						username={user?.username}
+						games={games}
+						navigation={navigation}
+						jwt={jwt}
+					/>
+					<LineBreak />
+				</BasicScrollView>
 			</ViewContainer>
 		</View>
 	);

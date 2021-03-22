@@ -16,6 +16,7 @@ import {
 	ViewCenter,
 	TextWarning,
 	LineBreak,
+	BasicScrollView,
 } from "../components/Themed";
 import { FontAwesome } from "@expo/vector-icons";
 import Constants from 'expo-constants'
@@ -196,7 +197,7 @@ export default function Register({ navigation }: any) {
 
 	return (
 		<ViewContainer>
-			<ScrollView>
+			<BasicScrollView>
 				<TextTitle style={styles.topTitle}>Bienvenu parmi nous,</TextTitle>
 				<TextMainTitle>Futur Roi</TextMainTitle>
 				{/* <View style={{ flexDirection: "row" }}>
@@ -279,7 +280,7 @@ export default function Register({ navigation }: any) {
 					Tu as déjà un compte? Connectes-toi
 				</Text>
 				<LineBreak />
-			</ScrollView>
+			</BasicScrollView>
 		</ViewContainer>
 	);
 }
