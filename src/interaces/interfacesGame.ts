@@ -50,6 +50,12 @@ export interface betObjectInterface {
 	leagueName?: string;
 	matchName?: string;
 
+	
+	betName?: string;
+	betSubName?: string;
+	betHeader?: string | undefined;
+	betHandicap?: string | undefined;
+
 	betId?: string;
 	matchId?: string;
 	betStatus?: number; //0 ?: unresolved, 1 ?: win, 2 ?: lost
