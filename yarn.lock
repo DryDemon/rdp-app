@@ -4815,6 +4815,11 @@ mkdirp@^0.5.1:
   dependencies:
     minimist "^1.2.5"
 
+moment@^2.17.1:
+  version "2.29.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
+  integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
+
 ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -5442,6 +5447,14 @@ react-native-mmkv-storage@^0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/react-native-mmkv-storage/-/react-native-mmkv-storage-0.5.2.tgz#1463e5b443ce3a1d3eb0c2fa89cdb424d49e9883"
   integrity sha512-GtxYu0oTYwNfx2Ts+zpYfFyyVy8NJM96YMjQnHII8KaMRo/SYx81YR/EALYlWXLg/bBzErqUR4R9pKEu0N7jQQ==
+
+react-native-range-datepicker@^1.9.1:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/react-native-range-datepicker/-/react-native-range-datepicker-1.9.1.tgz#bb01f0aa850cbc965cc12420b40abc66f2c7a78f"
+  integrity sha512-CIhTbenWyOo30R6UiuvQdM2giaRHQorhu7ML7tQDFcGiukamCFNn+jT+FDC9dBbDPuByAIY9nWFAJu+8D9fVWg==
+  dependencies:
+    moment "^2.17.1"
+    prop-types "^15.6.0"
 
 react-native-safe-area-context@3.1.9:
   version "3.1.9"

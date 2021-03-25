@@ -288,6 +288,9 @@ export default function Create({ navigation }: any) {
 		setSportChoice(cpySportChoice);
 	}
 
+	useEffect(() => {
+		console.log(dateCreationForm, dateEndForm);
+	}, [dateCreationForm, dateEndForm]);
 	return (
 		<View style={{ flex: 1, marginHorizontal: 1 }}>
 			<GameHeader back={"Dashboard"} navigation={navigation} />
@@ -333,18 +336,11 @@ export default function Create({ navigation }: any) {
 					<View style={{ flexDirection: "row" }}>
 						<View style={{ flex: 1, marginRight: 12 }}>
 							<DatePicker
-								value={dateCreationForm}
-								onChange={(date: Date) =>
-									setDateCreationForm(date)
-								}
+								start={dateCreationForm}
+								end={dateEndForm}
+								setStart={setDateCreationForm}
+								setEnd={setDateEndForm}
 								initText={"Date de Début"}
-							/>
-						</View>
-						<View style={{ flex: 1, marginLeft: 12 }}>
-							<DatePicker
-								value={dateEndForm}
-								onChange={(date: Date) => setDateEndForm(date)}
-								initText={"Date de Fin"}
 							/>
 						</View>
 					</View>
@@ -399,8 +395,8 @@ export default function Create({ navigation }: any) {
 										sportChoice.some(
 											(value) => value == "13"
 										)
-										? styles.sportChoiceTextSelected
-										: styles.sportChoiceTextUnselected
+											? styles.sportChoiceTextSelected
+											: styles.sportChoiceTextUnselected
 									}
 								>
 									- Tennis
@@ -421,8 +417,8 @@ export default function Create({ navigation }: any) {
 										sportChoice.some(
 											(value) => value == "18"
 										)
-										? styles.sportChoiceTextSelected
-										: styles.sportChoiceTextUnselected
+											? styles.sportChoiceTextSelected
+											: styles.sportChoiceTextUnselected
 									}
 								>
 									- Basketball
@@ -504,11 +500,11 @@ const styles = StyleSheet.create({
 	},
 	sportChoiceTextSelected: {
 		color: "white",
-		margin:5,
+		margin: 5,
 	},
 	sportChoiceTextUnselected: {
 		color: "black",
-		margin:5,
+		margin: 5,
 	},
 
 	sportChoiceUnselected: {

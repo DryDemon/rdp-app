@@ -1,66 +1,94 @@
 import React, { useState } from "react";
 import { View, Text, TextTitle, SubText } from "./Themed";
 import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
-import DateTimePicker from '@react-native-community/datetimepicker';
-import format from 'date-fns/format'
+import DateTimePicker from "@react-native-community/datetimepicker"; //TODO REMOVE
+import format from "date-fns/format";
+import DatepickerRange from "react-native-range-datepicker";
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from "react-native-vector-icons/FontAwesome";
 import Colors from "../constants/Colors";
 
 export function DatePicker(props: any) {
+	const [showDatePicker, setShowDatePicker] = useState(false);
+	const [beenSet, setbeenSet] = useState(false);
 
-    const [showDatePicker, setshowDatePicker] = useState(false);
-    const [beenSet, setbeenSet] = useState(false);
+console.log(format(new Date(), "ddMMyyyy"))
 
-    return (
+	return (
+		<View>
+			<TouchableOpacity
+				style={styles.dateContainer}
+				onPress={() => {
+					if (showDatePicker) setShowDatePicker(false);
+					else setShowDatePicker(true);
+				}}
+			>
+				<View style={{ flexDirection: "row" }}>
+					<View>
+						<Icon
+							style={styles.gameLogo}
+							name="calendar"
+							size={20}
+							color="#FFF"
+						/>
+					</View>
+					<View>
+						{!beenSet && (
+							<Text style={styles.text}>{props.initText}</Text>
+						)}
+						{beenSet && (
+							<Text style={styles.text}>
+								{format(props.start, "dd/MM/yyyy") +
+									" - " +
+									format(props.end, "dd/MM/yyyy")}
+							</Text>
+						)}
+					</View>
+				</View>
+			</TouchableOpacity>
+			{showDatePicker && (
+				<DatepickerRange
+					onClose={() => {
+						setShowDatePicker(false);
+					}}
+					dayHeadings={["D", "L", "M", "M", "J", "V", "S"]}
+					maxMonth={2}
+					buttonColor={Colors.rdpColor}
+					todayColor={Colors.rdpColor}
+					selectedBackgroundColor={Colors.rdpColor}
+					startDate={format(props.start, "ddMMyyyy")}
+					untilDate={format(props.end, "ddMMyyyy")}
+                    placeHolderStart={"Date de Début"}
+                    placeHolderUntil={"Date de Fin"}
+                    onConfirm={(startDate: number, untilDate: number) => {
+						props.setStart(new Date(startDate));
+						props.setEnd(new Date(untilDate));
 
-        <TouchableOpacity style={styles.dateContainer} onPress={() => { setshowDatePicker(true); }}>
-            <View style={{ flexDirection: "row" }}>
-                <View>
-                    <Icon style={styles.gameLogo} name="calendar" size={20} color="#FFF"  />
-                </View>
-                <View >
-                    {!beenSet && (<Text style={styles.text}>{props.initText}</Text>)}
-                    {beenSet && (<Text style={styles.text}>{format(props.value, 'dd/MM/yyyy')}</Text>)}
-                </View>
-            </View>
-
-            {showDatePicker && (<DateTimePicker
-                testID="dateTimePicker"
-                value={props.value}
-                mode={"date"}
-                is24Hour={true}
-                display="default"
-                onChange={(event: any, value: Date | undefined) => {
-                    setshowDatePicker(false);
-                    if (value) {
-                        setbeenSet(true);
-                        props.onChange(value)
-                    }
-                }}
-            />)}
-
-        </TouchableOpacity>
-    );
+						setbeenSet(true);
+						setShowDatePicker(false);
+					}}
+				/>
+			)}
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-    dateContainer: {
-        height: 48,
-        padding: 5,
-        borderRadius: 8,
-        maxWidth: 200,
-        paddingVertical: 14,
-        backgroundColor: Colors.rdpColor,
-    },
-    gameLogo: {
-        marginLeft: "auto",
-        marginRight: "auto",
-    },
-    text: {
-        marginHorizontal:10,
-        color: "white",
-        fontSize: 14
-    },
-
+	dateContainer: {
+		height: 48,
+		padding: 5,
+		borderRadius: 8,
+		// maxWidth: 200,
+		paddingVertical: 14,
+		backgroundColor: Colors.rdpColor,
+	},
+	gameLogo: {
+		marginLeft: "auto",
+		marginRight: "auto",
+	},
+	text: {
+		marginHorizontal: 10,
+		color: "white",
+		fontSize: 14,
+	},
 });
