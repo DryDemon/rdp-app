@@ -42,6 +42,8 @@ export default function BetListForGameMatchBets(props: any) {
 					style={
 						showDropDown ? { display: "flex" } : { display: "none" }
 					}
+
+					
 				>
 					{bet.odds.map((odd: any) => (
 						<View style={styles.oddContainer} key={odd.id}>

@@ -75,7 +75,7 @@ export function PlayerBet(props: any) {
 								color={"#000"}
 							/>
 						</View>
-					) : null}{" "}
+					) : null}
 				</View>
 				{simple ? <SubText>{simpleBet.leagueName}</SubText> : null}
 				<View style={styles.lineRow}>
