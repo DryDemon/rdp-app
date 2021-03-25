@@ -177,9 +177,9 @@ export default function GameHandler({ navigation }: any) {
 			setlogoUrl(game.logoUrl);
 	}, [game]);
 
+	//todo add Swipeable?
 	return (
 		<View>
-			//todo add Swipeable?
 				<GameHeader
 					back={"Dashboard"}
 					navigation={navigation}
