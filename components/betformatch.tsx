@@ -64,14 +64,14 @@ export default function betForMatch(props: any) {
 
 			<SmallLineBreak />
 			<SmallLineBreak />
-			<ScrollView horizontal={true}>
+			<View>
 				{fullMatchOdds
 					? fullMatchOdds.odds.map((odd: any) => (
 							<BasicBet joinCode={joinCode} isShow={isShow} key={odd.id} odd={odd} matchId={match.matchId}></BasicBet>
 					  ))
 					: null}
 				<BasicBet joinCode={joinCode} isShow={isShow} callbackShowMatchBet={callbackShowMatchBet} match={match} plus={numberOfOdds}></BasicBet>
-			</ScrollView>
+			</View>
 		</View>
 	);
 }

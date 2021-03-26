@@ -93,8 +93,8 @@ export default function GamePlaceBet(props: any) {
 		let cpyListFilter = listFilter;
 
 		//toggle the league id from the list; remove itif it exist, otherwise, push it
-		if (listFilter.some((x) => x == leagueId)) {
-			setListFilter(listFilter.filter((value) => value != leagueId));
+		if (listFilter.some((x: any) => x == leagueId)) {
+			setListFilter(listFilter.filter((value: any) => value != leagueId));
 		} else {
 			setListFilter([...listFilter, leagueId]);
 		}
