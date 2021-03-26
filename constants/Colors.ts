@@ -8,4 +8,5 @@ export default {
   tabIconDefault: '#ccc',
   tabIconSelected: '#fff',
   alert:"red",
+  link:"#0000FF",
 };

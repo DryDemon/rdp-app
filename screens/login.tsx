@@ -21,6 +21,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 import { User } from "../src/interaces/interfacesUsers";
+import Colors from "../constants/Colors";
 
 export default function Login({ navigation }: any) {
 	const [password, setPassword] = useState("");
@@ -187,6 +188,6 @@ const styles = StyleSheet.create({
 		marginTop: Constants.statusBarHeight,
 	},
 	link: {
-		color: "#0000FF",
+		color: Colors.link,
 	},
 });

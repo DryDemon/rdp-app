@@ -20,6 +20,7 @@ import {
 } from "../components/Themed";
 import { FontAwesome } from "@expo/vector-icons";
 import Constants from "expo-constants";
+import Colors from "../constants/Colors";
 
 export default function Register({ navigation }: any) {
 	const [username, setUsername] = useState("");
@@ -308,6 +309,6 @@ const styles = StyleSheet.create({
 		marginTop: Constants.statusBarHeight,
 	},
 	link: {
-		color: "#0000FF",
+		color: Colors.link,
 	},
 });
