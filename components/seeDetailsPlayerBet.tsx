@@ -81,7 +81,7 @@ export function SeeDetails(props: any) {
 										color={"#000"}
 									/>
 								</View>
-							) : null}{" "}
+							) : null}
 						</View>
 
 						<SubText>{bet.leagueName}</SubText>
@@ -91,7 +91,7 @@ export function SeeDetails(props: any) {
 							{bet.result ? (
 								<View>
 									<Text style={styles.credits}>
-										Résultat :{" "}
+										Résultat :
 									</Text>
 									<Text>{bet.result}</Text>
 								</View>
