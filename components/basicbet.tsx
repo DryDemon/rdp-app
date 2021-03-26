@@ -56,7 +56,7 @@ export default function BasicBet(props: any) {
 		if (!selected) {
 			setSelected(true);
 
-			AsyncStorage.getItem("@cart_" + joinCode).then((input) => {
+			AsyncStorage.getItem("@cart_" + joinCode).then((input: any) => {
 				let cart: any = [];
 				if (input) cart = JSON.parse(input);
 
@@ -71,7 +71,7 @@ export default function BasicBet(props: any) {
 		} else {
 			setSelected(false);
 
-			AsyncStorage.getItem("@cart_" + joinCode).then((input) => {
+			AsyncStorage.getItem("@cart_" + joinCode).then((input: any) => {
 				let cart: any = [];
 				if (input) cart = JSON.parse(input);
 
@@ -111,7 +111,7 @@ export default function BasicBet(props: any) {
 					<Text>{odd.header ? odd.header + " " : ""}</Text>
 					<View style={{ flexDirection: "row" }}>
 						<View>
-							<Text style={styles.name}>{odd.name}</Text>
+							<Text style={styles.name}>{odd.name != "Draw" ? odd.name : "N"}</Text>
 						</View>
 						<View>
 							<Text
