@@ -280,7 +280,13 @@ export default function Register({ navigation }: any) {
 				<LineBreak />
 
 				<Text onPress={() => navigation.navigate("Login")}>
-					Tu as déjà un compte? Connectes-toi
+					Tu as déjà un compte?
+				</Text>
+				<Text
+					style={styles.link}
+					onPress={() => navigation.navigate("Login")}
+				>
+					Connectes-toi
 				</Text>
 				<LineBreak />
 			</BasicScrollView>
@@ -300,5 +306,8 @@ const styles = StyleSheet.create({
 	},
 	topTitle: {
 		marginTop: Constants.statusBarHeight,
+	},
+	link: {
+		color: "#0000FF",
 	},
 });

@@ -25,12 +25,11 @@ import { User } from "../src/interaces/interfacesUsers";
 export default function Login({ navigation }: any) {
 	const [password, setPassword] = useState("");
 	const [emailUsername, setEmailUsername] = useState("");
-	
+
 	const [alertEmailUsername, setAlertEmailUsername] = useState(" ");
 	const [alertPassword, setAlertPassword] = useState(" ");
-	
-	
-	const [user, setUser] = useState<User>({})
+
+	const [user, setUser] = useState<User>({});
 	// //DELETE VARS
 	// AsyncStorage.removeItem("@jwt")
 	// AsyncStorage.removeItem("@user")
@@ -63,7 +62,6 @@ export default function Login({ navigation }: any) {
 		}
 	}
 
-
 	//redirect ifconnected
 	useEffect(() => {
 		AsyncStorage.getItem("@jwt").then((value: string | null) => {
@@ -79,7 +77,7 @@ export default function Login({ navigation }: any) {
 				});
 			}
 		});
-		
+
 		AsyncStorage.getItem("@user").then((value: string | null) => {
 			if (value) {
 				setUser(JSON.parse(value));
@@ -96,7 +94,7 @@ export default function Login({ navigation }: any) {
 	return (
 		<ViewContainer>
 			<BasicScrollView>
-				<LineBreak/>
+				<LineBreak />
 				<TextTitle style={styles.topTitle}>
 					Bon retour parmi nous,
 				</TextTitle>
@@ -133,7 +131,7 @@ export default function Login({ navigation }: any) {
 				<TextLabel>Email ou Pseudo</TextLabel>
 				<TextInput
 					value={emailUsername}
-					onChangeText={(emailUsername) => {
+					onChangeText={(emailUsername: string) => {
 						setEmailUsername(emailUsername);
 					}}
 					placeholder={"exemple@mail.com"}
@@ -143,7 +141,7 @@ export default function Login({ navigation }: any) {
 				<TextLabel>Mot De Passe</TextLabel>
 				<TextInput
 					value={password}
-					onChangeText={(password) => {
+					onChangeText={(password: string) => {
 						setPassword(password);
 					}}
 					placeholder={"8 lettres minimum, une majuscule"}
@@ -156,7 +154,13 @@ export default function Login({ navigation }: any) {
 				<LineBreak />
 
 				<Text onPress={() => navigation.navigate("Register")}>
-					Tu n'as pas de compte? Inscris toi!
+					Tu n'as pas de compte?
+				</Text>
+				<Text
+					style={styles.link}
+					onPress={() => navigation.navigate("Register")}
+				>
+					Inscris toi!
 				</Text>
 				<LineBreak />
 			</BasicScrollView>
@@ -181,5 +185,8 @@ const styles = StyleSheet.create({
 	},
 	topTitle: {
 		marginTop: Constants.statusBarHeight,
+	},
+	link: {
+		color: "#0000FF",
 	},
 });
