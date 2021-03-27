@@ -83,7 +83,7 @@ export default function BasicBet(props: any) {
 
 				cart = cart.filter((elem: any) => {
 					return (
-						elem.matchId != props.matchId && elem.betId != odd.id
+						!(elem.matchId == props.matchId && elem.betId == odd.id)
 					);
 				});
 

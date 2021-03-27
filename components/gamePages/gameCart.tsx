@@ -40,6 +40,8 @@ import { CheckBox } from "../checkBox";
 import { RenderBetInput } from "../renderBetInput";
 
 type DisplayType = {
+	toDelete?: boolean;
+
 	matchName: string;
 	odd: number;
 	betName: string;
@@ -230,7 +232,7 @@ export default function GameCart(props: any) {
 			if (input) cart = JSON.parse(input);
 
 			cart = cart.filter((elem: any) => {
-				return elem.matchId != matchId && elem.betId != betId;
+				return !(elem.matchId == matchId && elem.betId == betId);
 			});
 
 			AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart));
@@ -477,7 +479,7 @@ export default function GameCart(props: any) {
 				}
 			}
 
-			if (needReload || bets.length != betsToDisplay.length) {
+			if (needReload || bets.length > betsToDisplay.length) {
 				for (let bet of bets) {
 					if (!matchsIds.some((element) => element == bet.matchId)) {
 						matchsIds.push(bet.matchId);
@@ -545,15 +547,16 @@ export default function GameCart(props: any) {
 
 				let toDisplay: Array<DisplayType> = betsToDisplay;
 				for (let i = 0;i<toDisplay.length;i++) {
-
+					toDisplay[i].toDelete=true;
+					
 					for (let bet of bets) {
-
+						
 					if (
-							bet.betId == toDisplay[i].betId &&
+						bet.betId == toDisplay[i].betId &&
 							bet.matchId == toDisplay[i].matchId
-						) {
-							console.log(bet)
-							console.log(toDisplay[i])
+							) {
+							toDisplay[i].toDelete=false;
+
 							//update mise ou d'autre truc nécessaires
 							let mise = bet.mise;
 							let isBase = bet.isBase;
@@ -562,6 +565,9 @@ export default function GameCart(props: any) {
 						}
 					}
 				}
+
+				toDisplay = toDisplay.filter((value: DisplayType) => !value.toDelete)
+				
 				
 				setBetsToDisplay(toDisplay);
 				forceUpdate();
