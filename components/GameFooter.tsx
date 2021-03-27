@@ -20,7 +20,7 @@ export function GameFooter(props: any) {
 	}, []);
 	useEffect(() => {
 		getBetNumber();
-	}, [reloadCart]);
+	}, [reloadCart, joinCode]);
 
 	function gotoIcon(id: number) {
 		switch (id) {
