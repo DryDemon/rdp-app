@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import {
 	Alert,
 	StyleSheet,
@@ -99,7 +99,7 @@ async function getMatchFromIds(jwt: string, matchsIds: Array<string>) {
 			return rep.matchs;
 		}
 	}
-	
+
 	return undefined;
 }
 
@@ -138,7 +138,7 @@ async function sendBetToServer(
 		);
 
 		const content = await rawResponse.json();
-			
+
 		return content.success == 1;
 	}
 
@@ -146,7 +146,18 @@ async function sendBetToServer(
 }
 
 export default function GameCart(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, isShow, reloadGame, ...otherProps } = props;
+	const {
+		jwt,
+		user,
+		joinCode,
+		game,
+		logoUrl,
+		isShow,
+		reloadGame,
+		...otherProps
+	} = props;
+
+	const [, forceUpdate] = useReducer(x => x + 1, 0);
 
 	const [bets, setBets] = useState<Array<any>>([]);
 	const [betsToDisplay, setBetsToDisplay] = useState<Array<DisplayType>>([]);
@@ -163,7 +174,6 @@ export default function GameCart(props: any) {
 
 	useEffect(() => {
 		if (ENVIRONEMENT == "dev") console.log(systemChoice);
-		
 	}, [systemChoice]);
 
 	function loadCart() {
@@ -178,7 +188,10 @@ export default function GameCart(props: any) {
 			if (input) data = JSON.parse(input);
 			else {
 				data = { type, miseGlobal: CONST_BASE_MISE_PARI };
-				AsyncStorage.setItem("@cart_info_" + joinCode, JSON.stringify(data));
+				AsyncStorage.setItem(
+					"@cart_info_" + joinCode,
+					JSON.stringify(data)
+				);
 			}
 			setcartInfo(data);
 
@@ -200,7 +213,10 @@ export default function GameCart(props: any) {
 			if (input) data = JSON.parse(input);
 			else data = { type, miseGlobal: CONST_BASE_MISE_PARI };
 			data.type = type;
-			AsyncStorage.setItem("@cart_info_" + joinCode, JSON.stringify(data));
+			AsyncStorage.setItem(
+				"@cart_info_" + joinCode,
+				JSON.stringify(data)
+			);
 		});
 	}
 
@@ -230,6 +246,17 @@ export default function GameCart(props: any) {
 
 	//fonction type == simple
 	function updateSimpleBetMise(betId: string, matchId: string, mise: number) {
+		//double the func from cart to speed up loading
+		let cart = bets;
+
+		for (let i = 0; i < cart.length; i++) {
+			if (cart[i].matchId == matchId && cart[i].betId == betId) {
+				cart[i].mise = mise;
+			}
+		}
+
+		setBets(cart);
+
 		AsyncStorage.getItem("@cart_" + joinCode).then((input) => {
 			let cart: any = [];
 			if (input) cart = JSON.parse(input);
@@ -272,7 +299,10 @@ export default function GameCart(props: any) {
 			if (input) data = JSON.parse(input);
 			else data = { type, miseGlobal: CONST_BASE_MISE_PARI };
 			data.miseGlobal = mise;
-			AsyncStorage.setItem("@cart_info_" + joinCode, JSON.stringify(data));
+			AsyncStorage.setItem(
+				"@cart_info_" + joinCode,
+				JSON.stringify(data)
+			);
 		});
 	}
 
@@ -425,51 +455,77 @@ export default function GameCart(props: any) {
 		if (bets && jwt) {
 			let matchsIds: Array<string> = [];
 
+			//on regarde si il faut recharger en faisant une requete get match
+			let needReload = false;
 			for (let bet of bets) {
-				if (!matchsIds.some((element) => element == bet.matchId)) {
-					matchsIds.push(bet.matchId);
+				let isOkay = false;
+				for (let betDisplay of betsToDisplay) {
+					if (
+						(bet.betId ==
+							betDisplay.betId &&
+							bet.matchId == betDisplay.matchId)
+					) {
+						isOkay = true;
+					}
+				}
+				if (!isOkay) {
+					needReload = true;
 				}
 			}
 
-			getMatchFromIds(jwt, matchsIds).then(
-				(matchs: Array<MatchSchema>) => {
-					let toDisplay: Array<DisplayType> = [];
+			if (needReload || bets.length != betsToDisplay.length) {
+				for (let bet of bets) {
+					if (!matchsIds.some((element) => element == bet.matchId)) {
+						matchsIds.push(bet.matchId);
+					}
+				}
 
-					if (matchs) {
-						for (let bet of bets) {
-							for (let match of matchs) {
-								if (match.matchId == bet.matchId) {
-									for (let betFromMatch of match.prematchOdds) {
-										if (betFromMatch && betFromMatch.odds) {
-											for (let odds of betFromMatch.odds) {
-												if (odds.id == bet.betId) {
-													//match we got the match, the bet, and the odds
-													let matchName =
-														match.teamHome +
-														" - " +
-														match.teamAway;
-													let oddForBet = +odds.odds;
-													let betName =
-														betFromMatch.name;
-													let betSubName = odds.name;
-													let betHandicap =
-														odds.handicap;
-													let betHeader = odds.header;
-													let mise = bet.mise;
-													let isBase = bet.isBase;
+				getMatchFromIds(jwt, matchsIds).then(
+					(matchs: Array<MatchSchema>) => {
+						let toDisplay: Array<DisplayType> = [];
 
-													toDisplay.push({
-														matchName,
-														odd: oddForBet,
-														betName,
-														betSubName,
-														betHandicap,
-														betHeader,
-														mise,
-														betId: bet.betId,
-														matchId: bet.matchId,
-														isBase,
-													});
+						if (matchs) {
+							for (let bet of bets) {
+								for (let match of matchs) {
+									if (match.matchId == bet.matchId) {
+										for (let betFromMatch of match.prematchOdds) {
+											if (
+												betFromMatch &&
+												betFromMatch.odds
+											) {
+												for (let odds of betFromMatch.odds) {
+													if (odds.id == bet.betId) {
+														//match we got the match, the bet, and the odds
+														let matchName =
+															match.teamHome +
+															" - " +
+															match.teamAway;
+														let oddForBet = +odds.odds;
+														let betName =
+															betFromMatch.name;
+														let betSubName =
+															odds.name;
+														let betHandicap =
+															odds.handicap;
+														let betHeader =
+															odds.header;
+														let mise = bet.mise;
+														let isBase = bet.isBase;
+
+														toDisplay.push({
+															matchName,
+															odd: oddForBet,
+															betName,
+															betSubName,
+															betHandicap,
+															betHeader,
+															mise,
+															betId: bet.betId,
+															matchId:
+																bet.matchId,
+															isBase,
+														});
+													}
 												}
 											}
 										}
@@ -477,10 +533,35 @@ export default function GameCart(props: any) {
 								}
 							}
 						}
+						setBetsToDisplay(toDisplay);
 					}
-					setBetsToDisplay(toDisplay);
+				);
+			} else {
+				//on a pas besoin de reload
+
+				let toDisplay: Array<DisplayType> = betsToDisplay;
+				for (let i = 0;i<toDisplay.length;i++) {
+
+					for (let bet of bets) {
+
+					if (
+							bet.betId == toDisplay[i].betId &&
+							bet.matchId == toDisplay[i].matchId
+						) {
+							console.log(bet)
+							console.log(toDisplay[i])
+							//update mise ou d'autre truc nécessaires
+							let mise = bet.mise;
+							let isBase = bet.isBase;
+							toDisplay[i].mise = mise;
+							toDisplay[i].isBase = isBase;
+						}
+					}
 				}
-			);
+				
+				setBetsToDisplay(toDisplay);
+				forceUpdate();
+			}
 		}
 	}, [bets, jwt]);
 
