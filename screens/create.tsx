@@ -340,7 +340,7 @@ export default function Create({ navigation }: any) {
 								end={dateEndForm}
 								setStart={setDateCreationForm}
 								setEnd={setDateEndForm}
-								initText={"Date de Début"}
+								initText={"Choisir les dates du contest"}
 							/>
 						</View>
 					</View>
