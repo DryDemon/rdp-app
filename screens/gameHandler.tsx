@@ -266,6 +266,7 @@ export default function GameHandler({ navigation }: any) {
 				<GameScrollView>
 					<GameCart
 						reloadCart={reloadCart}
+						setReloadCart={setReloadCart}
 						isShow={page == "gameCart" ? 1 : 0}
 						reloadGame={reloadGame}
 						jwt={jwt}

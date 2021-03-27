@@ -157,6 +157,7 @@ export default function GameCart(props: any) {
 		isShow,
 		reloadGame,
 		reloadCart,
+		setReloadCart,
 		...otherProps
 	} = props;
 
@@ -235,7 +236,7 @@ export default function GameCart(props: any) {
 				return !(elem.matchId == matchId && elem.betId == betId);
 			});
 
-			AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart));
+			AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart)).then(() => setReloadCart());;
 			setBets(cart);
 		});
 	}
@@ -244,7 +245,7 @@ export default function GameCart(props: any) {
 		let cart: any[] = [];
 		reloadGame(); //Pour charger les paris qui viennentd'être places
 
-		await AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart));
+		await AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart)).then(() => setReloadCart());;
 
 		setBets(cart);
 		setblockSendButton(false);
