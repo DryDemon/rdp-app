@@ -103,6 +103,20 @@ export default function Dashboard({ navigation }: any) {
 			});
 		}
 	}, [jwt]);
+	
+	useEffect(() => {
+		if (jwt) {
+			fetchUserGames(jwt).then((data: any) => {
+				if (data?.isConnected && data.isConnected == 0) {
+					AsyncStorage.setItem("@jwt", "");
+					navigation.navigate("Login");
+				} else {
+					setGames(data);
+				}
+			});
+		}
+		
+	}, [])
 
 	return (
 		<View>
