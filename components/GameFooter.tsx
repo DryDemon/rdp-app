@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
@@ -10,23 +11,25 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 
 export function GameFooter(props: any) {
-	const { page, setPage, ...otherProps } = props;
+	const { page, setPage, reloadCart, joinCode, ...otherProps } = props;
 
-	//EvilIcons chart
-	// MaterialCommunityIcons progress-clock
-	// FontAwesome5 coins
-	//Feather shopping-cart
-	// FontAwesome calendar-check-o
-	//                    <Icon style={styles.gameLogo} name="calendar" size={20} color="#FFF"  />
+	const [betNumber, setBetNumber] = useState(0);
+
+	useEffect(() => {
+		getBetNumber();
+	}, []);
+	useEffect(() => {
+		getBetNumber();
+	}, [reloadCart]);
 
 	function gotoIcon(id: number) {
 		switch (id) {
 			case 1:
 				setPage("gameClassement");
 				break;
-				case 2:
-					setPage("gameListBets");
-					break;
+			case 2:
+				setPage("gameListBets");
+				break;
 			case 3:
 				setPage("gamePlaceBet");
 				break;
@@ -37,6 +40,14 @@ export function GameFooter(props: any) {
 				setPage("gamePlayerStats");
 				break;
 		}
+	}
+
+	function getBetNumber(unused?: any) {
+		AsyncStorage.getItem("@cart_" + joinCode).then((input) => {
+			let cart: any = [];
+			if (input) cart = JSON.parse(input);
+			setBetNumber(cart.length);
+		});
 	}
 
 	return (
@@ -54,7 +65,11 @@ export function GameFooter(props: any) {
 							: styles.untouched
 					}
 				>
-					<EvilIcons name="chart" size={20} color={page == "gameClassement" ?"#FFF" : "#000"} />
+					<EvilIcons
+						name="chart"
+						size={20}
+						color={page == "gameClassement" ? "#FFF" : "#000"}
+					/>
 				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
@@ -65,13 +80,15 @@ export function GameFooter(props: any) {
 			>
 				<View
 					style={
-						page == "gameListBets" ? styles.touched : styles.untouched
+						page == "gameListBets"
+							? styles.touched
+							: styles.untouched
 					}
 				>
 					<MaterialCommunityIcons
 						name="progress-clock"
 						size={20}
-						color={page == "gameListBets" ?"#FFF" : "#000"}
+						color={page == "gameListBets" ? "#FFF" : "#000"}
 					/>
 				</View>
 			</TouchableOpacity>
@@ -88,7 +105,11 @@ export function GameFooter(props: any) {
 							: styles.untouched
 					}
 				>
-					<FontAwesome5 name="coins" size={20} color={page == "gamePlaceBet" ?"#FFF" : "#000"} />
+					<FontAwesome5
+						name="coins"
+						size={20}
+						color={page == "gamePlaceBet" ? "#FFF" : "#000"}
+					/>
 				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
@@ -97,12 +118,27 @@ export function GameFooter(props: any) {
 					gotoIcon(4);
 				}}
 			>
-				<View
-					style={
-						page == "gameCart" ? styles.touched : styles.untouched
-					}
-				>
-					<Feather name="shopping-cart" size={20} color={page == "gameCart" ?"#FFF" : "#000"} />
+				<View>
+					<View
+						style={
+							page == "gameCart"
+								? styles.touched
+								: styles.untouched
+						}
+					>
+						<Feather
+							name="shopping-cart"
+							size={20}
+							color={page == "gameCart" ? "#FFF" : "#000"}
+						/>
+					</View>
+					{betNumber != 0 ? (
+						<View style={styles.cartNotification}>
+							<Text style={styles.cartNotificationText}>
+								{betNumber}
+							</Text>
+						</View>
+					) : null}
 				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
@@ -121,7 +157,7 @@ export function GameFooter(props: any) {
 					<FontAwesome
 						name="calendar-check-o"
 						size={20}
-						color={page == "gamePlayerStats" ?"#FFF" : "#000"}
+						color={page == "gamePlayerStats" ? "#FFF" : "#000"}
 					/>
 				</View>
 			</TouchableOpacity>
@@ -145,15 +181,27 @@ const styles = StyleSheet.create({
 		flexWrap: "wrap",
 	},
 	touched: {
-    
-        padding:7,
+		padding: 7,
 		borderRadius: 12,
 		margin: 12,
-        backgroundColor: "#5507e1",
-
+		backgroundColor: "#5507e1",
 	},
 	untouched: {
-        padding:7,
-        margin : 12
-    },
+		padding: 7,
+		margin: 12,
+	},
+	cartNotification: {
+		width: 15,
+		height: 15,
+		position: "absolute",
+		borderRadius: 100,
+		backgroundColor: "red",
+		alignItems: "center",
+		top: "22%",
+		right: "22%",
+	},
+	cartNotificationText: {
+		fontSize: 10,
+		color: "white",
+	},
 });

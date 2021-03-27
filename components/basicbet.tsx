@@ -23,8 +23,9 @@ function isEmptyObject(obj: any) {
 export default function BasicBet(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
 	const odd = props.odd;
-	const isShow = props.isShow
-	const joinCode = props.joinCode
+	const isShow = props.isShow;
+	const joinCode = props.joinCode;
+	const setReloadCart = props.setReloadCart;
 
 	const [selected, setSelected] = useState(false);
 
@@ -34,8 +35,13 @@ export default function BasicBet(props: any) {
 			let cart = JSON.parse(input);
 			if (cart)
 				for (let cartElem of cart) {
-					if (cartElem.matchId == matchId && cartElem.betId == betId){
-						if(ENVIRONEMENT == "dev") {console.log(cart, cartElem)}
+					if (
+						cartElem.matchId == matchId &&
+						cartElem.betId == betId
+					) {
+						if (ENVIRONEMENT == "dev") {
+							console.log(cart, cartElem);
+						}
 						return true;
 					}
 				}
@@ -47,7 +53,7 @@ export default function BasicBet(props: any) {
 		if (odd && props.matchId)
 			isBetIdInCart(props.matchId, odd.id).then((isBetHere: boolean) => {
 				if (isBetHere) setSelected(true);
-				else setSelected(false)
+				else setSelected(false);
 			});
 	}, [odd, props.matchId, isShow]);
 
@@ -66,7 +72,7 @@ export default function BasicBet(props: any) {
 					mise: CONST_BASE_MISE_PARI,
 					isBase: false,
 				});
-				AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart));
+				AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart)).then(() => setReloadCart(Math.random() * 10000));
 			});
 		} else {
 			setSelected(false);
@@ -81,7 +87,7 @@ export default function BasicBet(props: any) {
 					);
 				});
 
-				AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart));
+				AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart)).then(() => setReloadCart(Math.random() * 10000));
 			});
 		}
 	}
@@ -111,7 +117,9 @@ export default function BasicBet(props: any) {
 					<Text>{odd.header ? odd.header + " " : ""}</Text>
 					<View style={{ flexDirection: "row" }}>
 						<View>
-							<Text style={styles.name}>{odd.name != "Draw" ? odd.name : "N"}</Text>
+							<Text style={styles.name}>
+								{odd.name != "Draw" ? odd.name : "N"}
+							</Text>
 						</View>
 						<View>
 							<Text

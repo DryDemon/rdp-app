@@ -65,6 +65,7 @@ export default function GamePlaceBet(props: any) {
 		logoUrl,
 		callbackShowMatchBet,
 		isShow,
+		setReloadCart,
 		...otherProps
 	} = props;
 
@@ -135,6 +136,7 @@ export default function GamePlaceBet(props: any) {
 						leagues={leagues}
 						filter={listFilter}
 						matchs={matchs}
+						setReloadCart={setReloadCart}
 					/>
 				</View>
 

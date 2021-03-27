@@ -154,6 +154,7 @@ export default function GameCart(props: any) {
 		logoUrl,
 		isShow,
 		reloadGame,
+		reloadCart,
 		...otherProps
 	} = props;
 
@@ -200,10 +201,13 @@ export default function GameCart(props: any) {
 		});
 	}
 
-	//on load
+	//on changes && on Load
 	useEffect(() => {
 		loadCart();
-	}, [isShow]);
+	}, [reloadCart]);
+	useEffect(() => {
+		loadCart();
+	}, []);
 
 	//fonctions principales du panier
 	function changeType(type: any) {

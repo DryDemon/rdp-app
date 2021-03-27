@@ -44,7 +44,6 @@ import GamePlaceBet from "../components/gamePages/gamePlaceBet";
 import GameMatchBets from "../components/gamePages/gameMatchBets";
 import { GameHeader } from "../components/gameHeader";
 
-
 async function getCurrentGame(joinCode: string, jwt: string) {
 	const rawResponse = await fetch(
 		`${SERVER_API_URL}/getcurrentgameinfo?jwt=${jwt}&joinCode=${joinCode}`
@@ -60,6 +59,8 @@ export default function GameHandler({ navigation }: any) {
 	const [joinCode, setJoinCode] = useState("");
 	const [game, setGame] = useState<GameSchema>();
 
+	const [reloadCart, setReloadCart] = useState(0);
+
 	const [logoUrl, setlogoUrl] = useState(SERVER_LOGO_URL);
 
 	const [page, setPage] = useState<
@@ -71,6 +72,7 @@ export default function GameHandler({ navigation }: any) {
 		| "gameMatchBets"
 		| "gameInfo"
 	>("gameListBets");
+
 	const [showGamePage, setshowGamePage] = useState(true); //Use this to show the game page bets
 	const [match, setmatch] = useState({});
 
@@ -122,7 +124,7 @@ export default function GameHandler({ navigation }: any) {
 		setshowGamePage(false);
 	}
 
-	function reloadGame(){
+	function reloadGame() {
 		loadGameData();
 	}
 
@@ -180,164 +182,169 @@ export default function GameHandler({ navigation }: any) {
 	//todo add Swipeable?
 	return (
 		<View>
-				<GameHeader
-					back={"Dashboard"}
-					navigation={navigation}
-					callbackQuestionMark={() => {
-						setPage("gameInfo");
-					}}
-				/>
-				{/* <Button title={"toggle"} onPress={() => {if(showGamePage) setshowGamePage(false); else setshowGamePage(true)}} /> */}
+			<GameHeader
+				back={"Dashboard"}
+				navigation={navigation}
+				callbackQuestionMark={() => {
+					setPage("gameInfo");
+				}}
+			/>
+			{/* <Button title={"toggle"} onPress={() => {if(showGamePage) setshowGamePage(false); else setshowGamePage(true)}} /> */}
 
-				<ViewContainer
-					style={
-						page == "gameClassement"
-							? { display: "flex" }
-							: { display: "none" }
-					}
-				>
-					<GameScrollView>
-						<GameClassement
-							isShow={page == "gameClassement" ? 1 : 0}
-							reloadGame={reloadGame}
-							jwt={jwt}
-							user={user}
-							joinCode={joinCode}
-							game={game}
-							logoUrl={logoUrl}
+			<ViewContainer
+				style={
+					page == "gameClassement"
+						? { display: "flex" }
+						: { display: "none" }
+				}
+			>
+				<GameScrollView>
+					<GameClassement
+						isShow={page == "gameClassement" ? 1 : 0}
+						reloadGame={reloadGame}
+						jwt={jwt}
+						user={user}
+						joinCode={joinCode}
+						game={game}
+						logoUrl={logoUrl}
+					/>
+				</GameScrollView>
+			</ViewContainer>
+
+			<ViewContainer
+				style={
+					page == "gamePlaceBet"
+						? { display: "flex" }
+						: { display: "none" }
+				}
+			>
+				<GameScrollView>
+					<GamePlaceBet
+						callbackShowMatchBet={(match: any) => {
+							setmatch(match);
+							setPage("gameMatchBets");
+						}}
+						isShow={page == "gamePlaceBet" ? 1 : 0}
+						reloadGame={reloadGame}
+						jwt={jwt}
+						user={user}
+						joinCode={joinCode}
+						game={game}
+						logoUrl={logoUrl}
+						setReloadCart={setReloadCart}
+					/>
+				</GameScrollView>
+			</ViewContainer>
+
+			<ViewContainer
+				style={
+					page == "gameListBets"
+						? { display: "flex" }
+						: { display: "none" }
+				}
+			>
+				<GameScrollView>
+					<GameListBets
+						isShow={page == "gameListBets" ? 1 : 0}
+						reloadGame={reloadGame}
+						jwt={jwt}
+						user={user}
+						joinCode={joinCode}
+						game={game}
+						logoUrl={logoUrl}
 						/>
-					</GameScrollView>
-				</ViewContainer>
+				</GameScrollView>
+			</ViewContainer>
 
-				<ViewContainer
-					style={
-						page == "gamePlaceBet"
-							? { display: "flex" }
-							: { display: "none" }
-					}
+			<ViewContainer
+				style={
+					page == "gameCart"
+					? { display: "flex" }
+					: { display: "none" }
+				}
 				>
-					<GameScrollView>
-						<GamePlaceBet
-							callbackShowMatchBet={(match: any) => {
-								setmatch(match);
-								setPage("gameMatchBets");
-							}}
-							isShow={page == "gamePlaceBet" ? 1 : 0}
-							reloadGame={reloadGame}
-							jwt={jwt}
-							user={user}
-							joinCode={joinCode}
-							game={game}
-							logoUrl={logoUrl}
-						/>
-					</GameScrollView>
-				</ViewContainer>
+				<GameScrollView>
+					<GameCart
+						reloadCart={reloadCart}
+						isShow={page == "gameCart" ? 1 : 0}
+						reloadGame={reloadGame}
+						jwt={jwt}
+						user={user}
+						joinCode={joinCode}
+						game={game}
+						logoUrl={logoUrl}
+					/>
+				</GameScrollView>
+			</ViewContainer>
 
-				<ViewContainer
-					style={
-						page == "gameListBets"
-							? { display: "flex" }
-							: { display: "none" }
-					}
-				>
-					<GameScrollView>
-						<GameListBets
-							isShow={page == "gameListBets" ? 1 : 0}
-							reloadGame={reloadGame}
-							jwt={jwt}
-							user={user}
-							joinCode={joinCode}
-							game={game}
-							logoUrl={logoUrl}
-						/>
-					</GameScrollView>
-				</ViewContainer>
+			<ViewContainer
+				style={
+					page == "gamePlayerStats"
+						? { display: "flex" }
+						: { display: "none" }
+				}
+			>
+				<GameScrollView>
+					<GameMatchsStats
+						isShow={page == "gamePlayerStats" ? 1 : 0}
+						reloadGame={reloadGame}
+						jwt={jwt}
+						user={user}
+						joinCode={joinCode}
+						game={game}
+						logoUrl={logoUrl}
+					/>
+				</GameScrollView>
+			</ViewContainer>
 
-				<ViewContainer
-					style={
-						page == "gameCart"
-							? { display: "flex" }
-							: { display: "none" }
-					}
-				>
-					<GameScrollView>
-						<GameCart
-							isShow={page == "gameCart" ? 1 : 0}
-							reloadGame={reloadGame}
-							jwt={jwt}
-							user={user}
-							joinCode={joinCode}
-							game={game}
-							logoUrl={logoUrl}
-						/>
-					</GameScrollView>
-				</ViewContainer>
+			<ViewContainer
+				style={
+					page == "gameMatchBets"
+						? { display: "flex" }
+						: { display: "none" }
+				}
+			>
+				<GameScrollView>
+					<GameMatchBets
+						setReloadCart={setReloadCart}
+						match={match}
+						isShow={page == "gameMatchBets" ? 1 : 0}
+						reloadGame={reloadGame}
+						jwt={jwt}
+						user={user}
+						joinCode={joinCode}
+						game={game}
+						logoUrl={logoUrl}
+					/>
+				</GameScrollView>
+			</ViewContainer>
 
-				<ViewContainer
-					style={
-						page == "gamePlayerStats"
-							? { display: "flex" }
-							: { display: "none" }
-					}
-				>
-					<GameScrollView>
-						<GameMatchsStats
-							isShow={page == "gamePlayerStats" ? 1 : 0}
-							reloadGame={reloadGame}
-							jwt={jwt}
-							user={user}
-							joinCode={joinCode}
-							game={game}
-							logoUrl={logoUrl}
-						/>
-					</GameScrollView>
-				</ViewContainer>
+			<ViewContainer
+				style={
+					page == "gameInfo"
+						? { display: "flex" }
+						: { display: "none" }
+				}
+			>
+				<GameScrollView>
+					<GameInfo
+						isShow={page == "gameInfo" ? 1 : 0}
+						reloadGame={reloadGame}
+						jwt={jwt}
+						user={user}
+						joinCode={joinCode}
+						game={game}
+						logoUrl={logoUrl}
+					/>
+				</GameScrollView>
+			</ViewContainer>
 
-				<ViewContainer
-					style={
-						page == "gameMatchBets"
-							? { display: "flex" }
-							: { display: "none" }
-					}
-				>
-					<GameScrollView>
-						<GameMatchBets
-							match={match}
-							isShow={page == "gameMatchBets" ? 1 : 0}
-							reloadGame={reloadGame}
-							jwt={jwt}
-							user={user}
-							joinCode={joinCode}
-							game={game}
-							logoUrl={logoUrl}
-						/>
-					</GameScrollView>
-				</ViewContainer>
-
-				<ViewContainer
-					style={
-						page == "gameInfo"
-							? { display: "flex" }
-							: { display: "none" }
-					}
-				>
-					<GameScrollView>
-						<GameInfo
-							isShow={page == "gameInfo" ? 1 : 0}
-							reloadGame={reloadGame}
-							jwt={jwt}
-							user={user}
-							joinCode={joinCode}
-							game={game}
-							logoUrl={logoUrl}
-						/>
-					</GameScrollView>
-				</ViewContainer>
-
-				<GameFooter
-					page={page}
-					setPage={(goto: any) => setPage(goto)}
-				/>
+			<GameFooter
+				joinCode={joinCode}
+				reloadCart={reloadCart}
+				page={page}
+				setPage={(goto: any) => setPage(goto)}
+			/>
 		</View>
 	);
 }
