@@ -28,7 +28,7 @@ export interface BonusInterface {
     targetUserId?: string
     targetBetId?: string
     isUsed?: boolean
-    typeBonus?: number
+    typeBonus: number
 
     multiplier?: number
     creditBonus?: number
@@ -45,6 +45,10 @@ export interface BonusInterface {
    creditsStolen?:number;
    stolenDate?:Date;
    stolenFrom?:string;
+
+   bonusIdCanceled?:string;
+   bonusCanceledDate?:Date;
+
 }
 
 //les paris simples et combinés on le même format pour simplifier la computation

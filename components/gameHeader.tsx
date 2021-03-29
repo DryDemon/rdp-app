@@ -6,16 +6,24 @@ import { View, Text } from "./Themed";
 import arrowIcon from "../assets/images/arrow.png";
 
 import EvilIcons from "react-native-vector-icons/EvilIcons";
+import Octicons from "react-native-vector-icons/Octicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Colors from "../constants/Colors";
 import Constants from "expo-constants";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ShowBonus } from "./showBonus";
 
 export function GameHeader(props: any) {
-	const [arrow, setarrow] = useState(<></>);
+	const [arrow, setArrow] = useState(<></>);
 
-	const { back, navigation, callbackQuestionMark, ...otherProps } = props;
+	const {
+		back,
+		navigation,
+		callbackQuestionMark,
+		toggleShowBonus,
+		...otherProps
+	} = props;
 
 	const backgroundColor = Colors.rdpColor;
 
@@ -36,7 +44,7 @@ export function GameHeader(props: any) {
 
 	useEffect(() => {
 		if (back && navigation) {
-			setarrow(
+			setArrow(
 				<TouchableOpacity
 					onPress={() => navigation.navigate(back)}
 					style={[
@@ -62,64 +70,77 @@ export function GameHeader(props: any) {
 	}, [back, navigation]);
 
 	return (
-		<View
-			style={[
-				{
-					backgroundColor,
-					height,
-					paddingTop: 15,
-					padding,
-					width,
-					marginTop,
-				},
-			]}
-		>
-			<View style={{ flexDirection: "row", alignItems: "center" }}>
-				<View>{arrow}</View>
-				<View>
-					<Text
-						style={[
-							{
-								color,
-								fontWeight,
-								fontStyle: "italic",
-								fontSize: 20,
-								lineHeight: 26,
-								textAlignVertical: "center",
-								// fontFamily: "Orkney",
-							},
-						]}
-					>
-						ROI DU PRONO
-					</Text>
-				</View>
-				{callbackQuestionMark ? (
+		<View>
+			<View
+				style={[
+					{
+						backgroundColor,
+						height,
+						paddingTop: 15,
+						padding,
+						width,
+						marginTop,
+					},
+				]}
+			>
+				<View style={{ flexDirection: "row", alignItems: "center" }}>
+					<View>{arrow}</View>
+					<View>
+						<Text
+							style={[
+								{
+									color,
+									fontWeight,
+									fontStyle: "italic",
+									fontSize: 20,
+									lineHeight: 26,
+									textAlignVertical: "center",
+									// fontFamily: "Orkney",
+								},
+							]}
+						>
+							ROI DU PRONO
+						</Text>
+					</View>
+					{callbackQuestionMark ? (
+						<TouchableOpacity
+							style={[
+								{
+									marginLeft: 5,
+									marginTop: 3,
+								},
+							]}
+							onPress={callbackQuestionMark}
+						>
+							<EvilIcons
+								name="question"
+								size={20}
+								color={"#A9AAB0"}
+							/>
+						</TouchableOpacity>
+					) : undefined}
+					{toggleShowBonus ? (
+						<TouchableOpacity
+							style={{
+								marginLeft: "auto",
+								alignSelf: "flex-end",
+							}}
+							onPress={toggleShowBonus}
+						>
+							<Octicons name="gift" size={20} color={"#FFF"} />
+						</TouchableOpacity>
+					) : undefined}
 					<TouchableOpacity
-						style={[
-							{
-								marginLeft: 5,
-								marginTop: 3,
-							},
-						]}
-						onPress={callbackQuestionMark}
+						style={{ marginLeft: "auto", alignSelf: "flex-end" }}
+						onPress={logout}
 					>
-						<EvilIcons
-							name="question"
+						<MaterialCommunityIcons
+							name="logout"
 							size={20}
-							color={"#A9AAB0"}
+							color={"#fff"}
 						/>
 					</TouchableOpacity>
-				) : undefined}
-				<TouchableOpacity
-					style={{ marginLeft: "auto", alignSelf: "flex-end" }}
-					onPress={logout}
-				>
-					<MaterialCommunityIcons
-						name="logout"
-						size={20}
-						color={"#fff"}
-					/>
-				</TouchableOpacity>
+				</View>
 			</View>
 		</View>
 	);

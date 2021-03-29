@@ -43,6 +43,7 @@ import GameMatchsStats from "../components/gamePages/gameMatchsStats";
 import GamePlaceBet from "../components/gamePages/gamePlaceBet";
 import GameMatchBets from "../components/gamePages/gameMatchBets";
 import { GameHeader } from "../components/gameHeader";
+import { ShowBonus } from "../components/showBonus";
 
 async function getCurrentGame(joinCode: string, jwt: string) {
 	const rawResponse = await fetch(
@@ -75,6 +76,12 @@ export default function GameHandler({ navigation }: any) {
 
 	const [showGamePage, setshowGamePage] = useState(true); //Use this to show the game page bets
 	const [match, setmatch] = useState({});
+
+	const [showBonus, setShowBonus] = useState(true);
+
+	function toggleShowBonus() {
+		setShowBonus(!showBonus);
+	}
 
 	async function loadGameData() {
 		if (jwt && joinCode) {
@@ -183,13 +190,15 @@ export default function GameHandler({ navigation }: any) {
 	return (
 		<View>
 			<GameHeader
+				toggleShowBonus={toggleShowBonus}
+				joinCode={joinCode}
 				back={"Dashboard"}
 				navigation={navigation}
+				game={game}
 				callbackQuestionMark={() => {
 					setPage("gameInfo");
 				}}
 			/>
-			{/* <Button title={"toggle"} onPress={() => {if(showGamePage) setshowGamePage(false); else setshowGamePage(true)}} /> */}
 
 			<ViewContainer
 				style={
@@ -252,17 +261,17 @@ export default function GameHandler({ navigation }: any) {
 						joinCode={joinCode}
 						game={game}
 						logoUrl={logoUrl}
-						/>
+					/>
 				</GameScrollView>
 			</ViewContainer>
 
 			<ViewContainer
 				style={
 					page == "gameCart"
-					? { display: "flex" }
-					: { display: "none" }
+						? { display: "flex" }
+						: { display: "none" }
 				}
-				>
+			>
 				<GameScrollView>
 					<GameCart
 						reloadCart={reloadCart}
@@ -338,7 +347,13 @@ export default function GameHandler({ navigation }: any) {
 						logoUrl={logoUrl}
 					/>
 				</GameScrollView>
+
+
 			</ViewContainer>
+
+			{showBonus && joinCode ? (
+				<ShowBonus toggleShowBonus={toggleShowBonus} joinCode={joinCode} game={game} user={user} jwt={jwt} setPage={setPage}/>
+			) : null}
 
 			<GameFooter
 				joinCode={joinCode}
@@ -346,6 +361,7 @@ export default function GameHandler({ navigation }: any) {
 				page={page}
 				setPage={(goto: any) => setPage(goto)}
 			/>
+
 		</View>
 	);
 }
