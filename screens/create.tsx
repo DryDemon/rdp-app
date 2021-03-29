@@ -94,7 +94,7 @@ export default function Create({ navigation }: any) {
 	>([]);
 
 	const [sportShow, setSportShow] = useState(true);
-	const [sportChoice, setSportChoice] = useState<string[]>(["1"]);
+	const [sportChoice, setSportChoice] = useState<string[]>(["1", "13", "18"]);
 
 	if (!jwt || !user) {
 		try {
@@ -142,8 +142,8 @@ export default function Create({ navigation }: any) {
 				setalertDates("La date de fin doit être après le début");
 				changeDateAlert = true;
 			}
-			if (7 < dateDifference && ENVIRONEMENT != "dev") {
-				setalertDates("Le contest ne peux pas durer plus de 7 jours");
+			if (8 < dateDifference && ENVIRONEMENT != "dev") {
+				setalertDates("Le contest ne peut pas durer plus de 8 jours");
 				changeDateAlert = true;
 			}
 
@@ -155,7 +155,12 @@ export default function Create({ navigation }: any) {
 		}
 
 		if (leaguesMultiselectChoice && leaguesMultiselectChoice.length > 5) {
-			setalertLeagues("Tu peux selectionner au maximum 5 leagues");
+			setalertLeagues("Tu peut selectionner au maximum 5 ligues");
+			isValid = false;
+		} else setalertLeagues(" ");
+
+		if (leaguesMultiselectChoice && leaguesMultiselectChoice.length == 0) {
+			setalertLeagues("Tu doit selectionner au moins une ligue");
 			isValid = false;
 		} else setalertLeagues(" ");
 
@@ -246,7 +251,7 @@ export default function Create({ navigation }: any) {
 				if (leagues) {
 					setLeaguesList([
 						{
-							leagueName: "Foot",
+							leagueName: "Football",
 							leagueId: 0,
 
 							children: leagues.filter(
@@ -377,7 +382,7 @@ export default function Create({ navigation }: any) {
 											: styles.sportChoiceTextUnselected
 									}
 								>
-									- Foot
+									Foot
 								</SubText>
 							</TouchableOpacity>
 							<TouchableOpacity
@@ -399,7 +404,7 @@ export default function Create({ navigation }: any) {
 											: styles.sportChoiceTextUnselected
 									}
 								>
-									- Tennis
+									Tennis
 								</SubText>
 							</TouchableOpacity>
 							<TouchableOpacity
@@ -421,7 +426,7 @@ export default function Create({ navigation }: any) {
 											: styles.sportChoiceTextUnselected
 									}
 								>
-									- Basketball
+									Basketball
 								</SubText>
 							</TouchableOpacity>
 						</View>
@@ -431,7 +436,7 @@ export default function Create({ navigation }: any) {
 
 					<Text>Choix des compétitions</Text>
 					<SubText>
-						Attention futur roi, tu peux sélectionner au maximum 5
+						Attention futur roi, tu peut sélectionner au maximum 5
 						compétitions !
 					</SubText>
 
