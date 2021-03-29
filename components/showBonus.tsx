@@ -136,7 +136,7 @@ export async function sendUseBonusQuery(
 	if (betId) query += `&betId=${betId}`;
 	if (bouclierAction) query += `&bouclierAction=${bouclierAction}`;
 	if (joinCode && jwt && bonusType) {
-		const rawRep = await fetch(SERVER_API_URL + `/useBonus?${query}`);
+		const rawRep = await fetch(SERVER_API_URL + `/usebonus?${query}`);
 		const rep = await rawRep.json();
 		return rep.success;
 	}
@@ -176,14 +176,17 @@ export function ShowBonus(props: any) {
 			case 1: // multiplier la cote d'un pari
 				//goto cart
 				setPage("gameCart");
+				toggleShowBonus()
 				break;
 			case 4: // annuler le pari d'un adversaire
 				//goto list bets
 				setPage("gameListBets");
+				toggleShowBonus()
 				break;
 			case 6: // diviser la cote du pari d'un adversaire
 				//goto list bets
 				setPage("gameListBets");
+				toggleShowBonus()
 				break;
 
 			//choses qu'on gère ici
