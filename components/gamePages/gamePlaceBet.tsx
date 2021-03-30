@@ -50,7 +50,6 @@ async function fetchBetData(joinCode: string, jwt: string) {
 		);
 
 		const content = await rawResponse.json();
-
 		if (content.success == 1) return content;
 	}
 	return undefined;
@@ -76,8 +75,8 @@ export default function GamePlaceBet(props: any) {
 	useEffect(() => {
 		fetchBetData(joinCode, jwt).then((content) => {
 			if (content) {
-				setMatchs(content.matchs);
-				setLeagues(content.leagues);
+				if (content.matchs) setMatchs(content.matchs);
+				if (content.leagues) setLeagues(content.leagues);
 			}
 		});
 	}, [jwt, joinCode]);
