@@ -133,7 +133,8 @@ async function sendBetToServer(
 	isSystem: number,
 	systemChoice: number,
 	listBaseBetId: Array<string>,
-	listBaseMatchId: Array<string>
+	listBaseMatchId: Array<string>,
+	usingBonus: boolean
 ) {
 	if (
 		jwt &&
@@ -154,8 +155,11 @@ async function sendBetToServer(
 			baseIds.push(listBaseBetId[i] + "@" + listBaseMatchId[i]);
 		}
 
+		let usingBonusQuery = 0;
+		if (usingBonus) usingBonusQuery = 1;
+
 		const rawResponse = await fetch(
-			`${SERVER_API_URL}/addbetingame?jwt=${jwt}&joinCode=${joinCode}&credits=${credits}&ids=${ids.toString()}&system=${isSystem}&systemChoice=${systemChoice}&baseIds=${baseIds.toString()}`
+			`${SERVER_API_URL}/addbetingame?jwt=${jwt}&joinCode=${joinCode}&credits=${credits}&ids=${ids.toString()}&system=${isSystem}&systemChoice=${systemChoice}&baseIds=${baseIds.toString()}&usingBonus=${usingBonusQuery}`
 		);
 
 		const content = await rawResponse.json();
@@ -412,7 +416,8 @@ export default function GameCart(props: any) {
 				0, //simplebet
 				-1, //simplebet
 				[],
-				[]
+				[],
+				isUsingMultiplyBonus
 			);
 			if (!rep) alert("Error");
 		}
@@ -446,7 +451,8 @@ export default function GameCart(props: any) {
 					0, //combiné
 					0,
 					[],
-					[]
+					[],
+					isUsingMultiplyBonus
 				).then((rep) => {
 					if (rep) removeAllBet();
 					else alert("Erreur");
@@ -479,7 +485,8 @@ export default function GameCart(props: any) {
 					1, //system
 					systemChoice + 1,
 					baseBetIds,
-					baseMatchIds
+					baseMatchIds,
+					isUsingMultiplyBonus
 				).then((rep) => {
 					if (rep) removeAllBet();
 					else alert("Erreur");
