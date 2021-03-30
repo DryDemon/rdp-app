@@ -54,6 +54,25 @@ type DisplayType = {
 	isBase: boolean;
 };
 
+function getUserMultiplyBonus(game: GameSchema, userId: string) {
+	let canBoostBet = false;
+	let multiplyValue = 1.0;
+
+	let bonusList = game?.bonusList;
+	if (bonusList && userId) {
+		for (let bonus of bonusList) {
+			if (bonus.ownerUserId == userId) {
+				if (bonus.typeBonus == 1 && bonus.multiplier) {
+					//multiply bet
+					canBoostBet = true;
+					multiplyValue = bonus.multiplier;
+				}
+			}
+		}
+	}
+	return [canBoostBet, multiplyValue];
+}
+
 //this function will make all the binary combinaisons forthe system choice
 //ex : 3 bets, 2/3 choice => 011, 101, 110
 function generateBinarySystemCodes(
@@ -161,7 +180,7 @@ export default function GameCart(props: any) {
 		...otherProps
 	} = props;
 
-	const [, forceUpdate] = useReducer(x => x + 1, 0);
+	const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
 	const [bets, setBets] = useState<Array<any>>([]);
 	const [betsToDisplay, setBetsToDisplay] = useState<Array<DisplayType>>([]);
@@ -175,6 +194,13 @@ export default function GameCart(props: any) {
 
 	const [blockSendButton, setblockSendButton] = useState(false);
 	const [systemChoice, setSystemChoice] = useState(0);
+
+	const [isUsingMultiplyBonus, setIsUsingMultiplyBonus] = useState(false);
+	let [canMultiplyBet, multiplyValue] = getUserMultiplyBonus(game, user?._id);
+
+	useEffect(() => {
+		[canMultiplyBet, multiplyValue] = getUserMultiplyBonus(game, user?._id);
+	}, [game, reloadCart, user]);
 
 	useEffect(() => {
 		if (ENVIRONEMENT == "dev") console.log(systemChoice);
@@ -236,7 +262,10 @@ export default function GameCart(props: any) {
 				return !(elem.matchId == matchId && elem.betId == betId);
 			});
 
-			AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart)).then(() => setReloadCart());;
+			AsyncStorage.setItem(
+				"@cart_" + joinCode,
+				JSON.stringify(cart)
+			).then(() => setReloadCart());
 			setBets(cart);
 		});
 	}
@@ -245,7 +274,10 @@ export default function GameCart(props: any) {
 		let cart: any[] = [];
 		reloadGame(); //Pour charger les paris qui viennentd'être places
 
-		await AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart)).then(() => setReloadCart());;
+		await AsyncStorage.setItem(
+			"@cart_" + joinCode,
+			JSON.stringify(cart)
+		).then(() => setReloadCart());
 
 		setBets(cart);
 		setblockSendButton(false);
@@ -468,9 +500,8 @@ export default function GameCart(props: any) {
 				let isOkay = false;
 				for (let betDisplay of betsToDisplay) {
 					if (
-						(bet.betId ==
-							betDisplay.betId &&
-							bet.matchId == betDisplay.matchId)
+						bet.betId == betDisplay.betId &&
+						bet.matchId == betDisplay.matchId
 					) {
 						isOkay = true;
 					}
@@ -547,16 +578,15 @@ export default function GameCart(props: any) {
 				//on a pas besoin de reload
 
 				let toDisplay: Array<DisplayType> = betsToDisplay;
-				for (let i = 0;i<toDisplay.length;i++) {
-					toDisplay[i].toDelete=true;
-					
+				for (let i = 0; i < toDisplay.length; i++) {
+					toDisplay[i].toDelete = true;
+
 					for (let bet of bets) {
-						
-					if (
-						bet.betId == toDisplay[i].betId &&
+						if (
+							bet.betId == toDisplay[i].betId &&
 							bet.matchId == toDisplay[i].matchId
-							) {
-							toDisplay[i].toDelete=false;
+						) {
+							toDisplay[i].toDelete = false;
 
 							//update mise ou d'autre truc nécessaires
 							let mise = bet.mise;
@@ -567,9 +597,10 @@ export default function GameCart(props: any) {
 					}
 				}
 
-				toDisplay = toDisplay.filter((value: DisplayType) => !value.toDelete)
-				
-				
+				toDisplay = toDisplay.filter(
+					(value: DisplayType) => !value.toDelete
+				);
+
 				setBetsToDisplay(toDisplay);
 				forceUpdate();
 			}
@@ -766,6 +797,17 @@ export default function GameCart(props: any) {
 						</Text>
 					)}
 				</View>
+				{canMultiplyBet ? (
+					<View>
+						<Text>Utiliser le boose de {multiplyValue}</Text>
+						<CheckBox
+							value={isUsingMultiplyBonus}
+							onValueChange={() => {
+								setIsUsingMultiplyBonus(!isUsingMultiplyBonus);
+							}}
+						/>
+					</View>
+				) : null}
 				{betsToDisplay && betsToDisplay.length > 0 ? (
 					<View>
 						{betsToDisplay.length == 1 ? (

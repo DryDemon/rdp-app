@@ -99,7 +99,6 @@ export default function Login({ navigation }: any) {
 				<TextTitle style={styles.topTitle}>
 					Bon retour parmi nous,
 				</TextTitle>
-				{/* <TextMainTitle>Futur Roi</TextMainTitle> //TODO ROI PAUL...*/}
 				{user?.username ? (
 					<TextMainTitle>Roi {user?.username}!</TextMainTitle>
 				) : null}

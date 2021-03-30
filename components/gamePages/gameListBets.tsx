@@ -142,7 +142,7 @@ export default function GameListBets(props: any) {
 
 			<View style={styles.textToMiddle}>
 				{betsToDisplay.map((bet: userBetInterface) => (
-					<PlayerBet game={game} key={bet._id} bet={bet} />
+					<PlayerBet game={game} reloadGame={reloadGame} jwt={jwt} user={user} key={bet._id} bet={bet} />
 				))}
 				<SmallLineBreak />
 			</View>

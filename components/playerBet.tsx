@@ -10,7 +10,13 @@ import {
 	TextWarning,
 	SmallLineBreak,
 } from "./Themed";
-import { Alert, Image, StyleSheet, ScrollView } from "react-native";
+import {
+	Alert,
+	Image,
+	StyleSheet,
+	ScrollView,
+	TouchableOpacity,
+} from "react-native";
 import { GameSchema, userBetInterface } from "../src/interaces/interfacesGame";
 import { GameIcon } from "./GameIcon";
 import Colors from "../constants/Colors";
@@ -21,6 +27,32 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import Entypo from "react-native-vector-icons/Entypo";
 import { getUserNameFromId } from "../src/smallFuncts";
+import { sendUseBonusQuery } from "./showBonus";
+import { User } from "../src/interaces/interfacesUsers";
+
+function getUserBonus(game: GameSchema, userId: string) {
+	let canCancelBet = false;
+	let canDivideBet = false;
+	let divideValue = 1.0;
+
+	let bonusList = game.bonusList;
+	if (bonusList) {
+		for (let bonus of bonusList) {
+			if (bonus.ownerUserId == userId) {
+				if (bonus.typeBonus == 4) {
+					//cancel bet
+					canCancelBet = true;
+				}
+				if (bonus.typeBonus == 6 && bonus.multiplier) {
+					//divide bet
+					canDivideBet = true;
+					divideValue = bonus.multiplier;
+				}
+			}
+		}
+	}
+	return [canCancelBet, canDivideBet, divideValue];
+}
 
 export function PlayerBet(props: any) {
 	let bet: userBetInterface = props.bet;
@@ -28,8 +60,63 @@ export function PlayerBet(props: any) {
 	let simpleBet = bet?.betsObjects?.[0];
 	let system = bet?.isSystem;
 	let game: GameSchema = props.game;
+	let jwt: string = props.jwt;
+	let user: User = props.user;
+	let userId = user._id;
+	let reloadGame = props.reloadGame;
 
-	if (bet && simpleBet && bet.betsObjects && bet.credits) {
+	let [canCancelBet, canDivideBet, divideValue] = getUserBonus(game, userId);
+
+	const [showBetOption, setShowBetOption] = useState(false);
+
+	let fullStatus = 0;
+	for (let subbet of bet.betsObjects) {
+		if (subbet.betStatus && subbet.betStatus > fullStatus)
+			fullStatus = subbet.betStatus;
+	}
+
+	function toggleShowBetOption() {
+		setShowBetOption(!showBetOption);
+	}
+	function cancelBet(betId: string | undefined) {
+		if (betId && game.joinCode) {
+			sendUseBonusQuery(game.joinCode, jwt, 4, betId).then(() => {
+				reloadGame();
+			});
+		}
+	}
+	function divideQuote(betId: string | undefined) {
+		if (betId && game.joinCode) {
+			sendUseBonusQuery(game.joinCode, jwt, 6, betId).then(() => {
+				reloadGame();
+			});
+		}
+	}
+
+	function renderShowBetOption() {
+		return (
+			<View style={{ flexDirection: "row", alignItems: "center" }}>
+				<View style={{ marginLeft: "auto", alignSelf: "flex-end" }}>
+					{canCancelBet && bet.status == 0 && fullStatus == 0 ? ( //full status pour qu'il ne puisse utiliser le bonus que si tout les subbet nont pas été resolu du tout
+						<Button 
+							title="Annuler le pari"
+							onPress={() => cancelBet(bet._id)}
+						/>
+					) : null}
+				</View>
+				<View style={{ marginLeft: "auto", alignSelf: "flex-end" }}>
+					{canDivideBet && bet.status == 0 && fullStatus == 0 ? ( //full status pour qu'il ne puisse utiliser le bonus que si tout les subbet nont pas été resolu du tout
+						<Button 
+							title="Diviser la quote"
+							onPress={() => divideQuote(bet._id)}
+						/>
+					) : null}
+				</View>
+			</View>
+		);
+	}
+
+	if (bet && simpleBet && bet.betsObjects && bet.credits && bet.mainQuote) {
 		let systemName = getSystemName(
 			bet?.betsObjects?.length,
 			bet?.systemChoice
@@ -76,7 +163,18 @@ export function PlayerBet(props: any) {
 							/>
 						</View>
 					) : null}
+					{canCancelBet || canDivideBet ? (
+						<TouchableOpacity onPress={toggleShowBetOption}>
+							<Entypo
+								style={styles.icon}
+								name="dots-three-vertical"
+								size={20}
+								color={"black"}
+							/>
+						</TouchableOpacity>
+					) : null}
 				</View>
+				{showBetOption ? renderShowBetOption() : null}
 				{simple ? <SubText>{simpleBet.leagueName}</SubText> : null}
 				<View style={styles.lineRow}>
 					<Text style={styles.mise}>Mise : </Text>
@@ -90,21 +188,23 @@ export function PlayerBet(props: any) {
 				</View>
 				<SmallLineBreak />
 				<View style={styles.lineRow}>
-						<View>
-							<Text style={styles.credits}>{getUserNameFromId(game, bet.userId)}</Text>
-						</View>
+					<View>
+						<Text style={styles.credits}>
+							{getUserNameFromId(game, bet.userId)}
+						</Text>
+					</View>
 					<View style={styles.mainQuoteContainer}>
 						<Text style={styles.mainQuoteText}>
 							{bet.mainQuote}
 						</Text>
 					</View>
 				</View>
-					{bet.result ? (
-						<View>
-							<Text style={styles.credits}>Résultat : </Text>
-							<Text>{bet.result}</Text>
-						</View>
-					) : null}
+				{bet.result ? (
+					<View>
+						<Text style={styles.credits}>Résultat : </Text>
+						<Text>{bet.result}</Text>
+					</View>
+				) : null}
 				{!simple ? <SeeDetails bet={bet} /> : null}
 			</View>
 		);

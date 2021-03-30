@@ -11,10 +11,16 @@ import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
 import { Picker } from "@react-native-picker/picker";
 
-export function getSystemName(length: number, choice: number) {
-	if (choice == 0) return length + " paris simples";
-	else if (choice == length - 1) return length + " paris combinés";
-	else return "Système " + (choice + 1) + "/" + length;
+export function getSystemName(
+	length: number | undefined,
+	choice: number | undefined
+) {
+	if (length && choice) {
+		if (choice == 0) return length + " paris simples";
+		else if (choice == length - 1) return length + " paris combinés";
+		else return "Système " + (choice + 1) + "/" + length;
+	}
+	return length + " paris simples";
 }
 
 export function RenderBetInput(props: any) {
@@ -77,9 +83,9 @@ export function RenderBetInput(props: any) {
 					<Picker
 						selectedValue={systemChoice}
 						style={styles.systemPicker}
-						onValueChange={(itemValue: any) =>
-							{setSystemChoice(parseInt(itemValue));}
-						}
+						onValueChange={(itemValue: any) => {
+							setSystemChoice(parseInt(itemValue));
+						}}
 					>
 						{renderSystemChoices()}
 					</Picker>
