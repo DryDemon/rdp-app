@@ -176,17 +176,17 @@ export function ShowBonus(props: any) {
 			case 1: // multiplier la cote d'un pari
 				//goto cart
 				setPage("gameCart");
-				toggleShowBonus()
+				toggleShowBonus();
 				break;
 			case 4: // annuler le pari d'un adversaire
 				//goto list bets
 				setPage("gameListBets");
-				toggleShowBonus()
+				toggleShowBonus();
 				break;
 			case 6: // diviser la cote du pari d'un adversaire
 				//goto list bets
 				setPage("gameListBets");
-				toggleShowBonus()
+				toggleShowBonus();
 				break;
 
 			//choses qu'on gère ici
@@ -243,16 +243,22 @@ export function ShowBonus(props: any) {
 		return (
 			<View style={styles.bonusContainer}>
 				<Text>{getBonusNameFromType(data.typeBonus)}</Text>
-				<View style={styles.activateButtonContainer}>
-					{data.typeBonus == 7 ? (
-						renderShieldButtons(data)
-					) : data.typeBonus != 0 ? (
-						<Button
-							title={"Activer"}
-							onPress={() => activateBonus(data.typeBonus)}
-						/>
-					) : null}
-				</View>
+				{!data.isUsed ? (
+					<View style={styles.activateButtonContainer}>
+						{data.typeBonus == 7 ? (
+							renderShieldButtons(data)
+						) : data.typeBonus != 0 ? (
+							<Button
+								title={"Activer"}
+								onPress={() => activateBonus(data.typeBonus)}
+							/>
+						) : null}
+					</View>
+				) : (
+					<View style={styles.activateButtonContainer}>
+						<Text>Bonus Utilisé</Text>
+					</View>
+				)}
 			</View>
 		);
 	}

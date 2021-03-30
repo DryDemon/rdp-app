@@ -62,7 +62,7 @@ function getUserMultiplyBonus(game: GameSchema, userId: string) {
 	if (bonusList && userId) {
 		for (let bonus of bonusList) {
 			if (bonus.ownerUserId == userId) {
-				if (bonus.typeBonus == 1 && bonus.multiplier) {
+				if (bonus.typeBonus == 1 && bonus.multiplier && !bonus.isUsed) {
 					//multiply bet
 					canBoostBet = true;
 					multiplyValue = bonus.multiplier;

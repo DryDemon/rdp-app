@@ -39,11 +39,11 @@ function getUserBonus(game: GameSchema, userId: string) {
 	if (bonusList) {
 		for (let bonus of bonusList) {
 			if (bonus.ownerUserId == userId) {
-				if (bonus.typeBonus == 4) {
+				if (bonus.typeBonus == 4 && !bonus.isUsed) {
 					//cancel bet
 					canCancelBet = true;
 				}
-				if (bonus.typeBonus == 6 && bonus.multiplier) {
+				if (bonus.typeBonus == 6 && bonus.multiplier && !bonus.isUsed) {
 					//divide bet
 					canDivideBet = true;
 					divideValue = bonus.multiplier;
