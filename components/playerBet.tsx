@@ -195,7 +195,7 @@ export function PlayerBet(props: any) {
 					</View>
 					<View style={styles.mainQuoteContainer}>
 						<Text style={styles.mainQuoteText}>
-							{bet.mainQuote}
+							{bet.mainQuote}{bet.quoteBoost? " x " + bet.quoteBoost: ""}
 						</Text>
 					</View>
 				</View>
