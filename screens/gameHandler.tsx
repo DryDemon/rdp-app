@@ -74,10 +74,10 @@ export default function GameHandler({ navigation }: any) {
 		| "gameInfo"
 	>("gameListBets");
 
-	const [showGamePage, setshowGamePage] = useState(true); //Use this to show the game page bets
+	const [showGamePage, setshowGamePage] = useState(false); //Use this to show the game page bets
 	const [match, setmatch] = useState({});
 
-	const [showBonus, setShowBonus] = useState(true);
+	const [showBonus, setShowBonus] = useState(false);
 
 	function toggleShowBonus() {
 		setShowBonus(!showBonus);
