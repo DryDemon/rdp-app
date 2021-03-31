@@ -10,4 +10,5 @@ export function isBetIdWhitelisted(id: number | string){
             return true;
         }
     }
+    return false;
 }
