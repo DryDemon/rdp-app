@@ -72,7 +72,7 @@ export default function GameHandler({ navigation }: any) {
 		| "gamePlayerStats"
 		| "gameMatchBets"
 		| "gameInfo"
-	>("gameListBets");
+	>(ENVIRONEMENT == "prod"? "gameInfo": "gameListBets");
 
 	const [showGamePage, setshowGamePage] = useState(false); //Use this to show the game page bets
 	const [match, setmatch] = useState({});
