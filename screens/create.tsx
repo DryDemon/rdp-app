@@ -160,7 +160,7 @@ export default function Create({ navigation }: any) {
 		} else setalertLeagues(" ");
 
 		if (leaguesMultiselectChoice && leaguesMultiselectChoice.length == 0) {
-			setalertLeagues("Tu doit selectionner au moins une ligue");
+			setalertLeagues("Tu dois selectionner au moins une ligue");
 			isValid = false;
 		} else setalertLeagues(" ");
 
@@ -248,7 +248,19 @@ export default function Create({ navigation }: any) {
 				// setLeaguesList(leagues);
 
 				// code si on ajoute plus de sports
+				console.log("leagues,", leagues);
 				if (leagues) {
+					
+					let cpyleaguemultiselect = leaguesMultiselectChoice;
+					
+					for(let league of leaguesMultiselectChoice){
+						if(!leagues.some((leagueInput : any ) => leagueInput.leagueId == league.leagueId))
+						cpyleaguemultiselect = cpyleaguemultiselect.filter((value: any) => value.leagueId != league.leagueId);
+
+					}
+
+					setLeaguesMultiselectChoice(cpyleaguemultiselect);
+
 					setLeaguesList([
 						{
 							leagueName: "Football",
@@ -382,7 +394,7 @@ export default function Create({ navigation }: any) {
 											: styles.sportChoiceTextUnselected
 									}
 								>
-									Foot
+									Football
 								</SubText>
 							</TouchableOpacity>
 							<TouchableOpacity
