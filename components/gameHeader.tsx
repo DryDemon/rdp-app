@@ -115,7 +115,7 @@ export function GameHeader(props: any) {
 							<EvilIcons
 								name="question"
 								size={20}
-								color={"#A9AAB0"}
+								color={"#FFF"}
 							/>
 						</TouchableOpacity>
 					) : undefined}
