@@ -3,7 +3,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { View, Text } from "./Themed";
-
+import Colors from "../constants/Colors";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
@@ -53,7 +53,7 @@ export function GameFooter(props: any) {
 	return (
 		<View style={styles.footer}>
 			<TouchableOpacity
-				style={styles.iconContainer}
+				//style={styles.iconContainer}
 				onPress={() => {
 					gotoIcon(1);
 				}}
@@ -67,13 +67,13 @@ export function GameFooter(props: any) {
 				>
 					<EvilIcons
 						name="chart"
-						size={20}
-						color={page == "gameClassement" ? "#FFF" : "#000"}
+						size={24}
+						color={page == "gameClassement" ? Colors.white : Colors.black}
 					/>
 				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
-				style={styles.iconContainer}
+				//style={styles.iconContainer}
 				onPress={() => {
 					gotoIcon(2);
 				}}
@@ -87,13 +87,13 @@ export function GameFooter(props: any) {
 				>
 					<MaterialCommunityIcons
 						name="progress-clock"
-						size={20}
-						color={page == "gameListBets" ? "#FFF" : "#000"}
+						size={24}
+						color={page == "gameListBets" ? Colors.white : Colors.black}
 					/>
 				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
-				style={styles.iconContainer}
+				//style={styles.iconContainer}
 				onPress={() => {
 					gotoIcon(3);
 				}}
@@ -107,13 +107,13 @@ export function GameFooter(props: any) {
 				>
 					<FontAwesome5
 						name="coins"
-						size={20}
-						color={page == "gamePlaceBet" ? "#FFF" : "#000"}
+						size={24}
+						color={page == "gamePlaceBet" ? Colors.white : Colors.black}
 					/>
 				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
-				style={styles.iconContainer}
+				//style={styles.iconContainer}
 				onPress={() => {
 					gotoIcon(4);
 				}}
@@ -128,8 +128,8 @@ export function GameFooter(props: any) {
 					>
 						<Feather
 							name="shopping-cart"
-							size={20}
-							color={page == "gameCart" ? "#FFF" : "#000"}
+							size={24}
+							color={page == "gameCart" ? Colors.white : Colors.black}
 						/>
 					</View>
 					{betNumber != 0 ? (
@@ -142,7 +142,7 @@ export function GameFooter(props: any) {
 				</View>
 			</TouchableOpacity>
 			<TouchableOpacity
-				style={styles.iconContainer}
+				//style={styles.iconContainer}
 				onPress={() => {
 					gotoIcon(5);
 				}}
@@ -156,8 +156,8 @@ export function GameFooter(props: any) {
 				>
 					<FontAwesome
 						name="calendar-check-o"
-						size={20}
-						color={page == "gamePlayerStats" ? "#FFF" : "#000"}
+						size={24}
+						color={page == "gamePlayerStats" ? Colors.white : Colors.black}
 					/>
 				</View>
 			</TouchableOpacity>
@@ -166,29 +166,37 @@ export function GameFooter(props: any) {
 }
 
 const styles = StyleSheet.create({
-	iconContainer: {
+	/*iconContainer: {
 		flex: 1,
 		alignItems: "center",
-	},
+	},*/
 	footer: {
 		height: 56,
-		// padding: 10,
+		paddingHorizontal: 24,
 		width: "100%",
-
-		color: "#FFFFFF",
-		justifyContent: "center",
+		//borderTopRightRadius: 12,
+		//borderTopLeftRadius: 12,
+		backgroundColor: Colors.white,
+		justifyContent: "space-between",
+		alignItems: "center",
 		flexDirection: "row",
-		flexWrap: "wrap",
+		shadowColor: "rgba(0,0,0, 0.24)",
+		shadowOffset: {
+			width: 0,
+			height: -2,
+		},
+		shadowOpacity: 0.23,
+		elevation: 50,
+
 	},
 	touched: {
-		padding: 7,
+		padding: 12,
 		borderRadius: 12,
-		margin: 12,
-		backgroundColor: "#5507e1",
+		backgroundColor: Colors.rdpColor,
 	},
 	untouched: {
-		padding: 7,
-		margin: 12,
+		padding: 12,
+		
 	},
 	cartNotification: {
 		width: 15,
@@ -202,6 +210,6 @@ const styles = StyleSheet.create({
 	},
 	cartNotificationText: {
 		fontSize: 10,
-		color: "white",
+		color: Colors.white,
 	},
 });
