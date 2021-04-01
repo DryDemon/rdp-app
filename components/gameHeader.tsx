@@ -25,16 +25,17 @@ export function GameHeader(props: any) {
 		...otherProps
 	} = props;
 
-	const backgroundColor = Colors.rdpColor;
+	const backgroundColor = Colors.white;
 
 	const height = 56;
-	const padding = 10;
+	
 	const width = "100%";
 	const fontWeight = "700";
 
 	const marginTop = Constants.statusBarHeight;
 
-	const color = "#FFFFFF";
+	const color = Colors.rdpColor;
+
 
 	function logout() {
 		AsyncStorage.removeItem("@jwt").then(() => {
@@ -76,16 +77,38 @@ export function GameHeader(props: any) {
 					{
 						backgroundColor,
 						height,
-						paddingTop: 15,
-						padding,
 						width,
 						marginTop,
+						paddingHorizontal: 24,
+						flexDirection:"row",
+						alignItems:"center",
+						justifyContent: "space-between",
+						shadowColor: "rgba(0,0,0, 0.24)",
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.23,
+		elevation: 50,
 					},
 				]}
 			>
-				<View style={{ flexDirection: "row", alignItems: "center" }}>
+				<View 
+					style={[
+						{
+							flexDirection:"row",
+							alignItems:"center",
+						},
+					]}
+				>
 					<View>{arrow}</View>
-					<View>
+					<View
+						style={[
+							{
+								marginLeft: 12,
+							},
+						]}
+					>
 						<Text
 							style={[
 								{
@@ -95,6 +118,8 @@ export function GameHeader(props: any) {
 									fontSize: 20,
 									lineHeight: 26,
 									textAlignVertical: "center",
+									
+									
 									// fontFamily: "Orkney",
 								},
 							]}
@@ -104,40 +129,49 @@ export function GameHeader(props: any) {
 					</View>
 					{callbackQuestionMark ? (
 						<TouchableOpacity
+							onPress={callbackQuestionMark}
 							style={[
 								{
-									marginLeft: 5,
-									marginTop: 3,
+									marginLeft: 12,
 								},
 							]}
-							onPress={callbackQuestionMark}
 						>
 							<EvilIcons
 								name="question"
-								size={20}
-								color={"#FFF"}
+								size={24}
+								color={"#A9AAB0"}
 							/>
 						</TouchableOpacity>
 					) : undefined}
+					
+				</View>
+				<View
+					style={[
+						{
+							flexDirection:"row",
+							alignItems:"center",
+						},
+					]}
+				>	
 					{toggleShowBonus ? (
 						<TouchableOpacity
-							style={{
-								marginLeft: "auto",
-								alignSelf: "flex-end",
-							}}
 							onPress={toggleShowBonus}
+							style={[
+								{
+									marginRight: 12,
+								},
+							]}
 						>
-							<Octicons name="gift" size={20} color={"#FFF"} />
+							<Octicons name="gift" size={24} color={Colors.black} />
 						</TouchableOpacity>
 					) : undefined}
 					<TouchableOpacity
-						style={{ marginLeft: "auto", alignSelf: "flex-end" }}
 						onPress={logout}
 					>
 						<MaterialCommunityIcons
 							name="logout"
-							size={20}
-							color={"#fff"}
+							size={24}
+							color={Colors.black}
 						/>
 					</TouchableOpacity>
 				</View>
