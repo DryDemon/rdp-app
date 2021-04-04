@@ -104,7 +104,7 @@ export function SmallLineBreak(props: TextProps) {
 //VIEW
 export function View(props: ViewProps) {
 	const { style, ...otherProps } = props;
-	const backgroundColor = useThemeColor("background");
+	const backgroundColor = useThemeColor("white");
 
 	return <DefaultView style={[{}, style]} {...otherProps} />;
 }
@@ -112,10 +112,11 @@ export function View(props: ViewProps) {
 export function ViewContainer(props: ViewProps) {
 	const { style, ...otherProps } = props;
 
-	const backgroundColor = useThemeColor("background");
-	const paddingLeft = "10%";
-	const paddingRight = "7%";
+	const backgroundColor = useThemeColor("white");
+	const paddingLeft = 24;
+	const paddingRight = 24;
 	const overflow = "scroll";
+	
 
 	return (
 		<DefaultView
@@ -144,17 +145,15 @@ export function ViewCenter(props: ViewProps) {
 export function TextInput(props: TextInputProps) {
 	const { style, ...otherProps } = props;
 
-	const height = 44;
-	const padding = 10;
-	const width = "100%";
-
+	const height = 46;
+	const paddingVertical = 12;
+	const paddingHorizontal = 24;
+	const borderRadius = 12;
+	const fontSize = 17;
 	const backgroundColor = "#FFFFFF";
+	const color = Colors.grayPlaceHolder;
+	
 
-	const borderColor = "black";
-	const marginBottom = 10;
-	const marginTop = 10;
-
-	const borderWidth = 1;
 
 	const flex = 0;
 	const flexGrow = 0;
@@ -163,15 +162,15 @@ export function TextInput(props: TextInputProps) {
 			style={[
 				{
 					height,
-					width,
-					padding,
+					color,
+					fontSize,
+					borderRadius,
+					paddingHorizontal,
+					paddingVertical,
 					backgroundColor,
-					borderColor,
-					borderWidth,
 					flex,
 					flexGrow,
-					marginBottom,
-					marginTop,
+
 				},
 				style,
 			]}
@@ -202,12 +201,11 @@ export function GameScrollView(props: any) {
 	height -= 56; //height header
 	height -= Constants.statusBarHeight; //padding top header
 
-	return <DefaultScrollView style={[{ height }, style]} {...otherProps} />;
+	return <DefaultScrollView style={[{ height, overflow: "visible" }, style]} {...otherProps} />;
 }
 
 export function BasicScrollView(props: any) {
 	const { style, isHeaderShown, ...otherProps } = props;
-
 	let height = Layout.window.height;
 	if (isHeaderShown) {
 		height -= 56; //height header
