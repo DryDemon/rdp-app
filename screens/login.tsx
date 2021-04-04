@@ -92,6 +92,10 @@ export default function Login({ navigation }: any) {
 		}
 	}
 
+	//set email is user was connected
+	useEffect(() => {
+		if (user && user.username) setEmailUsername(user.username);
+	}, [user]);
 	return (
 		<ViewContainer>
 			<BasicScrollView>
