@@ -20,9 +20,8 @@ function findFullTimeOdd(bets: any) {
 	}
 	//Si on ne l'a pas trouvé, on renvoie le premier
 	for (let bet of bets) {
-		if(isBetIdWhitelisted(bet.id)){
+			// if(isBetIdWhitelisted(bet.id)){
 			return bet;
-		}
 	}
 
 	return undefined;

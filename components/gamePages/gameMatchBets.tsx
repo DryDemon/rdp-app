@@ -56,7 +56,8 @@ export default function GameMatchBets(props: any) {
 				<View>
 
 					{odds
-						? odds.filter((bet: any) => isBetIdWhitelisted(bet.id)).map((bet: any) => (
+						// ? odds.filter((bet: any) => isBetIdWhitelisted(bet.id)).map((bet: any) => (
+							? odds.map((bet: any) => (
 								<BetListForGameMatchBets setReloadCart={setReloadCart} joinCode={joinCode} isShow={isShow} key={bet.id} bet={bet} matchId={match.matchId}></BetListForGameMatchBets>
 						  ))
 						: null}
