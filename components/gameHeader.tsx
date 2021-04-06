@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, Image, TouchableOpacity } from "react-native";
 import { View, Text } from "./Themed";
 
-import arrowIcon from "../assets/images/arrow.png";
+import arrowIcon from "../assets/images/arrow_black.png";
 
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import Octicons from "react-native-vector-icons/Octicons";

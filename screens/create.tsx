@@ -368,11 +368,11 @@ export default function Create({ navigation }: any) {
 						<Text>Sports : </Text>
 					</TouchableOpacity>
 					<View
-						style={
-							sportShow
-								? { display: "flex" }
-								: { display: "none" }
-						}
+						// style={
+						// 	sportShow
+						// 		? { display: "flex" }
+						// 		: { display: "none" }
+						// }
 					>
 						<View>
 							<TouchableOpacity
