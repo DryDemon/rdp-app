@@ -7,10 +7,5 @@ export default {
   blue : "#e2f1ff",
   orange: '#EB472D',
   black : "#414141",
-
-  tint: '#2f95dc',
-  tabIconDefault: '#ccc',
-  tabIconSelected: '#fff',
-  alert:"red",
-  link:"#0000FF",
+  grayPlaceHolder:"#A9AAB0"
 };
