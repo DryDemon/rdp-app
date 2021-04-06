@@ -241,6 +241,7 @@ export default function Register({ navigation }: any) {
 				<TextLabel>Email</TextLabel>
 				<TextInput
 					value={email}
+					keyboardType={"email-address"}
 					onChangeText={(email: any) => {
 						setEmail(email);
 					}}

@@ -135,6 +135,7 @@ export default function Login({ navigation }: any) {
 				<TextLabel>Email ou Pseudo</TextLabel>
 				<TextInput
 					value={emailUsername}
+					keyboardType={"email-address"}
 					onChangeText={(emailUsername: string) => {
 						setEmailUsername(emailUsername);
 					}}
