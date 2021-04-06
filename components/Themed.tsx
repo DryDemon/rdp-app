@@ -12,6 +12,7 @@ import {
 	Image,
 	TouchableOpacity,
 	ScrollView as DefaultScrollView,
+	TouchableOpacityProps,
 } from "react-native";
 import Constants from "expo-constants";
 
@@ -116,7 +117,6 @@ export function ViewContainer(props: ViewProps) {
 	const paddingLeft = 24;
 	const paddingRight = 24;
 	const overflow = "scroll";
-	
 
 	return (
 		<DefaultView
@@ -152,8 +152,6 @@ export function TextInput(props: TextInputProps) {
 	const fontSize = 17;
 	const backgroundColor = "#FFFFFF";
 	const color = Colors.grayPlaceHolder;
-	
-
 
 	const flex = 0;
 	const flexGrow = 0;
@@ -170,7 +168,6 @@ export function TextInput(props: TextInputProps) {
 					backgroundColor,
 					flex,
 					flexGrow,
-
 				},
 				style,
 			]}
@@ -179,12 +176,19 @@ export function TextInput(props: TextInputProps) {
 	);
 }
 
-export function Button(props: ButtonProps) {
-	let { color, ...otherProps } = props;
+export function Button(props: TouchableOpacityProps | any) {
+	let { color, title, style, ...otherProps } = props;
 
 	if (!color) color = useThemeColor("rdpColor");
 
-	return <DefaultButton color={color} {...otherProps} />;
+	return (
+		<TouchableOpacity
+			style={[{ backgroundColor: color }, style]}
+			{...otherProps}
+		>
+			<Text>{title}</Text>
+		</TouchableOpacity>
+	);
 }
 
 export function TextWarning(props: TextProps) {
@@ -201,7 +205,12 @@ export function GameScrollView(props: any) {
 	height -= 56; //height header
 	height -= Constants.statusBarHeight; //padding top header
 
-	return <DefaultScrollView style={[{ height, overflow: "visible" }, style]} {...otherProps} />;
+	return (
+		<DefaultScrollView
+			style={[{ height, overflow: "visible" }, style]}
+			{...otherProps}
+		/>
+	);
 }
 
 export function BasicScrollView(props: any) {
