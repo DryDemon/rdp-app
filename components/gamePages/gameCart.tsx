@@ -806,7 +806,7 @@ export default function GameCart(props: any) {
 				</View>
 				{canMultiplyBet ? (
 					<View>
-						<Text>Utiliser le boose de {multiplyValue}</Text>
+						<Text>Utiliser le boost de {multiplyValue}</Text>
 						<CheckBox
 							value={isUsingMultiplyBonus}
 							onValueChange={() => {
