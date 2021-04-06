@@ -804,28 +804,37 @@ export default function GameCart(props: any) {
 						</Text>
 					)}
 				</View>
-				{canMultiplyBet ? (
-					<View>
-						<Text>Utiliser le boost de {multiplyValue}</Text>
-						<CheckBox
-							value={isUsingMultiplyBonus}
-							onValueChange={() => {
-								setIsUsingMultiplyBonus(!isUsingMultiplyBonus);
-							}}
-						/>
-					</View>
-				) : null}
 				{betsToDisplay && betsToDisplay.length > 0 ? (
 					<View>
-						{betsToDisplay.length == 1 ? (
-							<Button title={"Placer le pari"} onPress={onSend} />
-						) : (
-							<Button
-								title={"Placer les paris"}
-								onPress={onSend}
-								disabled={blockSendButton}
-							/>
-						)}
+						{canMultiplyBet ? (
+							<View>
+								<Text>
+									Utiliser le boost de {multiplyValue}
+								</Text>
+								<CheckBox
+									value={isUsingMultiplyBonus}
+									onValueChange={() => {
+										setIsUsingMultiplyBonus(
+											!isUsingMultiplyBonus
+										);
+									}}
+								/>
+							</View>
+						) : null}
+						<View>
+							{betsToDisplay.length == 1 ? (
+								<Button
+									title={"Placer le pari"}
+									onPress={onSend}
+								/>
+							) : (
+								<Button
+									title={"Placer les paris"}
+									onPress={onSend}
+									disabled={blockSendButton}
+								/>
+							)}
+						</View>
 					</View>
 				) : null}
 			</View>
