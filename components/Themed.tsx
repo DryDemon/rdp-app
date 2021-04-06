@@ -184,7 +184,7 @@ export function Button(props: ButtonProps) {
 
 	if (!color) color = useThemeColor("rdpColor");
 
-	return <DefaultButton color={color} {...props} />;
+	return <DefaultButton color={color} {...otherProps} />;
 }
 
 export function TextWarning(props: TextProps) {
