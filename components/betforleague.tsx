@@ -4,7 +4,7 @@ import { SmallLineBreak, TextTitle, View } from "./Themed";
 
 export default function BetForLeague(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
-	const isShow = props.isShow;
+	const reloadCart = props.reloadCart;
 	const joinCode = props.joinCode;
 	const setReloadCart = props.setReloadCart;
 
@@ -15,7 +15,7 @@ export default function BetForLeague(props: any) {
 
 			{props.matchs.map((match: any) => (
 				<BetForMatch
-					isShow={isShow}
+					reloadCart={reloadCart}
 					joinCode={joinCode}
 					setReloadCart={setReloadCart}
 					callbackShowMatchBet={callbackShowMatchBet}

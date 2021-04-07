@@ -38,7 +38,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import Colors from "../../constants/Colors";
 
 export default function GameClassement(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, isShow, reloadGame, ...otherProps } = props;
+	const { jwt, user, joinCode, game, logoUrl, reloadGame, ...otherProps } = props;
 
 	const [userList, setuserList] = useState<userStatsInterface[]>([]);
 

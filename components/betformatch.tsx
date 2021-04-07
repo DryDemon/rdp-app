@@ -43,7 +43,7 @@ function getTotalNumberOfOdds(bets: any, fullMatchOdds: any) {
 export default function betForMatch(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
 	const match = props.matchData;
-	const isShow = props.isShow;
+	const reloadCart = props.reloadCart;
 	const joinCode = props.joinCode;
 	const setReloadCart = props.setReloadCart;
 
@@ -67,10 +67,10 @@ export default function betForMatch(props: any) {
 			<View>
 				{fullMatchOdds
 					? fullMatchOdds.odds.map((odd: any) => (
-							<BasicBet setReloadCart={setReloadCart} joinCode={joinCode} isShow={isShow} key={odd.id} odd={odd} matchId={match.matchId}></BasicBet>
+							<BasicBet setReloadCart={setReloadCart} joinCode={joinCode} reloadCart={reloadCart} key={odd.id} odd={odd} matchId={match.matchId}></BasicBet>
 					  ))
 					: null}
-				<BasicBet setReloadCart={setReloadCart} joinCode={joinCode} isShow={isShow} callbackShowMatchBet={callbackShowMatchBet} match={match} plus={numberOfOdds}></BasicBet>
+				<BasicBet setReloadCart={setReloadCart} joinCode={joinCode} reloadCart={reloadCart} callbackShowMatchBet={callbackShowMatchBet} match={match} plus={numberOfOdds}></BasicBet>
 			</View>
 		</View>
 	);

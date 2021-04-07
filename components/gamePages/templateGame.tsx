@@ -34,7 +34,7 @@ import { GameSchema } from "../../src/interaces/interfacesGame";
 import { validURL } from "../../src/smallFuncts";
 
 export default function GameCart(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, isShow, reloadGame, ...otherProps } = props;
+	const { jwt, user, joinCode, game, logoUrl, reloadGame, ...otherProps } = props;
 
 	return (
 		<View>

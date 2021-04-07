@@ -43,7 +43,7 @@ import BetListForGameMatchBets from "../betListForGameMatchBets";
 import { isBetIdWhitelisted } from "../../constants/Bets";
 
 export default function GameMatchBets(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, match, isShow, setReloadCart, ...otherProps } = props;
+	const { jwt, user, joinCode, game, logoUrl, match, reloadCart, setReloadCart, ...otherProps } = props;
 
 	const odds = match.prematchOdds;
 	return (
@@ -58,7 +58,7 @@ export default function GameMatchBets(props: any) {
 					{odds
 						// ? odds.filter((bet: any) => isBetIdWhitelisted(bet.id)).map((bet: any) => (
 							? odds.map((bet: any) => (
-								<BetListForGameMatchBets setReloadCart={setReloadCart} joinCode={joinCode} isShow={isShow} key={bet.id} bet={bet} matchId={match.matchId}></BetListForGameMatchBets>
+								<BetListForGameMatchBets setReloadCart={setReloadCart} joinCode={joinCode} reloadCart={reloadCart} key={bet.id} bet={bet} matchId={match.matchId}></BetListForGameMatchBets>
 						  ))
 						: null}
 				</View>

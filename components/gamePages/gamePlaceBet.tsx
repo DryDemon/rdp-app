@@ -63,7 +63,7 @@ export default function GamePlaceBet(props: any) {
 		game,
 		logoUrl,
 		callbackShowMatchBet,
-		isShow,
+		reloadCart,
 		setReloadCart,
 		...otherProps
 	} = props;
@@ -129,7 +129,7 @@ export default function GamePlaceBet(props: any) {
 
 				<View>
 					<AllBets
-						isShow={isShow}
+						reloadCart={reloadCart}
 						joinCode={joinCode}
 						callbackShowMatchBet={callbackShowMatchBet}
 						leagues={leagues}

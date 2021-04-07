@@ -60,7 +60,7 @@ export default function BetListForGameMatchBets(props: any) {
 
 							<BasicBet
 							setReloadCart={setReloadCart}
-								isShow={props.isShow}
+								reloadCart={props.reloadCart}
 								joinCode={props.joinCode}
 								key={odd.id}
 								odd={odd}

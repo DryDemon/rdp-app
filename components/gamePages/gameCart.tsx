@@ -177,7 +177,6 @@ export default function GameCart(props: any) {
 		joinCode,
 		game,
 		logoUrl,
-		isShow,
 		reloadGame,
 		reloadCart,
 		setReloadCart,

@@ -125,6 +125,11 @@ export default function GameHandler({ navigation }: any) {
 		}
 	};
 
+	//Sur chaque changement de page
+	useEffect(() => {
+		setShowBonus(false);
+	}, [page])
+
 	//When we want to show all the bets of a match
 	function loadMatch(match: any) {
 		setmatch(match);
@@ -209,7 +214,6 @@ export default function GameHandler({ navigation }: any) {
 			>
 				<GameScrollView>
 					<GameClassement
-						isShow={page == "gameClassement" ? 1 : 0}
 						reloadGame={reloadGame}
 						jwt={jwt}
 						user={user}
@@ -233,7 +237,7 @@ export default function GameHandler({ navigation }: any) {
 							setmatch(match);
 							setPage("gameMatchBets");
 						}}
-						isShow={page == "gamePlaceBet" ? 1 : 0}
+						reloadCart={reloadCart}
 						reloadGame={reloadGame}
 						jwt={jwt}
 						user={user}
@@ -254,7 +258,6 @@ export default function GameHandler({ navigation }: any) {
 			>
 				<GameScrollView>
 					<GameListBets
-						isShow={page == "gameListBets" ? 1 : 0}
 						reloadGame={reloadGame}
 						jwt={jwt}
 						user={user}
@@ -276,7 +279,6 @@ export default function GameHandler({ navigation }: any) {
 					<GameCart
 						reloadCart={reloadCart}
 						setReloadCart={setReloadCart}
-						isShow={page == "gameCart" ? 1 : 0}
 						reloadGame={reloadGame}
 						jwt={jwt}
 						user={user}
@@ -296,7 +298,6 @@ export default function GameHandler({ navigation }: any) {
 			>
 				<GameScrollView>
 					<GameMatchsStats
-						isShow={page == "gamePlayerStats" ? 1 : 0}
 						reloadGame={reloadGame}
 						jwt={jwt}
 						user={user}
@@ -317,8 +318,8 @@ export default function GameHandler({ navigation }: any) {
 				<GameScrollView>
 					<GameMatchBets
 						setReloadCart={setReloadCart}
+						reloadCart={reloadCart}
 						match={match}
-						isShow={page == "gameMatchBets" ? 1 : 0}
 						reloadGame={reloadGame}
 						jwt={jwt}
 						user={user}
@@ -338,7 +339,6 @@ export default function GameHandler({ navigation }: any) {
 			>
 				<GameScrollView>
 					<GameInfo
-						isShow={page == "gameInfo" ? 1 : 0}
 						reloadGame={reloadGame}
 						jwt={jwt}
 						user={user}

@@ -23,7 +23,7 @@ function isEmptyObject(obj: any) {
 export default function BasicBet(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
 	const odd = props.odd;
-	const isShow = props.isShow;
+	const reloadCart = props.reloadCart;
 	const joinCode = props.joinCode;
 	const setReloadCart = props.setReloadCart;
 
@@ -55,7 +55,7 @@ export default function BasicBet(props: any) {
 				if (isBetHere) setSelected(true);
 				else setSelected(false);
 			});
-	}, [odd, props.matchId, isShow]);
+	}, [odd, props.matchId, reloadCart]);
 
 	function onBet() {
 		// AsyncStorage.setItem("@cart_" + joinCode, "[]");

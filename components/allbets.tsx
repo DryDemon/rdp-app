@@ -7,7 +7,7 @@ export default function AllBets(props: any) {
 	const filter = props.filter;
 	const matchs = props.matchs;
 	const callbackShowMatchBet = props.callbackShowMatchBet;
-	const isShow = props.isShow;
+	const reloadCart = props.reloadCart;
 	const joinCode = props.joinCode;
 	const setReloadCart = props.setReloadCart;
 
@@ -19,7 +19,7 @@ export default function AllBets(props: any) {
 				return (
 					<BetForLeague
 						key={league.leagueName}
-						isShow={isShow}
+						reloadCart={reloadCart}
 						setReloadCart={setReloadCart}
 						joinCode={joinCode}
 						callbackShowMatchBet={callbackShowMatchBet}
