@@ -72,7 +72,7 @@ export default function GameHandler({ navigation }: any) {
 		| "gamePlayerStats"
 		| "gameMatchBets"
 		| "gameInfo"
-	>(ENVIRONEMENT == "prod"? "gameInfo": "gameListBets");
+	>(ENVIRONEMENT == "prod" ? "gameInfo" : "gameListBets");
 
 	const [showGamePage, setshowGamePage] = useState(false); //Use this to show the game page bets
 	const [match, setmatch] = useState({});
@@ -127,8 +127,8 @@ export default function GameHandler({ navigation }: any) {
 
 	//Sur chaque changement de page
 	useEffect(() => {
-		setShowBonus(false);
-	}, [page])
+		if (showBonus) setShowBonus(false);
+	}, [page]);
 
 	//When we want to show all the bets of a match
 	function loadMatch(match: any) {
@@ -347,12 +347,17 @@ export default function GameHandler({ navigation }: any) {
 						logoUrl={logoUrl}
 					/>
 				</GameScrollView>
-
-
 			</ViewContainer>
 
 			{showBonus && joinCode ? (
-				<ShowBonus toggleShowBonus={toggleShowBonus} joinCode={joinCode} game={game} user={user} jwt={jwt} setPage={setPage}/>
+				<ShowBonus
+					toggleShowBonus={toggleShowBonus}
+					joinCode={joinCode}
+					game={game}
+					user={user}
+					jwt={jwt}
+					setPage={setPage}
+				/>
 			) : null}
 
 			<GameFooter
@@ -361,7 +366,6 @@ export default function GameHandler({ navigation }: any) {
 				page={page}
 				setPage={(goto: any) => setPage(goto)}
 			/>
-
 		</View>
 	);
 }
