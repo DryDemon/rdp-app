@@ -331,8 +331,7 @@ export default function Create({ navigation }: any) {
 					<SmallLineBreak />
 					<TextTitle>Créer un contest</TextTitle>
 					<SubText>
-						Crée ton contest et éclate tes amis pour devinir le roi
-						!
+						Crée ton contest et éclate tes amis pour devenir le roi!
 					</SubText>
 
 					<SmallLineBreak />
