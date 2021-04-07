@@ -28,6 +28,7 @@ import { DatePicker } from "../components/DatePicker";
 import { validURL } from "../src/smallFuncts";
 import { GameHeader } from "../components/gameHeader";
 import Colors from "../constants/Colors";
+import { LoadingPage } from "../components/loadingPage";
 
 async function getSportBetweenTwoDates(startedAt: Date, endingAt: Date) {
 	const startedAtTimestamp = startedAt.getTime() / 1000;
@@ -87,6 +88,7 @@ export default function Create({ navigation }: any) {
 	const [alertLeagues, setalertLeagues] = useState(" ");
 
 	const [canCreate, setcanCreate] = useState(true);
+	const [loading, setLoading] = useState(false);
 
 	const [leaguesList, setLeaguesList] = useState<any>([]);
 	const [leaguesMultiselectChoice, setLeaguesMultiselectChoice] = useState<
@@ -190,6 +192,7 @@ export default function Create({ navigation }: any) {
 	function onCreate() {
 		if (canCreate) {
 			if (validateForm()) {
+				setLoading(true);
 				setcanCreate(false);
 				let query =
 					"name=" +
@@ -206,11 +209,17 @@ export default function Create({ navigation }: any) {
 					leaguesMultiselectChoice.toString() +
 					`&jwt=${jwt}`;
 
-				sendQueryCreateGame(query).then((content: any) => {
-					if (content.isCreated == 0)
-						Alert.alert("Erreur", "Merci de vérifier vos données");
-					setcanCreate(true);
-				});
+				sendQueryCreateGame(query)
+					.then((content: any) => {
+						if (content.isCreated == 0)
+							Alert.alert(
+								"Erreur",
+								"Merci de vérifier vos données"
+							);
+						setcanCreate(true);
+						setLoading(false);
+					})
+					.catch((e) => setLoading(true));
 			} else {
 				Alert.alert(
 					"Erreur",
@@ -250,13 +259,19 @@ export default function Create({ navigation }: any) {
 				// code si on ajoute plus de sports
 				console.log("leagues,", leagues);
 				if (leagues) {
-					
 					let cpyleaguemultiselect = leaguesMultiselectChoice;
-					
-					for(let league of leaguesMultiselectChoice){
-						if(!leagues.some((leagueInput : any ) => leagueInput.leagueId == league.leagueId))
-						cpyleaguemultiselect = cpyleaguemultiselect.filter((value: any) => value.leagueId != league.leagueId);
 
+					for (let league of leaguesMultiselectChoice) {
+						if (
+							!leagues.some(
+								(leagueInput: any) =>
+									leagueInput.leagueId == league.leagueId
+							)
+						)
+							cpyleaguemultiselect = cpyleaguemultiselect.filter(
+								(value: any) =>
+									value.leagueId != league.leagueId
+							);
 					}
 
 					setLeaguesMultiselectChoice(cpyleaguemultiselect);
@@ -308,193 +323,213 @@ export default function Create({ navigation }: any) {
 	useEffect(() => {
 		console.log(dateCreationForm, dateEndForm);
 	}, [dateCreationForm, dateEndForm]);
-	return (
-		<View style={{ flex: 1, marginHorizontal: 1 }}>
-			<GameHeader back={"Dashboard"} navigation={navigation} />
-			<ViewContainer>
-				<SmallLineBreak />
-				<TextTitle>Créer un contest</TextTitle>
-				<SubText>
-					Crée ton contest et éclate tes amis pour devinir le roi !
-				</SubText>
-
-				<SmallLineBreak />
-
-				<ScrollView showsHorizontalScrollIndicator={false}>
-					<Text>Nom Du Contest</Text>
-					<TextInput
-						value={name}
-						onChangeText={(name) => {
-							setName(name);
-						}}
-						placeholder={"La Ligue Des Champions"}
-					/>
-					<TextWarning>{alertName}</TextWarning>
-
-					<Text>Url Du Logo</Text>
-					<TextInput
-						value={logoUrl}
-						onChangeText={(logoUrl) => {
-							setLogoUrl(logoUrl);
-						}}
-						placeholder={
-							"Optionnel, si tu veux un logo personalisé"
-						}
-					/>
-					<TextWarning>{alertLogo}</TextWarning>
-
-					<Text>Dates des évènements</Text>
+	if (!loading)
+		return (
+			<View style={{ flex: 1, marginHorizontal: 1 }}>
+				<GameHeader back={"Dashboard"} navigation={navigation} />
+				<ViewContainer>
+					<SmallLineBreak />
+					<TextTitle>Créer un contest</TextTitle>
 					<SubText>
-						Maximum 7 jours, le mode “contest pro” arrive bientôt !
+						Crée ton contest et éclate tes amis pour devinir le roi
+						!
 					</SubText>
 
 					<SmallLineBreak />
 
-					<View style={{ flexDirection: "row" }}>
-						<View style={{ flex: 1, marginRight: 12 }}>
-							<DatePicker
-								start={dateCreationForm}
-								end={dateEndForm}
-								setStart={setDateCreationForm}
-								setEnd={setDateEndForm}
-								initText={"Choisir les dates du contest"}
-							/>
-						</View>
-					</View>
-					<TextWarning>{alertDates}</TextWarning>
+					<ScrollView showsHorizontalScrollIndicator={false}>
+						<Text>Nom Du Contest</Text>
+						<TextInput
+							value={name}
+							onChangeText={(name) => {
+								setName(name);
+							}}
+							placeholder={"La Ligue Des Champions"}
+						/>
+						<TextWarning>{alertName}</TextWarning>
 
-					<SmallLineBreak />
-					<TouchableOpacity onPress={() => setSportShow(!sportShow)}>
-						<Text>Sports : </Text>
-					</TouchableOpacity>
-					<View
+						<Text>Url Du Logo</Text>
+						<TextInput
+							value={logoUrl}
+							onChangeText={(logoUrl) => {
+								setLogoUrl(logoUrl);
+							}}
+							placeholder={
+								"Optionnel, si tu veux un logo personalisé"
+							}
+						/>
+						<TextWarning>{alertLogo}</TextWarning>
+
+						<Text>Dates des évènements</Text>
+						<SubText>
+							Maximum 7 jours, le mode “contest pro” arrive
+							bientôt !
+						</SubText>
+
+						<SmallLineBreak />
+
+						<View style={{ flexDirection: "row" }}>
+							<View style={{ flex: 1, marginRight: 12 }}>
+								<DatePicker
+									start={dateCreationForm}
+									end={dateEndForm}
+									setStart={setDateCreationForm}
+									setEnd={setDateEndForm}
+									initText={"Choisir les dates du contest"}
+								/>
+							</View>
+						</View>
+						<TextWarning>{alertDates}</TextWarning>
+
+						<SmallLineBreak />
+						<TouchableOpacity
+							onPress={() => setSportShow(!sportShow)}
+						>
+							<Text>Sports : </Text>
+						</TouchableOpacity>
+						<View
 						// style={
 						// 	sportShow
 						// 		? { display: "flex" }
 						// 		: { display: "none" }
 						// }
-					>
-						<View>
-							<TouchableOpacity
-								style={
-									sportChoice.some((value) => value == "1")
-										? styles.sportChoiceSelected
-										: styles.sportChoiceUnselected
-								}
-								onPress={() => {
-									toggleSportChoiceId("1");
-								}}
-							>
-								<SubText
+						>
+							<View>
+								<TouchableOpacity
 									style={
 										sportChoice.some(
 											(value) => value == "1"
 										)
-											? styles.sportChoiceTextSelected
-											: styles.sportChoiceTextUnselected
+											? styles.sportChoiceSelected
+											: styles.sportChoiceUnselected
 									}
+									onPress={() => {
+										toggleSportChoiceId("1");
+									}}
 								>
-									Football
-								</SubText>
-							</TouchableOpacity>
-							<TouchableOpacity
-								style={
-									sportChoice.some((value) => value == "13")
-										? styles.sportChoiceSelected
-										: styles.sportChoiceUnselected
-								}
-								onPress={() => {
-									toggleSportChoiceId("13");
-								}}
-							>
-								<SubText
+									<SubText
+										style={
+											sportChoice.some(
+												(value) => value == "1"
+											)
+												? styles.sportChoiceTextSelected
+												: styles.sportChoiceTextUnselected
+										}
+									>
+										Football
+									</SubText>
+								</TouchableOpacity>
+								<TouchableOpacity
 									style={
 										sportChoice.some(
 											(value) => value == "13"
 										)
-											? styles.sportChoiceTextSelected
-											: styles.sportChoiceTextUnselected
+											? styles.sportChoiceSelected
+											: styles.sportChoiceUnselected
 									}
+									onPress={() => {
+										toggleSportChoiceId("13");
+									}}
 								>
-									Tennis
-								</SubText>
-							</TouchableOpacity>
-							<TouchableOpacity
-								style={
-									sportChoice.some((value) => value == "18")
-										? styles.sportChoiceSelected
-										: styles.sportChoiceUnselected
-								}
-								onPress={() => {
-									toggleSportChoiceId("18");
-								}}
-							>
-								<SubText
+									<SubText
+										style={
+											sportChoice.some(
+												(value) => value == "13"
+											)
+												? styles.sportChoiceTextSelected
+												: styles.sportChoiceTextUnselected
+										}
+									>
+										Tennis
+									</SubText>
+								</TouchableOpacity>
+								<TouchableOpacity
 									style={
 										sportChoice.some(
 											(value) => value == "18"
 										)
-											? styles.sportChoiceTextSelected
-											: styles.sportChoiceTextUnselected
+											? styles.sportChoiceSelected
+											: styles.sportChoiceUnselected
 									}
+									onPress={() => {
+										toggleSportChoiceId("18");
+									}}
 								>
-									Basketball
-								</SubText>
-							</TouchableOpacity>
+									<SubText
+										style={
+											sportChoice.some(
+												(value) => value == "18"
+											)
+												? styles.sportChoiceTextSelected
+												: styles.sportChoiceTextUnselected
+										}
+									>
+										Basketball
+									</SubText>
+								</TouchableOpacity>
+							</View>
 						</View>
-					</View>
 
-					<SmallLineBreak />
+						<SmallLineBreak />
 
-					<Text>Choix des compétitions</Text>
-					<SubText>
-						Attention futur roi, tu peut sélectionner au maximum 5
-						compétitions !
-					</SubText>
+						<Text>Choix des compétitions</Text>
+						<SubText>
+							Attention futur roi, tu peut sélectionner au maximum
+							5 compétitions !
+						</SubText>
 
-					<View>
-						<SectionedMultiSelect
-							selectText="Cherche ta compétition"
-							confirmText="Confirmer"
-							selectedText="Selectionné"
-							searchPlaceholderText="Chercher une ligue"
-							removeAllText="Tout enlever"
-							noResultsComponent={
-								<Text style={styles.alertMultiSelect}>
-									Pas de compétition de ce nom là :/
-								</Text>
-							}
-							noItemsComponent={
-								<Text style={styles.alertMultiSelect}>
-									Pas de compétition entre ces dates. As tu
-									bien choisi des dates?
-								</Text>
-							}
-							readOnlyHeadings={true}
-							icons={undefined}
-							IconRenderer={Icon}
-							single={false}
-							items={leaguesList}
-							showDropDowns={true}
-							subKey="children"
-							displayKey="leagueName"
-							uniqueKey="leagueId"
-							selectedItems={leaguesMultiselectChoice}
-							onSelectedItemsChange={(choice: any) => {
-								setLeaguesMultiselectChoice(choice);
-							}}
-						/>
-					</View>
-					<TextWarning>{alertLeagues}</TextWarning>
+						<View>
+							<SectionedMultiSelect
+								selectText="Cherche ta compétition"
+								confirmText="Confirmer"
+								selectedText="Selectionné"
+								searchPlaceholderText="Chercher une ligue"
+								removeAllText="Tout enlever"
+								noResultsComponent={
+									<Text style={styles.alertMultiSelect}>
+										Pas de compétition de ce nom là :/
+									</Text>
+								}
+								noItemsComponent={
+									<Text style={styles.alertMultiSelect}>
+										Pas de compétition entre ces dates. As
+										tu bien choisi des dates?
+									</Text>
+								}
+								readOnlyHeadings={true}
+								icons={undefined}
+								IconRenderer={Icon}
+								single={false}
+								items={leaguesList}
+								showDropDowns={true}
+								subKey="children"
+								displayKey="leagueName"
+								uniqueKey="leagueId"
+								selectedItems={leaguesMultiselectChoice}
+								onSelectedItemsChange={(choice: any) => {
+									setLeaguesMultiselectChoice(choice);
+								}}
+							/>
+						</View>
+						<TextWarning>{alertLeagues}</TextWarning>
 
-					<Button title={"Creer"} onPress={() => onCreate()} />
-					<View
-						style={styles.separator} //forandroid manly
-					></View>
-				</ScrollView>
-			</ViewContainer>
-		</View>
-	);
+						<Button title={"Creer"} onPress={() => onCreate()} />
+						<View
+							style={styles.separator} //forandroid manly
+						></View>
+					</ScrollView>
+				</ViewContainer>
+			</View>
+		);
+	else
+		return (
+			<View style={{ flex: 1, marginHorizontal: 1 }}>
+				<GameHeader back={"Dashboard"} navigation={navigation} />
+				<ViewContainer>
+					<LoadingPage />
+				</ViewContainer>
+			</View>
+		);
 }
 
 const styles = StyleSheet.create({
