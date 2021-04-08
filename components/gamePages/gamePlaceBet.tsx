@@ -58,10 +58,7 @@ async function fetchBetData(joinCode: string, jwt: string) {
 export default function GamePlaceBet(props: any) {
 	const {
 		jwt,
-		user,
 		joinCode,
-		game,
-		logoUrl,
 		callbackShowMatchBet,
 		reloadCart,
 		setReloadCart,

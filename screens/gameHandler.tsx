@@ -240,10 +240,7 @@ export default function GameHandler({ navigation }: any) {
 						reloadCart={reloadCart}
 						reloadGame={reloadGame}
 						jwt={jwt}
-						user={user}
 						joinCode={joinCode}
-						game={game}
-						logoUrl={logoUrl}
 						setReloadCart={setReloadCart}
 					/>
 				</GameScrollView>
