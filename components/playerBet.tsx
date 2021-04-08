@@ -183,7 +183,7 @@ export function PlayerBet(props: any) {
 				<View style={styles.lineRow}>
 					<Text style={styles.mise}>Gains Potentiels : </Text>
 					<Text style={styles.credits}>
-						{bet.quoteBoost?bet.mainQuote * bet.credits * bet.quoteBoost:bet.mainQuote * bet.credits}
+						{bet.quoteBoost?(bet.mainQuote * bet.credits * bet.quoteBoost).toFixed(2):(bet.mainQuote * bet.credits).toFixed(2)}
 					</Text>
 				</View>
 				<SmallLineBreak />
