@@ -196,7 +196,7 @@ export function TextInput(props: TextInputProps) {
 }
 
 export function Button(props: TouchableOpacityProps | any) {
-	let { bgColor, title, style, ...otherProps } = props;
+	let { bgColor, title, style, disabled, onPress, ...otherProps } = props;
 
 	if (!bgColor) bgColor = useThemeColor("rdpColor");
 	const height = 48;
@@ -205,10 +205,12 @@ export function Button(props: TouchableOpacityProps | any) {
 	let paddingVertical = 14;
 	let color = Colors.white;
 	let textAlign = "center";
+
 	return (
 		<TouchableOpacity
 			style={[{ backgroundColor: bgColor, borderRadius, paddingHorizontal, paddingVertical, height  }, style]}
 			{...otherProps}
+			onPress={disabled?() => {}: onPress}
 		>
 			<Text style={[{ color, textAlign }, style]} {...otherProps}>{title}</Text>
 		</TouchableOpacity>
