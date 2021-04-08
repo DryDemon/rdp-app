@@ -8,5 +8,6 @@ export default {
 	orange: "#EB472D",
 	black: "#414141",
 	grayPlaceHolder: "#A9AAB0",
-  link: "#115AEE",
+	link: "#115AEE",
+	gray: "gray",
 };
