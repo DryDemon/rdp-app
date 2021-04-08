@@ -14,8 +14,8 @@ import { Alert, Image, StyleSheet, ScrollView } from "react-native";
 import { GameSchema } from "../src/interaces/interfacesGame";
 import { GameIcon } from "./GameIcon";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SERVER_API_URL } from "../constants/Server";
 import Colors from "../constants/Colors";
+import { SERVER_API_URL } from "../constants/Server";
 
 async function addUserInAGame(joinCode: string, jwt: string) {
 	const rawResponse = await fetch(
@@ -71,12 +71,11 @@ export function MyLeaguesDash(props: any) {
 
 	return (
 		<View>
-			<TextTitle>Mes Contests</TextTitle>
-			<SmallLineBreak />
+			<TextTitle style={{ marginTop:24, }}>Mes Contests</TextTitle>
 
 			<View>
-				<View style={{ flexDirection: "row" }}>
-					<View style={{ flex: 1 }}>
+				<View style={{ flexDirection: "row", alignItems:"center", justifyContent: "space-between", marginVertical: 24, }}>
+					<View style={{ flexDirection: "row", }}>
 						<Text
 							style={
 								page == 1 ? styles.notSelected : styles.selected
@@ -85,25 +84,21 @@ export function MyLeaguesDash(props: any) {
 						>
 							En Cours
 						</Text>
-					</View>
-					<View style={{ flex: 1 }}>
 						<Text
 							style={
-								page == 0 ? styles.notSelected : styles.selected
+								page == 0 ? styles.notSelected : styles.selected		
 							}
 							onPress={joinGame}
 						>
 							Rejoindre
 						</Text>
 					</View>
-					<View style={{ flex: 1, alignItems: "flex-end" }}>
-						<Button title={"+ Créer"} onPress={createGame} />
-					</View>
+
+					<Button style={styles.buttonChange} title={"+ Créer"} onPress={createGame} />
 				</View>
-				<SmallLineBreak />
 
 				{page == 0 ? (
-					<ScrollView horizontal={true}>
+					<ScrollView style={{ overflow:"visible" }}horizontal={true}>
 						<GameIcon
 							create={1}
 							navigation={navigation}
@@ -151,6 +146,11 @@ export function MyLeaguesDash(props: any) {
 }
 
 const styles = StyleSheet.create({
-	selected: { color: Colors.black, padding: 1 },
-	notSelected: { color: Colors.gray, padding: 1 },
+	selected: { color: Colors.black, paddingRight: 24 },
+	notSelected: { color: Colors.gray, paddingRight: 24 },
+	buttonChange: {
+		paddingHorizontal: 6,
+		paddingVertical: 4,
+		height: "auto",
+	},
 });

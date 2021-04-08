@@ -30,14 +30,14 @@ export function GameIcon(props: any) {
 		return (
 			<TouchableOpacity onPress={() => navigation.navigate("Create")}>
 				<View style={styles.gameContainer}>
-					<View style={{width:100, height:100, alignItems:"center",marginLeft:"auto",marginRight:"auto", justifyContent: 'center'}}>
+					<View style={{width:150, height:150, alignItems:"center",marginLeft:"auto",marginRight:"auto", justifyContent: 'center'}}>
 
 					<Feather
 						name="plus-circle"
 						size={28}
 						color={"#2F4858"}
-						/>
-						</View>
+					/>
+					</View>
 
 					<TextTitle style={styles.gameTitle}>
 						Créer un contest
@@ -85,8 +85,8 @@ export function GameIcon(props: any) {
 
 const styles = StyleSheet.create({
 	gameLogo: {
-		width: 100,
-		height: 100,
+		width: 150,
+		height: 150,
 		// display: "block",
 		marginLeft: "auto",
 		marginRight: "auto",
@@ -100,13 +100,14 @@ const styles = StyleSheet.create({
 		fontWeight: "700",
 		paddingHorizontal: 10,
 		paddingTop: 16,
-		textAlign: "center",
 	},
 	gameContainer: {
 		backgroundColor: "#ECF2FE",
 		borderRadius: 8,
-		margin: 12,
-		padding: 5,
+		width: 210,
+		height: 230,
+		marginRight: 24,
+		padding: 16,
 		paddingBottom: 21,
 	},
 	gameSubText: {
