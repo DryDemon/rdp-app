@@ -157,17 +157,19 @@ export default function Login({ navigation }: any) {
 				<LineBreak />
 				<Button title={"Me Connecter"} onPress={onLogin} />
 				<LineBreak />
-
-				<Text onPress={() => navigation.navigate("Register")}>
-					Tu n'as pas de compte?
-				</Text>
-				<Text
-					style={styles.link}
-					onPress={() => navigation.navigate("Register")}
-				>
-					Inscris toi!
-				</Text>
+				<View style={styles.felxRow}>
+					<Text style={styles.subCta} onPress={() => navigation.navigate("Register")}>
+						Tu n'as pas de compte?
+					</Text>
+					<Text
+						style={[styles.link, styles.subCta]}
+						onPress={() => navigation.navigate("Register")}
+					>
+						Inscris toi!
+					</Text>
+				</View>
 				<LineBreak />
+					
 			</BasicScrollView>
 		</ViewContainer>
 	);
@@ -175,7 +177,6 @@ export default function Login({ navigation }: any) {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
 	},
@@ -193,5 +194,15 @@ const styles = StyleSheet.create({
 	},
 	link: {
 		color: Colors.link,
+		fontWeight: "bold",
+		marginLeft: 4,
+	},
+	felxRow: {
+		flexDirection:"row",
+		justifyContent: "center",
+	},
+	subCta: {
+		fontSize: 12,
+		
 	},
 });

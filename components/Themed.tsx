@@ -161,7 +161,7 @@ export function TextInput(props: TextInputProps) {
 		height: 0,
 	};
 	let shadowOpacity= 0.32;
-	let shadowRadius= 5.46;
+	let shadowRadius= 2.46;
 
 	let elevation= 4;
 
@@ -199,6 +199,7 @@ export function Button(props: TouchableOpacityProps | any) {
 	let { bgColor, title, style, ...otherProps } = props;
 
 	if (!bgColor) bgColor = useThemeColor("rdpColor");
+	const height = 48;
 	let borderRadius = 12;
 	let paddingHorizontal = 40;
 	let paddingVertical = 14;
@@ -206,7 +207,7 @@ export function Button(props: TouchableOpacityProps | any) {
 	let textAlign = "center";
 	return (
 		<TouchableOpacity
-			style={[{ backgroundColor: bgColor, borderRadius, paddingHorizontal, paddingVertical,  }, style]}
+			style={[{ backgroundColor: bgColor, borderRadius, paddingHorizontal, paddingVertical, height  }, style]}
 			{...otherProps}
 		>
 			<Text style={[{ color, textAlign }, style]} {...otherProps}>{title}</Text>
@@ -217,8 +218,9 @@ export function Button(props: TouchableOpacityProps | any) {
 export function TextWarning(props: TextProps) {
 	const { style, ...otherProps } = props;
 	const color = useThemeColor("alert");
+	const fontSize = 12;
 
-	return <Text style={[{ color }, style]} {...otherProps} />;
+	return <Text style={[{ color, fontSize }, style]} {...otherProps} />;
 }
 
 export function GameScrollView(props: any) {
