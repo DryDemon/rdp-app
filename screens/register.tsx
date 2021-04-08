@@ -280,16 +280,17 @@ export default function Register({ navigation }: any) {
 				<LineBreak />
 				<Button title={"M'inscrire"} onPress={onRegister} />
 				<LineBreak />
-
-				<Text onPress={() => navigation.navigate("Login")}>
-					Tu as déjà un compte?
-				</Text>
-				<Text
-					style={styles.link}
-					onPress={() => navigation.navigate("Login")}
-				>
-					Connectes-toi
-				</Text>
+				<View style={styles.felxRow}>
+					<Text style={styles.subCta} onPress={() => navigation.navigate("Login")}>
+						Tu as déjà un compte?
+					</Text>
+					<Text
+						style={[styles.link, styles.subCta]}
+						onPress={() => navigation.navigate("Login")}
+					>
+						Connectes-toi
+					</Text>
+				</View>
 				<LineBreak />
 			</BasicScrollView>
 		</ViewContainer>
@@ -311,5 +312,14 @@ const styles = StyleSheet.create({
 	},
 	link: {
 		color: Colors.link,
+		fontWeight: "bold",
+		marginLeft: 4,
+	},
+	felxRow: {
+		flexDirection:"row",
+		justifyContent: "center",
+	},
+	subCta: {
+		fontSize: 12,
 	},
 });

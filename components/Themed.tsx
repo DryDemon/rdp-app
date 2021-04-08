@@ -55,8 +55,10 @@ export function TextMainTitle(props: TextProps) {
 
 export function TextLabel(props: TextProps) {
 	const { style, ...otherProps } = props;
+	const fontSize = 12;
+	const fontWeight = "bold" as "bold";
 
-	return <Text style={[style]} {...otherProps} />;
+	return <Text style={[{fontSize, fontWeight }, style]} {...otherProps} />;
 }
 
 export function TextTitle(props: TextProps) {
@@ -149,9 +151,19 @@ export function TextInput(props: TextInputProps) {
 	const paddingVertical = 12;
 	const paddingHorizontal = 24;
 	const borderRadius = 12;
+	const marginVertical = 10;
 	const fontSize = 17;
 	const backgroundColor = "#FFFFFF";
 	const color = Colors.grayPlaceHolder;
+	let shadowColor= "#000";
+	let shadowOffset= {
+		width: 0,
+		height: 0,
+	};
+	let shadowOpacity= 0.32;
+	let shadowRadius= 2.46;
+
+	let elevation= 4;
 
 	const flex = 0;
 	const flexGrow = 0;
@@ -165,9 +177,16 @@ export function TextInput(props: TextInputProps) {
 					borderRadius,
 					paddingHorizontal,
 					paddingVertical,
+					marginVertical,
 					backgroundColor,
 					flex,
 					flexGrow,
+					shadowColor,
+					shadowOffset,
+					shadowOpacity,
+					shadowRadius,
+					elevation
+
 				},
 				style,
 			]}
@@ -177,16 +196,21 @@ export function TextInput(props: TextInputProps) {
 }
 
 export function Button(props: TouchableOpacityProps | any) {
-	let { color, title, style, ...otherProps } = props;
+	let { bgColor, title, style, ...otherProps } = props;
 
-	if (!color) color = useThemeColor("rdpColor");
-
+	if (!bgColor) bgColor = useThemeColor("rdpColor");
+	const height = 48;
+	let borderRadius = 12;
+	let paddingHorizontal = 40;
+	let paddingVertical = 14;
+	let color = Colors.white;
+	let textAlign = "center";
 	return (
 		<TouchableOpacity
-			style={[{ backgroundColor: color }, style]}
+			style={[{ backgroundColor: bgColor, borderRadius, paddingHorizontal, paddingVertical, height  }, style]}
 			{...otherProps}
 		>
-			<Text>{title}</Text>
+			<Text style={[{ color, textAlign }, style]} {...otherProps}>{title}</Text>
 		</TouchableOpacity>
 	);
 }
@@ -194,8 +218,9 @@ export function Button(props: TouchableOpacityProps | any) {
 export function TextWarning(props: TextProps) {
 	const { style, ...otherProps } = props;
 	const color = useThemeColor("alert");
+	const fontSize = 12;
 
-	return <Text style={[{ color }, style]} {...otherProps} />;
+	return <Text style={[{ color, fontSize }, style]} {...otherProps} />;
 }
 
 export function GameScrollView(props: any) {
