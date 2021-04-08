@@ -15,6 +15,7 @@ import { GameSchema } from "../src/interaces/interfacesGame";
 import { GameIcon } from "./GameIcon";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SERVER_API_URL } from "../constants/Server";
+import Colors from "../constants/Colors";
 
 async function addUserInAGame(joinCode: string, jwt: string) {
 	const rawResponse = await fetch(
@@ -78,9 +79,7 @@ export function MyLeaguesDash(props: any) {
 					<View style={{ flex: 1 }}>
 						<Text
 							style={
-								page == 1
-									? { color: "gray" }
-									: { color: "black" }
+								page == 1 ? styles.notSelected : styles.selected
 							}
 							onPress={inGame}
 						>
@@ -90,9 +89,7 @@ export function MyLeaguesDash(props: any) {
 					<View style={{ flex: 1 }}>
 						<Text
 							style={
-								page == 0
-									? { color: "gray" }
-									: { color: "black" }
+								page == 0 ? styles.notSelected : styles.selected
 							}
 							onPress={joinGame}
 						>
@@ -153,4 +150,7 @@ export function MyLeaguesDash(props: any) {
 	);
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	selected: { color: Colors.black, padding: 1 },
+	notSelected: { color: Colors.gray, padding: 1 },
+});
