@@ -30,4 +30,8 @@ export interface MatchSchema {
    matchEvent?: string;
    matchOdds?: object; 
    matchStats?: object; 
+
+   //For display of the main bets
+   mainBet?: object;
+   numOfRestBets?: number;
 }
