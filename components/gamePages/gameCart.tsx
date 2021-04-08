@@ -620,17 +620,35 @@ export default function GameCart(props: any) {
 		let message = "";
 
 		//verifier que l'utilisateur à assez de credits pour parier
+		//verifier qu'il pari au moins une somme positve
+		let isBettingPositiveValue = true;
 		let totalMise = 0.0;
 		if (type != "simple") {
 			totalMise = mainMise;
+			if(totalMise<1){
+				isBettingPositiveValue = false;
+			}
 		} else {
 			for (let bet of betsToDisplay) {
 				totalMise += bet.mise;
+				if(bet.mise<1){
+					isBettingPositiveValue = false;
+				}
 			}
 		}
+
+		if (message == "") message += "\n";
+		message += "Vous ne pouvez pas parier une valeur nulle.";
+
 		if (totalMise > user?.credits) {
 			if (message == "") message += "\n";
 			message += "Vous n'avez pas assez de crédits pour parier.";
+		}
+
+		//verifier que pour un système il a au moins 3 paris
+		if (type == "système" && betsToDisplay.length < 3) {
+			if (message == "") message += "\n";
+			message += "Vous devez placer au moins 2 paris pour un système.";
 		}
 
 		//verifier pour combiné ou ssytème que les paris ne sont pas du même match
