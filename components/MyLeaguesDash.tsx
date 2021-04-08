@@ -147,7 +147,7 @@ export function MyLeaguesDash(props: any) {
 
 const styles = StyleSheet.create({
 	selected: { color: Colors.black, paddingRight: 24 },
-	notSelected: { color: Colors.gray, padding: 1 },
+	notSelected: { color: Colors.gray, paddingRight: 24 },
 	buttonChange: {
 		paddingHorizontal: 6,
 		paddingVertical: 4,
