@@ -11,34 +11,7 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import { isBetIdWhitelisted } from "../constants/Bets";
-
-function findFullTimeOdd(bets: any) {
-	for (let bet of bets) {
-		if (bet.id == 40) {
-			return bet;
-		}
-	}
-	//Si on ne l'a pas trouvé, on renvoie le premier
-	for (let bet of bets) {
-			// if(isBetIdWhitelisted(bet.id)){
-			return bet;
-	}
-
-	return undefined;
-}
-
-function getTotalNumberOfOdds(bets: any, fullMatchOdds: any) {
-	let count = 0;
-
-	for (let bet of bets) {
-		if (bet.odds) {
-			for (let odd of bet.odds) {
-				if (bet.id != fullMatchOdds.id) count++;
-			}
-		}
-	}
-	return count;
-}
+import { MatchSchema } from "../src/interaces/interfacesQuotes";
 
 export default function betForMatch(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
@@ -52,8 +25,8 @@ export default function betForMatch(props: any) {
 	let bets = match.prematchOdds;
 	const matchName = match.teamHome + " - " + match.teamAway;
 
-	const fullMatchOdds = findFullTimeOdd(bets);
-	const numberOfOdds = getTotalNumberOfOdds(bets, fullMatchOdds);
+	const fullMatchOdds = match.mainBet;
+	const numberOfOdds = match.numOfRestBets;
 
 	return (
 		<View style={styles.matchContainer}>
