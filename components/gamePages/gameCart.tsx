@@ -196,6 +196,7 @@ export default function GameCart(props: any) {
 	const [mainOdd, setMainOdd] = useState<number>(CONST_BASE_MISE_PARI);
 
 	const [blockSendButton, setblockSendButton] = useState(false);
+	const [alertMessage, setalertMessage] = useState("");
 	const [systemChoice, setSystemChoice] = useState(0);
 
 	const [isUsingMultiplyBonus, setIsUsingMultiplyBonus] = useState(false);
@@ -296,7 +297,7 @@ export default function GameCart(props: any) {
 				cart[i].mise = mise;
 			}
 		}
-
+		validateCart();
 		setBets(cart);
 
 		AsyncStorage.getItem("@cart_" + joinCode).then((input) => {
@@ -336,6 +337,7 @@ export default function GameCart(props: any) {
 	//fonctions type == combiné
 	//load la mise globale de systeme et combiné dans le local storage
 	function updateGlobalMise(mise: number) {
+		validateCart();
 		AsyncStorage.getItem("@cart_info_" + joinCode).then((input) => {
 			let data;
 			if (input) data = JSON.parse(input);
@@ -607,11 +609,49 @@ export default function GameCart(props: any) {
 					(value: DisplayType) => !value.toDelete
 				);
 
+				validateCart();
 				setBetsToDisplay(toDisplay);
 				forceUpdate();
 			}
 		}
 	}, [bets, jwt]);
+
+	async function validateCart() {
+		let message = "";
+
+		//verifier que l'utilisateur à assez de credits pour parier
+		let totalMise = 0.0;
+		if (type != "simple") {
+			totalMise = mainMise;
+		} else {
+			for (let bet of betsToDisplay) {
+				totalMise += bet.mise;
+			}
+		}
+		if (totalMise > user?.credits) {
+			if (message == "") message += "\n";
+			message += "Vous n'avez pas assez de crédits pour parier.";
+		}
+
+		//verifier pour combiné ou ssytème que les paris ne sont pas du même match
+		if (type != "simple") {
+			let matchsIds: string[] = [];
+			for (let bet of betsToDisplay) {
+				//Si on trouve un doublon
+				if (matchsIds.some((value: string) => value == bet.matchId)) {
+					if (message == "") message += "\n";
+					message +=
+						"Vous ne pouvez pas faire un pari " +
+						type +
+						" avec des paris du même match.";
+					break;
+				}
+				matchsIds.push(bet.matchId);
+			}
+		}
+
+		setalertMessage(message);
+	}
 
 	return (
 		<View>
@@ -821,16 +861,22 @@ export default function GameCart(props: any) {
 							</View>
 						) : null}
 						<View>
+							<TextWarning>{alertMessage}</TextWarning>
 							{betsToDisplay.length == 1 ? (
 								<Button
 									title={"Placer le pari"}
 									onPress={onSend}
+									disabled={
+										blockSendButton && alertMessage != ""
+									}
 								/>
 							) : (
 								<Button
 									title={"Placer les paris"}
 									onPress={onSend}
-									disabled={blockSendButton}
+									disabled={
+										blockSendButton && alertMessage != ""
+									}
 								/>
 							)}
 						</View>
