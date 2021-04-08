@@ -102,10 +102,24 @@ export function RenderBetInput(props: any) {
 						}}
 					>
 						<TouchableOpacity
-							style={styles.buttonRevert}
-							onPress={() => onChange(--value)}
+							style={
+								value > 0
+									? styles.buttonRevert
+									: styles.buttonRevertUnavailable
+							}
+							onPress={
+								value > 0 ? () => onChange(--value) : () => {}
+							}
 						>
-							<Text style={styles.buttonRevertText}>-</Text>
+							<Text
+								style={
+									value > 0
+										? styles.buttonRevertText
+										: styles.buttonRevertUnavailableText
+								}
+							>
+								-
+							</Text>
 						</TouchableOpacity>
 						<TextInput
 							maxLength={10}
@@ -184,8 +198,21 @@ const styles = StyleSheet.create({
 		margin: 5,
 		backgroundColor: "#ECF2FE",
 	},
+	buttonRevertUnavailable: {
+		justifyContent: "center",
+		alignItems: "center",
+		width: 28,
+		height: 28,
+		borderRadius: 8,
+		margin: 5,
+		backgroundColor: "#ECF2FE",
+	},
 	buttonRevertText: {
 		color: Colors.rdpColor,
+		fontSize: 14,
+	},
+	buttonRevertUnavailableText: {
+		color: Colors.gray,
 		fontSize: 14,
 	},
 	input: {
