@@ -102,23 +102,23 @@ function getPossibleShieldActionsBonus(game: GameSchema, userId: string) {
 	];
 }
 
-function getBonusNameFromType(bonusType: number) {
-	switch (bonusType) {
+function getBonusNameFromType(bonus: BonusInterface) {
+	switch (bonus.typeBonus) {
 		case 0: //pas de bonus
 			return "Tu t'es fait niqué";
 		case 1: // multiplier la cote d'un pari
-			return "Multiplier la côte d'un de tes paris";
+			return "Multiplier la côte d'un de tes paris par " + bonus.multiplier;
 		case 2: // enlever des crédits à un adversaire
-			return "Voler des Crédits a ton adversaire";
+			return "Voler "+bonus.creditBonus+" Crédits a ton adversaire";
 		case 3: // se rajouter des crédits, pas utilisé
-			return "Voler des Crédits a ton adversaire";
+			return "Voler "+bonus.creditBonus+" Crédits a ton adversaire";
 		case 4: // annuler le pari d'un adversaire
 			return "Annuler le pari d'un adversaire";
 
 		case 5: // supprimer un bonus à un adversaire
 			return "Supprimer un bonus d'un de tes adversaires";
 		case 6: // diviser la cote du pari d'un adversaire
-			return "Diviser la côté d'un pari adverse";
+			return "Diviser la côté d'un pari adverse par " + bonus.multiplier;
 		case 7: // bouclier
 			return "Se protèger d'un bonus t'attaquant";
 	}
@@ -242,7 +242,7 @@ export function ShowBonus(props: any) {
 	function renderBonus(data: BonusInterface) {
 		return (
 			<View style={styles.bonusContainer}>
-				<Text>{getBonusNameFromType(data.typeBonus)}</Text>
+				<Text>{getBonusNameFromType(data)}</Text>
 				{!data.isUsed ? (
 					<View style={styles.activateButtonContainer}>
 						{data.typeBonus == 7 ? (
