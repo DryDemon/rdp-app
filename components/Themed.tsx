@@ -212,15 +212,17 @@ export function Button(props: TouchableOpacityProps | any) {
 			borderRadius: 12,
 			paddingHorizontal: 40,
 			paddingVertical: 14,
+			backgroundColor: Colors.rdpColor,
 		},
 		disabledContainer: {
 			height: 48,
 			borderRadius: 12,
 			paddingHorizontal: 40,
 			paddingVertical: 14,
+			backgroundColor: Colors.buttunDisable,
 		},
 		enabledText: { color: Colors.white, textAlign: "center" },
-		disabledText: { color: Colors.white, textAlign: "center", backgroundColor: Colors.buttunDisable, },
+		disabledText: { color: Colors.white, textAlign: "center", },
 	});
 
 	return (
