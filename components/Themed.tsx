@@ -13,6 +13,7 @@ import {
 	TouchableOpacity,
 	ScrollView as DefaultScrollView,
 	TouchableOpacityProps,
+	StyleSheet,
 } from "react-native";
 import Constants from "expo-constants";
 
@@ -58,7 +59,7 @@ export function TextLabel(props: TextProps) {
 	const fontSize = 12;
 	const fontWeight = "bold" as "bold";
 
-	return <Text style={[{fontSize, fontWeight }, style]} {...otherProps} />;
+	return <Text style={[{ fontSize, fontWeight }, style]} {...otherProps} />;
 }
 
 export function TextTitle(props: TextProps) {
@@ -77,7 +78,6 @@ export function TextSubTitle(props: TextProps) {
 				{
 					fontSize: 22,
 					fontWeight: "500",
-					
 				},
 				style,
 			]}
@@ -156,15 +156,15 @@ export function TextInput(props: TextInputProps) {
 	const fontSize = 17;
 	const backgroundColor = "#FFFFFF";
 	const color = Colors.grayPlaceHolder;
-	let shadowColor= "#000";
-	let shadowOffset= {
+	let shadowColor = "#000";
+	let shadowOffset = {
 		width: 0,
 		height: 0,
 	};
-	let shadowOpacity= 0.32;
-	let shadowRadius= 2.46;
+	let shadowOpacity = 0.32;
+	let shadowRadius = 2.46;
 
-	let elevation= 4;
+	let elevation = 4;
 
 	const flex = 0;
 	const flexGrow = 0;
@@ -186,8 +186,7 @@ export function TextInput(props: TextInputProps) {
 					shadowOffset,
 					shadowOpacity,
 					shadowRadius,
-					elevation
-
+					elevation,
 				},
 				style,
 			]}
@@ -207,13 +206,45 @@ export function Button(props: TouchableOpacityProps | any) {
 	let color = Colors.white;
 	let textAlign = "center";
 
+	let buttonStyle = StyleSheet.create({
+		enabledContainer: {
+			height: 48,
+			borderRadius: 12,
+			paddingHorizontal: 40,
+			paddingVertical: 14,
+		},
+		disabledContainer: {
+			height: 48,
+			borderRadius: 12,
+			paddingHorizontal: 40,
+			paddingVertical: 14,
+		},
+		enabledText: { color: Colors.white, textAlign: "center" },
+		disabledText: { color: Colors.white, textAlign: "center" },
+	});
+
 	return (
 		<TouchableOpacity
-			style={[{ backgroundColor: bgColor, borderRadius, paddingHorizontal, paddingVertical, height  }, style]}
+			style={[
+				disabled
+					? buttonStyle.disabledContainer
+					: buttonStyle.enabledContainer,
+				style,
+			]}
 			{...otherProps}
-			onPress={disabled?() => {}: onPress}
+			onPress={disabled ? () => {} : onPress}
 		>
-			<Text style={[{ color, textAlign }, style]} {...otherProps}>{title}</Text>
+			<Text
+				style={[
+					disabled
+						? buttonStyle.disabledText
+						: buttonStyle.enabledText,
+					style,
+				]}
+				{...otherProps}
+			>
+				{title}
+			</Text>
 		</TouchableOpacity>
 	);
 }
