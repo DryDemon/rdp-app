@@ -123,9 +123,10 @@ export function MyLeaguesDash(props: any) {
 							Rejoint un contest existant et éclate tes amis !
 						</Text>
 
-						<SubText>Et oublies pas, devient le roi ! </SubText>
+						<SubText style={styles.marginVertical}>Et oublies pas, devient le roi ! </SubText>
 
 						<TextInput
+							style={styles.marginVertical}
 							autoCorrect={false}
 							value={joinCode}
 							onChangeText={(a) => {
@@ -152,5 +153,8 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 6,
 		paddingVertical: 4,
 		height: "auto",
+	},
+	marginVertical: {
+		marginVertical: 12,
 	},
 });

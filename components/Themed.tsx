@@ -77,6 +77,7 @@ export function TextSubTitle(props: TextProps) {
 				{
 					fontSize: 22,
 					fontWeight: "500",
+					
 				},
 				style,
 			]}
