@@ -219,7 +219,7 @@ export function Button(props: TouchableOpacityProps | any) {
 			borderRadius: 12,
 			paddingHorizontal: 40,
 			paddingVertical: 14,
-			backgroundColor: Colors.buttunDisable,
+			backgroundColor: Colors.buttonDisable,
 		},
 		enabledText: { color: Colors.white, textAlign: "center" },
 		disabledText: { color: Colors.white, textAlign: "center", },
