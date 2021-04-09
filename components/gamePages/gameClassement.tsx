@@ -61,7 +61,6 @@ export default function GameClassement(props: any) {
 
 	return (
 		<View>
-			<SmallLineBreak />
 			<TextSubTitle style={styles.titleGame}>Classement</TextSubTitle>
 			<View style={styles.textToMiddle}>
 				<View style={{ flexDirection: "row" }}>
@@ -119,7 +118,6 @@ export default function GameClassement(props: any) {
 						</View>
 					) : null}
 				</View>
-				<SmallLineBreak />
 				{userList.map((user: userStatsInterface, index: number) => (
 					<View style={styles.subClassement}>
 						<Text style={styles.subClassementUsername}>
@@ -130,6 +128,7 @@ export default function GameClassement(props: any) {
 						</Text>
 					</View>
 				))}
+
 			</View>
 		</View>
 	);
@@ -139,6 +138,7 @@ const styles = StyleSheet.create({
 	titleGame: {
 		fontSize: 22,
 		fontWeight: "500",
+		marginVertical: 24,
 	},
 	textToMiddle: {
 		alignItems: "center",
@@ -163,25 +163,35 @@ const styles = StyleSheet.create({
 		width: "80%",
 	},
 	subClassementUsername: {
-		fontSize: 14,
+		fontSize: 15,
 		fontWeight: "500",
 	},
 	subClassement: {
 		width: "100%",
-
 		flexDirection: "row",
 		backgroundColor: "white",
 		borderRadius: 12,
-		padding: 21,
-		margin: 21,
+		padding: 24,
+		margin: 12,
+		shadowColor: "#000",
+	    shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.32,
+		shadowRadius: 2.46,
+		elevation: 4,
 	},
 	subClassementCredits: {
 		fontWeight: "700",
-		fontSize: 16,
+		fontSize: 15,
 		color: Colors.rdpColor,
 
 		marginLeft: "auto",
 		textAlign: "right",
 		alignSelf: "flex-end",
+	},
+	marginTop: {
+		marginTop: 48,
 	},
 });
