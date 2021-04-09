@@ -10,5 +10,6 @@ export default {
 	grayPlaceHolder: "#A9AAB0",
 	link: "#115AEE",
 	gray: "gray",
+	buttunDisable: "#EB472D",
 	alert: "red", //alert est utilisé dans les messages d'alert, genre quand tu met un text dans un email et que l'email est pas valide, message d'alerte juste en dessous
 };

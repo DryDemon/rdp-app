@@ -220,7 +220,7 @@ export function Button(props: TouchableOpacityProps | any) {
 			paddingVertical: 14,
 		},
 		enabledText: { color: Colors.white, textAlign: "center" },
-		disabledText: { color: Colors.white, textAlign: "center" },
+		disabledText: { color: Colors.white, textAlign: "center", backgroundColor: Colors.buttunDisable, },
 	});
 
 	return (
