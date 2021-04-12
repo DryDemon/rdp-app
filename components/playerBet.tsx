@@ -98,7 +98,7 @@ export function PlayerBet(props: any) {
 			<View style={{ flexDirection: "row", alignItems: "center" }}>
 				<View style={{ marginLeft: "auto", alignSelf: "flex-end" }}>
 					{canCancelBet && bet.status == 0 && fullStatus == 0 ? ( //full status pour qu'il ne puisse utiliser le bonus que si tout les subbet nont pas été resolu du tout
-						<Button 
+						<Button
 							title="Annuler le pari"
 							onPress={() => cancelBet(bet._id)}
 						/>
@@ -106,7 +106,7 @@ export function PlayerBet(props: any) {
 				</View>
 				<View style={{ marginLeft: "auto", alignSelf: "flex-end" }}>
 					{canDivideBet && bet.status == 0 && fullStatus == 0 ? ( //full status pour qu'il ne puisse utiliser le bonus que si tout les subbet nont pas été resolu du tout
-						<Button 
+						<Button
 							title="Diviser la quote"
 							onPress={() => divideQuote(bet._id)}
 						/>
@@ -174,6 +174,22 @@ export function PlayerBet(props: any) {
 						</TouchableOpacity>
 					) : null}
 				</View>
+
+				<Text style={styles.betInfo}>
+					{simple && simpleBet.betName
+						? simpleBet.betName + "   "
+						: null}
+					{simple && simpleBet.betSubName
+						? simpleBet.betSubName + "   "
+						: null}
+					{simple && simpleBet.betHeader
+						? simpleBet.betHeader + "   "
+						: null}
+					{simple && simpleBet.betHandicap
+						? simpleBet.betHandicap
+						: null}
+				</Text>
+				
 				{showBetOption ? renderShowBetOption() : null}
 				{simple ? <SubText>{simpleBet.leagueName}</SubText> : null}
 				<View style={styles.lineRow}>
@@ -183,7 +199,13 @@ export function PlayerBet(props: any) {
 				<View style={styles.lineRow}>
 					<Text style={styles.mise}>Gains Potentiels : </Text>
 					<Text style={styles.credits}>
-						{bet.quoteBoost?(bet.mainQuote * bet.credits * bet.quoteBoost).toFixed(2):(bet.mainQuote * bet.credits).toFixed(2)}
+						{bet.quoteBoost
+							? (
+									bet.mainQuote *
+									bet.credits *
+									bet.quoteBoost
+							  ).toFixed(2)
+							: (bet.mainQuote * bet.credits).toFixed(2)}
 					</Text>
 				</View>
 				<SmallLineBreak />
@@ -195,7 +217,8 @@ export function PlayerBet(props: any) {
 					</View>
 					<View style={styles.mainQuoteContainer}>
 						<Text style={styles.mainQuoteText}>
-							{bet.mainQuote}{bet.quoteBoost? " x " + bet.quoteBoost: ""}
+							{bet.mainQuote}
+							{bet.quoteBoost ? " x " + bet.quoteBoost : ""}
 						</Text>
 					</View>
 				</View>
@@ -259,5 +282,8 @@ const styles = StyleSheet.create({
 		marginLeft: "auto",
 		textAlign: "right",
 		alignSelf: "flex-end",
+	},
+	betInfo: {
+		fontSize: 12,
 	},
 });

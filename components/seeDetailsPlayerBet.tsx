@@ -84,6 +84,13 @@ export function SeeDetails(props: any) {
 							) : null}
 						</View>
 
+						<Text style={styles.betInfo}>
+							{bet.betName ? bet.betName + "   " : null}
+							{bet.betSubName ? bet.betSubName + "   " : null}
+							{bet.betHeader ? bet.betHeader + "   " : null}
+							{bet.betHandicap ? bet.betHandicap : null}
+						</Text>
+
 						<SubText>{bet.leagueName}</SubText>
 
 						<SmallLineBreak />
@@ -175,5 +182,8 @@ const styles = StyleSheet.create({
 		marginLeft: "auto",
 		textAlign: "right",
 		alignSelf: "flex-end",
+	},
+	betInfo: {
+		fontSize: 12,
 	},
 });
