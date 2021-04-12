@@ -47,7 +47,7 @@ export default function GameClassement(props: any) {
 		if (game?.userStats) {
 			const sorted = [...game?.userStats].sort(
 				(a: userStatsInterface, b: userStatsInterface) => {
-					if (a.credits && b.credits) {
+					if (a.credits != undefined && b.credits != undefined) {
 						if (a.credits < b.credits) return 1;
 						if (a.credits > b.credits) return -1;
 					}
