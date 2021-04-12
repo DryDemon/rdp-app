@@ -14,6 +14,7 @@ import {
 	ScrollView as DefaultScrollView,
 	TouchableOpacityProps,
 	StyleSheet,
+	
 } from "react-native";
 import Constants from "expo-constants";
 
@@ -69,6 +70,15 @@ export function TextTitle(props: TextProps) {
 	return <Text style={[{ fontSize }, style]} {...otherProps} />;
 }
 
+export function TextHeadline(props: TextProps) {
+	const { style, ...otherProps } = props;
+	const fontSize = 17;
+
+	return <Text style={[{ fontSize }, style]} {...otherProps} />;
+}
+
+
+
 export function TextSubTitle(props: TextProps) {
 	const { style, ...otherProps } = props;
 
@@ -90,14 +100,28 @@ export function SubText(props: TextProps) {
 	const { style, ...otherProps } = props;
 	const fontWeight = "500";
 	const fontSize = 12;
+	const marginTop = 8;
 
 	return (
 		<Text
-			style={[{ fontSize, fontWeight, color: "#808080" }, style]}
+			style={[{ fontSize, fontWeight, color: "#808080", marginTop }, style]}
 			{...otherProps}
 		/>
 	);
 }
+
+export function SubHeadline(props: TextProps) {
+	const { style, ...otherProps } = props;
+	const fontSize = 15;
+
+	return (
+		<Text
+			style={[{ fontSize, color: "#808080",  }, style]}
+			{...otherProps}
+		/>
+	);
+}
+
 
 export function LineBreak(props: TextProps) {
 	return <Text>{"\n"}</Text>;
@@ -154,7 +178,7 @@ export function TextInput(props: TextInputProps) {
 	const borderRadius = 12;
 	const marginVertical = 10;
 	const fontSize = 17;
-	const backgroundColor = "#FFFFFF";
+	const backgroundColor = Colors.white;
 	const color = Colors.grayPlaceHolder;
 	let shadowColor = "#000";
 	let shadowOffset = {
@@ -285,3 +309,4 @@ export function BasicScrollView(props: any) {
 
 	return <GameScrollView style={[{ height }, style]} {...otherProps} />;
 }
+

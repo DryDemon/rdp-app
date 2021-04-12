@@ -1,9 +1,8 @@
 {
   "dependencies": {
-    "@expo/vector-icons": "^12.0.3",
+    "@expo/vector-icons": "^12.0.4",
     "@react-native-async-storage/async-storage": "^1.14.1",
     "@react-native-community/datetimepicker": "3.0.4",
-    "@react-native-picker/picker": "1.9.2",
     "@react-navigation/native": "^5.9.3",
     "@react-navigation/stack": "^5.14.3",
     "date-fns": "^2.19.0",
@@ -21,6 +20,7 @@
     "react-native-async-storage": "^0.0.1",
     "react-native-gesture-handler": "~1.8.0",
     "react-native-mmkv-storage": "^0.5.2",
+    "react-native-picker-select": "^8.0.4",
     "react-native-range-datepicker": "^1.9.1",
     "react-native-screens": "~2.15.2",
     "react-native-sectioned-multi-select": "^0.8.1",

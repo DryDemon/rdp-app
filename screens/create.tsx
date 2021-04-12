@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Alert, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { User } from "../src/interaces/interfacesUsers";
 
+
 import {
 	Text,
 	View,
@@ -12,12 +13,15 @@ import {
 	TextMainTitle,
 	TextTitle,
 	TextLabel,
+	TextHeadline,
 	ViewContainer,
 	ViewCenter,
 	TextWarning,
 	LineBreak,
 	SubText,
 	SmallLineBreak,
+	BasicScrollView,
+	
 } from "../components/Themed";
 import { ENVIRONEMENT } from "../constants/Environement";
 import { SERVER_API_URL } from "../constants/Server";
@@ -29,6 +33,8 @@ import { validURL } from "../src/smallFuncts";
 import { GameHeader } from "../components/gameHeader";
 import Colors from "../constants/Colors";
 import { LoadingPage } from "../components/loadingPage";
+import RNPickerSelect from "react-native-picker-select";
+import NotFoundScreen from "./NotFoundScreen";
 
 async function getSportBetweenTwoDates(startedAt: Date, endingAt: Date) {
 	const startedAtTimestamp = startedAt.getTime() / 1000;
@@ -328,63 +334,87 @@ export default function Create({ navigation }: any) {
 			<View style={{ flex: 1, marginHorizontal: 1 }}>
 				<GameHeader back={"Dashboard"} navigation={navigation} />
 				<ViewContainer>
-					<SmallLineBreak />
-					<TextTitle>Créer un contest</TextTitle>
-					<SubText>
-						Crée ton contest et éclate tes amis pour devenir le roi!
-					</SubText>
-
-					<SmallLineBreak />
-
-					<ScrollView showsHorizontalScrollIndicator={false}>
-						<Text>Nom Du Contest</Text>
-						<TextInput
-							value={name}
-							onChangeText={(name) => {
-								setName(name);
-							}}
-							placeholder={"La Ligue Des Champions"}
-						/>
-						<TextWarning>{alertName}</TextWarning>
-
-						<Text>Url Du Logo</Text>
-						<TextInput
-							value={logoUrl}
-							onChangeText={(logoUrl) => {
-								setLogoUrl(logoUrl);
-							}}
-							placeholder={
-								"Optionnel, si tu veux un logo personalisé"
-							}
-						/>
-						<TextWarning>{alertLogo}</TextWarning>
-
-						<Text>Dates des évènements</Text>
-						<SubText>
-							Maximum 7 jours, le mode “contest pro” arrive
-							bientôt !
-						</SubText>
-
-						<SmallLineBreak />
-
-						<View style={{ flexDirection: "row" }}>
-							<View style={{ flex: 1, marginRight: 12 }}>
-								<DatePicker
-									start={dateCreationForm}
-									end={dateEndForm}
-									setStart={setDateCreationForm}
-									setEnd={setDateEndForm}
-									initText={"Choisir les dates du contest"}
+					<BasicScrollView>
+						<View style={{ marginVertical: 24, }}>
+							<TextTitle>Créer un contest</TextTitle>
+							<SubText>
+								Crée ton contest et éclate tes amis pour devenir le roi!
+							</SubText>
+						</View>
+						
+						<View style={{ marginVertical: 24, }}>
+							<TextHeadline style={{ marginBottom: 12, }}>Nom Du Contest</TextHeadline>
+							<View style={{ marginVertical: 12, }}>
+								<TextInput
+									value={name}
+									onChangeText={(name) => {
+										setName(name);
+									}}
+									placeholder={"La Ligue Des Champions"}
 								/>
+								<TextWarning>{alertName}</TextWarning>
+							</View>
+							
+							<TextHeadline style={{ marginBottom: 12, }}>Url Du Logo</TextHeadline>
+							<View style={{ marginTop: 12, }}>
+								<TextInput
+									value={logoUrl}
+									onChangeText={(logoUrl) => {
+										setLogoUrl(logoUrl);
+									}}
+									placeholder={
+										"Optionnel, si tu veux un logo personalisé"
+									}
+								/>
+								<TextWarning>{alertLogo}</TextWarning>
 							</View>
 						</View>
-						<TextWarning>{alertDates}</TextWarning>
 
+						<View style={{ marginVertical: 24, }}>
+							<View>
+								<TextHeadline>Dates des évènements</TextHeadline>
+								<SubText>
+									Maximum 7 jours, le mode “contest pro” arrive
+									bientôt !
+								</SubText>
+							</View>
+							
+							<View style={{ flexDirection: "row", marginTop: 24, }}>
+								<View style={{ flex: 1, }}>
+									<DatePicker
+										start={dateCreationForm}
+										end={dateEndForm}
+										setStart={setDateCreationForm}
+										setEnd={setDateEndForm}
+										initText={"Choisir les dates du contest"}
+									/>
+								</View>
+							</View>
+							<TextWarning>{alertDates}</TextWarning>
+
+						</View>
+						
+
+						
+						<View >
+						<RNPickerSelect
+							style={DropDownPicker}
+							useNativeAndroidPickerStyle={false}
+							onValueChange={(sportShow) => setSportShow(!sportShow)}
+						
+							items={[
+								{ label: 'Football', value: '1' },
+								{ label: 'Tennis', value: '13' },
+								{ label: 'Basketball', value: '18' },
+							]}
+        				/>
+        				</View>
 						<SmallLineBreak />
+						{/* 
 						<TouchableOpacity
 							onPress={() => setSportShow(!sportShow)}
 						>
-							<Text>Sports : </Text>
+							<TextHeadline>Sports </TextHeadline>
 						</TouchableOpacity>
 						<View
 						// style={
@@ -468,6 +498,7 @@ export default function Create({ navigation }: any) {
 								</TouchableOpacity>
 							</View>
 						</View>
+						*/}
 
 						<SmallLineBreak />
 
@@ -515,8 +546,10 @@ export default function Create({ navigation }: any) {
 						<Button title={"Creer"} onPress={() => onCreate()} />
 						<View
 							style={styles.separator} //forandroid manly
-						></View>
-					</ScrollView>
+						>
+							
+						</View>
+					</BasicScrollView>
 				</ViewContainer>
 			</View>
 		);
@@ -564,4 +597,86 @@ const styles = StyleSheet.create({
 		paddingVertical: 8,
 		paddingHorizontal: 12,
 	},
+	DropDownPicker: {
+		height: 46,
+		paddingVertical: 12,
+		paddingHorizontal: 24,
+		borderRadius: 12,
+		marginVertical: 10,
+		fontSize: 17,
+		backgroundColor: Colors.grayPlaceHolder,
+		color: Colors.grayPlaceHolder,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.32,
+		shadowRadius: 2.46,
+
+		elevation: 4,
+	}
 });
+
+const DropDownPicker = StyleSheet.create({
+	inputIOS: {
+		height: 46,
+		paddingVertical: 12,
+		paddingHorizontal: 24,
+		borderRadius: 12,
+		marginVertical: 10,
+		fontSize: 17,
+		backgroundColor: Colors.white,
+		color: Colors.grayPlaceHolder,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.32,
+		shadowRadius: 2.46,
+
+		elevation: 4,
+
+	},
+	inputAndroid: {
+		height: 46,
+		paddingVertical: 12,
+		paddingHorizontal: 24,
+		borderRadius: 12,
+		marginVertical: 10,
+		fontSize: 17,
+		backgroundColor: Colors.white,
+		color: Colors.grayPlaceHolder,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.32,
+		shadowRadius: 2.46,
+
+		elevation: 4,
+
+	},
+	inputWeb: {
+		height: 46,
+		paddingVertical: 12,
+		paddingHorizontal: 24,
+		borderRadius: 12,
+		marginVertical: 10,
+		fontSize: 17,
+		backgroundColor: Colors.white,
+		color: Colors.grayPlaceHolder,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.32,
+		shadowRadius: 2.46,
+
+		elevation: 4,
+
+	},
+  });

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextTitle, SubText } from "./Themed";
+import { View, Text, TextTitle, SubText, SubHeadline } from "./Themed";
 import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker"; //TODO REMOVE
 import format from "date-fns/format";
@@ -23,18 +23,18 @@ console.log(format(new Date(), "ddMMyyyy"))
 					else setShowDatePicker(true);
 				}}
 			>
-				<View style={{ flexDirection: "row" }}>
+				<View style={{ flexDirection: "row", alignItems:"center", }}>
 					<View>
 						<Icon
 							style={styles.gameLogo}
 							name="calendar"
-							size={20}
+							size={24}
 							color="#FFF"
 						/>
 					</View>
 					<View>
 						{!beenSet && (
-							<Text style={styles.text}>{props.initText}</Text>
+							<SubHeadline style={styles.text}>{props.initText}</SubHeadline>
 						)}
 						{beenSet && (
 							<Text style={styles.text}>
@@ -76,10 +76,9 @@ console.log(format(new Date(), "ddMMyyyy"))
 const styles = StyleSheet.create({
 	dateContainer: {
 		height: 48,
-		padding: 5,
-		borderRadius: 8,
+		padding: 12,
+		borderRadius: 12,
 		// maxWidth: 200,
-		paddingVertical: 14,
 		backgroundColor: Colors.rdpColor,
 	},
 	gameLogo: {
