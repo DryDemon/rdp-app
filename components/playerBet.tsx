@@ -175,21 +175,6 @@ export function PlayerBet(props: any) {
 					) : null}
 				</View>
 
-				<Text style={styles.betInfo}>
-					{simple && simpleBet.betName
-						? simpleBet.betName + "   "
-						: null}
-					{simple && simpleBet.betSubName
-						? simpleBet.betSubName + "   "
-						: null}
-					{simple && simpleBet.betHeader
-						? simpleBet.betHeader + "   "
-						: null}
-					{simple && simpleBet.betHandicap
-						? simpleBet.betHandicap
-						: null}
-				</Text>
-				
 				{showBetOption ? renderShowBetOption() : null}
 				{simple ? <SubText>{simpleBet.leagueName}</SubText> : null}
 				<View style={styles.lineRow}>
@@ -222,10 +207,29 @@ export function PlayerBet(props: any) {
 						</Text>
 					</View>
 				</View>
-				{bet.result ? (
-					<View>
-						<Text style={styles.credits}>Résultat : </Text>
-						<Text>{bet.result}</Text>
+				{simple &&
+				(simpleBet.betName ||
+					simpleBet.betSubName ||
+					simpleBet.betHeader ||
+					simpleBet.betHandicap) ? (
+					<View
+						style={{ flexDirection: "row", alignItems: "center" }}
+					>
+						<Text style={styles.resultField}>Résultat : </Text>
+						<Text style={styles.betInfo}>
+							{simpleBet.betName
+								? simpleBet.betName + "   "
+								: null}
+							{simpleBet.betSubName
+								? simpleBet.betSubName + "   "
+								: null}
+							{simpleBet.betHeader
+								? simpleBet.betHeader + "   "
+								: null}
+							{simpleBet.betHandicap
+								? simpleBet.betHandicap
+								: null}
+						</Text>
 					</View>
 				) : null}
 				{!simple ? <SeeDetails bet={bet} /> : null}
@@ -258,6 +262,10 @@ const styles = StyleSheet.create({
 		marginLeft: "auto",
 		textAlign: "right",
 		alignSelf: "flex-end",
+		fontWeight: "700",
+		fontSize: 12,
+	},
+	resultField: {
 		fontWeight: "700",
 		fontSize: 12,
 	},

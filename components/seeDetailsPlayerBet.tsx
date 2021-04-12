@@ -95,14 +95,37 @@ export function SeeDetails(props: any) {
 
 						<SmallLineBreak />
 						<View style={styles.lineRow}>
-							{bet.result ? (
-								<View>
-									<Text style={styles.credits}>
+							{bet.betName ||
+							bet.betSubName ||
+							bet.betHeader ||
+							bet.betHandicap ? (
+								<View
+									style={{
+										flexDirection: "row",
+										alignItems: "center",
+									}}
+								>
+									<Text style={styles.resultField}>
 										Résultat :
 									</Text>
-									<Text>{bet.result}</Text>
+									<Text style={styles.betInfo}>
+										{bet.betName
+											? bet.betName + "   "
+											: null}
+										{bet.betSubName
+											? bet.betSubName + "   "
+											: null}
+										{bet.betHeader
+											? bet.betHeader + "   "
+											: null}
+										{bet.betHandicap
+											? bet.betHandicap
+											: null}
+									</Text>
+									<SmallLineBreak/>
 								</View>
 							) : null}
+
 							<View style={styles.mainQuoteContainer}>
 								<Text style={styles.mainQuoteText}>
 									{bet.quote}
@@ -153,6 +176,10 @@ const styles = StyleSheet.create({
 		marginLeft: "auto",
 		textAlign: "right",
 		alignSelf: "flex-end",
+		fontWeight: "700",
+		fontSize: 12,
+	},
+	resultField: {
 		fontWeight: "700",
 		fontSize: 12,
 	},

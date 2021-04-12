@@ -61,7 +61,6 @@ export interface userBetInterface{
    isSystem?:boolean;
    systemChoice?:number;
    mainQuote?: number;
-   result?: string;
 
    quoteBoost?:number;
    quoteBoostFrom?:Date;
