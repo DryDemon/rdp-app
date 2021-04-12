@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 	},
 	resultField: {
-		fontWeight: "700",
+		fontWeight: "500",
 		fontSize: 12,
 	},
 	mainQuoteContainer: {
@@ -212,5 +212,6 @@ const styles = StyleSheet.create({
 	},
 	betInfo: {
 		fontSize: 12,
+		fontWeight: "700",
 	},
 });
