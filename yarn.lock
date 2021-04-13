@@ -1772,6 +1772,10 @@
   dependencies:
     invariant "^2.2.4"
 
+"@react-native-picker/picker@^1.8.3":
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-1.15.0.tgz#f571a8b013e001a840db905b21ec18e9d205f01b"
+  integrity sha512-TYdhavldt3ami860fVgYv2mf0d1u5YhMQ6kTw+soX/a1rYbpRCRjdz01sEQXwCW8oL7/lzHakOFnwqCo6JazDw==
 
 "@react-navigation/core@^5.15.2":
   version "5.15.2"
@@ -5455,6 +5459,14 @@ react-native-mmkv-storage@^0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/react-native-mmkv-storage/-/react-native-mmkv-storage-0.5.2.tgz#1463e5b443ce3a1d3eb0c2fa89cdb424d49e9883"
   integrity sha512-GtxYu0oTYwNfx2Ts+zpYfFyyVy8NJM96YMjQnHII8KaMRo/SYx81YR/EALYlWXLg/bBzErqUR4R9pKEu0N7jQQ==
+
+react-native-picker-select@^8.0.4:
+  version "8.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-picker-select/-/react-native-picker-select-8.0.4.tgz#3f7f1f42df69b06e7d2c10338288332a6c40fd10"
+  integrity sha512-orBjPIwBkV5oipyVw263YNMI56f6Kj3p/ejabZoCYYNSG3AiLVVhC2RqsxMgDA7IayyURAW+AlV+mDJyVqLBkg==
+  dependencies:
+    "@react-native-picker/picker" "^1.8.3"
+    lodash.isequal "^4.5.0"
 
 react-native-range-datepicker@^1.9.1:
   version "1.9.1"

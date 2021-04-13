@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Alert, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { User } from "../src/interaces/interfacesUsers";
 
-
 import {
 	Text,
 	View,
@@ -21,7 +20,6 @@ import {
 	SubText,
 	SmallLineBreak,
 	BasicScrollView,
-	
 } from "../components/Themed";
 import { ENVIRONEMENT } from "../constants/Environement";
 import { SERVER_API_URL } from "../constants/Server";
@@ -35,6 +33,7 @@ import Colors from "../constants/Colors";
 import { LoadingPage } from "../components/loadingPage";
 import RNPickerSelect from "react-native-picker-select";
 import NotFoundScreen from "./NotFoundScreen";
+import { CheckBox } from "../components/checkBox";
 
 async function getSportBetweenTwoDates(startedAt: Date, endingAt: Date) {
 	const startedAtTimestamp = startedAt.getTime() / 1000;
@@ -54,25 +53,33 @@ async function getSportBetweenTwoDates(startedAt: Date, endingAt: Date) {
 async function getLeaguesForSportsBetweenTwoDates(
 	startedAt: Date,
 	endingAt: Date,
-	sportIds: Array<string>
+	sport: string | undefined
 ) {
 	const startedAtTimestamp = startedAt.getTime() / 1000;
 	const endingAtTimestamp = endingAt.getTime() / 1000;
 
 	//extract id from sports
+	if (sport && startedAt && endingAt) {
+		const rawResponse = await fetch(
+			SERVER_API_URL +
+				"/getleaguesbetweentwodatesbysports?dateBegin=" +
+				startedAtTimestamp +
+				"&dateEnd=" +
+				endingAtTimestamp +
+				"&sports=" +
+				sport
+		);
+		const content = await rawResponse.json();
 
-	const rawResponse = await fetch(
-		SERVER_API_URL +
-			"/getleaguesbetweentwodatesbysports?dateBegin=" +
-			startedAtTimestamp +
-			"&dateEnd=" +
-			endingAtTimestamp +
-			"&sports=" +
-			sportIds.toString()
-	);
-	const content = await rawResponse.json();
+		return content;
+	}
+	return undefined;
+}
 
-	return content;
+interface leagueDisplay {
+	leagueName: string;
+	leagueId: string;
+	selected: boolean;
 }
 
 export default function Create({ navigation }: any) {
@@ -98,10 +105,15 @@ export default function Create({ navigation }: any) {
 
 	const [leaguesList, setLeaguesList] = useState<any>([]);
 	const [leaguesMultiselectChoice, setLeaguesMultiselectChoice] = useState<
-		Array<LeagueSchema>
+		Array<leagueDisplay>
 	>([]);
 
-	const [sportShow, setSportShow] = useState(true);
+	const [leagueSearch, setLeagueSearch] = useState("");
+	const [leaguesSearchDisplay, setLeaguesSearchDisplay] = useState<
+		leagueDisplay[]
+	>([]);
+
+	const [sportShow, setSportShow] = useState<string | undefined>(undefined);
 	const [sportChoice, setSportChoice] = useState<string[]>(["1", "13", "18"]);
 
 	if (!jwt || !user) {
@@ -176,6 +188,33 @@ export default function Create({ navigation }: any) {
 
 		return isValid;
 	}
+
+	useEffect(() => {
+		//load leagueSearch
+		console.log(leaguesList);
+		let filterList = leaguesList.filter(
+			(league: any) =>
+				league.leagueName.indexOf(leagueSearch) != -1 ||
+				leagueSearch.indexOf(league.leagueName) != -1
+		);
+		if (leagueSearch == "") filterList = leaguesList;
+
+		let displayLeagueReplacer: leagueDisplay[] = [];
+		for (let league of leaguesList) {
+			let selected = leaguesSearchDisplay.some(
+				(value: leagueDisplay) =>
+					value.leagueId == league.leagueId && value.selected
+			);
+			let leagueDisplayTemp = {
+				leagueName: league.leagueName,
+				leagueId: league.leagueId,
+				selected,
+			};
+			displayLeagueReplacer.push(leagueDisplayTemp);
+		}
+
+		setLeaguesSearchDisplay(displayLeagueReplacer);
+	}, [leagueSearch]);
 
 	async function sendQueryCreateGame(query: string) {
 		const rawResponse = await fetch(
@@ -257,61 +296,26 @@ export default function Create({ navigation }: any) {
 			getLeaguesForSportsBetweenTwoDates(
 				creationDateInFunct,
 				endDateInFunct,
-				sportChoice
+				sportShow
 			).then((leagues) => {
-				// code si on met tout d'un coup
-				// setLeaguesList(leagues);
-
-				// code si on ajoute plus de sports
-				console.log("leagues,", leagues);
 				if (leagues) {
+					alert(JSON.stringify(leagues));
+					setLeaguesList(leagues);
+
 					let cpyleaguemultiselect = leaguesMultiselectChoice;
-
-					for (let league of leaguesMultiselectChoice) {
-						if (
-							!leagues.some(
-								(leagueInput: any) =>
-									leagueInput.leagueId == league.leagueId
+					//on enleve les leagues qui ne sont plus dispo aux dates choisis ou aux sports choisis
+					cpyleaguemultiselect = cpyleaguemultiselect.filter(
+						(valueFrom: leagueDisplay) =>
+							leagues.some(
+								(valueTo: LeagueSchema) =>
+									valueTo.leagueId == valueFrom.leagueId
 							)
-						)
-							cpyleaguemultiselect = cpyleaguemultiselect.filter(
-								(value: any) =>
-									value.leagueId != league.leagueId
-							);
-					}
-
+					);
 					setLeaguesMultiselectChoice(cpyleaguemultiselect);
-
-					setLeaguesList([
-						{
-							leagueName: "Football",
-							leagueId: 0,
-
-							children: leagues.filter(
-								(league: LeagueSchema) => league.sportId == "1"
-							),
-						},
-						{
-							leagueName: "Tennis",
-							leagueId: 0,
-
-							children: leagues.filter(
-								(league: LeagueSchema) => league.sportId == "13"
-							),
-						},
-						{
-							leagueName: "BasketBall",
-							leagueId: 0,
-
-							children: leagues.filter(
-								(league: LeagueSchema) => league.sportId == "18"
-							),
-						},
-					]);
 				}
 			});
 		}
-	}, [dateCreationForm, dateEndForm, sportChoice]);
+	}, [dateCreationForm, dateEndForm, sportShow]);
 
 	function toggleSportChoiceId(id: string) {
 		let cpySportChoice = [...sportChoice];
@@ -335,16 +339,19 @@ export default function Create({ navigation }: any) {
 				<GameHeader back={"Dashboard"} navigation={navigation} />
 				<ViewContainer>
 					<BasicScrollView>
-						<View style={{ marginVertical: 24, }}>
+						<View style={{ marginVertical: 24 }}>
 							<TextTitle>Créer un contest</TextTitle>
 							<SubText>
-								Crée ton contest et éclate tes amis pour devenir le roi!
+								Crée ton contest et éclate tes amis pour devenir
+								le roi!
 							</SubText>
 						</View>
-						
-						<View style={{ marginVertical: 24, }}>
-							<TextHeadline style={{ marginBottom: 12, }}>Nom Du Contest</TextHeadline>
-							<View style={{ marginVertical: 12, }}>
+
+						<View style={{ marginVertical: 24 }}>
+							<TextHeadline style={{ marginBottom: 12 }}>
+								Nom Du Contest
+							</TextHeadline>
+							<View style={{ marginVertical: 12 }}>
 								<TextInput
 									value={name}
 									onChangeText={(name) => {
@@ -354,9 +361,11 @@ export default function Create({ navigation }: any) {
 								/>
 								<TextWarning>{alertName}</TextWarning>
 							</View>
-							
-							<TextHeadline style={{ marginBottom: 12, }}>Url Du Logo</TextHeadline>
-							<View style={{ marginTop: 12, }}>
+
+							<TextHeadline style={{ marginBottom: 12 }}>
+								Url Du Logo
+							</TextHeadline>
+							<View style={{ marginTop: 12 }}>
 								<TextInput
 									value={logoUrl}
 									onChangeText={(logoUrl) => {
@@ -370,45 +379,49 @@ export default function Create({ navigation }: any) {
 							</View>
 						</View>
 
-						<View style={{ marginVertical: 24, }}>
+						<View style={{ marginVertical: 24 }}>
 							<View>
-								<TextHeadline>Dates des évènements</TextHeadline>
+								<TextHeadline>
+									Dates des évènements
+								</TextHeadline>
 								<SubText>
-									Maximum 7 jours, le mode “contest pro” arrive
-									bientôt !
+									Maximum 7 jours, le mode “contest pro”
+									arrive bientôt !
 								</SubText>
 							</View>
-							
-							<View style={{ flexDirection: "row", marginTop: 24, }}>
-								<View style={{ flex: 1, }}>
+
+							<View
+								style={{ flexDirection: "row", marginTop: 24 }}
+							>
+								<View style={{ flex: 1 }}>
 									<DatePicker
 										start={dateCreationForm}
 										end={dateEndForm}
 										setStart={setDateCreationForm}
 										setEnd={setDateEndForm}
-										initText={"Choisir les dates du contest"}
+										initText={
+											"Choisir les dates du contest"
+										}
 									/>
 								</View>
 							</View>
 							<TextWarning>{alertDates}</TextWarning>
-
 						</View>
-						
 
-						
-						<View >
-						<RNPickerSelect
-							style={DropDownPicker}
-							useNativeAndroidPickerStyle={false}
-							onValueChange={(sportShow) => setSportShow(!sportShow)}
-						
-							items={[
-								{ label: 'Football', value: '1' },
-								{ label: 'Tennis', value: '13' },
-								{ label: 'Basketball', value: '18' },
-							]}
-        				/>
-        				</View>
+						<View>
+							<RNPickerSelect
+								style={DropDownPickerStyleSheep}
+								useNativeAndroidPickerStyle={false}
+								onValueChange={(value) => {
+									setSportShow(value);
+								}}
+								items={[
+									{ label: "Football", value: "1" },
+									{ label: "Tennis", value: "13" },
+									{ label: "Basketball", value: "18" },
+								]}
+							/>
+						</View>
 						<SmallLineBreak />
 						{/* 
 						<TouchableOpacity
@@ -509,46 +522,58 @@ export default function Create({ navigation }: any) {
 						</SubText>
 
 						<View>
-							<SectionedMultiSelect
-								selectText="Cherche ta compétition"
-								confirmText="Confirmer"
-								selectedText="Selectionné"
-								searchPlaceholderText="Chercher une ligue"
-								removeAllText="Tout enlever"
-								noResultsComponent={
-									<Text style={styles.alertMultiSelect}>
-										Pas de compétition de ce nom là :/
-									</Text>
-								}
-								noItemsComponent={
-									<Text style={styles.alertMultiSelect}>
-										Pas de compétition entre ces dates. As
-										tu bien choisi des dates?
-									</Text>
-								}
-								readOnlyHeadings={true}
-								icons={undefined}
-								IconRenderer={Icon}
-								single={false}
-								items={leaguesList}
-								showDropDowns={true}
-								subKey="children"
-								displayKey="leagueName"
-								uniqueKey="leagueId"
-								selectedItems={leaguesMultiselectChoice}
-								onSelectedItemsChange={(choice: any) => {
-									setLeaguesMultiselectChoice(choice);
+							<TextInput
+								value={leagueSearch}
+								onChangeText={(value: string) => {
+									setLeagueSearch(value);
 								}}
+								placeholder={"Cherche ta compétition"}
 							/>
+							{leaguesSearchDisplay.map(
+								(value: leagueDisplay) => (
+									<View
+										style={
+											value.selected
+												? styles.leagueSearchContainerSelected
+												: styles.leagueSearchContainerUnselected
+										}
+									>
+										<CheckBox
+											value={value.selected}
+											onValueChange={() => {
+												let leaguesSearchDisplaycpy = leaguesSearchDisplay;
+												for (let league of leaguesSearchDisplaycpy) {
+													if (
+														league.leagueId ==
+														value.leagueId
+													) {
+														value.selected = !value.selected;
+													}
+												}
+												setLeaguesSearchDisplay(
+													leaguesSearchDisplaycpy
+												);
+											}}
+										/>
+										<Text
+											style={
+												value.selected
+													? styles.leagueSearchTextSelected
+													: styles.leagueSearchTextUnselected
+											}
+										>
+											{value.leagueName}
+										</Text>
+									</View>
+								)
+							)}
 						</View>
 						<TextWarning>{alertLeagues}</TextWarning>
 
 						<Button title={"Creer"} onPress={() => onCreate()} />
 						<View
 							style={styles.separator} //forandroid manly
-						>
-							
-						</View>
+						></View>
 					</BasicScrollView>
 				</ViewContainer>
 			</View>
@@ -615,10 +640,24 @@ const styles = StyleSheet.create({
 		shadowRadius: 2.46,
 
 		elevation: 4,
-	}
+	},
+	leagueSearchContainerUnselected: {
+		borderRadius: 12,
+		paddingVertical: 8,
+		paddingHorizontal: 24,
+		backgroundColor: Colors.blue,
+	},
+	leagueSearchContainerSelected: {
+		borderRadius: 12,
+		paddingVertical: 8,
+		paddingHorizontal: 24,
+		backgroundColor: Colors.orange,
+	},
+	leagueSearchTextUnselected: { color: "black" },
+	leagueSearchTextSelected: { color: "white" },
 });
 
-const DropDownPicker = StyleSheet.create({
+const DropDownPickerStyleSheep = StyleSheet.create({
 	inputIOS: {
 		height: 46,
 		paddingVertical: 12,
@@ -637,7 +676,6 @@ const DropDownPicker = StyleSheet.create({
 		shadowRadius: 2.46,
 
 		elevation: 4,
-
 	},
 	inputAndroid: {
 		height: 46,
@@ -657,7 +695,6 @@ const DropDownPicker = StyleSheet.create({
 		shadowRadius: 2.46,
 
 		elevation: 4,
-
 	},
 	inputWeb: {
 		height: 46,
@@ -677,6 +714,5 @@ const DropDownPicker = StyleSheet.create({
 		shadowRadius: 2.46,
 
 		elevation: 4,
-
 	},
-  });
+});
