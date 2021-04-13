@@ -192,7 +192,6 @@ export default function Create({ navigation }: any) {
 		} else setalertLeagues(" ");
 
 		if (!leaguesSearchDisplay) isValid = false;
-		alert(isValid)
 		return isValid;
 	}
 
