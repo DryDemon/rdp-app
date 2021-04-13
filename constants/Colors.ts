@@ -12,4 +12,5 @@ export default {
 	gray: "gray",
 	buttonDisable: "#EB472D",
 	alert: "red", //alert est utilisé dans les messages d'alert, genre quand tu met un text dans un email et que l'email est pas valide, message d'alerte juste en dessous
+	rose: "#FFE4E2",
 };
