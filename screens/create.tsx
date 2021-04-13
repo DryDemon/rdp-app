@@ -25,7 +25,6 @@ import { ENVIRONEMENT } from "../constants/Environement";
 import { SERVER_API_URL } from "../constants/Server";
 import { LeagueSchema, SportSchema } from "../src/interaces/interfacesQuotes";
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
-import Icon from "react-native-vector-icons/MaterialIcons";
 import { DatePicker } from "../components/DatePicker";
 import { validURL } from "../src/smallFuncts";
 import { GameHeader } from "../components/gameHeader";
@@ -34,6 +33,7 @@ import { LoadingPage } from "../components/loadingPage";
 import RNPickerSelect from "react-native-picker-select";
 import NotFoundScreen from "./NotFoundScreen";
 import { CheckBox } from "../components/checkBox";
+import Entypo from "@expo/vector-icons/build/Entypo";
 
 async function getSportBetweenTwoDates(startedAt: Date, endingAt: Date) {
 	const startedAtTimestamp = startedAt.getTime() / 1000;
@@ -104,17 +104,14 @@ export default function Create({ navigation }: any) {
 	const [loading, setLoading] = useState(false);
 
 	const [leaguesList, setLeaguesList] = useState<any>([]);
-	const [leaguesMultiselectChoice, setLeaguesMultiselectChoice] = useState<
-		Array<leagueDisplay>
-	>([]);
 
 	const [leagueSearch, setLeagueSearch] = useState("");
 	const [leaguesSearchDisplay, setLeaguesSearchDisplay] = useState<
 		leagueDisplay[]
 	>([]);
+	const [showMoreLeaguesDisplay, setshowMoreLeaguesDisplay] = useState(false);
 
 	const [sportShow, setSportShow] = useState<string | undefined>(undefined);
-	const [sportChoice, setSportChoice] = useState<string[]>(["1", "13", "18"]);
 
 	if (!jwt || !user) {
 		try {
@@ -174,18 +171,28 @@ export default function Create({ navigation }: any) {
 			setalertDates(" ");
 		}
 
-		if (leaguesMultiselectChoice && leaguesMultiselectChoice.length > 5) {
+		if (
+			leaguesSearchDisplay &&
+			leaguesSearchDisplay.filter(
+				(value: leagueDisplay) => value.selected
+			).length > 5
+		) {
 			setalertLeagues("Tu peut selectionner au maximum 5 ligues");
 			isValid = false;
 		} else setalertLeagues(" ");
 
-		if (leaguesMultiselectChoice && leaguesMultiselectChoice.length == 0) {
+		if (
+			leaguesSearchDisplay &&
+			leaguesSearchDisplay.filter(
+				(value: leagueDisplay) => value.selected
+			).length == 0
+		) {
 			setalertLeagues("Tu dois selectionner au moins une ligue");
 			isValid = false;
 		} else setalertLeagues(" ");
 
-		if (!leaguesMultiselectChoice) isValid = false;
-
+		if (!leaguesSearchDisplay) isValid = false;
+		alert(isValid)
 		return isValid;
 	}
 
@@ -214,7 +221,7 @@ export default function Create({ navigation }: any) {
 		}
 
 		setLeaguesSearchDisplay(displayLeagueReplacer);
-	}, [leagueSearch]);
+	}, [leagueSearch, leaguesList]);
 
 	async function sendQueryCreateGame(query: string) {
 		const rawResponse = await fetch(
@@ -239,6 +246,15 @@ export default function Create({ navigation }: any) {
 			if (validateForm()) {
 				setLoading(true);
 				setcanCreate(false);
+				let leaguesIdsList = "";
+				for (let league of leaguesSearchDisplay) {
+					if (league.selected) {
+						if (leaguesIdsList != "") {
+							leaguesIdsList += ",";
+						}
+						leaguesIdsList += league.leagueId;
+					}
+				}
 				let query =
 					"name=" +
 					name +
@@ -251,7 +267,7 @@ export default function Create({ navigation }: any) {
 					"&sports=" +
 					"1,13,18" +
 					"&leagues=" +
-					leaguesMultiselectChoice.toString() +
+					leaguesIdsList +
 					`&jwt=${jwt}`;
 
 				sendQueryCreateGame(query)
@@ -277,13 +293,7 @@ export default function Create({ navigation }: any) {
 
 	useEffect(() => {
 		validateForm();
-	}, [
-		name,
-		logoUrl,
-		leaguesMultiselectChoice,
-		dateEndForm,
-		dateCreationForm,
-	]);
+	}, [name, logoUrl, leaguesSearchDisplay, dateEndForm, dateCreationForm]);
 
 	useEffect(() => {
 		let creationDateInFunct = new Date(dateCreationForm); // dateCreation est en fait un string
@@ -299,40 +309,55 @@ export default function Create({ navigation }: any) {
 				sportShow
 			).then((leagues) => {
 				if (leagues) {
-					alert(JSON.stringify(leagues));
 					setLeaguesList(leagues);
 
-					let cpyleaguemultiselect = leaguesMultiselectChoice;
+					let cpyleagueDisplay = leaguesSearchDisplay;
 					//on enleve les leagues qui ne sont plus dispo aux dates choisis ou aux sports choisis
-					cpyleaguemultiselect = cpyleaguemultiselect.filter(
+					cpyleagueDisplay = cpyleagueDisplay.filter(
 						(valueFrom: leagueDisplay) =>
 							leagues.some(
 								(valueTo: LeagueSchema) =>
 									valueTo.leagueId == valueFrom.leagueId
 							)
 					);
-					setLeaguesMultiselectChoice(cpyleaguemultiselect);
+					setLeaguesSearchDisplay(cpyleagueDisplay);
 				}
 			});
 		}
 	}, [dateCreationForm, dateEndForm, sportShow]);
 
-	function toggleSportChoiceId(id: string) {
-		let cpySportChoice = [...sportChoice];
+	// function toggleSportChoiceId(id: string) {
+	// 	let cpySportChoice = [...sportChoice];
 
-		if (cpySportChoice.some((value) => value == id)) {
-			cpySportChoice = cpySportChoice.filter((value) => value != id);
-		} else {
-			cpySportChoice.push(id);
-		}
-		console.log(cpySportChoice);
+	// 	if (cpySportChoice.some((value) => value == id)) {
+	// 		cpySportChoice = cpySportChoice.filter((value) => value != id);
+	// 	} else {
+	// 		cpySportChoice.push(id);
+	// 	}
+	// 	console.log(cpySportChoice);
 
-		setSportChoice(cpySportChoice);
-	}
+	// 	setSportChoice(cpySportChoice);
+	// }
 
 	useEffect(() => {
 		console.log(dateCreationForm, dateEndForm);
 	}, [dateCreationForm, dateEndForm]);
+
+	function toggleLeaguesDisplaySelect(leagueId: string) {
+		Alert.alert("there", leagueId + "");
+
+		let leaguesSearchDisplaycpy = leaguesSearchDisplay;
+		for (let i = 0; i < leaguesSearchDisplaycpy.length; i++) {
+			if (leaguesSearchDisplaycpy[i].leagueId == leagueId) {
+				leaguesSearchDisplaycpy[i].selected = !leaguesSearchDisplaycpy[
+					i
+				].selected;
+			}
+		}
+
+		setLeaguesSearchDisplay([...leaguesSearchDisplaycpy]);
+	}
+
 	if (!loading)
 		return (
 			<View style={{ flex: 1, marginHorizontal: 1 }}>
@@ -530,44 +555,92 @@ export default function Create({ navigation }: any) {
 								placeholder={"Cherche ta compétition"}
 							/>
 							{leaguesSearchDisplay.map(
-								(value: leagueDisplay) => (
-									<View
-										style={
-											value.selected
-												? styles.leagueSearchContainerSelected
-												: styles.leagueSearchContainerUnselected
-										}
-									>
-										<CheckBox
-											value={value.selected}
-											onValueChange={() => {
-												let leaguesSearchDisplaycpy = leaguesSearchDisplay;
-												for (let league of leaguesSearchDisplaycpy) {
-													if (
-														league.leagueId ==
-														value.leagueId
-													) {
-														value.selected = !value.selected;
-													}
-												}
-												setLeaguesSearchDisplay(
-													leaguesSearchDisplaycpy
-												);
-											}}
-										/>
-										<Text
+								(value: leagueDisplay, index: number) =>
+									index < 5 || showMoreLeaguesDisplay ? (
+										<View
 											style={
 												value.selected
-													? styles.leagueSearchTextSelected
-													: styles.leagueSearchTextUnselected
+													? styles.leagueSearchContainerSelected
+													: styles.leagueSearchContainerUnselected
 											}
 										>
-											{value.leagueName}
-										</Text>
-									</View>
-								)
+											<View
+												style={styles.checkBoxContainer}
+											>
+												<CheckBox
+													value={value.selected}
+													onValueChange={() => {
+														toggleLeaguesDisplaySelect(
+															value.leagueId
+														);
+													}}
+												/>
+											</View>
+											<Text
+												style={
+													value.selected
+														? styles.leagueSearchTextSelected
+														: styles.leagueSearchTextUnselected
+												}
+											>
+												{value.leagueName}
+											</Text>
+										</View>
+									) : null
 							)}
+							{leaguesSearchDisplay.length != 0 ? (
+								<View style={styles.showMoreLeaguesContainer}>
+									<TouchableOpacity
+										style={styles.showMoreLeagues}
+										onPress={() =>
+											setshowMoreLeaguesDisplay(
+												!showMoreLeaguesDisplay
+											)
+										}
+									>
+										<Text
+											style={{
+												fontWeight: "500",
+												fontSize: 16,
+											}}
+										>
+											{showMoreLeaguesDisplay
+												? "Voir Moins"
+												: "Voir Plus"}
+										</Text>
+									</TouchableOpacity>
+								</View>
+							) : null}
 						</View>
+
+						<View style={styles.selectedLeaguesContainer}>
+							<Text>Sélectionnées</Text>
+							<View style={{  alignContent:"space-around" }}>
+								{leaguesSearchDisplay.filter((value: leagueDisplay) => value.selected).map(
+									(league: leagueDisplay) => (
+										<TouchableOpacity
+											style={
+												styles.simpleSelectedLeagueContainer
+											}
+											onPress={() =>
+												toggleLeaguesDisplaySelect(
+													league.leagueId
+												)
+											}
+										>
+											<Text>{league.leagueName}</Text>{" "}
+											<Entypo
+												// style={styles.icon}
+												name="cross"
+												size={24}
+												color={"#000"}
+											/>
+										</TouchableOpacity>
+									)
+								)}
+							</View>
+						</View>
+
 						<TextWarning>{alertLeagues}</TextWarning>
 
 						<Button title={"Creer"} onPress={() => onCreate()} />
@@ -646,15 +719,55 @@ const styles = StyleSheet.create({
 		paddingVertical: 8,
 		paddingHorizontal: 24,
 		backgroundColor: Colors.blue,
+		flexDirection: "row",
+		alignItems: "center",
 	},
 	leagueSearchContainerSelected: {
 		borderRadius: 12,
 		paddingVertical: 8,
 		paddingHorizontal: 24,
 		backgroundColor: Colors.orange,
+		flexDirection: "row",
+		alignItems: "center",
 	},
-	leagueSearchTextUnselected: { color: "black" },
-	leagueSearchTextSelected: { color: "white" },
+	leagueSearchTextUnselected: {
+		color: "black",
+	},
+	leagueSearchTextSelected: {
+		color: "white",
+	},
+	checkBoxContainer: {
+		paddingHorizontal: 29,
+	},
+	showMoreLeaguesContainer: {
+		padding: 12,
+		alignItems: "center",
+	},
+	showMoreLeagues: {
+		borderRadius: 8,
+		padding: 8,
+		alignItems: "center",
+		paddingVertical: 8,
+		paddingHorizontal: 12,
+		backgroundColor: Colors.rose,
+		display: "flex",
+		minWidth: 88,
+	},
+	selectedLeaguesContainer: {
+		backgroundColor: Colors.white,
+		padding: 12,
+		borderRadius: 12,
+	},
+	simpleSelectedLeagueContainer: {
+		borderRadius:8,
+		backgroundColor:Colors.blue,
+		justifyContent: "center",
+		paddingHorizontal:8,
+		paddingVertical:4,
+		flexDirection: "row",
+		alignItems: "center",
+		padding: 9,
+	},
 });
 
 const DropDownPickerStyleSheep = StyleSheet.create({
