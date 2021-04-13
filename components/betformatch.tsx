@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { isBetIdWhitelisted } from "../constants/Bets";
 import { MatchSchema } from "../src/interaces/interfacesQuotes";
+import { ENVIRONEMENT } from "../constants/Environement";
 
 export default function betForMatch(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
@@ -25,8 +26,14 @@ export default function betForMatch(props: any) {
 	let bets = match.prematchOdds;
 	const matchName = match.teamHome + " - " + match.teamAway;
 
-	const fullMatchOdds = match.mainBet;
-	const numberOfOdds = match.numOfRestBets;
+	let fullMatchOdds = match.mainBet;
+	let numberOfOdds = match.numOfRestBets;
+
+	if (!fullMatchOdds || !numberOfOdds) {
+		if (ENVIRONEMENT == "dev") alert("bug.");
+		fullMatchOdds = bets?.[0];
+		numberOfOdds = " ";
+	}
 
 	return (
 		<View style={styles.matchContainer}>
@@ -40,10 +47,24 @@ export default function betForMatch(props: any) {
 			<View>
 				{fullMatchOdds
 					? fullMatchOdds.odds.map((odd: any) => (
-							<BasicBet setReloadCart={setReloadCart} joinCode={joinCode} reloadCart={reloadCart} key={odd.id} odd={odd} matchId={match.matchId}></BasicBet>
+							<BasicBet
+								setReloadCart={setReloadCart}
+								joinCode={joinCode}
+								reloadCart={reloadCart}
+								key={odd.id}
+								odd={odd}
+								matchId={match.matchId}
+							></BasicBet>
 					  ))
 					: null}
-				<BasicBet setReloadCart={setReloadCart} joinCode={joinCode} reloadCart={reloadCart} callbackShowMatchBet={callbackShowMatchBet} match={match} plus={numberOfOdds}></BasicBet>
+				<BasicBet
+					setReloadCart={setReloadCart}
+					joinCode={joinCode}
+					reloadCart={reloadCart}
+					callbackShowMatchBet={callbackShowMatchBet}
+					match={match}
+					plus={numberOfOdds}
+				></BasicBet>
 			</View>
 		</View>
 	);
