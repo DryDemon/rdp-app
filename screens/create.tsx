@@ -387,7 +387,7 @@ export default function Create({ navigation }: any) {
 								<TextWarning>{alertName}</TextWarning>
 							</View>
 
-							<TextHeadline style={{ marginVertical:12, }}>
+							<TextHeadline style={{ marginVertical: 12 }}>
 								Url Du Logo
 							</TextHeadline>
 							<View style={{ marginTop: 12 }}>
@@ -424,12 +424,8 @@ export default function Create({ navigation }: any) {
 										end={dateEndForm}
 										setStart={setDateCreationForm}
 										setEnd={setDateEndForm}
-										initTextBegin={
-											"Date de début"
-										}
-										initTextEnd={
-											"Date de fin"
-										}
+										initTextBegin={"Date de début"}
+										initTextEnd={"Date de fin"}
 									/>
 								</View>
 							</View>
@@ -439,8 +435,8 @@ export default function Create({ navigation }: any) {
 						<View style={{ marginVertical: 24 }}>
 							<Text>Choix des compétitions</Text>
 							<SubText>
-								Attention futur roi, tu peut sélectionner au maximum
-								5 compétitions !
+								Attention futur roi, tu peut sélectionner au
+								maximum 5 compétitions !
 							</SubText>
 							<RNPickerSelect
 								style={DropDownPickerStyleSheep}
@@ -449,12 +445,14 @@ export default function Create({ navigation }: any) {
 									setSportShow(value);
 								}}
 								items={[
-									{ label: "Tous les sports", value: ["1, 18, 13"] },
+									{
+										label: "Tous les sports",
+										value: ["1, 18, 13"],
+									},
 									{ label: "Football", value: "1" },
 									{ label: "Tennis", value: "13" },
 									{ label: "Basketball", value: "18" },
 								]}
-
 							/>
 							<TextInput
 								style={styles.inputSearch}
@@ -479,8 +477,8 @@ export default function Create({ navigation }: any) {
 													: styles.leagueSearchContainerUnselected
 											}
 										>
-
-											<CheckBox/>
+											<CheckBox reverted={true} value={value.selected} />
+											
 											<Text
 												style={
 													value.selected
@@ -519,10 +517,20 @@ export default function Create({ navigation }: any) {
 						</View>
 
 						<View style={styles.selectedLeaguesContainer}>
-							<Text style={{ marginBottom:8 }}>Sélectionnées</Text>
-							<View style={{   flexDirection: "row", flexWrap: 'wrap'  }}>
-								{leaguesSearchDisplay.filter((value: leagueDisplay) => value.selected).map(
-									(league: leagueDisplay) => (
+							<Text style={{ marginBottom: 8 }}>
+								Sélectionnées
+							</Text>
+							<View
+								style={{
+									flexDirection: "row",
+									flexWrap: "wrap",
+								}}
+							>
+								{leaguesSearchDisplay
+									.filter(
+										(value: leagueDisplay) => value.selected
+									)
+									.map((league: leagueDisplay) => (
 										<TouchableOpacity
 											style={
 												styles.simpleSelectedLeagueContainer
@@ -541,8 +549,7 @@ export default function Create({ navigation }: any) {
 												color={"#000"}
 											/>
 										</TouchableOpacity>
-									)
-								)}
+									))}
 							</View>
 						</View>
 
@@ -606,7 +613,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 24,
 		borderRadius: 12,
 		marginVertical: 10,
-		marginTop : 18,
+		marginTop: 18,
 		fontSize: 17,
 		backgroundColor: Colors.grayPlaceHolder,
 		color: Colors.grayPlaceHolder,
@@ -621,22 +628,21 @@ const styles = StyleSheet.create({
 		elevation: 4,
 	},
 	leagueSearchContainerUnselected: {
-		minHeight:50,
+		minHeight: 50,
 		borderRadius: 12,
 		paddingVertical: 12,
 		paddingHorizontal: 24,
-		marginVertical:6,
+		marginVertical: 6,
 		backgroundColor: Colors.blue,
 		flexDirection: "row",
 		alignItems: "center",
-		
 	},
 	leagueSearchContainerSelected: {
-		height:50,
+		height: 50,
 		borderRadius: 12,
 		paddingVertical: 12,
 		paddingHorizontal: 24,
-		marginVertical:6,
+		marginVertical: 6,
 		backgroundColor: Colors.orange,
 		flexDirection: "row",
 		alignItems: "center",
@@ -648,7 +654,6 @@ const styles = StyleSheet.create({
 	leagueSearchTextSelected: {
 		color: "white",
 		marginLeft: 24,
-
 	},
 	showMoreLeaguesContainer: {
 		padding: 12,
@@ -667,7 +672,7 @@ const styles = StyleSheet.create({
 	selectedLeaguesContainer: {
 		backgroundColor: Colors.white,
 		padding: 12,
-		marginBottom:48,
+		marginBottom: 48,
 		borderRadius: 12,
 		shadowColor: "#000",
 		shadowOffset: {
@@ -677,25 +682,20 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.32,
 		shadowRadius: 2.46,
 		elevation: 4,
-
-
 	},
 	simpleSelectedLeagueContainer: {
-		borderRadius:8,
-		backgroundColor:Colors.blue,
-		paddingHorizontal:8,
-		paddingVertical:4,
-		marginVertical:4,
-		marginRight:8,
+		borderRadius: 8,
+		backgroundColor: Colors.blue,
+		paddingHorizontal: 8,
+		paddingVertical: 4,
+		marginVertical: 4,
+		marginRight: 8,
 		flexDirection: "row",
 		alignItems: "center",
-		
-		
 	},
 	inputSearch: {
 		marginVertical: 6,
 	},
-
 });
 
 const DropDownPickerStyleSheep = StyleSheet.create({
@@ -759,5 +759,4 @@ const DropDownPickerStyleSheep = StyleSheet.create({
 
 		elevation: 4,
 	},
-
 });

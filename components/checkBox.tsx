@@ -15,19 +15,37 @@ export function CheckBox(props: any) {
 	const value = props.value;
 	const onValueChange = props.onValueChange;
 
+	const reverted = props.reverted;
 	return (
-		
 		<View style={props.mainContainer}>
 			{onValueChange ? (
 				<TouchableOpacity
-					style={styles.container}
+					style={
+						reverted ? styles.containerReverted : styles.container
+					}
 					onPress={onValueChange}
 				>
-					{props.value ? <View style={styles.check}></View> : null}
+					{props.value ? (
+						<View
+							style={
+								reverted ? styles.checkReverted : styles.check
+							}
+						></View>
+					) : null}
 				</TouchableOpacity>
 			) : (
-				<View style={styles.container}>
-					{props.value ? <View style={styles.check}></View> : null}
+				<View
+					style={
+						reverted ? styles.containerReverted : styles.container
+					}
+				>
+					{props.value ? (
+						<View
+							style={
+								reverted ? styles.checkReverted : styles.check
+							}
+						></View>
+					) : null}
 				</View>
 			)}
 			{props.text ? (
@@ -46,7 +64,21 @@ const styles = StyleSheet.create({
 		height: 14,
 		borderRadius: 4,
 	},
+	containerReverted: {
+		borderColor: Colors.white,
+		borderWidth: 2,
+		width: 14,
+		height: 14,
+		borderRadius: 4,
+	},
 	check: {
+		backgroundColor: Colors.rdpColor,
+		borderRadius: 2,
+		width: 8,
+		height: 8,
+	},
+	checkReverted: {
+		backgroundColor: Colors.white,
 		borderRadius: 2,
 		width: 8,
 		height: 8,
