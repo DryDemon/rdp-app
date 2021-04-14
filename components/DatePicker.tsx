@@ -17,30 +17,50 @@ console.log(format(new Date(), "ddMMyyyy"))
 	return (
 		<View>
 			<TouchableOpacity
-				style={styles.dateContainer}
+				style={{ flexDirection: "row", justifyContent: "space-between"}}
 				onPress={() => {
 					if (showDatePicker) setShowDatePicker(false);
 					else setShowDatePicker(true);
 				}}
 			>
-				<View style={{ flexDirection: "row", alignItems:"center", }}>
+				<View style={styles.dateContainer}>
 					<View>
 						<Icon
-							style={styles.gameLogo}
+							style={[{backgroundColor: Colors.greenBcg,} ,styles.gameLogo]}
 							name="calendar"
 							size={24}
-							color="#FFF"
+							color={Colors.green}
 						/>
 					</View>
-					<View>
+					<View style={{flex:1,}} >
 						{!beenSet && (
-							<SubHeadline style={styles.text}>{props.initText}</SubHeadline>
+							<SubHeadline style={styles.text}>{props.initTextBegin}</SubHeadline>
 						)}
 						{beenSet && (
 							<Text style={styles.text}>
-								{format(props.start, "dd/MM/yyyy") +
-									" - " +
-									format(props.end, "dd/MM/yyyy")}
+								{format(props.start, "dd/MM/yyyy")}
+							</Text>
+						)}
+					</View>
+				</View>
+				<View style={styles.dateContainer}>
+					<View>
+						<Icon
+							style={[{backgroundColor: Colors.redBcg,} ,styles.gameLogo]}
+							name="calendar"
+							size={24}
+							color={Colors.red}
+							
+
+						/>
+					</View>
+					<View style={{flex:1}}>
+						{!beenSet && (
+							<SubHeadline style={styles.text}>{props.initTextEnd}</SubHeadline>
+						)}
+						{beenSet && (
+							<Text style={styles.text}>
+								{format(props.end, "dd/MM/yyyy")}
 							</Text>
 						)}
 					</View>
@@ -75,19 +95,34 @@ console.log(format(new Date(), "ddMMyyyy"))
 
 const styles = StyleSheet.create({
 	dateContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		width: 152,
 		height: 48,
-		padding: 12,
+		paddingVertical: 12,
 		borderRadius: 12,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.32,
+		shadowRadius: 2.46,
+
+		elevation: 4,
 		// maxWidth: 200,
-		backgroundColor: Colors.rdpColor,
 	},
 	gameLogo: {
 		marginLeft: "auto",
 		marginRight: "auto",
+		padding: 12,
+		borderTopLeftRadius: 12,
+		borderBottomLeftRadius: 12,
 	},
 	text: {
-		marginHorizontal: 10,
-		color: "white",
+		color: Colors.black,
 		fontSize: 14,
+		textAlign: "center",
+
 	},
 });

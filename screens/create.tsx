@@ -34,6 +34,7 @@ import RNPickerSelect from "react-native-picker-select";
 import NotFoundScreen from "./NotFoundScreen";
 import { CheckBox } from "../components/checkBox";
 import Entypo from "@expo/vector-icons/build/Entypo";
+import AllBets from "../components/allbets";
 
 async function getSportBetweenTwoDates(startedAt: Date, endingAt: Date) {
 	const startedAtTimestamp = startedAt.getTime() / 1000;
@@ -423,8 +424,11 @@ export default function Create({ navigation }: any) {
 										end={dateEndForm}
 										setStart={setDateCreationForm}
 										setEnd={setDateEndForm}
-										initText={
-											"Choisir les dates du contest"
+										initTextBegin={
+											"Date de début"
+										}
+										initTextEnd={
+											"Date de fin"
 										}
 									/>
 								</View>
@@ -445,10 +449,12 @@ export default function Create({ navigation }: any) {
 									setSportShow(value);
 								}}
 								items={[
+									{ label: "Tous les sports", value: ["1, 18, 13"] },
 									{ label: "Football", value: "1" },
 									{ label: "Tennis", value: "13" },
 									{ label: "Basketball", value: "18" },
 								]}
+
 							/>
 							<TextInput
 								style={styles.inputSearch}
