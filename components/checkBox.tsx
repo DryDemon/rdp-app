@@ -16,6 +16,7 @@ export function CheckBox(props: any) {
 	const onValueChange = props.onValueChange;
 
 	return (
+		
 		<View style={props.mainContainer}>
 			{onValueChange ? (
 				<TouchableOpacity
@@ -39,16 +40,13 @@ export function CheckBox(props: any) {
 }
 const styles = StyleSheet.create({
 	container: {
-		borderColor: "black",
-		borderWidth: 1,
-		width: 12,
-		height: 12,
-		backgroundColor: "white",
+		borderColor: Colors.black,
+		borderWidth: 2,
+		width: 14,
+		height: 14,
 		borderRadius: 4,
-		padding: 1,
 	},
 	check: {
-		backgroundColor: Colors.rdpColor,
 		borderRadius: 2,
 		width: 8,
 		height: 8,

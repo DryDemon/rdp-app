@@ -386,7 +386,7 @@ export default function Create({ navigation }: any) {
 								<TextWarning>{alertName}</TextWarning>
 							</View>
 
-							<TextHeadline style={{ marginBottom: 12 }}>
+							<TextHeadline style={{ marginVertical:12, }}>
 								Url Du Logo
 							</TextHeadline>
 							<View style={{ marginTop: 12 }}>
@@ -432,7 +432,12 @@ export default function Create({ navigation }: any) {
 							<TextWarning>{alertDates}</TextWarning>
 						</View>
 
-						<View>
+						<View style={{ marginVertical: 24 }}>
+							<Text>Choix des compétitions</Text>
+							<SubText>
+								Attention futur roi, tu peut sélectionner au maximum
+								5 compétitions !
+							</SubText>
 							<RNPickerSelect
 								style={DropDownPickerStyleSheep}
 								useNativeAndroidPickerStyle={false}
@@ -445,108 +450,8 @@ export default function Create({ navigation }: any) {
 									{ label: "Basketball", value: "18" },
 								]}
 							/>
-						</View>
-						<SmallLineBreak />
-						{/* 
-						<TouchableOpacity
-							onPress={() => setSportShow(!sportShow)}
-						>
-							<TextHeadline>Sports </TextHeadline>
-						</TouchableOpacity>
-						<View
-						// style={
-						// 	sportShow
-						// 		? { display: "flex" }
-						// 		: { display: "none" }
-						// }
-						>
-							<View>
-								<TouchableOpacity
-									style={
-										sportChoice.some(
-											(value) => value == "1"
-										)
-											? styles.sportChoiceSelected
-											: styles.sportChoiceUnselected
-									}
-									onPress={() => {
-										toggleSportChoiceId("1");
-									}}
-								>
-									<SubText
-										style={
-											sportChoice.some(
-												(value) => value == "1"
-											)
-												? styles.sportChoiceTextSelected
-												: styles.sportChoiceTextUnselected
-										}
-									>
-										Football
-									</SubText>
-								</TouchableOpacity>
-								<TouchableOpacity
-									style={
-										sportChoice.some(
-											(value) => value == "13"
-										)
-											? styles.sportChoiceSelected
-											: styles.sportChoiceUnselected
-									}
-									onPress={() => {
-										toggleSportChoiceId("13");
-									}}
-								>
-									<SubText
-										style={
-											sportChoice.some(
-												(value) => value == "13"
-											)
-												? styles.sportChoiceTextSelected
-												: styles.sportChoiceTextUnselected
-										}
-									>
-										Tennis
-									</SubText>
-								</TouchableOpacity>
-								<TouchableOpacity
-									style={
-										sportChoice.some(
-											(value) => value == "18"
-										)
-											? styles.sportChoiceSelected
-											: styles.sportChoiceUnselected
-									}
-									onPress={() => {
-										toggleSportChoiceId("18");
-									}}
-								>
-									<SubText
-										style={
-											sportChoice.some(
-												(value) => value == "18"
-											)
-												? styles.sportChoiceTextSelected
-												: styles.sportChoiceTextUnselected
-										}
-									>
-										Basketball
-									</SubText>
-								</TouchableOpacity>
-							</View>
-						</View>
-						*/}
-
-						<SmallLineBreak />
-
-						<Text>Choix des compétitions</Text>
-						<SubText>
-							Attention futur roi, tu peut sélectionner au maximum
-							5 compétitions !
-						</SubText>
-
-						<View>
 							<TextInput
+								style={styles.inputSearch}
 								value={leagueSearch}
 								onChangeText={(value: string) => {
 									setLeagueSearch(value);
@@ -556,25 +461,20 @@ export default function Create({ navigation }: any) {
 							{leaguesSearchDisplay.map(
 								(value: leagueDisplay, index: number) =>
 									index < 5 || showMoreLeaguesDisplay ? (
-										<View
+										<TouchableOpacity
+											onPress={() => {
+												toggleLeaguesDisplaySelect(
+													value.leagueId
+												);
+											}}
 											style={
 												value.selected
 													? styles.leagueSearchContainerSelected
 													: styles.leagueSearchContainerUnselected
 											}
 										>
-											<View
-												style={styles.checkBoxContainer}
-											>
-												<CheckBox
-													value={value.selected}
-													onValueChange={() => {
-														toggleLeaguesDisplaySelect(
-															value.leagueId
-														);
-													}}
-												/>
-											</View>
+
+											<CheckBox/>
 											<Text
 												style={
 													value.selected
@@ -584,7 +484,7 @@ export default function Create({ navigation }: any) {
 											>
 												{value.leagueName}
 											</Text>
-										</View>
+										</TouchableOpacity>
 									) : null
 							)}
 							{leaguesSearchDisplay.length != 0 ? (
@@ -613,8 +513,8 @@ export default function Create({ navigation }: any) {
 						</View>
 
 						<View style={styles.selectedLeaguesContainer}>
-							<Text>Sélectionnées</Text>
-							<View style={{  alignContent:"space-around" }}>
+							<Text style={{ marginBottom:8 }}>Sélectionnées</Text>
+							<View style={{   flexDirection: "row", flexWrap: 'wrap'  }}>
 								{leaguesSearchDisplay.filter((value: leagueDisplay) => value.selected).map(
 									(league: leagueDisplay) => (
 										<TouchableOpacity
@@ -690,7 +590,7 @@ const styles = StyleSheet.create({
 
 	sportChoiceUnselected: {
 		backgroundColor: Colors.revertRdpColor,
-		borderRadius: 8,
+		borderRadius: 12,
 		paddingVertical: 8,
 		paddingHorizontal: 12,
 	},
@@ -700,6 +600,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 24,
 		borderRadius: 12,
 		marginVertical: 10,
+		marginTop : 18,
 		fontSize: 17,
 		backgroundColor: Colors.grayPlaceHolder,
 		color: Colors.grayPlaceHolder,
@@ -714,29 +615,34 @@ const styles = StyleSheet.create({
 		elevation: 4,
 	},
 	leagueSearchContainerUnselected: {
+		minHeight:50,
 		borderRadius: 12,
-		paddingVertical: 8,
+		paddingVertical: 12,
 		paddingHorizontal: 24,
+		marginVertical:6,
 		backgroundColor: Colors.blue,
 		flexDirection: "row",
 		alignItems: "center",
+		
 	},
 	leagueSearchContainerSelected: {
+		height:50,
 		borderRadius: 12,
-		paddingVertical: 8,
+		paddingVertical: 12,
 		paddingHorizontal: 24,
+		marginVertical:6,
 		backgroundColor: Colors.orange,
 		flexDirection: "row",
 		alignItems: "center",
 	},
 	leagueSearchTextUnselected: {
 		color: "black",
+		marginLeft: 24,
 	},
 	leagueSearchTextSelected: {
 		color: "white",
-	},
-	checkBoxContainer: {
-		paddingHorizontal: 29,
+		marginLeft: 24,
+
 	},
 	showMoreLeaguesContainer: {
 		padding: 12,
@@ -755,18 +661,35 @@ const styles = StyleSheet.create({
 	selectedLeaguesContainer: {
 		backgroundColor: Colors.white,
 		padding: 12,
+		marginBottom:48,
 		borderRadius: 12,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.32,
+		shadowRadius: 2.46,
+		elevation: 4,
+
+
 	},
 	simpleSelectedLeagueContainer: {
 		borderRadius:8,
 		backgroundColor:Colors.blue,
-		justifyContent: "center",
 		paddingHorizontal:8,
 		paddingVertical:4,
+		marginVertical:4,
+		marginRight:8,
 		flexDirection: "row",
 		alignItems: "center",
-		padding: 9,
+		
+		
 	},
+	inputSearch: {
+		marginVertical: 6,
+	},
+
 });
 
 const DropDownPickerStyleSheep = StyleSheet.create({
@@ -775,7 +698,8 @@ const DropDownPickerStyleSheep = StyleSheet.create({
 		paddingVertical: 12,
 		paddingHorizontal: 24,
 		borderRadius: 12,
-		marginVertical: 10,
+		marginBottom: 6,
+		marginTop: 24,
 		fontSize: 17,
 		backgroundColor: Colors.white,
 		color: Colors.grayPlaceHolder,
@@ -794,7 +718,8 @@ const DropDownPickerStyleSheep = StyleSheet.create({
 		paddingVertical: 12,
 		paddingHorizontal: 24,
 		borderRadius: 12,
-		marginVertical: 10,
+		marginBottom: 6,
+		marginTop: 24,
 		fontSize: 17,
 		backgroundColor: Colors.white,
 		color: Colors.grayPlaceHolder,
@@ -813,7 +738,8 @@ const DropDownPickerStyleSheep = StyleSheet.create({
 		paddingVertical: 12,
 		paddingHorizontal: 24,
 		borderRadius: 12,
-		marginVertical: 10,
+		marginBottom: 6,
+		marginTop: 24,
 		fontSize: 17,
 		backgroundColor: Colors.white,
 		color: Colors.grayPlaceHolder,
@@ -827,4 +753,5 @@ const DropDownPickerStyleSheep = StyleSheet.create({
 
 		elevation: 4,
 	},
+
 });
