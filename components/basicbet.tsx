@@ -98,13 +98,17 @@ export default function BasicBet(props: any) {
 	// 	}
 	// }, [props.plus]);
 
+
 	function showMore() {
 		if (callbackShowMatchBet && props.match)
 			callbackShowMatchBet(props.match);
 	}
-
+	
+		
+	
 	if (odd) {
 		return (
+			
 			<TouchableOpacity onPress={onBet}>
 				<View
 					key={odd.id}
@@ -115,9 +119,12 @@ export default function BasicBet(props: any) {
 					}
 				>
 					<Text>{odd.header  && odd.name != <odd className="header"></odd>? odd.header + " " : ""}</Text>
-					<View style={{ flexDirection: "row" }}>
+					<View style={{ flexDirection: "row", width: "100%", justifyContent: "space-between"}}>
 						<View>
-							<Text style={styles.name}>
+							<Text style={
+									!selected ? styles.name : styles.nameSelected
+								}
+							>
 								{odd.name != "Draw" ? odd.name : "N"}
 							</Text>
 						</View>
@@ -137,7 +144,7 @@ export default function BasicBet(props: any) {
 	} else if (props.plus) {
 		return (
 			<TouchableOpacity onPress={showMore}>
-				<View style={styles.betContainer}>
+				<View style={[styles.betContainer, styles.betContainerShowMore]}>
 					<Text style={styles.odd}>+{props.plus}</Text>
 				</View>
 			</TouchableOpacity>
@@ -149,40 +156,39 @@ export default function BasicBet(props: any) {
 
 const styles = StyleSheet.create({
 	betContainer: {
-		justifyContent: "center",
+		justifyContent: "space-between",
 		alignItems: "center",
-		// width:77,
-		paddingHorizontal: 12,
-		paddingVertical: 3,
-		margin: 5,
-		backgroundColor: Colors.background,
+		width:77,
+		padding:14,
+		backgroundColor: Colors.blue,
 		borderRadius: 12,
 	},
+	betContainerShowMore: {
+		width: 48
+	},
 	betContainerSelected: {
-		justifyContent: "center",
+		justifyContent: "space-between",
 		alignItems: "center",
-		// width:77,
-		paddingHorizontal: 12,
-		paddingVertical: 3,
-		margin: 5,
+		width:77,
+		padding:14,
 		backgroundColor: Colors.rdpColor,
 		borderRadius: 12,
 	},
 	name: {
-		// margin:3,
-		marginHorizontal: 10,
-		fontWeight: "500",
 		fontSize: 16,
-		color: "#A0BDF8",
+		color: Colors.grayPlaceHolder,
 	},
+	nameSelected: {
+		fontSize: 16,
+		color: Colors.grayWhite,
+	},
+	
 	odd: {
-		color: Colors.rdpColor,
-		fontWeight: "500",
+		color: Colors.black,
 		fontSize: 16,
 	},
 	oddSelected: {
 		color: "white",
-		fontWeight: "500",
 		fontSize: 16,
 	},
 });

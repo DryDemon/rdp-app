@@ -17,6 +17,7 @@ export default {
 	redBcg: "#FFE4E2",
 	greenBcg: "#E2FFEF",
 	green: "#34EE95",
+	grayWhite: "#F6F7F9",
 
 
 };

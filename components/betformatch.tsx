@@ -43,8 +43,7 @@ export default function betForMatch(props: any) {
 			</View>
 
 			<SmallLineBreak />
-			<SmallLineBreak />
-			<View>
+			<View style={{flexDirection:"row", justifyContent:"space-between",}}>
 				{fullMatchOdds
 					? fullMatchOdds.odds.map((odd: any) => (
 							<BasicBet
@@ -75,7 +74,16 @@ const styles = StyleSheet.create({
 		backgroundColor: "#FFFFFF",
 		borderRadius: 12,
 		padding: 12,
-		margin: 10,
+		marginVertical:12,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.32,
+		shadowRadius: 2.46,
+
+		elevation: 4,
 	},
 	matchName: {
 		fontSize: 15,
