@@ -103,6 +103,7 @@ export default function Create({ navigation }: any) {
 
 	const [canCreate, setcanCreate] = useState(true);
 	const [loading, setLoading] = useState(false);
+	const [isPublic, setIsPublic] = useState(false);
 
 	const [leaguesList, setLeaguesList] = useState<any>([]);
 
@@ -268,7 +269,7 @@ export default function Create({ navigation }: any) {
 					"1,13,18" +
 					"&leagues=" +
 					leaguesIdsList +
-					`&jwt=${jwt}`;
+					`&jwt=${jwt}&isPublic=${isPublic ? 1 : 0}`;
 
 				sendQueryCreateGame(query)
 					.then((content: any) => {
@@ -477,8 +478,11 @@ export default function Create({ navigation }: any) {
 													: styles.leagueSearchContainerUnselected
 											}
 										>
-											<CheckBox reverted={true} value={value.selected} />
-											
+											<CheckBox
+												reverted={true}
+												value={value.selected}
+											/>
+
 											<Text
 												style={
 													value.selected
@@ -554,7 +558,18 @@ export default function Create({ navigation }: any) {
 						</View>
 
 						<TextWarning>{alertLeagues}</TextWarning>
-
+						{user?.isAdmin ? (
+							<View>
+								<Text>Ligue Publique?</Text>
+								<SubText>
+									Seulement visible par les admins
+								</SubText>
+								<CheckBox
+									value={isPublic}
+									onValueChange={setIsPublic}
+								/>
+							</View>
+						) : null}
 						<Button title={"Creer"} onPress={() => onCreate()} />
 						<View
 							style={styles.separator} //forandroid manly
