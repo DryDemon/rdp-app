@@ -126,6 +126,7 @@ export default function GamePlaceBet(props: any) {
 
 				<View>
 					<AllBets
+					
 						reloadCart={reloadCart}
 						joinCode={joinCode}
 						callbackShowMatchBet={callbackShowMatchBet}

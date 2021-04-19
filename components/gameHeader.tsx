@@ -22,20 +22,20 @@ export function GameHeader(props: any) {
 		navigation,
 		callbackQuestionMark,
 		toggleShowBonus,
+		canShowBonus,
 		...otherProps
 	} = props;
 
 	const backgroundColor = Colors.white;
 
 	const height = 56;
-	
+
 	const width = "100%";
 	const fontWeight = "700";
 
 	const marginTop = Constants.statusBarHeight;
 
 	const color = Colors.rdpColor;
-
 
 	function logout() {
 		AsyncStorage.removeItem("@jwt").then(() => {
@@ -80,24 +80,24 @@ export function GameHeader(props: any) {
 						width,
 						marginTop,
 						paddingHorizontal: 24,
-						flexDirection:"row",
-						alignItems:"center",
+						flexDirection: "row",
+						alignItems: "center",
 						justifyContent: "space-between",
 						shadowColor: "rgba(0,0,0, 0.24)",
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
-		shadowOpacity: 0.23,
-		elevation: 50,
+						shadowOffset: {
+							width: 0,
+							height: 2,
+						},
+						shadowOpacity: 0.23,
+						elevation: 50,
 					},
 				]}
 			>
-				<View 
+				<View
 					style={[
 						{
-							flexDirection:"row",
-							alignItems:"center",
+							flexDirection: "row",
+							alignItems: "center",
 						},
 					]}
 				>
@@ -118,8 +118,7 @@ export function GameHeader(props: any) {
 									fontSize: 20,
 									lineHeight: 26,
 									textAlignVertical: "center",
-									
-									
+
 									// fontFamily: "Orkney",
 								},
 							]}
@@ -143,17 +142,16 @@ export function GameHeader(props: any) {
 							/>
 						</TouchableOpacity>
 					) : undefined}
-					
 				</View>
 				<View
 					style={[
 						{
-							flexDirection:"row",
-							alignItems:"center",
+							flexDirection: "row",
+							alignItems: "center",
 						},
 					]}
-				>	
-					{toggleShowBonus ? (
+				>
+					{toggleShowBonus && canShowBonus? (
 						<TouchableOpacity
 							onPress={toggleShowBonus}
 							style={[
@@ -162,12 +160,14 @@ export function GameHeader(props: any) {
 								},
 							]}
 						>
-							<Octicons name="gift" size={24} color={Colors.black} />
+							<Octicons
+								name="gift"
+								size={24}
+								color={Colors.black}
+							/>
 						</TouchableOpacity>
 					) : undefined}
-					<TouchableOpacity
-						onPress={logout}
-					>
+					<TouchableOpacity onPress={logout}>
 						<MaterialCommunityIcons
 							name="logout"
 							size={24}

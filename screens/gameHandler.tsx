@@ -195,6 +195,7 @@ export default function GameHandler({ navigation }: any) {
 	return (
 		<View>
 			<GameHeader
+				canShowBonus={!(game?.isPublic)}
 				toggleShowBonus={toggleShowBonus}
 				joinCode={joinCode}
 				back={"Dashboard"}

@@ -13,6 +13,8 @@ export interface GameSchema {
 
     sportIdList ?: Array<{name : string, id : string}>;
     leagueIdList ?: Array<{name : string, id : string}>;
+ 
+   isPublic: boolean;
 
     logoUrl ?: string;
 
