@@ -9,16 +9,26 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { validURL } from "../src/smallFuncts";
 import Feather from "react-native-vector-icons/Feather";
+import { addUserInAGame } from "./MyLeaguesDash";
 
 export function GameIcon(props: any) {
 	const game: GameSchema = props.game;
 	const create = props.create;
 	const navigation: any = props.navigation;
 	const username: string = props.username;
+	const joinBeforeEntering: boolean | undefined = props.joinBeforeEntering;
+	const jwt: string | undefined = props.jwt;
 
 	function gotoGame(joinCode: string) {
-		AsyncStorage.setItem("@joinCode", joinCode);
-		navigation.navigate("Game");
+		if (joinBeforeEntering && jwt) {
+			addUserInAGame(joinCode, jwt).then((content: any) => {
+				AsyncStorage.setItem("@joinCode", joinCode);
+				navigation.navigate("Game");
+			});
+		} else {
+			AsyncStorage.setItem("@joinCode", joinCode);
+			navigation.navigate("Game");
+		}
 	}
 
 	let url: string = SERVER_LOGO_URL;
@@ -30,13 +40,21 @@ export function GameIcon(props: any) {
 		return (
 			<TouchableOpacity onPress={() => navigation.navigate("Create")}>
 				<View style={styles.gameContainer}>
-					<View style={{width:150, height:150, alignItems:"center",marginLeft:"auto",marginRight:"auto", justifyContent: 'center'}}>
-
-					<Feather
-						name="plus-circle"
-						size={28}
-						color={"#2F4858"}
-					/>
+					<View
+						style={{
+							width: 150,
+							height: 150,
+							alignItems: "center",
+							marginLeft: "auto",
+							marginRight: "auto",
+							justifyContent: "center",
+						}}
+					>
+						<Feather
+							name="plus-circle"
+							size={28}
+							color={"#2F4858"}
+						/>
 					</View>
 
 					<TextTitle style={styles.gameTitle}>

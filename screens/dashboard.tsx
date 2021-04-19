@@ -24,6 +24,7 @@ import { GameIcon } from "../components/GameIcon";
 import { GameSchema } from "../src/interaces/interfacesGame";
 import { MyLeaguesDash } from "../components/MyLeaguesDash";
 import { GameHeader } from "../components/gameHeader";
+import { PublicLeaguesDash } from "../components/PublicLeaguesDash";
 
 async function fetchUserGames(jwt: string) {
 	const rawResponse = await fetch(
@@ -38,6 +39,7 @@ export default function Dashboard({ navigation }: any) {
 	const [jwt, setJwt] = useState<string>("");
 	const [user, setUser] = useState<User>();
 	const [games, setGames] = useState<Array<GameSchema>>([]);
+	const [publicGames, setPublicGames] = useState<Array<GameSchema>>([]);
 
 	if (!jwt || !user) {
 		try {
@@ -72,12 +74,16 @@ export default function Dashboard({ navigation }: any) {
 		// Call any action
 
 		if (jwt) {
-			fetchUserGames(jwt).then((data: any) => {
-				if (data?.isConnected == 0) {
+			fetchUserGames(jwt).then((content) => {
+				let isConnected = content.isConnected;
+				let publicGames = content.publicGames;
+				let privateGames = content.privateGames;
+				if (isConnected == 0) {
 					AsyncStorage.setItem("@jwt", "");
 					navigation.navigate("Login");
 				} else {
-					setGames(data);
+					setGames(privateGames);
+					setPublicGames(publicGames);
 				}
 			});
 		}
@@ -93,30 +99,37 @@ export default function Dashboard({ navigation }: any) {
 	//if the usergoes back to dashboard, we reload the games
 	useEffect(() => {
 		if (jwt) {
-			fetchUserGames(jwt).then((data: any) => {
-				if (data?.isConnected && data.isConnected == 0) {
+			fetchUserGames(jwt).then((content) => {
+				let isConnected = content.isConnected;
+				let publicGames = content.publicGames;
+				let privateGames = content.privateGames;
+				if (isConnected == 0) {
 					AsyncStorage.setItem("@jwt", "");
 					navigation.navigate("Login");
 				} else {
-					setGames(data);
+					setGames(privateGames);
+					setPublicGames(publicGames);
 				}
 			});
 		}
 	}, [jwt]);
-	
+
 	useEffect(() => {
 		if (jwt) {
-			fetchUserGames(jwt).then((data: any) => {
-				if (data?.isConnected && data.isConnected == 0) {
+			fetchUserGames(jwt).then((content) => {
+				let isConnected = content.isConnected;
+				let publicGames = content.publicGames;
+				let privateGames = content.privateGames;
+				if (isConnected == 0) {
 					AsyncStorage.setItem("@jwt", "");
 					navigation.navigate("Login");
 				} else {
-					setGames(data);
+					setGames(privateGames);
+					setPublicGames(publicGames);
 				}
 			});
 		}
-		
-	}, [])
+	}, []);
 
 	return (
 		<View>
@@ -128,6 +141,11 @@ export default function Dashboard({ navigation }: any) {
 						games={games}
 						navigation={navigation}
 						jwt={jwt}
+					/>
+					<PublicLeaguesDash
+						jwt={jwt}
+						publicGames={publicGames}
+						navigation={navigation}
 					/>
 					<LineBreak />
 				</BasicScrollView>

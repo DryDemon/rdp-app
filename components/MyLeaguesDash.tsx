@@ -17,7 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Colors from "../constants/Colors";
 import { SERVER_API_URL } from "../constants/Server";
 
-async function addUserInAGame(joinCode: string, jwt: string) {
+export async function addUserInAGame(joinCode: string, jwt: string) {
 	const rawResponse = await fetch(
 		SERVER_API_URL + `/adduserinagame?joinCode=${joinCode}&jwt=${jwt}`
 	);
