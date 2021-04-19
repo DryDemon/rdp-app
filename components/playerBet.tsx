@@ -136,7 +136,7 @@ export function PlayerBet(props: any) {
 						<MaterialCommunityIcons
 							style={styles.icon}
 							name="progress-clock"
-							size={20}
+							size={24}
 							color={"#000"}
 						/>
 					) : null}
@@ -144,7 +144,7 @@ export function PlayerBet(props: any) {
 						<EvilIcons
 							style={styles.icon}
 							name="trophy"
-							size={20}
+							size={24}
 							color={"#5BD18F"}
 						/>
 					) : null}
@@ -158,7 +158,7 @@ export function PlayerBet(props: any) {
 							<Entypo
 								style={styles.icon}
 								name="cross"
-								size={20}
+								size={24}
 								color={"#000"}
 							/>
 						</View>
@@ -168,7 +168,7 @@ export function PlayerBet(props: any) {
 							<Entypo
 								style={styles.icon}
 								name="dots-three-vertical"
-								size={20}
+								size={24}
 								color={"black"}
 							/>
 						</TouchableOpacity>
@@ -176,8 +176,8 @@ export function PlayerBet(props: any) {
 				</View>
 
 				{showBetOption ? renderShowBetOption() : null}
-				{simple ? <SubText>{simpleBet.leagueName}</SubText> : null}
-				<View style={styles.lineRow}>
+				{simple ? <SubText style={{marginBottom: 12, marginTop: 0, fontSize: 11, color: Colors.grayPlaceHolder, }}>{simpleBet.leagueName}</SubText> : null}
+				<View style={[{marginBottom: 4},styles.lineRow]}>
 					<Text style={styles.mise}>Mise : </Text>
 					<Text style={styles.credits}>{bet.credits}</Text>
 				</View>
@@ -195,18 +195,11 @@ export function PlayerBet(props: any) {
 				</View>
 				<SmallLineBreak />
 				<View style={styles.lineRow}>
-					<View>
+					{/*<View>
 						<Text style={styles.credits}>
 							{getUserNameFromId(game, bet.userId)}
 						</Text>
-					</View>
-					<View style={styles.mainQuoteContainer}>
-						<Text style={styles.mainQuoteText}>
-							{bet.mainQuote}
-							{bet.quoteBoost ? " x " + bet.quoteBoost : ""}
-						</Text>
-					</View>
-				</View>
+					</View>*/}
 				{simple &&
 				(simpleBet.betName ||
 					simpleBet.betSubName ||
@@ -233,6 +226,15 @@ export function PlayerBet(props: any) {
 					</View>
 				) : null}
 				{!simple ? <SeeDetails bet={bet} /> : null}
+
+					<View style={styles.mainQuoteContainer}>
+						<Text style={styles.mainQuoteText}>
+							{bet.mainQuote}
+							{bet.quoteBoost ? " x " + bet.quoteBoost : ""}
+						</Text>
+					</View>
+				</View>
+				
 			</View>
 		);
 	} else return null;
@@ -241,11 +243,20 @@ export function PlayerBet(props: any) {
 const styles = StyleSheet.create({
 	betContainer: {
 		width: "100%",
-
 		borderRadius: 12,
-		backgroundColor: "white",
+		backgroundColor: Colors.white,
 		padding: 12,
-		margin: 6,
+		marginVertical: 6,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.32,
+		shadowRadius: 2.46,
+
+		elevation: 4,
+
 	},
 	header: {
 		flexDirection: "row",
@@ -271,6 +282,7 @@ const styles = StyleSheet.create({
 	},
 	mise: {
 		fontSize: 12,
+
 	},
 	mainQuoteContainer: {
 		marginLeft: "auto",
