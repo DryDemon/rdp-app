@@ -84,10 +84,10 @@ export default function GameListBets(props: any) {
 
 	return (
 		<View>
-			<SmallLineBreak />
+			<SmallLineBreak/>
 			<TextSubTitle style={styles.titleGame}>Les Paris</TextSubTitle>
 
-			<View style={{ flexDirection: "row" }}>
+			<View style={{ flexDirection: "row", marginVertical: 12, }}>
 				<TouchableOpacity onPress={() => setMyBets(true)}>
 					<Text
 						style={
@@ -112,7 +112,7 @@ export default function GameListBets(props: any) {
 				</TouchableOpacity>
 			</View>
 			{/* Filter menu */}
-			<View style={{ flexDirection: "row" }}>
+			<View style={{ flexDirection: "row", justifyContent: "space-between", marginVertical: 12, }}>
 				{["En cours", "Gagnés", "Perdus", "Terminés"].map(
 					(value: any) => (
 						<TouchableOpacity
@@ -154,42 +154,47 @@ const styles = StyleSheet.create({
 	titleGame: {
 		fontSize: 22,
 		fontWeight: "500",
+		marginBottom: 24,
 	},
 	textToMiddle: {
-		alignItems: "center",
+		
+		marginTop:6,
 	},
 	choiceMyBetsSelected: {
 		fontWeight: "400",
 		fontSize: 16,
 		color: "black",
-		margin: 12,
+		marginRight: 24,
 	},
 	choiceMyBetsNotSelected: {
 		fontWeight: "400",
 		fontSize: 16,
 		color: "gray",
-		margin: 12,
+		marginRight: 24,
 	},
 	betChoiceButtonTouched: {
 		flexShrink: 1,
 		flexWrap: "wrap",
+		justifyContent:"center",
 		flex: 1,
 		fontSize: 12,
 		borderRadius: 12,
+		textAlign:"center",
 		backgroundColor: Colors.rdpColor,
 		minWidth: "auto",
 		paddingHorizontal: 8,
-		paddingVertical: 6,
+		paddingVertical: 8,
 		color: "white",
 	},
 	betChoiceButtonUntouched: {
 		flexShrink: 1,
 		flexWrap: "wrap",
+		justifyContent:"center",
 		flex: 1,
 		fontSize: 12,
 		borderRadius: 12,
 		minWidth: "auto",
 		paddingHorizontal: 8,
-		paddingVertical: 6,
+		paddingVertical: 8,
 	},
 });
