@@ -55,7 +55,7 @@ export function SeeDetails(props: any) {
 								<MaterialCommunityIcons
 									style={styles.icon}
 									name="progress-clock"
-									size={20}
+									size={24}
 									color={"#000"}
 								/>
 							) : null}
@@ -63,7 +63,7 @@ export function SeeDetails(props: any) {
 								<EvilIcons
 									style={styles.icon}
 									name="trophy"
-									size={20}
+									size={24}
 									color={"#5BD18F"}
 								/>
 							) : null}
@@ -77,7 +77,7 @@ export function SeeDetails(props: any) {
 									<Entypo
 										style={styles.icon}
 										name="cross"
-										size={20}
+										size={24}
 										color={"#000"}
 									/>
 								</View>
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
 	seeDetailsView: {
 		backgroundColor: Colors.revertRdpColor,
 		padding: 4,
-		borderRadius: 4,
+		borderRadius: 8,
 	},
 	seeDetailsText: {
 		fontSize: 12,
