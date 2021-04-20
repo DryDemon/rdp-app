@@ -41,12 +41,12 @@ import AllBets from "../allbets";
 import { LeagueIcon } from "../LeagueIcon";
 
 async function fetchBetData(joinCode: string, jwt: string) {
-	const apiRoute =
-		ENVIRONEMENT != "dev" ? "getnextmatchleaguedata" : "getmatchleaguedata";
+	// const apiRoute =
+	// 	ENVIRONEMENT != "dev" ? "getnextmatchleaguedata" : "getmatchleaguedata";
 
 	if (joinCode && jwt) {
 		const rawResponse = await fetch(
-			`${SERVER_API_URL}/${apiRoute}?jwt=${jwt}&joinCode=${joinCode}`
+			`${SERVER_API_URL}/getnextmatchleaguedata?jwt=${jwt}&joinCode=${joinCode}`
 		);
 
 		const content = await rawResponse.json();
@@ -54,6 +54,18 @@ async function fetchBetData(joinCode: string, jwt: string) {
 	}
 	return undefined;
 }
+
+// async function fetchLiveBetData(joinCode: string, jwt: string) {
+// 	if (joinCode && jwt) {
+// 		const rawResponse = await fetch(
+// 			`${SERVER_API_URL}/getlivematchs?jwt=${jwt}&joinCode=${joinCode}`
+// 		);
+
+// 		const content = await rawResponse.json();
+// 		if (content.success == 1) return content;
+// 	}
+// 	return undefined;
+// }
 
 export default function GamePlaceBet(props: any) {
 	const {
@@ -67,15 +79,37 @@ export default function GamePlaceBet(props: any) {
 
 	const [matchs, setMatchs] = useState<Array<MatchSchema>>([]);
 	const [leagues, setLeagues] = useState<Array<LeagueSchema>>([]);
+
+	const [listLiveLeagues, setListLiveLeagues] = useState<Array<string>>([]);
+
 	const [listFilter, setListFilter] = useState<Array<string>>([]);
 
 	useEffect(() => {
 		fetchBetData(joinCode, jwt).then((content) => {
 			if (content) {
-				if (content.matchs) setMatchs(content.matchs);
+				if (content.matchs) {
+					setMatchs(content.matchs);
+					let listLiveLeaguesCpy: string[] = [];
+					content.matchs.forEach((value: MatchSchema) => {
+						if (
+							value.liveId &&
+							value.leagueId &&
+							listLiveLeaguesCpy.indexOf(value.leagueId) == -1
+						)
+							listLiveLeaguesCpy.push(value.leagueId);
+					});
+					setListLiveLeagues(listLiveLeaguesCpy);
+				}
 				if (content.leagues) setLeagues(content.leagues);
 			}
 		});
+
+		// fetchLiveBetData(joinCode, jwt).then((content) => {
+		// 	if (content) {
+		// 		if (content.matchs) setLiveMatchs(content.matchs);
+		// 		if (content.leagues) setLiveLeagues(content.leagues);
+		// 	}
+		// });
 	}, [jwt, joinCode]);
 
 	useEffect(() => {
@@ -112,6 +146,10 @@ export default function GamePlaceBet(props: any) {
 						if (league.leagueId)
 							return (
 								<LeagueIcon
+									isLive={listLiveLeagues.some(
+										(value: string) =>
+											value == league.leagueId
+									)}
 									key={league.leagueId}
 									league={league}
 									onPress={(id: string) =>
@@ -126,7 +164,6 @@ export default function GamePlaceBet(props: any) {
 
 				<View>
 					<AllBets
-					
 						reloadCart={reloadCart}
 						joinCode={joinCode}
 						callbackShowMatchBet={callbackShowMatchBet}
