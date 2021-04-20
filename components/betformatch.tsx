@@ -16,7 +16,7 @@ import { ENVIRONEMENT } from "../constants/Environement";
 
 export default function betForMatch(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
-	const match = props.matchData;
+	const match: any = props.matchData;
 	const reloadCart = props.reloadCart;
 	const joinCode = props.joinCode;
 	const setReloadCart = props.setReloadCart;
@@ -26,6 +26,8 @@ export default function betForMatch(props: any) {
 	let bets = match.prematchOdds;
 	const matchName = match.teamHome + " - " + match.teamAway;
 
+	let isLive = match.liveId != undefined;
+	
 	let fullMatchOdds = match.mainBet;
 	let numberOfOdds = match.numOfRestBets;
 

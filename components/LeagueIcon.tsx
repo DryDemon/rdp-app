@@ -66,7 +66,6 @@ export function LeagueIcon(props: any) {
 
 				{isLive ? (
 					<View style={styles.liveContainer}>
-						{" "}
 						<Text style={styles.liveText}>Live</Text>
 					</View>
 				) : null}

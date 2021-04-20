@@ -545,7 +545,7 @@ export default function Create({ navigation }: any) {
 												)
 											}
 										>
-											<Text>{league.leagueName}</Text>{" "}
+											<Text>{league.leagueName}</Text>
 											<Entypo
 												// style={styles.icon}
 												name="cross"
