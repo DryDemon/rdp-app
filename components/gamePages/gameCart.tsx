@@ -692,7 +692,7 @@ export default function GameCart(props: any) {
 							type == "simple" ? { color: "white" } : undefined
 						}
 					>
-						Simple{" "}
+						Simple
 					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
@@ -711,7 +711,7 @@ export default function GameCart(props: any) {
 						Combiné
 					</Text>
 				</TouchableOpacity>
-				<TouchableOpacity
+				{/* <TouchableOpacity
 					onPress={() => changeType("système")}
 					style={
 						type == "système"
@@ -726,7 +726,7 @@ export default function GameCart(props: any) {
 					>
 						Système
 					</Text>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 			</View>
 			<View style={styles.textToMiddle}>
 				<SmallLineBreak />
