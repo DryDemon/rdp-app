@@ -559,9 +559,9 @@ export default function Create({ navigation }: any) {
 						<TextWarning>{alertLeagues}</TextWarning>
 						{user?.isAdmin ? (
 							<View>
-								<Text>Ligue Publique?</Text>
+								<Text>Contest Publique?</Text>
 								<SubText>
-									Seulement visible par les admins
+									Seulement visible par les admins, si ce bouton est activé, alors le contest sera publique.
 								</SubText>
 								<CheckBox
 									value={isPublic}
