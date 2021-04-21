@@ -128,7 +128,7 @@ export function SeeDetails(props: any) {
 
 							<View style={styles.mainQuoteContainer}>
 								<Text style={styles.mainQuoteText}>
-									{bet.quote.toFixed(2)}
+									{bet.quote}
 								</Text>
 							</View>
 						</View>
