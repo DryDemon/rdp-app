@@ -229,7 +229,7 @@ export function PlayerBet(props: any) {
 
 					<View style={styles.mainQuoteContainer}>
 						<Text style={styles.mainQuoteText}>
-							{bet.mainQuote}
+							{bet.mainQuote.toFixed(2)}
 							{bet.quoteBoost ? " x " + bet.quoteBoost : ""}
 						</Text>
 					</View>
