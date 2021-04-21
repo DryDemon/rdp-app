@@ -72,7 +72,6 @@ export default function Register({ navigation }: any) {
 		);
 		const rep = await rawRep.json();
 		if (rep.isConnected == 1) {
-			alert("there");
 			try {
 				await AsyncStorage.setItem("@jwt", rep.jwt);
 				await AsyncStorage.setItem("@user", JSON.stringify(rep.user));
