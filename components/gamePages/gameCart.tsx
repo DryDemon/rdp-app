@@ -200,7 +200,10 @@ export default function GameCart(props: any) {
 	const [systemChoice, setSystemChoice] = useState(0);
 
 	const [isUsingMultiplyBonus, setIsUsingMultiplyBonus] = useState(false);
+	const [simpleBetBonusUsed, setSimpleBetBonusUsed] = useState<{matchId: string|undefined, betId: string|undefined}>({matchId: undefined, betId: undefined});
+
 	let [canMultiplyBet, multiplyValue] = getUserMultiplyBonus(game, user?._id);
+
 
 	useEffect(() => {
 		[canMultiplyBet, multiplyValue] = getUserMultiplyBonus(game, user?._id);
@@ -408,6 +411,8 @@ export default function GameCart(props: any) {
 	async function sendSimpleBets() {
 		let cpy = betsToDisplay;
 		for (let bet of cpy) {
+			let tempValueIdUserMultiplyBonus = isUsingMultiplyBonus;
+			if(tempValueIdUserMultiplyBonus && bet.betId == simpleBetBonusUsed.betId && bet.matchId == simpleBetBonusUsed.matchId)tempValueIdUserMultiplyBonus = true;
 			let rep = await sendBetToServer(
 				jwt,
 				joinCode,
@@ -625,13 +630,13 @@ export default function GameCart(props: any) {
 		let totalMise = 0.0;
 		if (type != "simple") {
 			totalMise = mainMise;
-			if(totalMise<1){
+			if (totalMise < 1) {
 				isBettingPositiveValue = false;
 			}
 		} else {
 			for (let bet of betsToDisplay) {
 				totalMise += bet.mise;
-				if(bet.mise<1){
+				if (bet.mise < 1) {
 					isBettingPositiveValue = false;
 				}
 			}
@@ -827,6 +832,23 @@ export default function GameCart(props: any) {
 												value={value.mise}
 											/>
 										) : null}
+										{type == "simple" && canMultiplyBet ? (
+											<View>
+												<Text>
+													Utiliser le boost de
+													{multiplyValue}
+												</Text>
+												<CheckBox
+													value={isUsingMultiplyBonus && simpleBetBonusUsed.betId == value.betId && simpleBetBonusUsed.matchId == value.matchId}
+													onValueChange={() => {
+														setSimpleBetBonusUsed({matchId: value.matchId, betId: value.betId})
+														setIsUsingMultiplyBonus(
+															!(simpleBetBonusUsed.betId == value.betId && simpleBetBonusUsed.matchId == value.matchId && isUsingMultiplyBonus)
+														);
+													}}
+												/>
+											</View>
+										) : null}
 									</View>
 								))}
 							</View>
@@ -863,7 +885,7 @@ export default function GameCart(props: any) {
 				</View>
 				{betsToDisplay && betsToDisplay.length > 0 ? (
 					<View>
-						{canMultiplyBet ? (
+						{canMultiplyBet && type != "simple" ? (
 							<View>
 								<Text>
 									Utiliser le boost de {multiplyValue}
