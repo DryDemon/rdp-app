@@ -17,9 +17,8 @@ import { ENVIRONEMENT } from "../constants/Environement";
 export default function betForMatch(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
 	const match: any = props.matchData;
-	const reloadCart = props.reloadCart;
 	const joinCode = props.joinCode;
-	const setReloadCart = props.setReloadCart;
+	const betChoiceListGroup = props.betChoiceListGroup;
 
 	const time = format(parseISO(match.time), "dd/MM - H:mm", {});
 
@@ -49,9 +48,8 @@ export default function betForMatch(props: any) {
 				{fullMatchOdds
 					? fullMatchOdds.odds.map((odd: any) => (
 							<BasicBet
-								setReloadCart={setReloadCart}
+								betChoiceListGroup={betChoiceListGroup}
 								joinCode={joinCode}
-								reloadCart={reloadCart}
 								key={odd.id}
 								odd={odd}
 								matchId={match.matchId}
@@ -59,9 +57,8 @@ export default function betForMatch(props: any) {
 					  ))
 					: null}
 				<BasicBet
-					setReloadCart={setReloadCart}
+					betChoiceListGroup={betChoiceListGroup}
 					joinCode={joinCode}
-					reloadCart={reloadCart}
 					callbackShowMatchBet={callbackShowMatchBet}
 					match={match}
 					plus={numberOfOdds}

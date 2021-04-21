@@ -18,7 +18,7 @@ export default function BetListForGameMatchBets(props: any) {
 	const [showDropDown, setShowDropDown] = useState(true);
 
 	const bet = props.bet;
-	const setReloadCart = props.setReloadCart;
+	const betChoiceListGroup = props.betChoiceListGroup;
 
 	if (bet && bet.odds)
 		return (
@@ -59,8 +59,7 @@ export default function BetListForGameMatchBets(props: any) {
 							) : null}
 
 							<BasicBet
-							setReloadCart={setReloadCart}
-								reloadCart={props.reloadCart}
+							betChoiceListGroup={betChoiceListGroup}
 								joinCode={props.joinCode}
 								key={odd.id}
 								odd={odd}

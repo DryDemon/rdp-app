@@ -11,7 +11,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 
 export function GameFooter(props: any) {
-	const { page, setPage, reloadCart, joinCode, ...otherProps } = props;
+	const { page, setPage,  joinCode,betChoiceList,  ...otherProps } = props;
 
 	const [betNumber, setBetNumber] = useState(0);
 
@@ -20,7 +20,7 @@ export function GameFooter(props: any) {
 	}, []);
 	useEffect(() => {
 		getBetNumber();
-	}, [reloadCart, joinCode]);
+	}, [ joinCode, betChoiceList]);
 
 	function gotoIcon(id: number) {
 		switch (id) {
@@ -43,11 +43,7 @@ export function GameFooter(props: any) {
 	}
 
 	function getBetNumber(unused?: any) {
-		AsyncStorage.getItem("@cart_" + joinCode).then((input) => {
-			let cart: any = [];
-			if (input) cart = JSON.parse(input);
-			setBetNumber(cart.length);
-		});
+		setBetNumber(betChoiceList.length);
 	}
 
 	return (

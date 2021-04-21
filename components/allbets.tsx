@@ -7,9 +7,8 @@ export default function AllBets(props: any) {
 	const filter = props.filter;
 	const matchs = props.matchs;
 	const callbackShowMatchBet = props.callbackShowMatchBet;
-	const reloadCart = props.reloadCart;
 	const joinCode = props.joinCode;
-	const setReloadCart = props.setReloadCart;
+	const betChoiceListGroup = props.betChoiceListGroup;
 
 	return (
         <View>
@@ -19,8 +18,7 @@ export default function AllBets(props: any) {
 				return (
 					<BetForLeague
 						key={league.leagueName}
-						reloadCart={reloadCart}
-						setReloadCart={setReloadCart}
+						betChoiceListGroup={betChoiceListGroup}
 						joinCode={joinCode}
 						callbackShowMatchBet={callbackShowMatchBet}
 						leagueData={league}

@@ -72,8 +72,7 @@ export default function GamePlaceBet(props: any) {
 		jwt,
 		joinCode,
 		callbackShowMatchBet,
-		reloadCart,
-		setReloadCart,
+		betChoiceListGroup,
 		...otherProps
 	} = props;
 
@@ -164,13 +163,12 @@ export default function GamePlaceBet(props: any) {
 
 				<View>
 					<AllBets
-						reloadCart={reloadCart}
 						joinCode={joinCode}
 						callbackShowMatchBet={callbackShowMatchBet}
 						leagues={leagues}
 						filter={listFilter}
 						matchs={matchs}
-						setReloadCart={setReloadCart}
+						betChoiceListGroup={betChoiceListGroup}
 					/>
 				</View>
 
