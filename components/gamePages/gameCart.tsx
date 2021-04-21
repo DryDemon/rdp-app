@@ -219,6 +219,11 @@ export default function GameCart(props: any) {
 		if (ENVIRONEMENT == "dev") console.log(systemChoice);
 	}, [systemChoice]);
 
+	//validate the cart each time bet action
+	useEffect(() => {
+		validateCart()
+	}, [betChoiceListGameHandler, betChoiceMainInfo, type]);
+
 	//fonctions principales du panier
 	function changeType(type: any) {
 		setType(type);
@@ -252,7 +257,6 @@ export default function GameCart(props: any) {
 				cart[i].mise = mise;
 			}
 		}
-		validateCart();
 		setBetChoiceListGameHandler(cart);
 	}
 
@@ -326,7 +330,6 @@ export default function GameCart(props: any) {
 	}, [type, betsToDisplay, systemChoice]);
 
 	function updateBetMainMise(mise: number) {
-		validateCart();
 		setBetChoiceMainInfo({ miseGlobal: mise });
 	}
 	async function sendSimpleBets() {
@@ -357,6 +360,7 @@ export default function GameCart(props: any) {
 	}
 
 	function onSend() {
+		validateCart()
 		if (alertMessage == "") {
 			setblockSendButton(true);
 			let betIds: Array<string> = [];
@@ -584,7 +588,13 @@ export default function GameCart(props: any) {
 		//verifier que pour un système il a au moins 3 paris
 		if (type == "système" && betsToDisplay.length < 3) {
 			if (message == "") message += "\n";
-			message += "Vous devez placer au moins 2 paris pour un système.";
+			message += "Vous devez placer au moins 3 paris pour un système.";
+		}
+
+		//verifier que pour un combiné il a au moins 2 paris
+		if (type == "combiné" && betsToDisplay.length < 2) {
+			if (message == "") message += "\n";
+			message += "Vous devez placer au moins 2 paris pour un pari combiné.";
 		}
 
 		//verifier pour combiné ou ssytème que les paris ne sont pas du même match
@@ -802,7 +812,6 @@ export default function GameCart(props: any) {
 							{type == "combiné" ? (
 								<RenderBetInput
 									onChange={(mise: any) => {
-										validateCart();
 										setBetChoiceMainInfo({
 											miseGlobal: mise,
 										});
