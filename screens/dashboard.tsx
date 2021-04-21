@@ -144,6 +144,7 @@ export default function Dashboard({ navigation }: any) {
 					/>
 					<PublicLeaguesDash
 						jwt={jwt}
+						privateJoinCodes={games.map(function(game : GameSchema){ return game.joinCode; })}
 						publicGames={publicGames}
 						navigation={navigation}
 					/>

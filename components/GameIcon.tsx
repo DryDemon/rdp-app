@@ -17,10 +17,11 @@ export function GameIcon(props: any) {
 	const navigation: any = props.navigation;
 	const username: string = props.username;
 	const joinBeforeEntering: boolean | undefined = props.joinBeforeEntering;
+	const needToAddUserInGame: boolean | undefined = props.needToAddUserInGame;
 	const jwt: string | undefined = props.jwt;
 
 	function gotoGame(joinCode: string) {
-		if (joinBeforeEntering && jwt) {
+		if (joinBeforeEntering && jwt && needToAddUserInGame) {
 			addUserInAGame(joinCode, jwt).then((content: any) => {
 				AsyncStorage.setItem("@joinCode", joinCode);
 				navigation.navigate("Game");
