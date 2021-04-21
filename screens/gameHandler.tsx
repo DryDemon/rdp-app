@@ -28,7 +28,7 @@ import {
 	GameScrollView,
 } from "../components/Themed";
 
-import { ENVIRONEMENT } from "../constants/Environement";
+import { CONST_BASE_MISE_PARI, ENVIRONEMENT } from "../constants/Environement";
 import { SERVER_API_URL, SERVER_LOGO_URL } from "../constants/Server";
 import { GameSchema } from "../src/interaces/interfacesGame";
 import { validURL } from "../src/smallFuncts";
@@ -60,8 +60,6 @@ export default function GameHandler({ navigation }: any) {
 	const [joinCode, setJoinCode] = useState("");
 	const [game, setGame] = useState<GameSchema>();
 
-	const [reloadCart, setReloadCart] = useState(0);
-
 	const [logoUrl, setlogoUrl] = useState(SERVER_LOGO_URL);
 
 	const [page, setPage] = useState<
@@ -73,6 +71,14 @@ export default function GameHandler({ navigation }: any) {
 		| "gameMatchBets"
 		| "gameInfo"
 	>(ENVIRONEMENT == "prod" ? "gameInfo" : "gameListBets");
+
+	const [betChoiceListGameHandler, setBetChoiceListGameHandler] = useState<Array<{
+		matchId: string,
+		betId: string,
+		mise: number,
+		isBase: boolean,
+	}>>([]); //Use this to show the game page bets
+	const [betChoiceMainInfo, setBetChoiceMainInfo] = useState<{miseGlobal : number}>({ miseGlobal: CONST_BASE_MISE_PARI }); //Use this to show the game page bets
 
 	const [showGamePage, setshowGamePage] = useState(false); //Use this to show the game page bets
 	const [match, setmatch] = useState({});
@@ -238,11 +244,10 @@ export default function GameHandler({ navigation }: any) {
 							setmatch(match);
 							setPage("gameMatchBets");
 						}}
-						reloadCart={reloadCart}
 						reloadGame={reloadGame}
 						jwt={jwt}
 						joinCode={joinCode}
-						setReloadCart={setReloadCart}
+						betChoiceListGroup={[betChoiceListGameHandler, setBetChoiceListGameHandler]}
 					/>
 				</GameScrollView>
 			</ViewContainer>
@@ -275,8 +280,8 @@ export default function GameHandler({ navigation }: any) {
 			>
 				<GameScrollView>
 					<GameCart
-						reloadCart={reloadCart}
-						setReloadCart={setReloadCart}
+						betChoiceListGroup={[betChoiceListGameHandler, setBetChoiceListGameHandler]}
+						betChoiceMainInfoGroup={[betChoiceMainInfo, setBetChoiceMainInfo]}
 						reloadGame={reloadGame}
 						jwt={jwt}
 						user={user}
@@ -315,8 +320,7 @@ export default function GameHandler({ navigation }: any) {
 			>
 				<GameScrollView>
 					<GameMatchBets
-						setReloadCart={setReloadCart}
-						reloadCart={reloadCart}
+						betChoiceListGroup={[betChoiceListGameHandler, setBetChoiceListGameHandler]}
 						match={match}
 						reloadGame={reloadGame}
 						jwt={jwt}
@@ -324,7 +328,7 @@ export default function GameHandler({ navigation }: any) {
 						joinCode={joinCode}
 						game={game}
 						logoUrl={logoUrl}
-					/>
+						/>
 				</GameScrollView>
 			</ViewContainer>
 
@@ -334,7 +338,7 @@ export default function GameHandler({ navigation }: any) {
 						? { display: "flex" }
 						: { display: "none" }
 				}
-			>
+				>
 				<GameScrollView>
 					<GameInfo
 						reloadGame={reloadGame}
@@ -343,7 +347,7 @@ export default function GameHandler({ navigation }: any) {
 						joinCode={joinCode}
 						game={game}
 						logoUrl={logoUrl}
-					/>
+						/>
 				</GameScrollView>
 			</ViewContainer>
 
@@ -356,11 +360,12 @@ export default function GameHandler({ navigation }: any) {
 					jwt={jwt}
 					setPage={setPage}
 				/>
-			) : null}
+				) : null}
 
 			<GameFooter
+
+				betChoiceList={betChoiceListGameHandler}
 				joinCode={joinCode}
-				reloadCart={reloadCart}
 				page={page}
 				setPage={(goto: any) => setPage(goto)}
 			/>

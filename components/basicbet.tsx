@@ -23,30 +23,13 @@ function isEmptyObject(obj: any) {
 export default function BasicBet(props: any) {
 	const callbackShowMatchBet = props.callbackShowMatchBet;
 	const odd = props.odd;
-	const reloadCart = props.reloadCart;
 	const joinCode = props.joinCode;
-	const setReloadCart = props.setReloadCart;
 
+	const [betChoiceListGameHandler ,  setBetChoiceListGameHandler] = props.betChoiceListGroup;
 	const [selected, setSelected] = useState(false);
 
 	async function isBetIdInCart(matchId: string, betId: string) {
-		let input = await AsyncStorage.getItem("@cart_" + joinCode);
-		if (input) {
-			let cart = JSON.parse(input);
-			if (cart)
-				for (let cartElem of cart) {
-					if (
-						cartElem.matchId == matchId &&
-						cartElem.betId == betId
-					) {
-						if (ENVIRONEMENT == "dev") {
-							console.log(cart, cartElem);
-						}
-						return true;
-					}
-				}
-		}
-		return false;
+		return betChoiceListGameHandler.some((value: any) => value.betId == betId && value.matchId == matchId);
 	}
 
 	useEffect(() => {
@@ -55,40 +38,22 @@ export default function BasicBet(props: any) {
 				if (isBetHere) setSelected(true);
 				else setSelected(false);
 			});
-	}, [odd, props.matchId, reloadCart]);
+	}, [odd, props.matchId]);
 
 	function onBet() {
-		// AsyncStorage.setItem("@cart_" + joinCode, "[]");
 		if (!selected) {
 			setSelected(true);
-
-			AsyncStorage.getItem("@cart_" + joinCode).then((input: any) => {
-				let cart: any = [];
-				if (input) cart = JSON.parse(input);
-
-				cart.push({
-					matchId: props.matchId,
-					betId: odd.id,
-					mise: CONST_BASE_MISE_PARI,
-					isBase: false,
-				});
-				AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart)).then(() => setReloadCart(Math.random() * 10000));
-			});
+			let betChoiceListGameHandlerCpy = betChoiceListGameHandler.slice();
+			betChoiceListGameHandlerCpy.push({
+				matchId: props.matchId,
+				betId: odd.id,
+				mise: CONST_BASE_MISE_PARI,
+				isBase: false,
+			})
+			setBetChoiceListGameHandler(betChoiceListGameHandlerCpy)
 		} else {
 			setSelected(false);
-
-			AsyncStorage.getItem("@cart_" + joinCode).then((input: any) => {
-				let cart: any = [];
-				if (input) cart = JSON.parse(input);
-
-				cart = cart.filter((elem: any) => {
-					return (
-						!(elem.matchId == props.matchId && elem.betId == odd.id)
-					);
-				});
-
-				AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart)).then(() => setReloadCart(Math.random() * 10000));
-			});
+			setBetChoiceListGameHandler(betChoiceListGameHandler.filter((value: any) => !(value.betId == 	odd.id && value.matchId == props.matchId)))
 		}
 	}
 

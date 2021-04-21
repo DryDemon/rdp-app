@@ -178,122 +178,74 @@ export default function GameCart(props: any) {
 		game,
 		logoUrl,
 		reloadGame,
-		reloadCart,
-		setReloadCart,
+		betChoiceListGroup,
+		betChoiceMainInfoGroup,
+
 		...otherProps
 	} = props;
 
+	const [
+		betChoiceListGameHandler,
+		setBetChoiceListGameHandler,
+	] = betChoiceListGroup;
+	const [betChoiceMainInfo, setBetChoiceMainInfo] = betChoiceMainInfoGroup;
+
 	const [, forceUpdate] = useReducer((x) => x + 1, 0);
 
-	const [bets, setBets] = useState<Array<any>>([]);
 	const [betsToDisplay, setBetsToDisplay] = useState<Array<DisplayType>>([]);
-	const [cartInfo, setcartInfo] = useState<any>({});
 	const [type, setType] = useState<"simple" | "combiné" | "système">(
 		"simple"
 	);
 
-	const [mainMise, setMainMise] = useState<number>(CONST_BASE_MISE_PARI);
-	const [mainOdd, setMainOdd] = useState<number>(CONST_BASE_MISE_PARI);
+	const [mainOdd, setMainOdd] = useState<number>(1.0);
 
 	const [blockSendButton, setblockSendButton] = useState(false);
 	const [alertMessage, setalertMessage] = useState("");
 	const [systemChoice, setSystemChoice] = useState(0);
 
 	const [isUsingMultiplyBonus, setIsUsingMultiplyBonus] = useState(false);
-	const [simpleBetBonusUsed, setSimpleBetBonusUsed] = useState<{matchId: string|undefined, betId: string|undefined}>({matchId: undefined, betId: undefined});
+	const [simpleBetBonusUsed, setSimpleBetBonusUsed] = useState<{
+		matchId: string | undefined;
+		betId: string | undefined;
+	}>({ matchId: undefined, betId: undefined });
 
 	let [canMultiplyBet, multiplyValue] = getUserMultiplyBonus(game, user?._id);
 
-
 	useEffect(() => {
 		[canMultiplyBet, multiplyValue] = getUserMultiplyBonus(game, user?._id);
-	}, [game, reloadCart, user]);
+	}, [game, betChoiceListGameHandler, user]);
 
 	useEffect(() => {
 		if (ENVIRONEMENT == "dev") console.log(systemChoice);
 	}, [systemChoice]);
 
-	function loadCart() {
-		AsyncStorage.getItem("@cart_" + joinCode).then((input) => {
-			let cart: any = [];
-			if (input) cart = JSON.parse(input);
-			if (ENVIRONEMENT == "dev") console.log(cart);
-			setBets(cart);
-		});
-		AsyncStorage.getItem("@cart_info_" + joinCode).then((input) => {
-			let data;
-			if (input) data = JSON.parse(input);
-			else {
-				data = { type, miseGlobal: CONST_BASE_MISE_PARI };
-				AsyncStorage.setItem(
-					"@cart_info_" + joinCode,
-					JSON.stringify(data)
-				);
-			}
-			setcartInfo(data);
-
-			setMainMise(data.miseGlobal);
-			setType(data.type);
-		});
-	}
-
-	//on changes && on Load
-	useEffect(() => {
-		loadCart();
-	}, [reloadCart]);
-	useEffect(() => {
-		loadCart();
-	}, []);
-
 	//fonctions principales du panier
 	function changeType(type: any) {
 		setType(type);
-		AsyncStorage.getItem("@cart_info_" + joinCode).then((input) => {
-			let data;
-			if (input) data = JSON.parse(input);
-			else data = { type, miseGlobal: CONST_BASE_MISE_PARI };
-			data.type = type;
-			AsyncStorage.setItem(
-				"@cart_info_" + joinCode,
-				JSON.stringify(data)
-			);
-		});
 	}
 
 	function removeBet(betId: string, matchId: string) {
-		AsyncStorage.getItem("@cart_" + joinCode).then((input) => {
-			let cart: any = [];
-			if (input) cart = JSON.parse(input);
-
-			cart = cart.filter((elem: any) => {
-				return !(elem.matchId == matchId && elem.betId == betId);
-			});
-
-			AsyncStorage.setItem(
-				"@cart_" + joinCode,
-				JSON.stringify(cart)
-			).then(() => setReloadCart());
-			setBets(cart);
+		let cart = betChoiceListGameHandler.slice();
+		cart = cart.filter((elem: any) => {
+			return !(elem.matchId == matchId && elem.betId == betId);
 		});
+
+		setBetChoiceListGameHandler(cart);
 	}
 
 	async function removeAllBet() {
 		let cart: any[] = [];
 		reloadGame(); //Pour charger les paris qui viennentd'être places
 
-		await AsyncStorage.setItem(
-			"@cart_" + joinCode,
-			JSON.stringify(cart)
-		).then(() => setReloadCart());
+		setBetChoiceListGameHandler([]);
 
-		setBets(cart);
 		setblockSendButton(false);
 	}
 
 	//fonction type == simple
 	function updateSimpleBetMise(betId: string, matchId: string, mise: number) {
 		//double the func from cart to speed up loading
-		let cart = bets;
+		let cart = betChoiceListGameHandler.slice();
 
 		for (let i = 0; i < cart.length; i++) {
 			if (cart[i].matchId == matchId && cart[i].betId == betId) {
@@ -301,21 +253,7 @@ export default function GameCart(props: any) {
 			}
 		}
 		validateCart();
-		setBets(cart);
-
-		AsyncStorage.getItem("@cart_" + joinCode).then((input) => {
-			let cart: any = [];
-			if (input) cart = JSON.parse(input);
-
-			for (let i = 0; i < cart.length; i++) {
-				if (cart[i].matchId == matchId && cart[i].betId == betId) {
-					cart[i].mise = mise;
-				}
-			}
-
-			AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart));
-			setBets(cart);
-		});
+		setBetChoiceListGameHandler(cart);
 	}
 
 	async function setisBaseBet(
@@ -323,9 +261,7 @@ export default function GameCart(props: any) {
 		matchId: string,
 		value: boolean
 	) {
-		let input = await AsyncStorage.getItem("@cart_" + joinCode);
-		let cart: any = [];
-		if (input) cart = JSON.parse(input);
+		let cart = betChoiceListGameHandler.slice();
 
 		for (let i = 0; i < cart.length; i++) {
 			if (cart[i].matchId == matchId && cart[i].betId == betId) {
@@ -333,25 +269,10 @@ export default function GameCart(props: any) {
 			}
 		}
 
-		AsyncStorage.setItem("@cart_" + joinCode, JSON.stringify(cart));
-		setBets(cart);
+		setBetChoiceListGameHandler(cart);
 	}
 
 	//fonctions type == combiné
-	//load la mise globale de systeme et combiné dans le local storage
-	function updateGlobalMise(mise: number) {
-		validateCart();
-		AsyncStorage.getItem("@cart_info_" + joinCode).then((input) => {
-			let data;
-			if (input) data = JSON.parse(input);
-			else data = { type, miseGlobal: CONST_BASE_MISE_PARI };
-			data.miseGlobal = mise;
-			AsyncStorage.setItem(
-				"@cart_info_" + joinCode,
-				JSON.stringify(data)
-			);
-		});
-	}
 
 	function generateBaseList() {
 		let baseList: boolean[] = [];
@@ -405,14 +326,19 @@ export default function GameCart(props: any) {
 	}, [type, betsToDisplay, systemChoice]);
 
 	function updateBetMainMise(mise: number) {
-		updateGlobalMise(mise);
-		setMainMise(mise);
+		validateCart();
+		setBetChoiceMainInfo({ miseGlobal: mise });
 	}
 	async function sendSimpleBets() {
 		let cpy = betsToDisplay;
 		for (let bet of cpy) {
 			let tempValueIdUserMultiplyBonus = isUsingMultiplyBonus;
-			if(tempValueIdUserMultiplyBonus && bet.betId == simpleBetBonusUsed.betId && bet.matchId == simpleBetBonusUsed.matchId)tempValueIdUserMultiplyBonus = true;
+			if (
+				tempValueIdUserMultiplyBonus &&
+				bet.betId == simpleBetBonusUsed.betId &&
+				bet.matchId == simpleBetBonusUsed.matchId
+			)
+				tempValueIdUserMultiplyBonus = true;
 			let rep = await sendBetToServer(
 				jwt,
 				joinCode,
@@ -451,7 +377,7 @@ export default function GameCart(props: any) {
 				sendBetToServer(
 					jwt,
 					joinCode,
-					mainMise,
+					betChoiceMainInfo.miseGlobal,
 					betIds,
 					matchIds,
 					0, //combiné
@@ -485,7 +411,7 @@ export default function GameCart(props: any) {
 				sendBetToServer(
 					jwt,
 					joinCode,
-					mainMise,
+					betChoiceMainInfo.miseGlobal,
 					betIds,
 					matchIds,
 					1, //system
@@ -504,12 +430,12 @@ export default function GameCart(props: any) {
 
 	//to load the display of the cart
 	useEffect(() => {
-		if (bets && jwt) {
+		if (betChoiceListGameHandler && jwt) {
 			let matchsIds: Array<string> = [];
 
 			//on regarde si il faut recharger en faisant une requete get match
 			let needReload = false;
-			for (let bet of bets) {
+			for (let bet of betChoiceListGameHandler) {
 				let isOkay = false;
 				for (let betDisplay of betsToDisplay) {
 					if (
@@ -524,8 +450,11 @@ export default function GameCart(props: any) {
 				}
 			}
 
-			if (needReload || bets.length > betsToDisplay.length) {
-				for (let bet of bets) {
+			if (
+				needReload ||
+				betChoiceListGameHandler.length > betsToDisplay.length
+			) {
+				for (let bet of betChoiceListGameHandler) {
 					if (!matchsIds.some((element) => element == bet.matchId)) {
 						matchsIds.push(bet.matchId);
 					}
@@ -536,7 +465,7 @@ export default function GameCart(props: any) {
 						let toDisplay: Array<DisplayType> = [];
 
 						if (matchs) {
-							for (let bet of bets) {
+							for (let bet of betChoiceListGameHandler) {
 								for (let match of matchs) {
 									if (match.matchId == bet.matchId) {
 										for (let betFromMatch of match.prematchOdds) {
@@ -594,7 +523,7 @@ export default function GameCart(props: any) {
 				for (let i = 0; i < toDisplay.length; i++) {
 					toDisplay[i].toDelete = true;
 
-					for (let bet of bets) {
+					for (let bet of betChoiceListGameHandler) {
 						if (
 							bet.betId == toDisplay[i].betId &&
 							bet.matchId == toDisplay[i].matchId
@@ -619,7 +548,7 @@ export default function GameCart(props: any) {
 				forceUpdate();
 			}
 		}
-	}, [bets, jwt]);
+	}, [betChoiceListGameHandler, jwt]);
 
 	async function validateCart() {
 		let message = "";
@@ -629,7 +558,7 @@ export default function GameCart(props: any) {
 		let isBettingPositiveValue = true;
 		let totalMise = 0.0;
 		if (type != "simple") {
-			totalMise = mainMise;
+			totalMise = betChoiceMainInfo.miseGlobal;
 			if (totalMise < 1) {
 				isBettingPositiveValue = false;
 			}
@@ -641,10 +570,10 @@ export default function GameCart(props: any) {
 				}
 			}
 		}
-
-		if (message == "") message += "\n";
-		message += "Vous ne pouvez pas parier une valeur nulle.";
-
+		if (totalMise == 0) {
+			if (message == "") message += "\n";
+			message += "Vous ne pouvez pas parier une valeur nulle.";
+		}
 		if (totalMise > user?.credits) {
 			if (message == "") message += "\n";
 			message += "Vous n'avez pas assez de crédits pour parier.";
@@ -839,11 +768,27 @@ export default function GameCart(props: any) {
 													{multiplyValue}
 												</Text>
 												<CheckBox
-													value={isUsingMultiplyBonus && simpleBetBonusUsed.betId == value.betId && simpleBetBonusUsed.matchId == value.matchId}
+													value={
+														isUsingMultiplyBonus &&
+														simpleBetBonusUsed.betId ==
+															value.betId &&
+														simpleBetBonusUsed.matchId ==
+															value.matchId
+													}
 													onValueChange={() => {
-														setSimpleBetBonusUsed({matchId: value.matchId, betId: value.betId})
+														setSimpleBetBonusUsed({
+															matchId:
+																value.matchId,
+															betId: value.betId,
+														});
 														setIsUsingMultiplyBonus(
-															!(simpleBetBonusUsed.betId == value.betId && simpleBetBonusUsed.matchId == value.matchId && isUsingMultiplyBonus)
+															!(
+																simpleBetBonusUsed.betId ==
+																	value.betId &&
+																simpleBetBonusUsed.matchId ==
+																	value.matchId &&
+																isUsingMultiplyBonus
+															)
 														);
 													}}
 												/>
@@ -854,21 +799,26 @@ export default function GameCart(props: any) {
 							</View>
 							{type == "combiné" ? (
 								<RenderBetInput
-									onChange={(mise: any) =>
-										updateBetMainMise(mise)
-									}
+									onChange={(mise: any) => {
+										validateCart();
+										setBetChoiceMainInfo({
+											miseGlobal: mise,
+										});
+									}}
 									nbBets={betsToDisplay.length}
 									odd={mainOdd}
-									value={mainMise}
+									value={betChoiceMainInfo.miseGlobal}
 								/>
 							) : null}
 							{type == "système" ? (
 								<RenderBetInput
 									onChange={(mise: any) =>
-										updateBetMainMise(mise)
+										setBetChoiceMainInfo({
+											miseGlobal: mise,
+										})
 									}
 									odd={mainOdd}
-									value={mainMise}
+									value={betChoiceMainInfo.miseGlobal}
 									system={1}
 									nbBets={betsToDisplay.length}
 									systemChoice={systemChoice}
