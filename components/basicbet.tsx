@@ -118,7 +118,7 @@ export default function BasicBet(props: any) {
 							: styles.betContainerSelected
 					}
 				>
-					<Text>{odd.header  && odd.name != <odd className="header"></odd>? odd.header + " " : ""}</Text>
+					<Text>{odd.header  && odd.name != odd.header? odd.header + " " : ""}</Text>
 					<View style={{ flexDirection: "row", width: "100%", justifyContent: "space-between"}}>
 						<View>
 							<Text style={
