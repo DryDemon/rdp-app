@@ -357,74 +357,76 @@ export default function GameCart(props: any) {
 	}
 
 	function onSend() {
-		setblockSendButton(true);
-		let betIds: Array<string> = [];
-		let matchIds: Array<string> = [];
+		if (alertMessage == "") {
+			setblockSendButton(true);
+			let betIds: Array<string> = [];
+			let matchIds: Array<string> = [];
 
-		switch (type) {
-			case "simple":
-				sendSimpleBets(); //TO launch the async function
-				break;
-			case "combiné":
-				betIds = [];
-				matchIds = [];
+			switch (type) {
+				case "simple":
+					sendSimpleBets(); //TO launch the async function
+					break;
+				case "combiné":
+					betIds = [];
+					matchIds = [];
 
-				for (let i = 0; i < betsToDisplay.length; i++) {
-					betIds.push(betsToDisplay[i].betId);
-					matchIds.push(betsToDisplay[i].matchId);
-				}
-
-				sendBetToServer(
-					jwt,
-					joinCode,
-					betChoiceMainInfo.miseGlobal,
-					betIds,
-					matchIds,
-					0, //combiné
-					0,
-					[],
-					[],
-					isUsingMultiplyBonus
-				).then((rep) => {
-					if (rep) removeAllBet();
-					else alert("Erreur");
-				});
-
-				break;
-			case "système":
-				betIds = [];
-				matchIds = [];
-
-				let baseBetIds: string[] = [];
-				let baseMatchIds: string[] = [];
-
-				for (let i = 0; i < betsToDisplay.length; i++) {
-					betIds.push(betsToDisplay[i].betId);
-					matchIds.push(betsToDisplay[i].matchId);
-
-					if (betsToDisplay[i].isBase) {
-						baseBetIds.push(betsToDisplay[i].betId);
-						baseMatchIds.push(betsToDisplay[i].matchId);
+					for (let i = 0; i < betsToDisplay.length; i++) {
+						betIds.push(betsToDisplay[i].betId);
+						matchIds.push(betsToDisplay[i].matchId);
 					}
-				}
 
-				sendBetToServer(
-					jwt,
-					joinCode,
-					betChoiceMainInfo.miseGlobal,
-					betIds,
-					matchIds,
-					1, //system
-					systemChoice + 1,
-					baseBetIds,
-					baseMatchIds,
-					isUsingMultiplyBonus
-				).then((rep) => {
-					if (rep) removeAllBet();
-					else alert("Erreur");
-				});
+					sendBetToServer(
+						jwt,
+						joinCode,
+						betChoiceMainInfo.miseGlobal,
+						betIds,
+						matchIds,
+						0, //combiné
+						0,
+						[],
+						[],
+						isUsingMultiplyBonus
+					).then((rep) => {
+						if (rep) removeAllBet();
+						else alert("Erreur");
+					});
 
-				break;
+					break;
+				case "système":
+					betIds = [];
+					matchIds = [];
+
+					let baseBetIds: string[] = [];
+					let baseMatchIds: string[] = [];
+
+					for (let i = 0; i < betsToDisplay.length; i++) {
+						betIds.push(betsToDisplay[i].betId);
+						matchIds.push(betsToDisplay[i].matchId);
+
+						if (betsToDisplay[i].isBase) {
+							baseBetIds.push(betsToDisplay[i].betId);
+							baseMatchIds.push(betsToDisplay[i].matchId);
+						}
+					}
+
+					sendBetToServer(
+						jwt,
+						joinCode,
+						betChoiceMainInfo.miseGlobal,
+						betIds,
+						matchIds,
+						1, //system
+						systemChoice + 1,
+						baseBetIds,
+						baseMatchIds,
+						isUsingMultiplyBonus
+					).then((rep) => {
+						if (rep) removeAllBet();
+						else alert("Erreur");
+					});
+
+					break;
+			}
 		}
 	}
 
