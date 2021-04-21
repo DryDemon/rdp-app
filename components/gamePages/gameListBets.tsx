@@ -141,7 +141,7 @@ export default function GameListBets(props: any) {
 			</View>
 
 			<View style={styles.textToMiddle}>
-				{betsToDisplay.map((bet: userBetInterface) => (
+				{betsToDisplay.reverse().map((bet: userBetInterface) => (
 					<PlayerBet game={game} reloadGame={reloadGame} jwt={jwt} user={user} key={bet._id} bet={bet} />
 				))}
 				<SmallLineBreak />
