@@ -38,7 +38,15 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import Colors from "../../constants/Colors";
 
 export default function GameClassement(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, reloadGame, ...otherProps } = props;
+	const {
+		jwt,
+		user,
+		joinCode,
+		game,
+		logoUrl,
+		reloadGame,
+		...otherProps
+	} = props;
 
 	const [userList, setuserList] = useState<userStatsInterface[]>([]);
 
@@ -118,17 +126,20 @@ export default function GameClassement(props: any) {
 						</View>
 					) : null}
 				</View>
-				{userList.map((user: userStatsInterface, index: number) => (
-					<View style={styles.subClassement}>
-						<Text style={styles.subClassementUsername}>
-							{(index+1) + " : " + user.username}
-						</Text>
-						<Text style={styles.subClassementCredits}>
-							{user.credits}
-						</Text>
-					</View>
-				))}
-
+				{userList.map((user: userStatsInterface, index: number) => {
+					if (index > 2)
+						return (
+							<View style={styles.subClassement}>
+								<Text style={styles.subClassementUsername}>
+									{index + 1 + " : " + user.username}
+								</Text>
+								<Text style={styles.subClassementCredits}>
+									{user.credits}
+								</Text>
+							</View>
+						);
+					return null;
+				})}
 			</View>
 		</View>
 	);
@@ -174,7 +185,7 @@ const styles = StyleSheet.create({
 		padding: 24,
 		margin: 12,
 		shadowColor: "#000",
-	    shadowOffset: {
+		shadowOffset: {
 			width: 0,
 			height: 0,
 		},

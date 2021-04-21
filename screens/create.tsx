@@ -345,7 +345,6 @@ export default function Create({ navigation }: any) {
 	}, [dateCreationForm, dateEndForm]);
 
 	function toggleLeaguesDisplaySelect(leagueId: string) {
-		Alert.alert("there", leagueId + "");
 
 		let leaguesSearchDisplaycpy = leaguesSearchDisplay;
 		for (let i = 0; i < leaguesSearchDisplaycpy.length; i++) {

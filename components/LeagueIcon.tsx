@@ -10,7 +10,7 @@ export function LeagueIcon(props: any) {
 	const league: LeagueSchema = props.league;
 	const filter: Array<string> = props.filter;
 	const isLive: boolean = props.isLive;
-
+	
 	return (
 		<TouchableOpacity
 			onPress={() => {
