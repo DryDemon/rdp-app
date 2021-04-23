@@ -76,7 +76,7 @@ export default function betForMatch(props: any) {
 								></BasicBet>
 						  ))
 						: null}
-					{numberOfOdds === 0 ? (
+					{!(numberOfOdds === 0) ? (
 						<BasicBet
 							betChoiceListGroup={betChoiceListGroup}
 							joinCode={joinCode}
