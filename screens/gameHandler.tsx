@@ -208,7 +208,12 @@ export default function GameHandler({ navigation }: any) {
 				canShowBonus={!game?.isPublic}
 				toggleShowBonus={toggleShowBonus}
 				joinCode={joinCode}
-				back={"Dashboard"}
+				back={page != "gameMatchBets" ? "Dashboard" : undefined}
+				callBackGameHeaderGotoBack={
+					page == "gameMatchBets"
+						? () => setPage("gamePlaceBet")
+						: undefined
+				}
 				navigation={navigation}
 				game={game}
 				callbackQuestionMark={() => {

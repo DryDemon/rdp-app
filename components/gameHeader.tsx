@@ -44,10 +44,13 @@ export function GameHeader(props: any) {
 	}
 
 	useEffect(() => {
-		if (back && navigation) {
+		if ((back && navigation) || props.callBackGameHeaderGotoBack) {
 			setArrow(
 				<TouchableOpacity
-					onPress={() => navigation.navigate(back)}
+					onPress={() => {
+						if (typeof back === "string") navigation.navigate(back);
+						else props.callBackGameHeaderGotoBack();
+					}}
 					style={[
 						{
 							paddingHorizontal: 7,
@@ -151,7 +154,7 @@ export function GameHeader(props: any) {
 						},
 					]}
 				>
-					{toggleShowBonus && canShowBonus? (
+					{toggleShowBonus && canShowBonus ? (
 						<TouchableOpacity
 							onPress={toggleShowBonus}
 							style={[
