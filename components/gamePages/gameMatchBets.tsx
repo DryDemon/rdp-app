@@ -11,7 +11,6 @@ import {
 } from "react-native";
 
 import {
-	
 	Text,
 	View,
 	TextInput,
@@ -43,9 +42,19 @@ import BetListForGameMatchBets from "../betListForGameMatchBets";
 import { isBetIdWhitelisted } from "../../constants/Bets";
 
 export default function GameMatchBets(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, match, betChoiceListGroup, ...otherProps } = props;
+	const {
+		jwt,
+		user,
+		joinCode,
+		game,
+		logoUrl,
+		match,
+		betChoiceListGroup,
+		...otherProps
+	} = props;
 
 	const odds = match.prematchOdds;
+	const length = odds?.length;
 	return (
 		<View>
 			<SmallLineBreak />
@@ -54,12 +63,48 @@ export default function GameMatchBets(props: any) {
 			</TextSubTitle>
 			<View style={styles.textToMiddle}>
 				<View>
-
 					{odds
-						// ? odds.filter((bet: any) => isBetIdWhitelisted(bet.id)).map((bet: any) => (
-							? odds.map((bet: any) => (
-								<BetListForGameMatchBets betChoiceListGroup={betChoiceListGroup} joinCode={joinCode} key={bet.id} bet={bet} matchId={match.matchId}></BetListForGameMatchBets>
-						  ))
+						? // ? odds.filter((bet: any) => isBetIdWhitelisted(bet.id)).map((bet: any) => (
+						  odds.map((bet: any, index: number) =>
+								index < length / 3 ? (
+									<BetListForGameMatchBets
+										betChoiceListGroup={betChoiceListGroup}
+										joinCode={joinCode}
+										key={bet.id}
+										bet={bet}
+										matchId={match.matchId}
+									></BetListForGameMatchBets>
+								) : null
+						  )
+						: null}
+					{odds
+						? // ? odds.filter((bet: any) => isBetIdWhitelisted(bet.id)).map((bet: any) => (
+						  odds.map((bet: any, index: number) =>
+								index > length / 3 &&
+								index < (length * 2) / 3 ? (
+									<BetListForGameMatchBets
+										betChoiceListGroup={betChoiceListGroup}
+										joinCode={joinCode}
+										key={bet.id}
+										bet={bet}
+										matchId={match.matchId}
+									></BetListForGameMatchBets>
+								) : null
+						  )
+						: null}
+					{odds
+						? // ? odds.filter((bet: any) => isBetIdWhitelisted(bet.id)).map((bet: any) => (
+						  odds.map((bet: any, index: number) =>
+								index > (length * 2) / 3 ? (
+									<BetListForGameMatchBets
+										betChoiceListGroup={betChoiceListGroup}
+										joinCode={joinCode}
+										key={bet.id}
+										bet={bet}
+										matchId={match.matchId}
+									></BetListForGameMatchBets>
+								) : null
+						  )
 						: null}
 				</View>
 
