@@ -46,8 +46,7 @@ export default function betForMatch(props: any) {
 		numberOfOdds = " ";
 	}
 
-	if (Math.random()>0.5)
-	// if (!isLive)
+	if (!isLive)
 		return (
 			<View style={styles.matchContainer}>
 				<View style={{ flexDirection: "row" }}>
