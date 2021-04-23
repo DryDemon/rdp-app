@@ -19,6 +19,7 @@ export default function BetForLeague(props: any) {
 				)
 				.map((match: any) => (
 					<BetForMatch
+						leagueName={props.leagueData?.leagueName}
 						joinCode={joinCode}
 						betChoiceListGroup={betChoiceListGroup}
 						callbackShowMatchBet={callbackShowMatchBet}
