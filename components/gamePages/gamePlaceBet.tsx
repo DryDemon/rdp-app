@@ -39,6 +39,10 @@ import {
 import { validURL } from "../../src/smallFuncts";
 import AllBets from "../allbets";
 import { LeagueIcon } from "../LeagueIcon";
+import Colors from "../../constants/Colors";
+import { DropDownPickerStyleSheep } from "../../screens/create";
+
+import RNPickerSelect from "react-native-picker-select";
 
 async function fetchBetData(joinCode: string, jwt: string) {
 	// const apiRoute =
@@ -82,6 +86,7 @@ export default function GamePlaceBet(props: any) {
 	const [listLiveLeagues, setListLiveLeagues] = useState<Array<string>>([]);
 
 	const [listFilter, setListFilter] = useState<Array<string>>([]);
+	const [isLive, setIsLive] = useState(ENVIRONEMENT == "dev" ? true : false);
 
 	useEffect(() => {
 		fetchBetData(joinCode, jwt).then((content) => {
@@ -94,8 +99,10 @@ export default function GamePlaceBet(props: any) {
 							value.liveId &&
 							value.leagueId &&
 							listLiveLeaguesCpy.indexOf(value.leagueId) == -1
-						)
+						) {
+							setIsLive(true);
 							listLiveLeaguesCpy.push(value.leagueId);
+						}
 					});
 					setListLiveLeagues(listLiveLeaguesCpy);
 				}
@@ -135,13 +142,52 @@ export default function GamePlaceBet(props: any) {
 			<SmallLineBreak />
 			<TextSubTitle style={styles.titleGame}>Parier</TextSubTitle>
 			<View style={styles.textToMiddle}>
-				<ScrollView horizontal={true}>
-					<LeagueIcon
-						onPress={() => setListFilter([])}
-						filter={listFilter}
+				<View
+					style={{
+						flexDirection: "row",
+						alignItems: "center",
+						justifyContent: "space-between",
+					}}
+				>
+					{isLive ? (
+						<View style={styles.liveIconContainer}>
+							<Text style={styles.liveIconText}>LIVE</Text>
+						</View>
+					) : null}
+					<RNPickerSelect
+						style={DropDownPickerStyleSheep}
+						useNativeAndroidPickerStyle={false}
+						onValueChange={(value: string) => {
+							if (value) {
+								setListFilter(value.split(","));
+							}
+						}}
+						items={[
+							{
+								label: "Toutes les compétitions",
+								value: leagues.map<string>(
+									(value: LeagueSchema) => {
+										if (value.leagueId)
+											return value.leagueId;
+										return "";
+									}
+								),
+							},
+						].concat(
+							leagues.map<{ label: string; value: string[] }>(
+								(league: LeagueSchema) => {
+									if (league.leagueName && league.leagueId)
+										return {
+											label: league.leagueName,
+											value: [league.leagueId],
+										};
+									return { label: "", value: [""] };
+								}
+							)
+						)}
 					/>
 
-					{leagues.map((league: LeagueSchema) => {
+					{/* {leagues.map((league: LeagueSchema) => {
 						if (league.leagueId)
 							return (
 								<LeagueIcon
@@ -158,8 +204,8 @@ export default function GamePlaceBet(props: any) {
 								/>
 							);
 						else return null;
-					})}
-				</ScrollView>
+					})} */}
+				</View>
 
 				<View>
 					<AllBets
@@ -185,5 +231,23 @@ const styles = StyleSheet.create({
 	},
 	textToMiddle: {
 		// alignItems: "center", //Notpossible,too large
+	},
+	liveIconContainer: {
+		backgroundColor: "#FFFFFF",
+		borderRadius: 12,
+		padding: 14,
+		alignItems: "center",
+		borderColor: "black",
+		borderWidth: 1,
+	},
+	liveIconText: {
+		fontWeight: "500",
+		fontSize: 16,
+		// lineHeight: 21,
+
+		textAlign: "center",
+		letterSpacing: -0.32,
+
+		color: Colors.rdpColor,
 	},
 });

@@ -712,7 +712,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-const DropDownPickerStyleSheep = StyleSheet.create({
+export const DropDownPickerStyleSheep = StyleSheet.create({
 	inputIOS: {
 		height: 46,
 		paddingVertical: 12,
