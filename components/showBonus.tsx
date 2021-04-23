@@ -302,7 +302,6 @@ const styles = StyleSheet.create({
 	bonusContainer: {
 		flexDirection: "row",
 		alignItems: "center",
-		margin: 12,
 		padding: 12,
 		minHeight: 72,
 		backgroundColor: Colors.revertRdpColor,
