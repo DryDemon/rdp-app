@@ -49,6 +49,7 @@ export default function BasicBet(props: any) {
 				betId: odd.id,
 				mise: CONST_BASE_MISE_PARI,
 				isBase: false,
+				isLive: props.isLive,
 			})
 			setBetChoiceListGameHandler(betChoiceListGameHandlerCpy)
 		} else {
@@ -65,8 +66,8 @@ export default function BasicBet(props: any) {
 
 
 	function showMore() {
-		if (callbackShowMatchBet && props.match)
-			callbackShowMatchBet(props.match);
+		if (callbackShowMatchBet)
+			callbackShowMatchBet();
 	}
 	
 		

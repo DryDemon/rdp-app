@@ -43,8 +43,6 @@ export default function BetListForGameMatchBets(props: any) {
 					style={
 						showDropDown ? { display: "flex" } : { display: "none" }
 					}
-
-					
 				>
 					{bet.odds.map((odd: any) => (
 						<View style={styles.oddContainer} key={odd.id}>
@@ -59,7 +57,8 @@ export default function BetListForGameMatchBets(props: any) {
 							) : null}
 
 							<BasicBet
-							betChoiceListGroup={betChoiceListGroup}
+								isLive={props.isLive}
+								betChoiceListGroup={betChoiceListGroup}
 								joinCode={props.joinCode}
 								key={odd.id}
 								odd={odd}
@@ -99,13 +98,14 @@ const styles = StyleSheet.create({
 		backgroundColor: "#F6F7F9",
 		margin: 4,
 		padding: 10,
-	},betMainName:{
-		color:"white",
-		fontWeight:"500",
-		fontSize:17,
-		marginVertical:9,
-		marginHorizontal:12,
-	}
+	},
+	betMainName: {
+		color: "white",
+		fontWeight: "500",
+		fontSize: 17,
+		marginVertical: 9,
+		marginHorizontal: 12,
+	},
 });
 // {
 //     "id": "10202",

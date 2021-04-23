@@ -68,6 +68,7 @@ export default function betForMatch(props: any) {
 					{fullMatchOdds
 						? fullMatchOdds.odds.map((odd: any) => (
 								<BasicBet
+									isLive={isLive}
 									betChoiceListGroup={betChoiceListGroup}
 									joinCode={joinCode}
 									key={odd.id}
@@ -80,7 +81,7 @@ export default function betForMatch(props: any) {
 						<BasicBet
 							betChoiceListGroup={betChoiceListGroup}
 							joinCode={joinCode}
-							callbackShowMatchBet={callbackShowMatchBet}
+							callbackShowMatchBet={() => {callbackShowMatchBet(match)}}
 							match={match}
 							plus={numberOfOdds}
 						></BasicBet>

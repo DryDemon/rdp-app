@@ -55,6 +55,8 @@ export default function GameMatchBets(props: any) {
 
 	const odds = match.prematchOdds;
 	const length = odds?.length;
+	const isLive = match.liveId != undefined;
+
 	return (
 		<View>
 			<SmallLineBreak />
@@ -68,6 +70,7 @@ export default function GameMatchBets(props: any) {
 						  odds.map((bet: any, index: number) =>
 								index < length / 3 ? (
 									<BetListForGameMatchBets
+										isLive={isLive}
 										betChoiceListGroup={betChoiceListGroup}
 										joinCode={joinCode}
 										key={bet.id}
@@ -83,6 +86,7 @@ export default function GameMatchBets(props: any) {
 								index > length / 3 &&
 								index < (length * 2) / 3 ? (
 									<BetListForGameMatchBets
+										isLive={isLive}
 										betChoiceListGroup={betChoiceListGroup}
 										joinCode={joinCode}
 										key={bet.id}
@@ -97,6 +101,7 @@ export default function GameMatchBets(props: any) {
 						  odds.map((bet: any, index: number) =>
 								index > (length * 2) / 3 ? (
 									<BetListForGameMatchBets
+										isLive={isLive}
 										betChoiceListGroup={betChoiceListGroup}
 										joinCode={joinCode}
 										key={bet.id}

@@ -78,6 +78,7 @@ export default function GameHandler({ navigation }: any) {
 			betId: string;
 			mise: number;
 			isBase: boolean;
+			isLive: boolean | undefined;
 		}>
 	>([]); //Use this to show the game page bets
 	const [betChoiceMainInfo, setBetChoiceMainInfo] = useState<{
