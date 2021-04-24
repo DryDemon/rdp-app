@@ -33,7 +33,7 @@ export default function BetListForGameMatchBets(props: any) {
 					<Text style={styles.betMainName}>{bet.name}</Text>
 					<View style={styles.arrowView}>
 						<MaterialIcons
-							name="keyboard-arrow-down"
+							name= {showDropDown ? "keyboard-arrow-up" : "keyboard-arrow-down"}
 							size={24}
 							color={Colors.white}
 						/>
