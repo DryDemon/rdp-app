@@ -24,7 +24,7 @@ export default function BetListForGameMatchBets(props: any) {
 		return (
 			<View style={styles.betContainer}>
 				<TouchableOpacity
-					style={styles.title}
+					style={[styles.title, showDropDown ? { borderTopLeftRadius: 12, borderTopRightRadius: 12,  } : { borderRadius: 12, }]}
 					onPress={() => {
 						if (showDropDown) setShowDropDown(false);
 						else setShowDropDown(true);
@@ -34,27 +34,29 @@ export default function BetListForGameMatchBets(props: any) {
 					<View style={styles.arrowView}>
 						<MaterialIcons
 							name="keyboard-arrow-down"
-							size={20}
-							color={"#000"}
+							size={24}
+							color={Colors.white}
 						/>
 					</View>
 				</TouchableOpacity>
 				<View
 					style={
-						showDropDown ? { display: "flex" } : { display: "none" }
+						[styles.containerBet,showDropDown ? { display: "flex",} : { display: "none" }]
 					}
 				>
 					{bet.odds.map((odd: any) => (
-						<View style={styles.oddContainer} key={odd.id}>
-							{odd.name ? (
-								<Text style={{ flex: 1 }}>{odd.name}</Text>
-							) : null}
-							{odd.header ? (
-								<Text style={{ flex: 1 }}>{odd.header}</Text>
-							) : null}
-							{odd.handicap ? (
-								<Text style={{ flex: 1 }}>{odd.handicap}</Text>
-							) : null}
+						<View style={{flexDirection: "row", alignItems:"center", flex:1, marginVertical: 4, backgroundColor: Colors.grayWhite, borderRadius: 12,}}  key={odd.id}>
+							<View style={styles.oddContainer}>
+								{odd.name ? (
+									<Text style={{ flex: 1 }}>{odd.name}</Text>
+								) : null}
+								{odd.header ? (
+									<Text style={{ flex: 1 }}>{odd.header}</Text>
+								) : null}
+								{odd.handicap ? (
+									<Text style={{ flex: 1 }}>{odd.handicap}</Text>
+								) : null}
+							</View>
 
 							<BasicBet
 								isLive={props.isLive}
@@ -73,15 +75,25 @@ export default function BetListForGameMatchBets(props: any) {
 }
 const styles = StyleSheet.create({
 	betContainer: {
+		marginVertical: 6,
 		borderRadius: 12,
-		backgroundColor: "white",
-		margin: 6,
+		backgroundColor: Colors.white,
+		shadowColor: "#000",
+		shadowOffset: {
+			width: 0,
+			height: 0,
+		},
+		shadowOpacity: 0.32,
+		shadowRadius: 2.46,
+
+		elevation: 4,
 	},
 	title: {
-		borderTopRightRadius: 12,
-		borderTopLeftRadius: 12,
+		paddingHorizontal: 12,
+		paddingVertical: 8,
 		backgroundColor: Colors.rdpColor,
 		flexDirection: "row",
+		alignItems: "center",
 	},
 	arrowView: {
 		marginLeft: "auto",
@@ -94,17 +106,19 @@ const styles = StyleSheet.create({
 		alignSelf: "flex-end",
 	},
 	oddContainer: {
+		alignItems:"flex-start",
 		flexDirection: "row",
-		backgroundColor: "#F6F7F9",
-		margin: 4,
-		padding: 10,
+		flex:1,
+		padding: 12,
 	},
 	betMainName: {
-		color: "white",
+		color: Colors.white,
 		fontWeight: "500",
 		fontSize: 17,
-		marginVertical: 9,
-		marginHorizontal: 12,
+	},
+	containerBet: {
+		paddingHorizontal: 12,
+		paddingVertical: 20,
 	},
 });
 // {
