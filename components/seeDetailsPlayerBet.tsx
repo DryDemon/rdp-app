@@ -98,7 +98,8 @@ export function SeeDetails(props: any) {
 							{bet.betName ||
 							bet.betSubName ||
 							bet.betHeader ||
-							bet.betHandicap ? (
+							bet.betHandicap ||
+							bet.betTeam ? (
 								<View
 									style={{
 										flexDirection: "row",
@@ -121,8 +122,9 @@ export function SeeDetails(props: any) {
 										{bet.betHandicap
 											? bet.betHandicap
 											: null}
+										{bet.betTeam ? bet.betTeam : null}
 									</Text>
-									<SmallLineBreak/>
+									<SmallLineBreak />
 								</View>
 							) : null}
 

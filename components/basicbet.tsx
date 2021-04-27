@@ -25,11 +25,16 @@ export default function BasicBet(props: any) {
 	const odd = props.odd;
 	const joinCode = props.joinCode;
 
-	const [betChoiceListGameHandler ,  setBetChoiceListGameHandler] = props.betChoiceListGroup;
+	const [
+		betChoiceListGameHandler,
+		setBetChoiceListGameHandler,
+	] = props.betChoiceListGroup;
 	const [selected, setSelected] = useState(false);
 
 	async function isBetIdInCart(matchId: string, betId: string) {
-		return betChoiceListGameHandler.some((value: any) => value.betId == betId && value.matchId == matchId);
+		return betChoiceListGameHandler.some(
+			(value: any) => value.betId == betId && value.matchId == matchId
+		);
 	}
 
 	useEffect(() => {
@@ -50,11 +55,19 @@ export default function BasicBet(props: any) {
 				mise: CONST_BASE_MISE_PARI,
 				isBase: false,
 				isLive: props.isLive,
-			})
-			setBetChoiceListGameHandler(betChoiceListGameHandlerCpy)
+			});
+			setBetChoiceListGameHandler(betChoiceListGameHandlerCpy);
 		} else {
 			setSelected(false);
-			setBetChoiceListGameHandler(betChoiceListGameHandler.filter((value: any) => !(value.betId == 	odd.id && value.matchId == props.matchId)))
+			setBetChoiceListGameHandler(
+				betChoiceListGameHandler.filter(
+					(value: any) =>
+						!(
+							value.betId == odd.id &&
+							value.matchId == props.matchId
+						)
+				)
+			);
 		}
 	}
 
@@ -64,17 +77,12 @@ export default function BasicBet(props: any) {
 	// 	}
 	// }, [props.plus]);
 
-
 	function showMore() {
-		if (callbackShowMatchBet)
-			callbackShowMatchBet();
+		if (callbackShowMatchBet) callbackShowMatchBet();
 	}
-	
-		
-	
+
 	if (odd) {
 		return (
-			
 			<TouchableOpacity onPress={onBet}>
 				<View
 					key={odd.id}
@@ -84,15 +92,29 @@ export default function BasicBet(props: any) {
 							: styles.betContainerSelected
 					}
 				>
-					<Text>{odd.header  && odd.name != odd.header? odd.header + " " : ""}</Text>
-					<View style={{ flexDirection: "row", width: "100%", justifyContent: "space-between"}}>
+					<Text>
+						{odd.header && odd.name != odd.header
+							? odd.header + " "
+							: ""}
+					</Text>
+					<View
+						style={{
+							flexDirection: "row",
+							width: "100%",
+							justifyContent: "space-between",
+						}}
+					>
 						<View>
-							<Text style={
-									!selected ? styles.name : styles.nameSelected
+							<Text
+								style={
+									!selected
+										? styles.name
+										: styles.nameSelected
 								}
 							>
 								{odd.name != "Draw" ? odd.name : "N"}
 							</Text>
+							{odd.team ? <Text>{odd.team}</Text> : null}
 						</View>
 						<View>
 							<Text
@@ -110,7 +132,9 @@ export default function BasicBet(props: any) {
 	} else if (props.plus) {
 		return (
 			<TouchableOpacity onPress={showMore}>
-				<View style={[styles.betContainer, styles.betContainerShowMore]}>
+				<View
+					style={[styles.betContainer, styles.betContainerShowMore]}
+				>
 					<Text style={styles.odd}>+{props.plus}</Text>
 				</View>
 			</TouchableOpacity>
@@ -124,19 +148,19 @@ const styles = StyleSheet.create({
 	betContainer: {
 		justifyContent: "space-between",
 		alignItems: "center",
-		width:77,
-		padding:14,
+		width: 77,
+		padding: 14,
 		backgroundColor: Colors.blue,
 		borderRadius: 12,
 	},
 	betContainerShowMore: {
-		width: 48
+		width: 48,
 	},
 	betContainerSelected: {
 		justifyContent: "space-between",
 		alignItems: "center",
-		width:77,
-		padding:14,
+		width: 77,
+		padding: 14,
 		backgroundColor: Colors.rdpColor,
 		borderRadius: 12,
 	},
@@ -148,7 +172,7 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		color: Colors.grayWhite,
 	},
-	
+
 	odd: {
 		color: Colors.black,
 		fontSize: 16,

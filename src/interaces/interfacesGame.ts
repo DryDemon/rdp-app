@@ -84,6 +84,7 @@ export interface betObjectInterface{
    betSubName?: string;
    betHeader?: string | undefined;
    betHandicap?: string | undefined;
+   betTeam?: string | undefined;
 
    betId?: string;
    matchId?: string;

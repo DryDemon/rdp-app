@@ -176,8 +176,19 @@ export function PlayerBet(props: any) {
 				</View>
 
 				{showBetOption ? renderShowBetOption() : null}
-				{simple ? <SubText style={{marginBottom: 12, marginTop: 0, fontSize: 11, color: Colors.grayPlaceHolder, }}>{simpleBet.leagueName}</SubText> : null}
-				<View style={[{marginBottom: 4},styles.lineRow]}>
+				{simple ? (
+					<SubText
+						style={{
+							marginBottom: 12,
+							marginTop: 0,
+							fontSize: 11,
+							color: Colors.grayPlaceHolder,
+						}}
+					>
+						{simpleBet.leagueName}
+					</SubText>
+				) : null}
+				<View style={[{ marginBottom: 4 }, styles.lineRow]}>
 					<Text style={styles.mise}>Mise : </Text>
 					<Text style={styles.credits}>{bet.credits}</Text>
 				</View>
@@ -200,32 +211,39 @@ export function PlayerBet(props: any) {
 							{getUserNameFromId(game, bet.userId)}
 						</Text>
 					</View>*/}
-				{simple &&
-				(simpleBet.betName ||
-					simpleBet.betSubName ||
-					simpleBet.betHeader ||
-					simpleBet.betHandicap) ? (
-					<View
-						style={{ flexDirection: "row", alignItems: "center" }}
-					>
-						<Text style={styles.resultField}>Résultat : </Text>
-						<Text style={styles.betInfo}>
-							{simpleBet.betName
-								? simpleBet.betName + "   "
-								: null}
-							{simpleBet.betSubName
-								? simpleBet.betSubName + "   "
-								: null}
-							{simpleBet.betHeader
-								? simpleBet.betHeader + "   "
-								: null}
-							{simpleBet.betHandicap
-								? simpleBet.betHandicap
-								: null}
-						</Text>
-					</View>
-				) : null}
-				{!simple ? <SeeDetails bet={bet} /> : null}
+					{simple &&
+					(simpleBet.betName ||
+						simpleBet.betSubName ||
+						simpleBet.betHeader ||
+						simpleBet.betHandicap ||
+						simpleBet.betTeam) ? (
+						<View
+							style={{
+								flexDirection: "row",
+								alignItems: "center",
+							}}
+						>
+							<Text style={styles.resultField}>Résultat : </Text>
+							<Text style={styles.betInfo}>
+								{simpleBet.betName
+									? simpleBet.betName + "   "
+									: null}
+								{simpleBet.betSubName
+									? simpleBet.betSubName + "   "
+									: null}
+								{simpleBet.betHeader
+									? simpleBet.betHeader + "   "
+									: null}
+								{simpleBet.betHandicap
+									? simpleBet.betHandicap
+									: null}
+								{simpleBet.betTeam
+									? simpleBet.betTeam
+									: null}
+							</Text>
+						</View>
+					) : null}
+					{!simple ? <SeeDetails bet={bet} /> : null}
 
 					<View style={styles.mainQuoteContainer}>
 						<Text style={styles.mainQuoteText}>
@@ -234,7 +252,6 @@ export function PlayerBet(props: any) {
 						</Text>
 					</View>
 				</View>
-				
 			</View>
 		);
 	} else return null;
@@ -256,7 +273,6 @@ const styles = StyleSheet.create({
 		shadowRadius: 2.46,
 
 		elevation: 4,
-
 	},
 	header: {
 		flexDirection: "row",
@@ -282,7 +298,6 @@ const styles = StyleSheet.create({
 	},
 	mise: {
 		fontSize: 12,
-
 	},
 	mainQuoteContainer: {
 		marginLeft: "auto",
