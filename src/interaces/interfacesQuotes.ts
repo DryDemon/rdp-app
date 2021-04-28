@@ -37,7 +37,7 @@ export interface MatchSchema {
    mainBet?: object;
    numOfRestBets?: number;
 
-   fullMatchLiveOdds?: object | undefined;
-	numberOfLiveOdds?: number| undefined;
+   mainBetLive?: object | undefined;
+	numOfRestBetsLive?: number| undefined;
 
 }
