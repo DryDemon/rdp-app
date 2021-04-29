@@ -63,6 +63,9 @@ export default function GameMatchBets(props: any) {
 	const [currentOdds, setCurrentOdds] = useState<any>(
 		match.liveId ? match.matchOdds : match.prematchOdds
 	);
+	useEffect(() => {
+		setCurrentOdds(match.liveId ? match.matchOdds : match.prematchOdds);
+	}, [match]);
 
 	useInterval(
 		async () => {
