@@ -63,7 +63,7 @@ async function fetchBetData(joinCode: string, jwt: string) {
 	return undefined;
 }
 
-async function fetchLiveBetData(jwt: string, matchIds: string[]) {
+export async function fetchLiveBetData(jwt: string, matchIds: string[]) {
 	// const apiRoute =
 	// 	ENVIRONEMENT != "dev" ? "getnextmatchleaguedata" : "getmatchleaguedata";
 
@@ -120,7 +120,7 @@ export default function GamePlaceBet(props: any) {
 					}
 				});
 			}
-			
+
 			setMatchs(matchsCpy);
 		}
 	}, RELOAD_LIVE_BETS_EVERY_SECONDS * 1000);

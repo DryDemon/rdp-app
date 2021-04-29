@@ -29,7 +29,10 @@ import {
 } from "../Themed";
 
 import { format, parseISO } from "date-fns";
-import { ENVIRONEMENT } from "../../constants/Environement";
+import {
+	ENVIRONEMENT,
+	RELOAD_LIVE_BETS_EVERY_SECONDS,
+} from "../../constants/Environement";
 import { SERVER_API_URL, SERVER_LOGO_URL } from "../../constants/Server";
 import { GameSchema } from "../../src/interaces/interfacesGame";
 import {
@@ -40,6 +43,8 @@ import { validURL } from "../../src/smallFuncts";
 import { LeagueIcon } from "../LeagueIcon";
 import BetListForGameMatchBets from "../betListForGameMatchBets";
 import { isBetIdWhitelisted } from "../../constants/Bets";
+import useInterval from "../../hooks/useInterval";
+import { fetchLiveBetData } from "./gamePlaceBet";
 
 export default function GameMatchBets(props: any) {
 	const {
@@ -53,9 +58,22 @@ export default function GameMatchBets(props: any) {
 		...otherProps
 	} = props;
 
-	const odds = match.liveId ? match.matchOdds : match.prematchOdds;
-	const length = odds?.length;
 	const isLive = match.liveId != undefined;
+
+	const [currentOdds, setCurrentOdds] = useState<any>(
+		match.liveId ? match.matchOdds : match.prematchOdds
+	);
+
+	useInterval(
+		async () => {
+			let liveData = await fetchLiveBetData(jwt, match.matchId);
+
+			if (liveData?.[match.matchId] != undefined) {
+				setCurrentOdds(liveData[match.matchId]);
+			}
+		},
+		match.liveId ? RELOAD_LIVE_BETS_EVERY_SECONDS * 1000 : null
+	);
 
 	return (
 		<View>
@@ -65,51 +83,18 @@ export default function GameMatchBets(props: any) {
 			</TextSubTitle>
 			<View style={styles.textToMiddle}>
 				<View>
-					{odds
-						? // ? odds.filter((bet: any) => isBetIdWhitelisted(bet.id)).map((bet: any) => (
-						  odds.map((bet: any, index: number) =>
-								index < length / 3 ? (
-									<BetListForGameMatchBets
-										isLive={isLive}
-										betChoiceListGroup={betChoiceListGroup}
-										joinCode={joinCode}
-										key={bet.id}
-										bet={bet}
-										matchId={match.matchId}
-									></BetListForGameMatchBets>
-								) : null
-						  )
-						: null}
-					{odds
-						? // ? odds.filter((bet: any) => isBetIdWhitelisted(bet.id)).map((bet: any) => (
-						  odds.map((bet: any, index: number) =>
-								index > length / 3 &&
-								index < (length * 2) / 3 ? (
-									<BetListForGameMatchBets
-										isLive={isLive}
-										betChoiceListGroup={betChoiceListGroup}
-										joinCode={joinCode}
-										key={bet.id}
-										bet={bet}
-										matchId={match.matchId}
-									></BetListForGameMatchBets>
-								) : null
-						  )
-						: null}
-					{odds
-						? // ? odds.filter((bet: any) => isBetIdWhitelisted(bet.id)).map((bet: any) => (
-						  odds.map((bet: any, index: number) =>
-								index > (length * 2) / 3 ? (
-									<BetListForGameMatchBets
-										isLive={isLive}
-										betChoiceListGroup={betChoiceListGroup}
-										joinCode={joinCode}
-										key={bet.id}
-										bet={bet}
-										matchId={match.matchId}
-									></BetListForGameMatchBets>
-								) : null
-						  )
+					{currentOdds
+						? // ? currentOdds.filter((bet: any) => isBetIdWhitelisted(bet.id)).map((bet: any) => (
+						  currentOdds.map((bet: any, index: number) => (
+								<BetListForGameMatchBets
+									isLive={isLive}
+									betChoiceListGroup={betChoiceListGroup}
+									joinCode={joinCode}
+									key={bet.id}
+									bet={bet}
+									matchId={match.matchId}
+								></BetListForGameMatchBets>
+						  ))
 						: null}
 				</View>
 
