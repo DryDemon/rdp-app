@@ -148,18 +148,18 @@ const styles = StyleSheet.create({
 	betContainer: {
 		justifyContent: "space-between",
 		alignItems: "center",
-		minWidth: 77,
+		width: 77,
 		padding: 14,
 		backgroundColor: Colors.blue,
 		borderRadius: 12,
 	},
 	betContainerShowMore: {
-		minWidth: 48,
+		width: 48,
 	},
 	betContainerSelected: {
 		justifyContent: "space-between",
 		alignItems: "center",
-		minWidth: 77,
+		width: 77,
 		padding: 14,
 		backgroundColor: Colors.rdpColor,
 		borderRadius: 12,
