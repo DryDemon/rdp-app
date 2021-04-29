@@ -22,7 +22,7 @@ export interface MatchSchema {
    teamAway?: string;
    sportId?: string;
    leagueId?: string;
-   matchId?: string;
+   matchId: string;
    matchStatus?: number;
    time?: Date;
    prematchOdds?: any;

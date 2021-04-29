@@ -82,7 +82,7 @@ export default function betForMatch(props: any) {
 							betChoiceListGroup={betChoiceListGroup}
 							joinCode={joinCode}
 							callbackShowMatchBet={() => {
-								callbackShowMatchBet(match);
+								callbackShowMatchBet(match.matchId);
 							}}
 							match={match}
 							plus={numberOfOdds}

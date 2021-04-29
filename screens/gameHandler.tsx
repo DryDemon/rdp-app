@@ -44,6 +44,7 @@ import GamePlaceBet from "../components/gamePages/gamePlaceBet";
 import GameMatchBets from "../components/gamePages/gameMatchBets";
 import { GameHeader } from "../components/gameHeader";
 import { ShowBonus } from "../components/showBonus";
+import { MatchSchema } from "../src/interaces/interfacesQuotes";
 
 async function getCurrentGame(joinCode: string, jwt: string) {
 	const rawResponse = await fetch(
@@ -86,9 +87,47 @@ export default function GameHandler({ navigation }: any) {
 	}>({ miseGlobal: CONST_BASE_MISE_PARI }); //Use this to show the game page bets
 
 	const [showGamePage, setshowGamePage] = useState(false); //Use this to show the game page bets
-	const [match, setmatch] = useState({});
+	const [matchs, setMatchs] = useState<MatchSchema[]>([]);
 
 	const [showBonus, setShowBonus] = useState(false);
+
+	const [gameMatchBetList, setGameMatchBetList] = useState<{
+		[key: string]: any;
+	}>({});
+	const [visibleMatchId, setVisibleMatchId] = useState("");
+
+	async function gameMatchLoader(match: MatchSchema) {
+		return (
+			<GameMatchBets
+				betChoiceListGroup={[
+					betChoiceListGameHandler,
+					setBetChoiceListGameHandler,
+				]}
+				match={match}
+				reloadGame={reloadGame}
+				jwt={jwt}
+				user={user}
+				joinCode={joinCode}
+				game={game}
+				logoUrl={logoUrl}
+			/>
+		);
+	}
+
+	useEffect(() => {
+		//prepare matchList
+		if (matchs && matchs.length != 0) {
+			Promise.all(
+				matchs.map((match: MatchSchema) => {
+					gameMatchLoader(match).then((value) => {
+						let gameMatchBetListCpy = gameMatchBetList;
+						gameMatchBetListCpy[match.matchId] = value;
+						setGameMatchBetList(gameMatchBetListCpy);
+					});
+				})
+			);
+		}
+	}, [matchs]);
 
 	function toggleShowBonus() {
 		setShowBonus(!showBonus);
@@ -139,13 +178,8 @@ export default function GameHandler({ navigation }: any) {
 	//Sur chaque changement de page
 	useEffect(() => {
 		if (showBonus) setShowBonus(false);
+		if (page != "gameMatchBets") setVisibleMatchId("");
 	}, [page]);
-
-	//When we want to show all the bets of a match
-	function loadMatch(match: any) {
-		setmatch(match);
-		setshowGamePage(false);
-	}
 
 	function reloadGame() {
 		loadGameData();
@@ -250,8 +284,9 @@ export default function GameHandler({ navigation }: any) {
 			>
 				<GameScrollView>
 					<GamePlaceBet
-						callbackShowMatchBet={(match: any) => {
-							setmatch(match);
+						matchsGameHandlerState={[matchs, setMatchs]}
+						callbackShowMatchBet={(matchId: string) => {
+							setVisibleMatchId(matchId);
 							setPage("gameMatchBets");
 						}}
 						reloadGame={reloadGame}
@@ -338,19 +373,11 @@ export default function GameHandler({ navigation }: any) {
 				}
 			>
 				<GameScrollView>
-					<GameMatchBets
-						betChoiceListGroup={[
-							betChoiceListGameHandler,
-							setBetChoiceListGameHandler,
-						]}
-						match={match}
-						reloadGame={reloadGame}
-						jwt={jwt}
-						user={user}
-						joinCode={joinCode}
-						game={game}
-						logoUrl={logoUrl}
-					/>
+					{gameMatchBetList[visibleMatchId] ? (
+						gameMatchBetList[visibleMatchId]
+					) : (
+						<Text>Loading...</Text>
+					)}
 				</GameScrollView>
 			</ViewContainer>
 

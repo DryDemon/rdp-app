@@ -96,10 +96,11 @@ export default function GamePlaceBet(props: any) {
 		joinCode,
 		callbackShowMatchBet,
 		betChoiceListGroup,
+		matchsGameHandlerState,
 		...otherProps
 	} = props;
 
-	const [matchs, setMatchs] = useState<Array<MatchSchema>>([]);
+	const [matchs, setMatchs] = matchsGameHandlerState;
 	const [leagues, setLeagues] = useState<Array<LeagueSchema>>([]);
 
 	const [listLiveLeagues, setListLiveLeagues] = useState<Array<string>>([]);
