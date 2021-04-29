@@ -24,7 +24,15 @@ export default function BetListForGameMatchBets(props: any) {
 		return (
 			<View style={styles.betContainer}>
 				<TouchableOpacity
-					style={[styles.title, showDropDown ? { borderTopLeftRadius: 12, borderTopRightRadius: 12,  } : { borderRadius: 12, }]}
+					style={[
+						styles.title,
+						showDropDown
+							? {
+									borderTopLeftRadius: 12,
+									borderTopRightRadius: 12,
+							  }
+							: { borderRadius: 12 },
+					]}
 					onPress={() => {
 						if (showDropDown) setShowDropDown(false);
 						else setShowDropDown(true);
@@ -33,42 +41,60 @@ export default function BetListForGameMatchBets(props: any) {
 					<Text style={styles.betMainName}>{bet.name}</Text>
 					<View style={styles.arrowView}>
 						<MaterialIcons
-							name= {showDropDown ? "keyboard-arrow-up" : "keyboard-arrow-down"}
+							name={
+								showDropDown
+									? "keyboard-arrow-up"
+									: "keyboard-arrow-down"
+							}
 							size={24}
 							color={Colors.white}
 						/>
 					</View>
 				</TouchableOpacity>
-				<View
-					style={
-						[styles.containerBet,showDropDown ? { display: "flex",} : { display: "none" }]
-					}
-				>
-					{bet.odds.map((odd: any) => (
-						<View style={{flexDirection: "row", alignItems:"center", flex:1, marginVertical: 4, backgroundColor: Colors.grayWhite, borderRadius: 12,}}  key={odd.id}>
-							<View style={styles.oddContainer}>
-								{odd.name ? (
-									<Text style={{ flex: 1 }}>{odd.name}</Text>
-								) : null}
-								{odd.header ? (
-									<Text style={{ flex: 1 }}>{odd.header}</Text>
-								) : null}
-								{odd.handicap ? (
-									<Text style={{ flex: 1 }}>{odd.handicap}</Text>
-								) : null}
-							</View>
-
-							<BasicBet
-								isLive={props.isLive}
-								betChoiceListGroup={betChoiceListGroup}
-								joinCode={props.joinCode}
+				{showDropDown ? (
+					<View style={[styles.containerBet]}>
+						{bet.odds.map((odd: any) => (
+							<View
+								style={{
+									flexDirection: "row",
+									alignItems: "center",
+									flex: 1,
+									marginVertical: 4,
+									backgroundColor: Colors.grayWhite,
+									borderRadius: 12,
+								}}
 								key={odd.id}
-								odd={odd}
-								matchId={props.matchId}
-							></BasicBet>
-						</View>
-					))}
-				</View>
+							>
+								<View style={styles.oddContainer}>
+									{odd.name ? (
+										<Text style={{ flex: 1 }}>
+											{odd.name}
+										</Text>
+									) : null}
+									{odd.header ? (
+										<Text style={{ flex: 1 }}>
+											{odd.header}
+										</Text>
+									) : null}
+									{odd.handicap ? (
+										<Text style={{ flex: 1 }}>
+											{odd.handicap}
+										</Text>
+									) : null}
+								</View>
+
+								<BasicBet
+									isLive={props.isLive}
+									betChoiceListGroup={betChoiceListGroup}
+									joinCode={props.joinCode}
+									key={odd.id}
+									odd={odd}
+									matchId={props.matchId}
+								></BasicBet>
+							</View>
+						))}
+					</View>
+				) : null}
 			</View>
 		);
 	else return null;
@@ -106,9 +132,9 @@ const styles = StyleSheet.create({
 		alignSelf: "flex-end",
 	},
 	oddContainer: {
-		alignItems:"flex-start",
+		alignItems: "flex-start",
 		flexDirection: "row",
-		flex:1,
+		flex: 1,
 		padding: 12,
 	},
 	betMainName: {
