@@ -31,20 +31,20 @@ export default function betForMatch(props: any) {
 	let fullMatchOdds = match.mainBet;
 	let numberOfOdds = match.numOfRestBets;
 
-	if (!fullMatchOdds || !numberOfOdds) {
-		if (ENVIRONEMENT == "dev") alert("bug.");
-		fullMatchOdds = bets?.[0];
-		numberOfOdds = " ";
-	}
+	// if (!fullMatchOdds || !numberOfOdds) {
+	// 	if (ENVIRONEMENT == "dev") alert("bug.");
+	// 	fullMatchOdds = bets?.[0];
+	// 	numberOfOdds = " ";
+	// }
 
 	let fullMatchLiveOdds = match.mainBetLive;
 	let numberOfLiveOdds = match.numOfRestBetsLive;
 
-	if (!fullMatchOdds || !numberOfOdds) {
-		if (ENVIRONEMENT == "dev") alert("bug.");
-		fullMatchOdds = bets?.[0];
-		numberOfOdds = " ";
-	}
+	// if (!fullMatchLiveOdds || !numberOfLiveOdds) {
+	// 	if (ENVIRONEMENT == "dev") alert("bug.");
+	// 	fullMatchLiveOdds = match?.matchOdds?.[0];
+	// 	numberOfLiveOdds = " ";
+	// }
 
 	if (!isLive)
 		return (
@@ -81,7 +81,9 @@ export default function betForMatch(props: any) {
 						<BasicBet
 							betChoiceListGroup={betChoiceListGroup}
 							joinCode={joinCode}
-							callbackShowMatchBet={() => {callbackShowMatchBet(match)}}
+							callbackShowMatchBet={() => {
+								callbackShowMatchBet(match);
+							}}
 							match={match}
 							plus={numberOfOdds}
 						></BasicBet>
@@ -104,7 +106,7 @@ export default function betForMatch(props: any) {
 					</View>
 					<View style={styles.liveTextLeagueNameContainer}>
 						<Text style={styles.liveTextLeagueName}>
-							{props.leagueName?props.leagueName:""}
+							{props.leagueName ? props.leagueName : ""}
 						</Text>
 					</View>
 				</View>
@@ -131,11 +133,13 @@ export default function betForMatch(props: any) {
 								></BasicBet>
 						  ))
 						: null}
-					{numberOfLiveOdds === 0 ? (
+					{!(numberOfLiveOdds === 0) ? (
 						<BasicBet
 							betChoiceListGroup={betChoiceListGroup}
 							joinCode={joinCode}
-							callbackShowMatchBet={callbackShowMatchBet}
+							callbackShowMatchBet={() => {
+								callbackShowMatchBet(match);
+							}}
 							match={match}
 							plus={numberOfLiveOdds}
 						></BasicBet>

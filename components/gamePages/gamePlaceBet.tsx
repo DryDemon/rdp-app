@@ -29,7 +29,10 @@ import {
 } from "../../components/Themed";
 
 import { format, parseISO } from "date-fns";
-import { ENVIRONEMENT } from "../../constants/Environement";
+import {
+	ENVIRONEMENT,
+	RELOAD_LIVE_BETS_EVERY_SECONDS,
+} from "../../constants/Environement";
 import { SERVER_API_URL, SERVER_LOGO_URL } from "../../constants/Server";
 import { GameSchema } from "../../src/interaces/interfacesGame";
 import {
@@ -43,6 +46,7 @@ import Colors from "../../constants/Colors";
 import { DropDownPickerStyleSheep } from "../../screens/create";
 
 import RNPickerSelect from "react-native-picker-select";
+import useInterval from "../../hooks/useInterval";
 
 async function fetchBetData(joinCode: string, jwt: string) {
 	// const apiRoute =
@@ -55,6 +59,21 @@ async function fetchBetData(joinCode: string, jwt: string) {
 
 		const content = await rawResponse.json();
 		if (content.success == 1) return content;
+	}
+	return undefined;
+}
+
+async function fetchLiveBetData(jwt: string, matchIds: string[]) {
+	// const apiRoute =
+	// 	ENVIRONEMENT != "dev" ? "getnextmatchleaguedata" : "getmatchleaguedata";
+
+	if (matchIds.length != 0 && jwt) {
+		const rawResponse = await fetch(
+			`${SERVER_API_URL}/getmatchsliveodds?jwt=${jwt}&matchIds=${matchIds.toString()}`
+		);
+
+		const content = await rawResponse.json();
+		if (content.success == 1) return content.liveOdds;
 	}
 	return undefined;
 }
@@ -84,9 +103,27 @@ export default function GamePlaceBet(props: any) {
 	const [leagues, setLeagues] = useState<Array<LeagueSchema>>([]);
 
 	const [listLiveLeagues, setListLiveLeagues] = useState<Array<string>>([]);
+	const [listLiveMatchIds, setListLiveMatchIds] = useState<Array<string>>([]);
 
 	const [listFilter, setListFilter] = useState<Array<string>>([]);
 	const [isLive, setIsLive] = useState(ENVIRONEMENT == "dev" ? true : false);
+
+	useInterval(async () => {
+		let liveData = await fetchLiveBetData(jwt, listLiveMatchIds);
+		if (liveData.length != 0) {
+			let matchsCpy = matchs;
+			for (let i = 0; i < matchsCpy.length; i++) {
+				Object.keys(liveData).forEach(function (key) {
+					if(key == matchsCpy[i].matchId){
+						let value = liveData[key];
+						matchsCpy[i].matchOdds = value;
+					}
+				});
+			}
+			
+			setMatchs(matchsCpy);
+		}
+	}, RELOAD_LIVE_BETS_EVERY_SECONDS * 1000);
 
 	useEffect(() => {
 		fetchBetData(joinCode, jwt).then((content) => {
@@ -94,6 +131,7 @@ export default function GamePlaceBet(props: any) {
 				if (content.matchs) {
 					setMatchs(content.matchs);
 					let listLiveLeaguesCpy: string[] = [];
+					let listLiveMatchCpy: string[] = [];
 					content.matchs.forEach((value: MatchSchema) => {
 						if (
 							value.liveId &&
@@ -103,7 +141,14 @@ export default function GamePlaceBet(props: any) {
 							setIsLive(true);
 							listLiveLeaguesCpy.push(value.leagueId);
 						}
+						if (
+							value.liveId != undefined &&
+							value.matchId != undefined
+						) {
+							listLiveMatchCpy.push(value.matchId);
+						}
 					});
+					setListLiveMatchIds(listLiveMatchCpy);
 					setListLiveLeagues(listLiveLeaguesCpy);
 				}
 				if (content.leagues) setLeagues(content.leagues);

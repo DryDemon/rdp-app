@@ -53,7 +53,7 @@ export default function GameMatchBets(props: any) {
 		...otherProps
 	} = props;
 
-	const odds = match.prematchOdds;
+	const odds = match.liveId ? match.matchOdds : match.prematchOdds;
 	const length = odds?.length;
 	const isLive = match.liveId != undefined;
 
