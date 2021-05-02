@@ -22,6 +22,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Constants from "expo-constants";
 import { User } from "../src/interaces/interfacesUsers";
 import Colors from "../constants/Colors";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function Login({ navigation }: any) {
 	const [password, setPassword] = useState("");
@@ -34,6 +35,10 @@ export default function Login({ navigation }: any) {
 	// //DELETE VARS
 	// AsyncStorage.removeItem("@jwt")
 	// AsyncStorage.removeItem("@user")
+
+	function gotoForgotPassword(){
+		navigation.navigate("ForgotPasswordFirstScreen");
+	}
 
 	async function sendDataLoginUser(userauth: string, password: string) {
 		const rawRep = await fetch(
@@ -153,12 +158,19 @@ export default function Login({ navigation }: any) {
 					secureTextEntry={true}
 				/>
 				<TextWarning>{alertPassword}</TextWarning>
-
+				{/* <TouchableOpacity onPress={() => {gotoForgotPassword()}} style={styles.forgotPasswordContainer}> */}
+					<Text style={styles.forgotPasswordText} onPress={() => gotoForgotPassword()}>
+						Mot de passe oublié?
+					</Text>
+				{/* </TouchableOpacity>	 */}
 				<LineBreak />
 				<Button title={"Me Connecter"} onPress={onLogin} />
 				<LineBreak />
 				<View style={styles.felxRow}>
-					<Text style={styles.subCta} onPress={() => navigation.navigate("Register")}>
+					<Text
+						style={styles.subCta}
+						onPress={() => navigation.navigate("Register")}
+					>
 						Tu n'as pas de compte?
 					</Text>
 					<Text
@@ -169,7 +181,6 @@ export default function Login({ navigation }: any) {
 					</Text>
 				</View>
 				<LineBreak />
-					
 			</BasicScrollView>
 		</ViewContainer>
 	);
@@ -198,11 +209,23 @@ const styles = StyleSheet.create({
 		marginLeft: 4,
 	},
 	felxRow: {
-		flexDirection:"row",
+		flexDirection: "row",
 		justifyContent: "center",
 	},
 	subCta: {
 		fontSize: 12,
-		
+	},
+	forgotPasswordContainer: {
+		alignItems: 'flex-end',
+	},
+	forgotPasswordText: {
+		fontWeight: "500",
+		fontSize: 12,
+		lineHeight: 16,
+		textAlign: 'right',
+		alignItems: "center",
+
+		/* Black / 100 */
+		color: "#414141",
 	},
 });
