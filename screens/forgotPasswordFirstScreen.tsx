@@ -58,7 +58,13 @@ export default function ForgotPasswordFirstScreen({ navigation }: any) {
 	function gotoForgotPasswordSecondPage() {
 		if (checkForm())
 			sendDataLoginUser(email).then((success: boolean) => {
-				if (success) navigation.navigate("ForgotPasswordSecondScreen");
+				if (success) {
+					Alert.alert("Parfait!", "On vient de t'envoyer un code sur ton email, viens le placer ici!")
+					navigation.navigate("ForgotPasswordSecondScreen");
+				}else{
+					Alert.alert("Erreur!", "Nous n'avons pas trouvé ton email...")
+
+				}
 			});
 	}
 
