@@ -115,9 +115,17 @@ export default function GamePlaceBet(props: any) {
 			let matchsCpy = matchs;
 			for (let i = 0; i < matchsCpy.length; i++) {
 				Object.keys(liveData).forEach(function (key) {
-					if(key == matchsCpy[i].matchId){
+					if (key == matchsCpy[i].matchId) {
 						let value = liveData[key];
 						matchsCpy[i].matchOdds = value;
+						if (value == []) {
+							setListLiveMatchIds(
+								listLiveMatchIds.filter(
+									(valueFilterMatchId: string) =>
+										valueFilterMatchId != key
+								)
+							);
+						}
 					}
 				});
 			}
