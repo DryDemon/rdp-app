@@ -447,7 +447,7 @@ export default function Create({ navigation }: any) {
 								items={[
 									{
 										label: "Tous les sports",
-										value: ["1, 18, 13"],
+										value: ["1,18,13"],
 									},
 									{ label: "Football", value: "1" },
 									{ label: "Tennis", value: "13" },
