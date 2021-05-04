@@ -117,9 +117,10 @@ export default function GamePlaceBet(props: any) {
 				Object.keys(liveData).forEach(function (key) {
 					if (key == matchsCpy[i].matchId) {
 						let value = liveData[key];
-						matchsCpy[i].matchOdds = value;
+						matchsCpy[i].matchOdds = value.odds;
+						matchsCpy[i].matchStats = value.stats;
 
-						if (value == []) {
+						if (value.odds == []) {
 							//si jamais le match n'a plus d'odds en live, alors on l'enleve de la liste des matchs a afficher
 							matchsCpy.splice(i, 1);
 
