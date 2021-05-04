@@ -91,7 +91,23 @@ export default function betForMatch(props: any) {
 				</View>
 			</View>
 		);
-	else
+	else {
+		let liveScore: number[] | undefined = undefined
+		let liveScoreData = match.matchStats?.find(
+			(x: any) => x?.['StatsName'] == 'IGoal'
+		)?.Stats
+		
+		if (liveScoreData) {
+			let teamHomeData = liveScoreData.find(
+				(x: any) => x?.['teamNumber'] == 0
+			)
+			let teamAwayData = liveScoreData.find(
+				(x: any) => x?.['teamNumber'] == 1
+			)
+			if (teamHomeData && teamAwayData)
+				liveScore = [+teamHomeData.data, +teamAwayData.data]
+		}
+	
 		return (
 			<View style={styles.matchContainer}>
 				<View
@@ -110,11 +126,54 @@ export default function betForMatch(props: any) {
 						</Text>
 					</View>
 				</View>
+				{liveScore ? (
+					liveScore[0] >= liveScore[1] ? (
+						<View>
+							<View style={{ flexDirection: "row" }}>
+								<Text style={styles.liveMatchNameText}>
+									{match.teamHome}
+								</Text>
+								<Text>{liveScore[0]}</Text>
+							</View>
+							<View style={{ flexDirection: "row" }}>
+								<Text
+									style={[
+										styles.liveMatchNameText,
+										liveScore[0] == liveScore[1]
+											? {}
+											: { color: Colors.gray },
+									]}
+								>
+									{match.teamAway}
+								</Text>
+								<Text>{liveScore[1]}</Text>
+							</View>
+						</View>
+					) : (
+						<View>
+							<View style={{ flexDirection: "row" }}>
+								<Text style={styles.liveMatchNameText}>
+									{match.teamAway}
+								</Text>
+								<Text>{liveScore[1]}</Text>
+							</View>
+							<View style={{ flexDirection: "row" }}>
+								<Text
+									style={[
+										styles.liveMatchNameText,
+										{ color: Colors.gray },
+									]}
+								>
+									{match.teamHome}
+								</Text>
+								<Text>{liveScore[0]}</Text>
+							</View>
+						</View>
+					)
+				) : (
+					<TextTitle style={styles.matchName}>{matchName}</TextTitle>
+				)}
 
-				<Text>
-					score en impimentation une fois que j'ai compris comment ça
-					marche
-				</Text>
 				<SmallLineBreak />
 				<View
 					style={{
@@ -147,6 +206,7 @@ export default function betForMatch(props: any) {
 				</View>
 			</View>
 		);
+	}
 }
 
 const styles = StyleSheet.create({
@@ -202,5 +262,13 @@ const styles = StyleSheet.create({
 	},
 	liveTextLeagueNameContainer: {
 		paddingHorizontal: 12,
+	},
+	liveMatchNameText: {
+		fontWeight: "bold",
+		fontSize: 15,
+		lineHeight: 20,
+
+		//black by default
+		color: "#414141",
 	},
 });
