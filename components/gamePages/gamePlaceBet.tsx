@@ -113,12 +113,17 @@ export default function GamePlaceBet(props: any) {
 		let liveData = await fetchLiveBetData(jwt, listLiveMatchIds);
 		if (liveData.length != 0) {
 			let matchsCpy = matchs;
-			for (let i = 0; i < matchsCpy.length; i++) {
+			for (let i = matchsCpy.length - 1; i >= 0; i--) {
 				Object.keys(liveData).forEach(function (key) {
 					if (key == matchsCpy[i].matchId) {
 						let value = liveData[key];
 						matchsCpy[i].matchOdds = value;
+
 						if (value == []) {
+							//si jamais le match n'a plus d'odds en live, alors on l'enleve de la liste des matchs a afficher
+							matchsCpy.splice(i, 1);
+
+							//et on l'enleve des matchs a recharger... Peut bugger Peut etre besoin, de l'enlever dans le futur
 							setListLiveMatchIds(
 								listLiveMatchIds.filter(
 									(valueFilterMatchId: string) =>
