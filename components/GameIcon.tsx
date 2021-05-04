@@ -1,5 +1,5 @@
 import React from "react";
-import { SERVER_LOGO_URL } from "../constants/Server";
+import { SERVER_API_URL, SERVER_LOGO_URL } from "../constants/Server";
 import { View, Text, TextTitle, SubText } from "./Themed";
 import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 import {
@@ -9,7 +9,15 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { validURL } from "../src/smallFuncts";
 import Feather from "react-native-vector-icons/Feather";
-import { addUserInAGame } from "./MyLeaguesDash";
+
+async function addUserInAGame(joinCode: string, jwt: string) {
+	const rawResponse = await fetch(
+		SERVER_API_URL + `/adduserinagame?joinCode=${joinCode}&jwt=${jwt}`
+	);
+	const content = await rawResponse.json();
+	return content;
+}
+
 
 export function GameIcon(props: any) {
 	const game: GameSchema = props.game;
