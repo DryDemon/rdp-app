@@ -365,6 +365,7 @@ export default function GameHandler({ navigation }: any) {
 						joinCode={joinCode}
 						game={game}
 						logoUrl={logoUrl}
+						setPage={setPage}
 					/>
 				</GameScrollView>
 			</ViewContainer>

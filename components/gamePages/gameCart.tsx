@@ -180,6 +180,7 @@ export default function GameCart(props: any) {
 		reloadGame,
 		betChoiceListGroup,
 		betChoiceMainInfoGroup,
+		setPage, 
 
 		...otherProps
 	} = props;
@@ -238,13 +239,15 @@ export default function GameCart(props: any) {
 		setBetChoiceListGameHandler(cart);
 	}
 
-	async function removeAllBet() {
+	async function removeAllBetAndGotoListBets() {
 		let cart: any[] = [];
 		reloadGame(); //Pour charger les paris qui viennentd'être places
 
 		setBetChoiceListGameHandler([]);
 
 		setblockSendButton(false);
+
+		setPage("gameListBets")
 	}
 
 	//fonction type == simple
@@ -356,7 +359,7 @@ export default function GameCart(props: any) {
 			);
 			if (!rep) alert("Error");
 		}
-		await removeAllBet();
+		await removeAllBetAndGotoListBets();
 	}
 
 	function onSend() {
@@ -391,7 +394,7 @@ export default function GameCart(props: any) {
 						[],
 						isUsingMultiplyBonus
 					).then((rep) => {
-						if (rep) removeAllBet();
+						if (rep) removeAllBetAndGotoListBets();
 						else alert("Erreur");
 					});
 
@@ -425,7 +428,7 @@ export default function GameCart(props: any) {
 						baseMatchIds,
 						isUsingMultiplyBonus
 					).then((rep) => {
-						if (rep) removeAllBet();
+						if (rep) removeAllBetAndGotoListBets();
 						else alert("Erreur");
 					});
 
