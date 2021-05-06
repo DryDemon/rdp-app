@@ -111,7 +111,7 @@ export default function GamePlaceBet(props: any) {
 
 	useInterval(async () => {
 		let liveData = await fetchLiveBetData(jwt, listLiveMatchIds);
-		if (liveData.length != 0) {
+		if (liveData && liveData.length != 0) {
 			let matchsCpy = matchs;
 			for (let i = matchsCpy.length - 1; i >= 0; i--) {
 				Object.keys(liveData).forEach(function (key) {
