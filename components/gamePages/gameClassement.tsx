@@ -36,6 +36,7 @@ import {
 import { validURL } from "../../src/smallFuncts";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Colors from "../../constants/Colors";
+import { PlayerIconName } from "../playerIconName";
 
 export default function GameClassement(props: any) {
 	const {
@@ -45,6 +46,7 @@ export default function GameClassement(props: any) {
 		game,
 		logoUrl,
 		reloadGame,
+		setUserIdSelectedShowStats,
 		...otherProps
 	} = props;
 
@@ -75,68 +77,41 @@ export default function GameClassement(props: any) {
 					{userList.length > 1 ? (
 						<View style={styles.mainClassementContainer}>
 							<View style={styles.separator}></View>
-							<Text>2</Text>
-							<MaterialCommunityIcons
-								name="crown"
-								size={20}
-								color={"#000"}
+							<PlayerIconName
+								user={userList[1]}
+								position={2}
+								onThrone={true}
 							/>
-
-							<Text style={styles.mainClassementUsername}>
-								{userList[1].username}
-							</Text>
-							<Text style={styles.mainClassementCredits}>
-								{userList[1].credits}
-							</Text>
 						</View>
 					) : null}
 					{userList.length > 0 ? (
 						<View style={styles.mainClassementContainer}>
-							<Text>1</Text>
-							<MaterialCommunityIcons
-								name="crown"
-								size={20}
-								color={"#000"}
+							<PlayerIconName
+								user={userList[0]}
+								position={1}
+								onThrone={true}
 							/>
-
-							<Text style={styles.mainClassementUsername}>
-								{userList[0].username}
-							</Text>
-							<Text style={styles.mainClassementCredits}>
-								{userList[0].credits}
-							</Text>
 						</View>
 					) : null}
 					{userList.length > 2 ? (
 						<View style={styles.mainClassementContainer}>
 							<View style={styles.separator}></View>
-							<Text>3</Text>
-							<MaterialCommunityIcons
-								name="crown"
-								size={20}
-								color={"#000"}
+							<PlayerIconName
+								user={userList[2]}
+								position={3}
+								onThrone={true}
 							/>
-
-							<Text style={styles.mainClassementUsername}>
-								{userList[2].username}
-							</Text>
-							<Text style={styles.mainClassementCredits}>
-								{userList[2].credits}
-							</Text>
 						</View>
 					) : null}
 				</View>
 				{userList.map((user: userStatsInterface, index: number) => {
 					if (index > 2)
 						return (
-							<View style={styles.subClassement}>
-								<Text style={styles.subClassementUsername}>
-									{index + 1 + " : " + user.username}
-								</Text>
-								<Text style={styles.subClassementCredits}>
-									{user.credits}
-								</Text>
-							</View>
+							<PlayerIconName
+								user={user}
+								position={index + 1}
+								onThrone={false}
+							/>
 						);
 					return null;
 				})}
