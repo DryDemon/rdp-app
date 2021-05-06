@@ -64,6 +64,7 @@ export function PlayerBet(props: any) {
 	let user: User = props.user;
 	let userId = user._id;
 	let reloadGame = props.reloadGame;
+	let canShowBonus: boolean = props.canShowBonus;
 
 	let [canCancelBet, canDivideBet, divideValue] = getUserBonus(game, userId);
 
@@ -163,7 +164,7 @@ export function PlayerBet(props: any) {
 							/>
 						</View>
 					) : null}
-					{canCancelBet || canDivideBet ? (
+					{(canCancelBet || canDivideBet) && canShowBonus ? (
 						<TouchableOpacity onPress={toggleShowBetOption}>
 							<Entypo
 								style={styles.icon}
@@ -237,9 +238,7 @@ export function PlayerBet(props: any) {
 								{simpleBet.betHandicap
 									? simpleBet.betHandicap
 									: null}
-								{simpleBet.betTeam
-									? simpleBet.betTeam
-									: null}
+								{simpleBet.betTeam ? simpleBet.betTeam : null}
 							</Text>
 						</View>
 					) : null}

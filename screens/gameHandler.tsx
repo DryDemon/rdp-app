@@ -331,6 +331,7 @@ export default function GameHandler({ navigation }: any) {
 			>
 				<GameScrollView>
 					<GameListBets
+						canShowBonus={!game?.isPublic}
 						reloadGame={reloadGame}
 						jwt={jwt}
 						user={user}

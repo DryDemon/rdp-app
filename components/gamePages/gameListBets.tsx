@@ -38,7 +38,16 @@ import { validURL } from "../../src/smallFuncts";
 import { PlayerBet } from "../playerBet";
 
 export default function GameListBets(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, reloadGame, ...otherProps } = props;
+	const {
+		jwt,
+		user,
+		joinCode,
+		game,
+		logoUrl,
+		reloadGame,
+		canShowBonus,
+		...otherProps
+	} = props;
 
 	const [myBets, setMyBets] = useState(false);
 	const [filter, setFilter] = useState<
@@ -84,10 +93,10 @@ export default function GameListBets(props: any) {
 
 	return (
 		<View>
-			<SmallLineBreak/>
+			<SmallLineBreak />
 			<TextSubTitle style={styles.titleGame}>Les Paris</TextSubTitle>
 
-			<View style={{ flexDirection: "row", marginVertical: 12, }}>
+			<View style={{ flexDirection: "row", marginVertical: 12 }}>
 				<TouchableOpacity onPress={() => setMyBets(true)}>
 					<Text
 						style={
@@ -112,7 +121,13 @@ export default function GameListBets(props: any) {
 				</TouchableOpacity>
 			</View>
 			{/* Filter menu */}
-			<View style={{ flexDirection: "row", justifyContent: "space-between", marginVertical: 12, }}>
+			<View
+				style={{
+					flexDirection: "row",
+					justifyContent: "space-between",
+					marginVertical: 12,
+				}}
+			>
 				{["En cours", "Gagnés", "Perdus", "Terminés"].map(
 					(value: any) => (
 						<TouchableOpacity
@@ -142,7 +157,15 @@ export default function GameListBets(props: any) {
 
 			<View style={styles.textToMiddle}>
 				{betsToDisplay.reverse().map((bet: userBetInterface) => (
-					<PlayerBet game={game} reloadGame={reloadGame} jwt={jwt} user={user} key={bet._id} bet={bet} />
+					<PlayerBet
+						canShowBonus={!game?.isPublic}
+						game={game}
+						reloadGame={reloadGame}
+						jwt={jwt}
+						user={user}
+						key={bet._id}
+						bet={bet}
+					/>
 				))}
 				<SmallLineBreak />
 			</View>
@@ -157,8 +180,7 @@ const styles = StyleSheet.create({
 		marginBottom: 24,
 	},
 	textToMiddle: {
-		
-		marginTop:6,
+		marginTop: 6,
 	},
 	choiceMyBetsSelected: {
 		fontWeight: "400",
@@ -175,11 +197,11 @@ const styles = StyleSheet.create({
 	betChoiceButtonTouched: {
 		flexShrink: 1,
 		flexWrap: "wrap",
-		justifyContent:"center",
+		justifyContent: "center",
 		flex: 1,
 		fontSize: 12,
 		borderRadius: 12,
-		textAlign:"center",
+		textAlign: "center",
 		backgroundColor: Colors.rdpColor,
 		minWidth: "auto",
 		paddingHorizontal: 8,
@@ -189,7 +211,7 @@ const styles = StyleSheet.create({
 	betChoiceButtonUntouched: {
 		flexShrink: 1,
 		flexWrap: "wrap",
-		justifyContent:"center",
+		justifyContent: "center",
 		flex: 1,
 		fontSize: 12,
 		borderRadius: 12,
