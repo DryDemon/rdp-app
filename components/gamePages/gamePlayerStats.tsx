@@ -62,7 +62,6 @@ export default function GamePlayerStats(props: any) {
 	}, [user, userIdSelectedShowStats]);
 
 	if (userSelected) {
-
 		let betWithBiggestQuoteValidated = game.betList
 			.filter((value: userBetInterface) => {
 				return (
@@ -183,6 +182,61 @@ export default function GamePlayerStats(props: any) {
 					<View
 						style={styles.subBoxTitleAndValueContainerWhenTwoBoxes}
 					>
+						<Text style={styles.subBoxTitle}>Gagnés</Text>
+						<View style={styles.subBoxValueContainerBlue}>
+							<Text style={styles.subBoxText}>
+								{game.betList.reduce(
+									(
+										accumulateur: number,
+										currValue: userBetInterface
+									) => {
+										//pour tout les paris, si le paris est au joueur, alors on ajoute les paris a la liste des paris combinés
+										if (
+											currValue.userId ==
+												userSelected.userId &&
+											currValue.status == 1
+										) {
+											return accumulateur + 1;
+										} else return accumulateur;
+									},
+									0
+								)}
+							</Text>
+						</View>
+					</View>
+
+					<View
+						style={styles.subBoxTitleAndValueContainerWhenTwoBoxes}
+					>
+						<Text style={styles.subBoxTitle}>Perdus</Text>
+						<View style={styles.subBoxValueContainerRed}>
+							<Text style={styles.subBoxText}>
+								{game.betList.reduce(
+									(
+										accumulateur: number,
+										currValue: userBetInterface
+									) => {
+										//pour tout les paris, si le paris est au joueur, alors on ajoute les paris a la liste des paris combinés
+										if (
+											currValue.userId ==
+												userSelected.userId &&
+											currValue.status == 2
+										) {
+											return accumulateur + 1;
+										} else return accumulateur;
+									},
+									0
+								)}
+							</Text>
+						</View>
+					</View>
+				</View>
+
+				<SmallLineBreak />
+				<View style={styles.boxContainer}>
+					<View
+						style={styles.subBoxTitleAndValueContainerWhenTwoBoxes}
+					>
 						<Text style={styles.subBoxTitle}>
 							% de paris réussis
 						</Text>
@@ -227,6 +281,7 @@ export default function GamePlayerStats(props: any) {
 							</Text>
 						</View>
 					</View>
+
 					<View
 						style={styles.subBoxTitleAndValueContainerWhenTwoBoxes}
 					>
