@@ -70,6 +70,8 @@ export function PlayerBet(props: any) {
 
 	const [showBetOption, setShowBetOption] = useState(false);
 
+	let username = bet.username;
+
 	let fullStatus = 0;
 	for (let subbet of bet.betsObjects) {
 		if (subbet.betStatus && subbet.betStatus > fullStatus)
@@ -189,6 +191,7 @@ export function PlayerBet(props: any) {
 						{simpleBet.leagueName}
 					</SubText>
 				) : null}
+				{username ? <Text>{username}</Text> : null}
 				<View style={[{ marginBottom: 4 }, styles.lineRow]}>
 					<Text style={styles.mise}>Mise : </Text>
 					<Text style={styles.credits}>{bet.credits}</Text>

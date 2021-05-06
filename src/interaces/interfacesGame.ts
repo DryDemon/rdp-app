@@ -58,6 +58,7 @@ export interface userBetInterface{
    _id?:string;
 
    userId?: string;
+   username?: string;
    status?: number; //0 ?: unresolved, 1 ?: win, 2 ?: lost, 3?: cancel
    credits?: number;
    isSystem?:boolean;
