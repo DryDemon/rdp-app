@@ -12,8 +12,6 @@ export function DatePicker(props: any) {
 	const [showDatePicker, setShowDatePicker] = useState(false);
 	const [beenSet, setbeenSet] = useState(false);
 
-console.log(format(new Date(), "ddMMyyyy"))
-
 	return (
 		<View>
 			<TouchableOpacity

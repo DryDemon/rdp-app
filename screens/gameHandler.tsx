@@ -242,8 +242,6 @@ export default function GameHandler({ navigation }: any) {
 	}, []);
 
 	useEffect(() => {
-		if (ENVIRONEMENT == "dev") console.log(game);
-
 		if (game && game.logoUrl && validURL(game.logoUrl))
 			setlogoUrl(game.logoUrl);
 	}, [game]);

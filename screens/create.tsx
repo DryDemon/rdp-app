@@ -199,7 +199,6 @@ export default function Create({ navigation }: any) {
 
 	useEffect(() => {
 		//load leagueSearch
-		console.log(leaguesList);
 		let filterList = leaguesList.filter(
 			(league: any) =>
 				league.leagueName.indexOf(leagueSearch) != -1 ||
@@ -335,14 +334,9 @@ export default function Create({ navigation }: any) {
 	// 	} else {
 	// 		cpySportChoice.push(id);
 	// 	}
-	// 	console.log(cpySportChoice);
 
 	// 	setSportChoice(cpySportChoice);
 	// }
-
-	useEffect(() => {
-		console.log(dateCreationForm, dateEndForm);
-	}, [dateCreationForm, dateEndForm]);
 
 	function toggleLeaguesDisplaySelect(leagueId: string) {
 

@@ -143,7 +143,6 @@ export default function ForgotPasswordSecondScreen({ navigation }: any) {
 		} else {
 			setAlertMdpVerif(" ");
 		}
-		console.log("ok,", ok);
 		return ok;
 	}
 

@@ -216,10 +216,6 @@ export default function GameCart(props: any) {
 		[canMultiplyBet, multiplyValue] = getUserMultiplyBonus(game, user?._id);
 	}, [game, betChoiceListGameHandler, user]);
 
-	useEffect(() => {
-		if (ENVIRONEMENT == "dev") console.log(systemChoice);
-	}, [systemChoice]);
-
 	//validate the cart each time bet action
 	useEffect(() => {
 		validateCart()

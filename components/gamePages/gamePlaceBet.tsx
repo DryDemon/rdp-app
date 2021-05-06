@@ -178,14 +178,6 @@ export default function GamePlaceBet(props: any) {
 		// });
 	}, [jwt, joinCode]);
 
-	useEffect(() => {
-		if (ENVIRONEMENT == "dev") console.log(leagues, matchs);
-	}, [leagues, matchs]);
-
-	useEffect(() => {
-		if (ENVIRONEMENT == "dev") console.log(listFilter);
-	}, [listFilter]);
-
 	function updateFilterList(leagueId: string) {
 		let cpyListFilter = listFilter;
 
