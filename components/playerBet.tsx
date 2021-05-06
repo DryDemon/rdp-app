@@ -152,7 +152,7 @@ export function PlayerBet(props: any) {
 						<View
 							style={{
 								borderRadius: 100,
-								backgroundColor: "#FDE7E7",
+								backgroundColor: Colors.lightRed,
 							}}
 						>
 							<Entypo
