@@ -415,7 +415,8 @@ const styles = StyleSheet.create({
 		fontWeight: "500",
 		fontSize: 12,
 		lineHeight: 16,
-
+        marginBottom:12,
+        
 		color: Colors.gray,
 	},
 	subBoxValueContainerBlue: {
