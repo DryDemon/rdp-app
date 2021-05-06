@@ -62,9 +62,12 @@ export default function GamePlayerStats(props: any) {
 	}, [user, userIdSelectedShowStats]);
 
 	if (userSelected) {
+
 		let betWithBiggestQuoteValidated = game.betList
 			.filter((value: userBetInterface) => {
-				value.status == 1;
+				return (
+					value.status == 1 && value.userId == userIdSelectedShowStats
+				);
 			}) //filter to only sort by winning bets
 			.sort((value: userBetInterface, secondValue: userBetInterface) => {
 				if (value.mainQuote && secondValue.mainQuote)
@@ -186,7 +189,7 @@ export default function GamePlayerStats(props: any) {
 						<View style={styles.subBoxValueContainerBlue}>
 							<Text style={styles.subBoxText}>
 								{(
-									game.betList.reduce(
+									(game.betList.reduce(
 										(
 											accumulateur: number,
 											currValue: userBetInterface
@@ -202,22 +205,24 @@ export default function GamePlayerStats(props: any) {
 										},
 										0
 									) /
-									game.betList.reduce(
-										(
-											accumulateur: number,
-											currValue: userBetInterface
-										) => {
-											//pour tout les paris, si le paris est au joueur, alors on ajoute les paris a la liste des paris combinés
-											if (
-												currValue.userId ==
-													userSelected.userId &&
-												currValue.status == 2
-											) {
-												return accumulateur + 1;
-											} else return accumulateur;
-										},
-										0
-									)
+										game.betList.reduce(
+											(
+												accumulateur: number,
+												currValue: userBetInterface
+											) => {
+												//pour tout les paris, si le paris est au joueur, alors on ajoute les paris a la liste des paris combinés
+												if (
+													currValue.userId ==
+														userSelected.userId &&
+													(currValue.status == 2 ||
+														currValue.status == 1)
+												) {
+													return accumulateur + 1;
+												} else return accumulateur;
+											},
+											0
+										)) *
+									100
 								).toFixed(0) + " %"}
 							</Text>
 						</View>
@@ -261,7 +266,11 @@ export default function GamePlayerStats(props: any) {
 							<Text style={styles.subBoxText}>
 								{game.betList
 									.filter((value: userBetInterface) => {
-										value.status == 1;
+										return (
+											value.status == 1 &&
+											value.userId ==
+												userIdSelectedShowStats
+										);
 									}) //filter to only sort by winning bets
 									.sort(
 										(
@@ -275,10 +284,10 @@ export default function GamePlayerStats(props: any) {
 												secondValue.credits
 											)
 												return (
-													value.mainQuote *
-														value.credits -
 													secondValue.mainQuote *
-														secondValue.credits
+														secondValue.credits -
+													value.mainQuote *
+														value.credits
 												);
 											else return 0;
 										}

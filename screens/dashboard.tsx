@@ -91,8 +91,8 @@ export default function Dashboard({ navigation }: any) {
 
 	useEffect(() => {
 		if (ENVIRONEMENT == "dev") {
-			AsyncStorage.setItem("@joinCode", "XSJTFI");
-			navigation.navigate("Game");
+			// AsyncStorage.setItem("@joinCode", "BPLSRO");
+			// navigation.navigate("Game");
 		}
 	}, [games]);
 
