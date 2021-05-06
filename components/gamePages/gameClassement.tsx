@@ -78,6 +78,11 @@ export default function GameClassement(props: any) {
 						<View style={styles.mainClassementContainer}>
 							<View style={styles.separator}></View>
 							<PlayerIconName
+								onSelect={() => {
+									setUserIdSelectedShowStats(
+										userList[1].userId
+									);
+								}}
 								user={userList[1]}
 								position={2}
 								onThrone={true}
@@ -87,6 +92,11 @@ export default function GameClassement(props: any) {
 					{userList.length > 0 ? (
 						<View style={styles.mainClassementContainer}>
 							<PlayerIconName
+								onSelect={() => {
+									setUserIdSelectedShowStats(
+										userList[0].userId
+									);
+								}}
 								user={userList[0]}
 								position={1}
 								onThrone={true}
@@ -97,6 +107,11 @@ export default function GameClassement(props: any) {
 						<View style={styles.mainClassementContainer}>
 							<View style={styles.separator}></View>
 							<PlayerIconName
+								onSelect={() => {
+									setUserIdSelectedShowStats(
+										userList[2].userId
+									);
+								}}
 								user={userList[2]}
 								position={3}
 								onThrone={true}
@@ -108,6 +123,9 @@ export default function GameClassement(props: any) {
 					if (index > 2)
 						return (
 							<PlayerIconName
+								onSelect={() => {
+									setUserIdSelectedShowStats(user.userId);
+								}}
 								user={user}
 								position={index + 1}
 								onThrone={false}

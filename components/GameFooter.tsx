@@ -37,7 +37,7 @@ export function GameFooter(props: any) {
 				setPage("gameCart");
 				break;
 			case 5:
-				setPage("gamePlayerStats");
+				setPage("gameMatchStats");
 				break;
 		}
 	}
@@ -145,7 +145,7 @@ export function GameFooter(props: any) {
 			>
 				<View
 					style={
-						page == "gamePlayerStats"
+						page == "gameMatchStats"
 							? styles.touched
 							: styles.untouched
 					}
@@ -153,7 +153,7 @@ export function GameFooter(props: any) {
 					<FontAwesome
 						name="calendar-check-o"
 						size={24}
-						color={page == "gamePlayerStats" ? Colors.white : Colors.black}
+						color={page == "gameMatchStats" ? Colors.white : Colors.black}
 					/>
 				</View>
 			</TouchableOpacity>

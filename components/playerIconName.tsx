@@ -10,7 +10,7 @@ import {
 	TextWarning,
 	SmallLineBreak,
 } from "./Themed";
-import { Alert, Image, StyleSheet, ScrollView } from "react-native";
+import { Alert, Image, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import Colors from "../constants/Colors";
 import { SERVER_API_URL } from "../constants/Server";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -20,10 +20,11 @@ export function PlayerIconName(props: any) {
 	const user: userStatsInterface = props.user;
 	const position: number = props.position;
 	const onThrone: boolean | undefined = props.onThrone;
+	const onSelect = props.onSelect;
 
 	if (onThrone)
 		return (
-			<View>
+			<TouchableOpacity onPress={() => {onSelect()}}>
 				<Text>1</Text>
 				<MaterialCommunityIcons name="crown" size={20} color={"#000"} />
 
@@ -33,11 +34,11 @@ export function PlayerIconName(props: any) {
 				<Text style={styles.mainClassementCredits}>
 					{user.credits?.toFixed(2)}
 				</Text>
-			</View>
+			</TouchableOpacity>
 		);
 	else
 		return (
-			<View>
+			<TouchableOpacity onPress={() => {onSelect()}}>
 				<View style={styles.subClassement}>
 					<Text style={styles.subClassementUsername}>
 						{position + " : " + user.username}
@@ -46,7 +47,7 @@ export function PlayerIconName(props: any) {
 						{user.credits?.toFixed(2)}
 					</Text>
 				</View>
-			</View>
+			</TouchableOpacity>
 		);
 }
 

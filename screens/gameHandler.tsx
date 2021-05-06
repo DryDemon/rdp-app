@@ -42,6 +42,7 @@ import GameCart from "../components/gamePages/gameCart";
 import GameMatchsStats from "../components/gamePages/gameMatchsStats";
 import GamePlaceBet from "../components/gamePages/gamePlaceBet";
 import GameMatchBets from "../components/gamePages/gameMatchBets";
+import GamePlayerStats from "../components/gamePages/gamePlayerStats";
 import { GameHeader } from "../components/gameHeader";
 import { ShowBonus } from "../components/showBonus";
 import { MatchSchema } from "../src/interaces/interfacesQuotes";
@@ -68,9 +69,10 @@ export default function GameHandler({ navigation }: any) {
 		| "gamePlaceBet"
 		| "gameListBets"
 		| "gameCart"
-		| "gamePlayerStats"
+		| "gameMatchStats"
 		| "gameMatchBets"
 		| "gameInfo"
+		| "gamePlayerStats"
 	>(ENVIRONEMENT == "prod" ? "gameInfo" : "gameListBets");
 
 	const [betChoiceListGameHandler, setBetChoiceListGameHandler] = useState<
@@ -88,6 +90,10 @@ export default function GameHandler({ navigation }: any) {
 
 	const [showGamePage, setshowGamePage] = useState(false); //Use this to show the game page bets
 	const [matchs, setMatchs] = useState<MatchSchema[]>([]);
+	const [
+		userIdSelectedShowStats,
+		setUserIdSelectedShowStats,
+	] = useState<string>(""); //This variable is used with GamePlayerStats Page, it remenbers which userId To Show
 
 	const [showBonus, setShowBonus] = useState(false);
 
@@ -113,6 +119,11 @@ export default function GameHandler({ navigation }: any) {
 			/>
 		);
 	}
+
+	useEffect(() => {
+		if (userIdSelectedShowStats && userIdSelectedShowStats != "")
+			setPage("gamePlayerStats");
+	}, [userIdSelectedShowStats]);
 
 	useEffect(() => {
 		//prepare matchList
@@ -179,6 +190,7 @@ export default function GameHandler({ navigation }: any) {
 	useEffect(() => {
 		if (showBonus) setShowBonus(false);
 		if (page != "gameMatchBets") setVisibleMatchId("");
+		if (page != "gamePlayerStats") setUserIdSelectedShowStats("");
 	}, [page]);
 
 	function reloadGame() {
@@ -243,12 +255,21 @@ export default function GameHandler({ navigation }: any) {
 				canShowBonus={!game?.isPublic}
 				toggleShowBonus={toggleShowBonus}
 				joinCode={joinCode}
-				back={page != "gameMatchBets" ? "Dashboard" : undefined}
-				callBackGameHeaderGotoBack={
-					page == "gameMatchBets"
-						? () => setPage("gamePlaceBet")
+				back={
+					page != "gameMatchBets" && page != "gamePlayerStats"
+						? "Dashboard"
 						: undefined
 				}
+				callBackGameHeaderGotoBack={() => {
+					switch (page) {
+						case "gameMatchBets":
+							setPage("gamePlaceBet");
+							break;
+						case "gamePlayerStats":
+							setPage("gameClassement");
+							break;
+					}
+				}}
 				navigation={navigation}
 				game={game}
 				callbackQuestionMark={() => {
@@ -265,6 +286,7 @@ export default function GameHandler({ navigation }: any) {
 			>
 				<GameScrollView>
 					<GameClassement
+						setUserIdSelectedShowStats={setUserIdSelectedShowStats}
 						reloadGame={reloadGame}
 						jwt={jwt}
 						user={user}
@@ -348,7 +370,7 @@ export default function GameHandler({ navigation }: any) {
 
 			<ViewContainer
 				style={
-					!showBonus && page == "gamePlayerStats"
+					!showBonus && page == "gameMatchStats"
 						? { display: "flex" }
 						: { display: "none" }
 				}
@@ -396,6 +418,22 @@ export default function GameHandler({ navigation }: any) {
 						joinCode={joinCode}
 						game={game}
 						logoUrl={logoUrl}
+					/>
+				</GameScrollView>
+			</ViewContainer>
+
+			<ViewContainer
+				style={
+					!showBonus && page == "gamePlayerStats"
+						? { display: "flex" }
+						: { display: "none" }
+				}
+			>
+				<GameScrollView>
+					<GamePlayerStats
+						user={user}
+						game={game}
+						userIdSelectedShowStats={userIdSelectedShowStats}
 					/>
 				</GameScrollView>
 			</ViewContainer>
