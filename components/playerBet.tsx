@@ -17,7 +17,11 @@ import {
 	ScrollView,
 	TouchableOpacity,
 } from "react-native";
-import { GameSchema, userBetInterface } from "../src/interaces/interfacesGame";
+import {
+	GameSchema,
+	userBetInterface,
+	userStatsInterface,
+} from "../src/interaces/interfacesGame";
 import { GameIcon } from "./GameIcon";
 import Colors from "../constants/Colors";
 import { SeeDetails } from "./seeDetailsPlayerBet";
@@ -71,6 +75,10 @@ export function PlayerBet(props: any) {
 	const [showBetOption, setShowBetOption] = useState(false);
 
 	let username = bet.username;
+	if (!username)
+		username = game.userStats?.find(
+			(userStat: userStatsInterface) => userStat.userId == bet.userId
+		)?.username;
 
 	let fullStatus = 0;
 	for (let subbet of bet.betsObjects) {
