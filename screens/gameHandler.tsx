@@ -56,7 +56,7 @@ async function getCurrentGame(joinCode: string, jwt: string) {
 	return content;
 }
 
-export default function GameHandler({ navigation }: any) {
+export default function GameHandler({ navigation, route: { params } }: any) {
 	const [jwt, setJwt] = useState<string>("");
 	const [user, setUser] = useState<User>();
 	const [joinCode, setJoinCode] = useState("");
@@ -150,8 +150,9 @@ export default function GameHandler({ navigation }: any) {
 
 			if (content.success == 1) {
 				setGame(content.game);
-				AsyncStorage.setItem("@game", JSON.stringify(content.game));
+				// AsyncStorage.setItem("@game", JSON.stringify(content.game));
 			} else {
+				Alert.alert("Erreur", "Vous avez été déconnecté")
 				navigation.navigate("Dashboard");
 			}
 		}
@@ -197,50 +198,15 @@ export default function GameHandler({ navigation }: any) {
 		loadGameData();
 	}
 
-	//reload game data each time
+	// //reload game data each time
+	// useEffect(() => {
+	// 	if (!game) loadGameData();
+	// }, [joinCode, jwt]);
 	useEffect(() => {
-		if (!game) loadGameData();
-	}, [joinCode, jwt]);
-
-	useEffect(() => {
-		if (!jwt || !user || !joinCode || !game) {
-			try {
-				if (!jwt) {
-					AsyncStorage.getItem("@jwt").then(
-						(value: string | null) => {
-							if (value) setJwt(value);
-						}
-					);
-				}
-				if (!user) {
-					AsyncStorage.getItem("@user").then(
-						(value: string | null) => {
-							if (value) setUser(JSON.parse(value));
-						}
-					);
-				}
-				if (!joinCode) {
-					AsyncStorage.getItem("@joinCode").then(
-						(value: string | null) => {
-							if (value) {
-								setJoinCode(value);
-								if (!game && joinCode) {
-									//store it to get a better loading time
-									AsyncStorage.getItem(
-										"@game-" + joinCode
-									).then((value: string | null) => {
-										if (value != null)
-											setGame(JSON.parse(value));
-									});
-								}
-							}
-						}
-					);
-				}
-			} catch (e) {
-				if (ENVIRONEMENT == "dev") alert(e);
-			}
-		}
+		setJwt(params.jwt);
+		setUser(params.user);
+		setJoinCode(params.joinCode);
+		setGame(params.game);
 	}, []);
 
 	useEffect(() => {

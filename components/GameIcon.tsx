@@ -18,7 +18,6 @@ async function addUserInAGame(joinCode: string, jwt: string) {
 	return content;
 }
 
-
 export function GameIcon(props: any) {
 	const game: GameSchema = props.game;
 	const create = props.create;
@@ -26,17 +25,26 @@ export function GameIcon(props: any) {
 	const username: string = props.username;
 	const joinBeforeEntering: boolean | undefined = props.joinBeforeEntering;
 	const needToAddUserInGame: boolean | undefined = props.needToAddUserInGame;
-	const jwt: string | undefined = props.jwt;
+	const jwt: string = props.jwt;
+	const user: any = props.user;
 
 	function gotoGame(joinCode: string) {
 		if (joinBeforeEntering && jwt && needToAddUserInGame) {
 			addUserInAGame(joinCode, jwt).then((content: any) => {
-				AsyncStorage.setItem("@joinCode", joinCode);
-				navigation.navigate("Game");
+				navigation.navigate("Game", {
+					user: user,
+					jwt: jwt,
+					joinCode: joinCode,
+					game: game,
+				});
 			});
 		} else {
-			AsyncStorage.setItem("@joinCode", joinCode);
-			navigation.navigate("Game");
+			navigation.navigate("Game", {
+				user: user,
+				jwt: jwt,
+				joinCode: joinCode,
+				game: game,
+			});
 		}
 	}
 
@@ -47,7 +55,7 @@ export function GameIcon(props: any) {
 
 	if (create == 1) {
 		return (
-			<TouchableOpacity onPress={() => navigation.navigate("Create")}>
+			<TouchableOpacity onPress={() => navigation.navigate("Create", {user: user, jwt: jwt})}>
 				<View style={styles.gameContainer}>
 					<View
 						style={{

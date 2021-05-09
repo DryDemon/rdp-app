@@ -83,7 +83,7 @@ interface leagueDisplay {
 	selected: boolean;
 }
 
-export default function Create({ navigation }: any) {
+export default function Create({ navigation, route: { params } }: any) {
 	const [jwt, setJwt] = useState<string>("");
 	const [user, setUser] = useState<User>();
 
@@ -114,23 +114,11 @@ export default function Create({ navigation }: any) {
 	const [showMoreLeaguesDisplay, setshowMoreLeaguesDisplay] = useState(false);
 
 	const [sportShow, setSportShow] = useState<string | undefined>(undefined);
-
-	if (!jwt || !user) {
-		try {
-			if (!jwt) {
-				AsyncStorage.getItem("@jwt").then((value: string | null) => {
-					if (value) setJwt(value);
-				});
-			}
-			if (!user) {
-				AsyncStorage.getItem("@user").then((value: string | null) => {
-					if (value) setUser(JSON.parse(value));
-				});
-			}
-		} catch (e) {
-			if (ENVIRONEMENT == "dev") alert(e);
-		}
-	}
+	
+	useEffect(() => {
+		setJwt(params.jwt);
+		setUser(params.user);
+	}, []);
 
 	function validateForm() {
 		let isValid = true;
@@ -230,15 +218,19 @@ export default function Create({ navigation }: any) {
 		const content = await rawResponse.json();
 
 		if (content.isCreated == 1) {
-			gotoGame(content.joinCode);
+			gotoGame(content.joinCode, content.gameData);
 		}
 
 		return content;
 	}
 
-	function gotoGame(joinCode: string) {
-		AsyncStorage.setItem("@joinCode", joinCode);
-		navigation.navigate("Game");
+	function gotoGame(joinCode: string, game: any) {
+		navigation.navigate("Game", {
+			user: user,
+			jwt: jwt,
+			joinCode: joinCode,
+			game: game,
+		});
 	}
 
 	function onCreate() {
@@ -339,7 +331,6 @@ export default function Create({ navigation }: any) {
 	// }
 
 	function toggleLeaguesDisplaySelect(leagueId: string) {
-
 		let leaguesSearchDisplaycpy = leaguesSearchDisplay;
 		for (let i = 0; i < leaguesSearchDisplaycpy.length; i++) {
 			if (leaguesSearchDisplaycpy[i].leagueId == leagueId) {
@@ -555,7 +546,9 @@ export default function Create({ navigation }: any) {
 							<View>
 								<Text>Contest Publique?</Text>
 								<SubText>
-									Seulement visible par les admins, si ce bouton est activé, alors le contest sera publique.
+									Seulement visible par les admins, si ce
+									bouton est activé, alors le contest sera
+									publique.
 								</SubText>
 								<CheckBox
 									value={isPublic}

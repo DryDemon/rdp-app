@@ -33,12 +33,16 @@ export function MyLeaguesDash(props: any) {
 	const games: Array<GameSchema> = props.games;
 	const navigation: any = props.navigation;
 	const jwt: any = props.jwt;
-	const username: string = props.username;
+	const username: string = props.user?.username;
+	const user: any = props.user;
 
-	function gotoGame() {
-		AsyncStorage.setItem("@joinCode", joinCode).then(
-			navigation.navigate("Game")
-		);
+	function gotoGame(game: any) {
+		navigation.navigate("Game", {
+			user: user,
+			jwt: jwt,
+			joinCode: joinCode,
+			game: game,
+		});
 	}
 
 	function inGame() {
@@ -50,7 +54,7 @@ export function MyLeaguesDash(props: any) {
 	}
 
 	function createGame() {
-		navigation.navigate("Create");
+		navigation.navigate("Create", {user: user, jwt: jwt});
 	}
 
 	function onJoinGame() {
@@ -64,18 +68,25 @@ export function MyLeaguesDash(props: any) {
 							);
 							break;
 					}
-				} else gotoGame();
+				} else gotoGame(content.gameData);
 			});
 		}
 	}
 
 	return (
 		<View>
-			<TextTitle style={{ marginTop:24, }}>Mes Contests</TextTitle>
+			<TextTitle style={{ marginTop: 24 }}>Mes Contests</TextTitle>
 
 			<View>
-				<View style={{ flexDirection: "row", alignItems:"center", justifyContent: "space-between", marginVertical: 24, }}>
-					<View style={{ flexDirection: "row", }}>
+				<View
+					style={{
+						flexDirection: "row",
+						alignItems: "center",
+						justifyContent: "space-between",
+						marginVertical: 24,
+					}}
+				>
+					<View style={{ flexDirection: "row" }}>
 						<Text
 							style={
 								page == 1 ? styles.notSelected : styles.selected
@@ -86,7 +97,7 @@ export function MyLeaguesDash(props: any) {
 						</Text>
 						<Text
 							style={
-								page == 0 ? styles.notSelected : styles.selected		
+								page == 0 ? styles.notSelected : styles.selected
 							}
 							onPress={joinGame}
 						>
@@ -94,11 +105,18 @@ export function MyLeaguesDash(props: any) {
 						</Text>
 					</View>
 
-					<Button style={styles.buttonChange} title={"+ Créer"} onPress={createGame} />
+					<Button
+						style={styles.buttonChange}
+						title={"+ Créer"}
+						onPress={createGame}
+					/>
 				</View>
 
 				{page == 0 ? (
-					<ScrollView style={{ overflow:"visible" }}horizontal={true}>
+					<ScrollView
+						style={{ overflow: "visible" }}
+						horizontal={true}
+					>
 						<GameIcon
 							create={1}
 							navigation={navigation}
@@ -108,6 +126,8 @@ export function MyLeaguesDash(props: any) {
 							? games.map((data: any) => {
 									return (
 										<GameIcon
+											jwt={jwt}
+											user={user}
 											key={data.joinCode}
 											game={data}
 											username={username}
@@ -123,7 +143,9 @@ export function MyLeaguesDash(props: any) {
 							Rejoint un contest existant et éclate tes amis !
 						</Text>
 
-						<SubText style={styles.marginVertical}>Et oublies pas, devient le roi ! </SubText>
+						<SubText style={styles.marginVertical}>
+							Et oublies pas, devient le roi !
+						</SubText>
 
 						<TextInput
 							style={styles.marginVertical}

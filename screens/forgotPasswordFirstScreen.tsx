@@ -47,7 +47,7 @@ async function sendDataLoginUser(email: string) {
 	return succeded;
 }
 
-export default function ForgotPasswordFirstScreen({ navigation }: any) {
+export default function ForgotPasswordFirstScreen({ navigation, route: { params } }: any) {
 	const [email, setEmail] = useState("");
 	const [alertEmail, setAlertEmail] = useState("");
 

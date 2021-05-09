@@ -22,7 +22,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import Colors from "../constants/Colors";
 
-export default function Register({ navigation }: any) {
+export default function Register({ navigation, route: { params } }: any) {
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");

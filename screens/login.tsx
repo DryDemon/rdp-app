@@ -24,7 +24,7 @@ import { User } from "../src/interaces/interfacesUsers";
 import Colors from "../constants/Colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function Login({ navigation }: any) {
+export default function Login({ navigation, route: { params } }: any) {
 	const [password, setPassword] = useState("");
 	const [emailUsername, setEmailUsername] = useState("");
 

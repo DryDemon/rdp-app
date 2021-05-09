@@ -74,7 +74,7 @@ async function sendNewPassword(token: string, password: string) {
 	return [succeded, error];
 }
 
-export default function ForgotPasswordSecondScreen({ navigation }: any) {
+export default function ForgotPasswordSecondScreen({ navigation, route: { params } }: any) {
 	const [token, setToken] = useState("");
 	const [mdp, setMdp] = useState("");
 	const [mdpVerif, setMdpVerif] = useState("");

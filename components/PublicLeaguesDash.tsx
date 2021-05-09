@@ -30,6 +30,7 @@ export function PublicLeaguesDash(props: any) {
 	const navigation: any = props.navigation;
 	const jwt: string = props.jwt;
 	const privateJoinCodes: string[] = props.privateJoinCodes;
+	const user: string = props.user;
 
 	return (
 		<View>
@@ -45,9 +46,15 @@ export function PublicLeaguesDash(props: any) {
 						? publicGames.map((data: any) => {
 								return (
 									<GameIcon
-										needToAddUserInGame={!privateJoinCodes.some((joinCode: string) => joinCode == data.joinCode)}
-                                        joinBeforeEntering={true}
-                                        jwt={jwt}
+										user={user}
+										needToAddUserInGame={
+											!privateJoinCodes.some(
+												(joinCode: string) =>
+													joinCode == data.joinCode
+											)
+										}
+										joinBeforeEntering={true}
+										jwt={jwt}
 										key={data.joinCode}
 										game={data}
 										username={"@"} //simplement pour que le code marche

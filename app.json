@@ -30,7 +30,7 @@
             "package": "com.roiduprono.RDP"
         },
         "web": {
-            "favicon": "./assets/images/favicon.ico"
+            "favicon": "./assets/images/favicon.png"
         },
         "facebookScheme": "fb232887001646631",
         "facebookAppId": "232887001646631",

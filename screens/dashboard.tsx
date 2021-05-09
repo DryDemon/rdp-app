@@ -35,7 +35,7 @@ async function fetchUserGames(jwt: string) {
 	return content;
 }
 
-export default function Dashboard({ navigation }: any) {
+export default function Dashboard({ navigation, route: { params } }: any) {
 	const [jwt, setJwt] = useState<string>("");
 	const [user, setUser] = useState<User>();
 	const [games, setGames] = useState<Array<GameSchema>>([]);
@@ -89,12 +89,12 @@ export default function Dashboard({ navigation }: any) {
 		}
 	});
 
-	useEffect(() => {
-		if (ENVIRONEMENT == "dev") {
-			// AsyncStorage.setItem("@joinCode", "BPLSRO");
-			// navigation.navigate("Game");
-		}
-	}, [games]);
+	// useEffect(() => {
+	// 	if (ENVIRONEMENT == "dev") {
+	// 		// AsyncStorage.setItem("@joinCode", "BPLSRO");
+	// 		// navigation.navigate("Game");
+	// 	}
+	// }, [games]);
 
 	//if the usergoes back to dashboard, we reload the games
 	useEffect(() => {
@@ -137,14 +137,19 @@ export default function Dashboard({ navigation }: any) {
 			<ViewContainer>
 				<BasicScrollView isHeaderShown={true}>
 					<MyLeaguesDash
-						username={user?.username}
+						user={user}
 						games={games}
 						navigation={navigation}
 						jwt={jwt}
 					/>
 					<PublicLeaguesDash
+						user={user}
 						jwt={jwt}
-						privateJoinCodes={games.map(function(game : GameSchema){ return game.joinCode; })}
+						privateJoinCodes={games.map(function (
+							game: GameSchema
+						) {
+							return game.joinCode;
+						})}
 						publicGames={publicGames}
 						navigation={navigation}
 					/>
