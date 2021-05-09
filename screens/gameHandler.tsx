@@ -207,7 +207,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 		setUser(params.user);
 		setJoinCode(params.joinCode);
 		setGame(params.game);
-	}, []);
+	}, [params]);
 
 	useEffect(() => {
 		if (game && game.logoUrl && validURL(game.logoUrl))

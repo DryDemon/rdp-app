@@ -118,7 +118,7 @@ export default function Create({ navigation, route: { params } }: any) {
 	useEffect(() => {
 		setJwt(params.jwt);
 		setUser(params.user);
-	}, []);
+	}, [params]);
 
 	function validateForm() {
 		let isValid = true;
