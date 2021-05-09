@@ -30,7 +30,7 @@ export function PublicLeaguesDash(props: any) {
 	const navigation: any = props.navigation;
 	const jwt: string = props.jwt;
 	const privateJoinCodes: string[] = props.privateJoinCodes;
-	const user: string = props.user;
+	const user: any = props.user;
 
 	return (
 		<View>
