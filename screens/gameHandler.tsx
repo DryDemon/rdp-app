@@ -222,18 +222,20 @@ export default function GameHandler({ navigation }: any) {
 				if (!joinCode) {
 					AsyncStorage.getItem("@joinCode").then(
 						(value: string | null) => {
-							if (value) setJoinCode(value);
+							if (value) {
+								setJoinCode(value);
+								if (!game && joinCode) {
+									//store it to get a better loading time
+									AsyncStorage.getItem(
+										"@game-" + joinCode
+									).then((value: string | null) => {
+										if (value != null)
+											setGame(JSON.parse(value));
+									});
+								}
+							}
 						}
 					);
-				}
-				if (!game) {
-					//store it to get a better loading time
-					AsyncStorage.getItem("@game").then(
-						(value: string | null) => {
-							if (value != null) setGame(JSON.parse(value));
-						}
-					);
-					//and perform a in the use effect connected to jwt and joincode
 				}
 			} catch (e) {
 				if (ENVIRONEMENT == "dev") alert(e);

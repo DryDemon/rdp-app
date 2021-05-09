@@ -1,0 +1,4 @@
+perf issues
+
+from async load of game?
+from reload of the gamematchbet array of promise?
