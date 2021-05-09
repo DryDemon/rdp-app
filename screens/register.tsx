@@ -270,7 +270,10 @@ export default function Register({ navigation, route: { params } }: any) {
 				/>
 				<TextWarning>{alertConfirmPassword}</TextWarning>
 
-				<Text style={styles.conditions}>
+				<Text
+					onPress={() => navigation.navigate("UserConditions")}
+					style={styles.conditions}
+				>
 					En vous inscrivant, vous déclarez accepter les conditions
 					générales d'utilisations de RDP.
 				</Text>
@@ -280,7 +283,10 @@ export default function Register({ navigation, route: { params } }: any) {
 				<Button title={"M'inscrire"} onPress={onRegister} />
 				<LineBreak />
 				<View style={styles.felxRow}>
-					<Text style={styles.subCta} onPress={() => navigation.navigate("Login")}>
+					<Text
+						style={styles.subCta}
+						onPress={() => navigation.navigate("Login")}
+					>
 						Tu as déjà un compte?
 					</Text>
 					<Text
@@ -315,7 +321,7 @@ const styles = StyleSheet.create({
 		marginLeft: 4,
 	},
 	felxRow: {
-		flexDirection:"row",
+		flexDirection: "row",
 		justifyContent: "center",
 	},
 	subCta: {

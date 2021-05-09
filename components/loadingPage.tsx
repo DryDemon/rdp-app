@@ -7,12 +7,15 @@ import Colors from "../constants/Colors";
 export function LoadingPage(props: any) {
 	const [threedots, setThreedots] = useState(0);
 
-	setTimeout(() => {
+	function setThreeDotsTimer(){
 		setThreedots((threedots + 1) % 4);
 		setTimeout(() => {
 			setThreedots((threedots + 1) % 4);
 		}, 500);
-	}, 500);
+		setThreeDotsTimer()
+	}
+
+	setThreeDotsTimer();
 
 	return (
 		<View style={styles.container}>
@@ -27,7 +30,6 @@ export function LoadingPage(props: any) {
 					return out;
 				}}
 			</TextTitle>
-			{/* </View> */}
 		</View>
 	);
 }

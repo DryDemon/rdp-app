@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TextTitle, SubText, SubHeadline } from "./Themed";
 import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker"; //TODO REMOVE
 import format from "date-fns/format";
 import DatepickerRange from "react-native-range-datepicker";
 
