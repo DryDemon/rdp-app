@@ -112,10 +112,12 @@ export default function GamePlaceBet(props: any) {
 	useInterval(async () => {
 		let liveData = await fetchLiveBetData(jwt, listLiveMatchIds);
 		if (liveData && liveData.length != 0) {
-			let matchsCpy = matchs;
+			let matchsCpy: MatchSchema[] = matchs;
 			for (let i = matchsCpy.length - 1; i >= 0; i--) {
+				let hasAMatch = false;
 				Object.keys(liveData).forEach(function (key) {
 					if (key == matchsCpy[i].matchId) {
+						hasAMatch = true;
 						let value = liveData[key];
 						matchsCpy[i].matchOdds = value.odds;
 						matchsCpy[i].matchStats = value.stats;
@@ -134,6 +136,17 @@ export default function GamePlaceBet(props: any) {
 						}
 					}
 				});
+				if(!hasAMatch){
+					if(matchsCpy[i].liveId){
+						//si un match n'a pas reçu de réponse, on le supprimer
+						setListLiveMatchIds(
+							listLiveMatchIds.filter(
+								(valueFilterMatchId: string) =>
+									valueFilterMatchId != matchsCpy[i].matchId
+							)
+						);
+					}
+				}
 			}
 
 			setMatchs(matchsCpy);
