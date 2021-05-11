@@ -40,12 +40,9 @@ import { PlayerIconName } from "../playerIconName";
 
 export default function GameClassement(props: any) {
 	const {
-		jwt,
 		user,
-		joinCode,
 		game,
 		logoUrl,
-		reloadGame,
 		setUserIdSelectedShowStats,
 		...otherProps
 	} = props;
