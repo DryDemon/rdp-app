@@ -10,7 +10,6 @@ import {
 } from "react-native";
 
 import {
-	
 	Text,
 	View,
 	TextInput,
@@ -39,7 +38,8 @@ import { GameFooter } from "../../components/GameFooter";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
 export default function GameInfo(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, reloadGame, ...otherProps } = props;
+	const { jwt, user, joinCode, game, logoUrl, reloadGame, ...otherProps } =
+		props;
 
 	const onShare = async () => {
 		try {
@@ -61,7 +61,6 @@ export default function GameInfo(props: any) {
 			alert(error.message);
 		}
 	};
-
 
 	const renderBulletList = (item: any, index: any) => (
 		<View style={styles.row} key={index}>
@@ -162,15 +161,15 @@ const styles = StyleSheet.create({
 		marginRight: "auto",
 	},
 	column: {
-		flexDirection: "column",
-		alignItems: "flex-start",
-		width: 200,
+		// flexDirection: "column",
+		// alignItems: "flex-start",
+		// width: 200,
 	},
 	row: {
 		flexDirection: "row",
 		alignItems: "flex-start",
-		flexWrap: "wrap",
-		flex: 1,
+		// flexWrap: "wrap",
+		// flex: 1,
 	},
 	bullet: {
 		width: 10,
