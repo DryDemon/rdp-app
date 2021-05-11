@@ -90,10 +90,8 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 
 	const [showGamePage, setshowGamePage] = useState(false); //Use this to show the game page bets
 	const [matchs, setMatchs] = useState<MatchSchema[]>([]);
-	const [
-		userIdSelectedShowStats,
-		setUserIdSelectedShowStats,
-	] = useState<string>(""); //This variable is used with GamePlayerStats Page, it remenbers which userId To Show
+	const [userIdSelectedShowStats, setUserIdSelectedShowStats] =
+		useState<string>(""); //This variable is used with GamePlayerStats Page, it remenbers which userId To Show
 
 	const [showBonus, setShowBonus] = useState(false);
 
@@ -122,7 +120,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 
 	useEffect(() => {
 		if (userIdSelectedShowStats && userIdSelectedShowStats != "")
-			setPage("gamePlayerStats");
+			pageSetter("gamePlayerStats");
 	}, [userIdSelectedShowStats]);
 
 	useEffect(() => {
@@ -189,11 +187,13 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 	};
 
 	//Sur chaque changement de page
-	useEffect(() => {
+	function pageSetter(newPage: typeof page) {
+		//todo : les differents setter ralentissent?
 		if (showBonus) setShowBonus(false);
-		if (page != "gameMatchBets") setVisibleMatchId("");
-		if (page != "gamePlayerStats") setUserIdSelectedShowStats("");
-	}, [page]);
+		if (newPage != "gameMatchBets") setVisibleMatchId("");
+		if (newPage != "gamePlayerStats") setUserIdSelectedShowStats("");
+		setPage(newPage);
+	}
 
 	function reloadGame() {
 		loadGameData();
@@ -210,9 +210,21 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 		setGame(params.game);
 	}, [params]);
 
+	const [gameInfoContainer, setGameInfoContainer] = useState<JSX.Element | undefined>(undefined);
+
 	useEffect(() => {
+		//On loading on the game
 		if (game && game.logoUrl && validURL(game.logoUrl))
 			setlogoUrl(game.logoUrl);
+		setGameInfoContainer(
+			<GameInfo
+				jwt={jwt}
+				user={user}
+				joinCode={joinCode}
+				game={game}
+				logoUrl={logoUrl}
+			/>
+		);
 	}, [game]);
 
 	//todo add Swipeable?
@@ -230,17 +242,17 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				callBackGameHeaderGotoBack={() => {
 					switch (page) {
 						case "gameMatchBets":
-							setPage("gamePlaceBet");
+							pageSetter("gamePlaceBet");
 							break;
 						case "gamePlayerStats":
-							setPage("gameClassement");
+							pageSetter("gameClassement");
 							break;
 					}
 				}}
 				navigation={navigation}
 				game={game}
 				callbackQuestionMark={() => {
-					setPage("gameInfo");
+					pageSetter("gameInfo");
 				}}
 			/>
 
@@ -276,7 +288,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 						matchsGameHandlerState={[matchs, setMatchs]}
 						callbackShowMatchBet={(matchId: string) => {
 							setVisibleMatchId(matchId);
-							setPage("gameMatchBets");
+							pageSetter("gameMatchBets");
 						}}
 						reloadGame={reloadGame}
 						jwt={jwt}
@@ -332,7 +344,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 						joinCode={joinCode}
 						game={game}
 						logoUrl={logoUrl}
-						setPage={setPage}
+						setPage={pageSetter}
 					/>
 				</GameScrollView>
 			</ViewContainer>
@@ -374,22 +386,13 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 			</ViewContainer>
 
 			<ViewContainer
-				style={
-					!showBonus && page == "gameInfo"
-						? { display: "flex" }
-						: { display: "none" }
-				}
+			style={
+				!showBonus && page == "gameInfo"
+					? { display: "flex" }
+					: { display: "none" }
+			}
 			>
-				<GameScrollView>
-					<GameInfo
-						reloadGame={reloadGame}
-						jwt={jwt}
-						user={user}
-						joinCode={joinCode}
-						game={game}
-						logoUrl={logoUrl}
-					/>
-				</GameScrollView>
+				<GameScrollView>{gameInfoContainer}</GameScrollView>
 			</ViewContainer>
 
 			<ViewContainer
@@ -423,7 +426,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 							game={game}
 							user={user}
 							jwt={jwt}
-							setPage={setPage}
+							setPage={pageSetter}
 						/>
 					</GameScrollView>
 				</ViewContainer>
@@ -432,7 +435,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				betChoiceList={betChoiceListGameHandler}
 				joinCode={joinCode}
 				page={page}
-				setPage={(goto: any) => setPage(goto)}
+				setPage={(goto: typeof page) => pageSetter(goto)}
 			/>
 		</View>
 	);
