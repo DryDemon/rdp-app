@@ -59,7 +59,6 @@ async function getCurrentGame(joinCode: string, jwt: string) {
 export default function GameHandler({ navigation, route: { params } }: any) {
 	const [jwt, setJwt] = useState<string>("");
 	const [user, setUser] = useState<User>();
-	const [joinCode, setJoinCode] = useState("");
 	const [game, setGame] = useState<GameSchema>();
 
 	const [page, setPage] = useState<
@@ -109,7 +108,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				reloadGame={reloadGame}
 				jwt={jwt}
 				user={user}
-				joinCode={joinCode}
+				joinCode={game?.joinCode}
 				game={game}
 				logoUrl={game?.logoUrl || SERVER_LOGO_URL}
 			/>
@@ -142,8 +141,8 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 	}
 
 	async function loadGameData() {
-		if (jwt && joinCode) {
-			let content = await getCurrentGame(joinCode, jwt);
+		if (jwt && game?.joinCode) {
+			let content = await getCurrentGame(game?.joinCode, jwt);
 
 			if (content.success == 1) {
 				setGame(content.game);
@@ -159,7 +158,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 		if (!jwt || !user) {
 			navigation.navigate("Login");
 		}
-		if (!joinCode) {
+		if (!game?.joinCode) {
 			navigation.navigate("Dashboard");
 		}
 	}
@@ -168,7 +167,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 			const result = await Share.share({
 				message:
 					"Rejoins moi sur Roi Du Prono et viens dans mon contest : " +
-					joinCode,
+					game?.joinCode,
 			});
 			if (result.action === Share.sharedAction) {
 				if (result.activityType) {
@@ -204,7 +203,6 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 	useEffect(() => {
 		setJwt(params.jwt);
 		setUser(params.user);
-		setJoinCode(params.joinCode);
 		setGame(params.game);
 	}, [params]);
 
@@ -236,32 +234,22 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 			<GameInfo
 				jwt={jwt}
 				user={user}
-				joinCode={joinCode}
+				joinCode={game?.joinCode}
 				game={game}
 				logoUrl={game?.logoUrl || SERVER_LOGO_URL}
 			/>
 		);
-	}, [jwt, user, joinCode, game]);
+	}, [jwt, user, game]);
 	useEffect(() => {
 		setGameClassementContainer(
 			<GameClassement
 				setUserIdSelectedShowStats={setUserIdSelectedShowStats}
-				reloadGame={reloadGame}
-				jwt={jwt}
 				user={user}
-				joinCode={joinCode}
 				game={game}
 				logoUrl={game?.logoUrl || SERVER_LOGO_URL}
 			/>
 		);
-	}, [
-		setUserIdSelectedShowStats,
-		reloadGame,
-		jwt,
-		user,
-		joinCode,
-		game,
-	]);
+	}, [setUserIdSelectedShowStats, user, game]);
 
 	useEffect(() => {
 		setGamePlaceBetContainer(
@@ -271,16 +259,15 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 					setVisibleMatchId(matchId);
 					pageSetter("gameMatchBets");
 				}}
-				reloadGame={reloadGame}
 				jwt={jwt}
-				joinCode={joinCode}
+				joinCode={game?.joinCode}
 				betChoiceListGroup={[
 					betChoiceListGameHandler,
 					setBetChoiceListGameHandler,
 				]}
 			/>
 		);
-	}, [matchs, reloadGame, jwt, joinCode, betChoiceListGameHandler]);
+	}, [matchs, jwt, betChoiceListGameHandler]);
 	useEffect(() => {
 		setGameListBetContainer(
 			<GameListBets
@@ -288,12 +275,12 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				reloadGame={reloadGame}
 				jwt={jwt}
 				user={user}
-				joinCode={joinCode}
+				joinCode={game?.joinCode}
 				game={game}
 				logoUrl={game?.logoUrl || SERVER_LOGO_URL}
 			/>
 		);
-	}, [game, reloadGame, jwt, user, joinCode]);
+	}, [game, jwt, user]);
 	useEffect(() => {
 		setGameCartContainer(
 			<GameCart
@@ -308,7 +295,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				reloadGame={reloadGame}
 				jwt={jwt}
 				user={user}
-				joinCode={joinCode}
+				joinCode={game?.joinCode}
 				game={game}
 				logoUrl={game?.logoUrl || SERVER_LOGO_URL}
 				setPage={pageSetter}
@@ -317,24 +304,21 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 	}, [
 		betChoiceListGameHandler,
 		betChoiceMainInfo,
-		reloadGame,
 		jwt,
 		user,
-		joinCode,
 		game,
 	]);
 	useEffect(() => {
 		setGameMatchStatsContainer(
 			<GameMatchsStats
 				reloadGame={reloadGame}
-				jwt={jwt}
 				user={user}
-				joinCode={joinCode}
+				joinCode={game?.joinCode}
 				game={game}
 				logoUrl={game?.logoUrl || SERVER_LOGO_URL}
 			/>
 		);
-	}, [reloadGame, jwt, user, joinCode, game,]);
+	}, [user, game]);
 	useEffect(() => {
 		setGamePlayerStatsContainer(
 			<GamePlayerStats
@@ -348,14 +332,14 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 		setGameShowBonusContainer(
 			<ShowBonus
 				toggleShowBonus={toggleShowBonus}
-				joinCode={joinCode}
+				joinCode={game?.joinCode}
 				game={game}
 				user={user}
 				jwt={jwt}
 				setPage={pageSetter}
 			/>
 		);
-	}, [toggleShowBonus, joinCode, game, user, jwt]);
+	}, [toggleShowBonus, game, user, jwt]);
 
 	//todo add Swipeable?
 	return (
@@ -363,7 +347,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 			<GameHeader
 				canShowBonus={!game?.isPublic}
 				toggleShowBonus={toggleShowBonus}
-				joinCode={joinCode}
+				joinCode={game?.joinCode}
 				back={
 					page != "gameMatchBets" && page != "gamePlayerStats"
 						? "Dashboard"
@@ -473,10 +457,10 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				<GameScrollView>{gamePlayerStatsContainer}</GameScrollView>
 			</ViewContainer>
 
-			{showBonus && joinCode && user ? (
+			{showBonus && game?.joinCode && user ? (
 				<ViewContainer
 					style={
-						showBonus && joinCode
+						showBonus && game?.joinCode
 							? { display: "flex" }
 							: { display: "none" }
 					}
@@ -486,7 +470,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 			) : null}
 			<GameFooter
 				betChoiceList={betChoiceListGameHandler}
-				joinCode={joinCode}
+				joinCode={game?.joinCode}
 				page={page}
 				setPage={(goto: typeof page) => pageSetter(goto)}
 			/>
