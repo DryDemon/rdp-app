@@ -24,13 +24,6 @@ export function LoadingPage(props: any) {
 			{/* <View style={styles.textContainer}> */}
 			<TextTitle style={styles.text}>
 				Chargement
-				{() => {
-					let out = "";
-					for (let i = 0; i < threedots; i++) {
-						out += ".";
-					}
-					return out;
-				}}
 			</TextTitle>
 		</View>
 	);
