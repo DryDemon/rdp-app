@@ -133,7 +133,8 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 					gameMatchLoader(match).then((value) => {
 						let gameMatchBetListCpy = gameMatchBetList;
 						gameMatchBetListCpy[match.matchId] = value;
-						setGameMatchBetList(gameMatchBetListCpy);
+						// console.log("Finished Loading matchId", match.matchId, value);
+						// setGameMatchBetList(gameMatchBetListCpy);
 					});
 				})
 			);
@@ -152,7 +153,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				setGame(content.game);
 				// AsyncStorage.setItem("@game", JSON.stringify(content.game));
 			} else {
-				Alert.alert("Erreur", "Vous avez été déconnecté")
+				Alert.alert("Erreur", "Vous avez été déconnecté");
 				navigation.navigate("Dashboard");
 			}
 		}
@@ -363,6 +364,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				}
 			>
 				<GameScrollView>
+					{/* GameMatchBetComponent */}
 					{gameMatchBetList[visibleMatchId] ? (
 						gameMatchBetList[visibleMatchId]
 					) : (
