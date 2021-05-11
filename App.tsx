@@ -33,10 +33,10 @@ export default function App() {
 
 	const isLoadingComplete = useCachedResources();
 
-	let InitialRoute = "Login";
+	let InitialRoute = "Dashboard";
 
-	if (ENVIRONEMENT != "dev") InitialRoute = "Login";
-	else InitialRoute = "Dashboard";
+	// if (ENVIRONEMENT != "dev") InitialRoute = "Login";
+	// else InitialRoute = "Dashboard";
 
 	if (!isLoadingComplete) {
 		return <LoadingPage/>;
