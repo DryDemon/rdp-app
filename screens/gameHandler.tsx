@@ -62,8 +62,6 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 	const [joinCode, setJoinCode] = useState("");
 	const [game, setGame] = useState<GameSchema>();
 
-	const [logoUrl, setlogoUrl] = useState(SERVER_LOGO_URL);
-
 	const [page, setPage] = useState<
 		| "gameClassement"
 		| "gamePlaceBet"
@@ -113,7 +111,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				user={user}
 				joinCode={joinCode}
 				game={game}
-				logoUrl={logoUrl}
+				logoUrl={game?.logoUrl || SERVER_LOGO_URL}
 			/>
 		);
 	}
@@ -234,22 +232,16 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 		useState<JSX.Element | undefined>(undefined);
 
 	useEffect(() => {
-		//On loading on the game
-		if (game && game.logoUrl && validURL(game.logoUrl))
-			setlogoUrl(game.logoUrl);
-	}, [game]);
-
-	useEffect(() => {
 		setGameInfoContainer(
 			<GameInfo
 				jwt={jwt}
 				user={user}
 				joinCode={joinCode}
 				game={game}
-				logoUrl={logoUrl}
+				logoUrl={game?.logoUrl || SERVER_LOGO_URL}
 			/>
 		);
-	}, [jwt, user, joinCode, game, logoUrl]);
+	}, [jwt, user, joinCode, game]);
 	useEffect(() => {
 		setGameClassementContainer(
 			<GameClassement
@@ -259,7 +251,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				user={user}
 				joinCode={joinCode}
 				game={game}
-				logoUrl={logoUrl}
+				logoUrl={game?.logoUrl || SERVER_LOGO_URL}
 			/>
 		);
 	}, [
@@ -269,7 +261,6 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 		user,
 		joinCode,
 		game,
-		logoUrl,
 	]);
 
 	useEffect(() => {
@@ -299,10 +290,10 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				user={user}
 				joinCode={joinCode}
 				game={game}
-				logoUrl={logoUrl}
+				logoUrl={game?.logoUrl || SERVER_LOGO_URL}
 			/>
 		);
-	}, [game, reloadGame, jwt, user, joinCode, logoUrl]);
+	}, [game, reloadGame, jwt, user, joinCode]);
 	useEffect(() => {
 		setGameCartContainer(
 			<GameCart
@@ -319,7 +310,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				user={user}
 				joinCode={joinCode}
 				game={game}
-				logoUrl={logoUrl}
+				logoUrl={game?.logoUrl || SERVER_LOGO_URL}
 				setPage={pageSetter}
 			/>
 		);
@@ -331,7 +322,6 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 		user,
 		joinCode,
 		game,
-		logoUrl,
 	]);
 	useEffect(() => {
 		setGameMatchStatsContainer(
@@ -341,10 +331,10 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				user={user}
 				joinCode={joinCode}
 				game={game}
-				logoUrl={logoUrl}
+				logoUrl={game?.logoUrl || SERVER_LOGO_URL}
 			/>
 		);
-	}, [reloadGame, jwt, user, joinCode, game, logoUrl]);
+	}, [reloadGame, jwt, user, joinCode, game,]);
 	useEffect(() => {
 		setGamePlayerStatsContainer(
 			<GamePlayerStats
