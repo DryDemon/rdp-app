@@ -232,10 +232,14 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 	useState<JSX.Element | undefined>(undefined);
 	const [gameShowBonusContainer, setGameShowBonusContainer] =
 		useState<JSX.Element | undefined>(undefined);
+
 	useEffect(() => {
 		//On loading on the game
 		if (game && game.logoUrl && validURL(game.logoUrl))
 			setlogoUrl(game.logoUrl);
+	}, [game]);
+
+	useEffect(() => {
 		setGameInfoContainer(
 			<GameInfo
 				jwt={jwt}
@@ -245,6 +249,8 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				logoUrl={logoUrl}
 			/>
 		);
+	}, [jwt, user, joinCode, game, logoUrl]);
+	useEffect(() => {
 		setGameClassementContainer(
 			<GameClassement
 				setUserIdSelectedShowStats={setUserIdSelectedShowStats}
@@ -256,6 +262,17 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				logoUrl={logoUrl}
 			/>
 		);
+	}, [
+		setUserIdSelectedShowStats,
+		reloadGame,
+		jwt,
+		user,
+		joinCode,
+		game,
+		logoUrl,
+	]);
+
+	useEffect(() => {
 		setGamePlaceBetContainer(
 			<GamePlaceBet
 				matchsGameHandlerState={[matchs, setMatchs]}
@@ -272,6 +289,8 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				]}
 			/>
 		);
+	}, [matchs, reloadGame, jwt, joinCode, betChoiceListGameHandler]);
+	useEffect(() => {
 		setGameListBetContainer(
 			<GameListBets
 				canShowBonus={!game?.isPublic}
@@ -283,6 +302,8 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				logoUrl={logoUrl}
 			/>
 		);
+	}, [game, reloadGame, jwt, user, joinCode, logoUrl]);
+	useEffect(() => {
 		setGameCartContainer(
 			<GameCart
 				betChoiceListGroup={[
@@ -302,6 +323,17 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				setPage={pageSetter}
 			/>
 		);
+	}, [
+		betChoiceListGameHandler,
+		betChoiceMainInfo,
+		reloadGame,
+		jwt,
+		user,
+		joinCode,
+		game,
+		logoUrl,
+	]);
+	useEffect(() => {
 		setGameMatchStatsContainer(
 			<GameMatchsStats
 				reloadGame={reloadGame}
@@ -312,6 +344,8 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				logoUrl={logoUrl}
 			/>
 		);
+	}, [reloadGame, jwt, user, joinCode, game, logoUrl]);
+	useEffect(() => {
 		setGamePlayerStatsContainer(
 			<GamePlayerStats
 				user={user}
@@ -319,6 +353,8 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				userIdSelectedShowStats={userIdSelectedShowStats}
 			/>
 		);
+	}, [user, game, userIdSelectedShowStats]);
+	useEffect(() => {
 		setGameShowBonusContainer(
 			<ShowBonus
 				toggleShowBonus={toggleShowBonus}
@@ -329,7 +365,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				setPage={pageSetter}
 			/>
 		);
-	}, [game]);
+	}, [toggleShowBonus, joinCode, game, user, jwt]);
 
 	//todo add Swipeable?
 	return (
