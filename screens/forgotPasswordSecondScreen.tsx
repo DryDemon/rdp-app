@@ -28,11 +28,11 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { MainHeader } from "../components/mainHeader";
 import { ENVIRONEMENT } from "../constants/Environement";
 
-async function verifyUserToken(token: string) {
+async function verifyUserToken(token: string, email: string) {
 	let succeded = false;
 	const rawRep = await fetch(
 		SERVER_API_URL +
-			`/resetpasswordsetpassword?validateToken=1&token=${token}`
+			`/resetpasswordsetpassword?validateToken=1&token=${token}&email=${email}`
 	);
 
 	const rep = await rawRep.json();
@@ -55,11 +55,11 @@ async function verifyUserToken(token: string) {
 	return [succeded, error];
 }
 
-async function sendNewPassword(token: string, password: string) {
+async function sendNewPassword(token: string, email: string, password: string) {
 	let succeded = false;
 	const rawRep = await fetch(
 		SERVER_API_URL +
-			`/resetpasswordsetpassword?newPassword=${password}&token=${token}`
+			`/resetpasswordsetpassword?newPassword=${password}&token=${token}&email=${email}`
 	);
 
 	const rep = await rawRep.json();
@@ -82,13 +82,15 @@ export default function ForgotPasswordSecondScreen({ navigation, route: { params
 	const [alertMdpVerif, setAlertMdpVerif] = useState(" ");
 	const [isTokenGood, setIsTokenGood] = useState(false);
 
+	const email = params.email;
+
 	useEffect(() => {
 		checkForm();
 	}, [mdp, mdpVerif]);
 
 	function setNewPassword() {
 		if (checkForm()) {
-			sendNewPassword(token, mdp).then(([value, error]) => {
+			sendNewPassword(token, email, mdp).then(([value, error]) => {
 				if (value == true) {
 					Alert.alert(
 						"Parfait !",
@@ -104,7 +106,7 @@ export default function ForgotPasswordSecondScreen({ navigation, route: { params
 	}
 
 	function checkUserToken() {
-		verifyUserToken(token).then(([value, error]) => {
+		verifyUserToken(token, email).then(([value, error]) => {
 			if (value == true) {
 				setIsTokenGood(true);
 			} else {
@@ -145,6 +147,7 @@ export default function ForgotPasswordSecondScreen({ navigation, route: { params
 		}
 		return ok;
 	}
+
 
 	return (
 		<ViewContainer>

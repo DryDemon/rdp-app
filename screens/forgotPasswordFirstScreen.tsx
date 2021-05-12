@@ -47,7 +47,10 @@ async function sendDataLoginUser(email: string) {
 	return succeded;
 }
 
-export default function ForgotPasswordFirstScreen({ navigation, route: { params } }: any) {
+export default function ForgotPasswordFirstScreen({
+	navigation,
+	route: { params },
+}: any) {
 	const [email, setEmail] = useState("");
 	const [alertEmail, setAlertEmail] = useState("");
 
@@ -59,17 +62,24 @@ export default function ForgotPasswordFirstScreen({ navigation, route: { params 
 		if (checkForm())
 			sendDataLoginUser(email).then((success: boolean) => {
 				if (success) {
-					Alert.alert("Parfait!", "On vient de t'envoyer un code sur ton email, viens le placer ici!")
-					navigation.navigate("ForgotPasswordSecondScreen");
-				}else{
-					Alert.alert("Erreur!", "Nous n'avons pas trouvé ton email...")
-
+					Alert.alert(
+						"Parfait!",
+						"On vient de t'envoyer un code sur ton email, viens le placer ici!"
+					);
+					navigation.navigate("ForgotPasswordSecondScreen", {email});
+				} else {
+					Alert.alert(
+						"Erreur!",
+						"Nous n'avons pas trouvé ton email..."
+					);
 				}
 			});
 	}
 
 	function directGotoSecondPage() {
-		navigation.navigate("ForgotPasswordSecondScreen");
+		if (email && checkForm() == true)
+			navigation.navigate("ForgotPasswordSecondScreen", {email});
+		else Alert.alert("Erreur", "Rentre tout de même ton email!");
 	}
 
 	useEffect(() => {
