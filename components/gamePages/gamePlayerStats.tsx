@@ -40,9 +40,8 @@ import { validURL } from "../../src/smallFuncts";
 export default function GamePlayerStats(props: any) {
 	const { user, game, userIdSelectedShowStats, ...otherProps } = props;
 
-	const [userSelected, setUserSelected] = useState<
-		userStatsInterface | undefined
-	>(user);
+	const [userSelected, setUserSelected] =
+		useState<userStatsInterface | undefined>(user);
 	const [isCurrentUser, setIsCurrentUser] = useState<boolean>(true);
 
 	useEffect(() => {
@@ -52,12 +51,13 @@ export default function GamePlayerStats(props: any) {
 			} else {
 				setIsCurrentUser(false);
 			}
-			setUserSelected(
-				game.userStats.find(
-					(userSearch: userStatsInterface) =>
-						userSearch.userId == userIdSelectedShowStats
-				)
-			);
+			if (game.userStats)
+				setUserSelected(
+					game.userStats.find(
+						(userSearch: userStatsInterface) =>
+							userSearch.userId == userIdSelectedShowStats
+					)
+				);
 		}
 	}, [user, userIdSelectedShowStats]);
 
@@ -76,9 +76,8 @@ export default function GamePlayerStats(props: any) {
 		let biggestQuoteValidated = 0;
 
 		if (betWithBiggestQuoteValidated) {
-			biggestQuoteValidated = betWithBiggestQuoteValidated.mainQuote.toFixed(
-				2
-			);
+			biggestQuoteValidated =
+				betWithBiggestQuoteValidated.mainQuote.toFixed(2);
 		}
 
 		return (
@@ -415,8 +414,8 @@ const styles = StyleSheet.create({
 		fontWeight: "500",
 		fontSize: 12,
 		lineHeight: 16,
-        marginBottom:12,
-        
+		marginBottom: 12,
+
 		color: Colors.gray,
 	},
 	subBoxValueContainerBlue: {
