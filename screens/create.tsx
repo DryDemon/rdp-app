@@ -25,7 +25,7 @@ import { ENVIRONEMENT } from "../constants/Environement";
 import { SERVER_API_URL } from "../constants/Server";
 import { LeagueSchema, SportSchema } from "../src/interaces/interfacesQuotes";
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
-import { DatePicker } from "../components/DatePicker";
+import { DatePickerPerso } from "../components/DatePicker";
 import { validURL } from "../src/smallFuncts";
 import { GameHeader } from "../components/gameHeader";
 import Colors from "../constants/Colors";
@@ -88,12 +88,12 @@ export default function Create({ navigation, route: { params } }: any) {
 	const [user, setUser] = useState<User>();
 
 	const [name, setName] = useState("");
-	const [dateCreationForm, setDateCreationForm] = useState(
-		ENVIRONEMENT == "dev" ? new Date(2014, 1, 1) : new Date()
-	);
-	const [dateEndForm, setDateEndForm] = useState(
-		ENVIRONEMENT == "dev" ? new Date(2025, 1, 1) : new Date()
-	);
+	const [dateCreationForm, setDateCreationForm] = useState(new Date());
+	const [dateEndForm, setDateEndForm] = useState(new Date());
+	//on load only, add 7 days to date end form
+	useEffect(() => {
+		dateEndForm.setDate(new Date().getDate() + 7);
+	}, [])
 	const [logoUrl, setLogoUrl] = useState("");
 
 	const [alertName, setalertName] = useState(" ");
@@ -114,7 +114,7 @@ export default function Create({ navigation, route: { params } }: any) {
 	const [showMoreLeaguesDisplay, setshowMoreLeaguesDisplay] = useState(false);
 
 	const [sportShow, setSportShow] = useState<string | undefined>(undefined);
-	
+
 	useEffect(() => {
 		setJwt(params.jwt);
 		setUser(params.user);
@@ -334,14 +334,24 @@ export default function Create({ navigation, route: { params } }: any) {
 		let leaguesSearchDisplaycpy = leaguesSearchDisplay;
 		for (let i = 0; i < leaguesSearchDisplaycpy.length; i++) {
 			if (leaguesSearchDisplaycpy[i].leagueId == leagueId) {
-				leaguesSearchDisplaycpy[i].selected = !leaguesSearchDisplaycpy[
-					i
-				].selected;
+				leaguesSearchDisplaycpy[i].selected =
+					!leaguesSearchDisplaycpy[i].selected;
 			}
 		}
 
 		setLeaguesSearchDisplay([...leaguesSearchDisplaycpy]);
 	}
+	// useEffect(() => {
+	// 	console.log(
+	// 		"StartDate: " +
+	// 			dateCreationForm +
+	// 			" " +
+	// 			(dateCreationForm instanceof Date)
+	// 	);
+	// }, [dateCreationForm]);
+	// useEffect(() => {
+	// 	console.log("EndDate: " + dateEndForm + " " + (dateEndForm instanceof Date));
+	// }, [dateEndForm]);
 
 	if (!loading)
 		return (
@@ -404,19 +414,20 @@ export default function Create({ navigation, route: { params } }: any) {
 								style={{ flexDirection: "row", marginTop: 24 }}
 							>
 								<View style={{ flex: 1 }}>
-									<DatePicker
+									<DatePickerPerso
 										start={dateCreationForm}
 										end={dateEndForm}
 										setStart={setDateCreationForm}
 										setEnd={setDateEndForm}
-										initTextBegin={"Date de début"}
-										initTextEnd={"Date de fin"}
+										initTextBegin={"Date de Début"}
+										initTextEnd={"Date de Fin"}
 									/>
 								</View>
 							</View>
 							<TextWarning>{alertDates}</TextWarning>
 						</View>
-
+						{/* <View style={{ height: 500, width: "100%" }}></View> */}
+						
 						<View style={{ marginVertical: 24 }}>
 							<Text>Choix des compétitions</Text>
 							<SubText>
@@ -682,7 +693,7 @@ const styles = StyleSheet.create({
 		},
 		shadowOpacity: 0.32,
 		shadowRadius: 2.46,
-		elevation: 4,
+		// elevation: 4,
 	},
 	simpleSelectedLeagueContainer: {
 		borderRadius: 8,

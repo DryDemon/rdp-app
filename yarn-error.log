@@ -1,55 +1,68 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\jeanc\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
+  C:\Program Files\nodejs\node.exe C:\Users\jean\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add moments-range
 
 PATH: 
-  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;D:\matlab\bin;C:\Program Files\nodejs\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\jeanc\AppData\Local\Programs\Python\Python38\Scripts\;C:\Users\jeanc\AppData\Local\Programs\Python\Python38\;C:\Users\jeanc\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\jeanc\AppData\Local\Programs\Python\Python39\;C:\Users\jeanc\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.2.3\bin;C:\Program Files\JetBrains\PyCharm Community Edition 2020.2.3\bin;C:\Users\jeanc\.deno\bin;C:\Users\jeanc\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\jeanc\AppData\Local\GitHubDesktop\bin;C:\Program Files\heroku\bin;c:\users\jeanc\appdata\local\programs\python\python38\python.exe;C:\Users\jeanc\AppData\Local\gitkraken\bin;C:\Program Files (x86)\GitHub CLI\;C:\Users\jeanc\AppData\Roaming\npm
+  C:\Program Files\AdoptOpenJDK\jdk-11.0.11.9-hotspot\bin;C:\Python39\Scripts\;C:\Python39\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\ProgramData\chocolatey\bin;C:\Program Files\MATLAB\R2020a\bin;C:\Users\jean\AppData\Local\Microsoft\WindowsApps;C:\Users\jean\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\jean\AppData\Roaming\npm;C:\Program Files\JetBrains\DataGrip 2021.1\bin;C:\Program Files\heroku\bin;C:\Users\jean\AppData\Local\gitkraken\bin;C:\Users\jean\.deno\bin
 
 Yarn version: 
   1.22.10
 
 Node version: 
-  10.16.0
+  14.16.1
 
 Platform: 
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\jeanc\Documents\GitHub\rdp-app\node_modules\@babel\generator\node_modules\.bin'
+  Error: https://registry.yarnpkg.com/moments-range: Not found
+      at Request.params.callback [as _callback] (C:\Users\jean\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66988:18)
+      at Request.self.callback (C:\Users\jean\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140662:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (C:\Users\jean\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141634:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (C:\Users\jean\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141556:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (internal/streams/readable.js:1327:12)
+      at processTicksAndRejections (internal/process/task_queues.js:80:21)
 
 npm manifest: 
   {
-    "dependencies": {
-      "@expo/vector-icons": "^12.0.3",
-      "@react-native-async-storage/async-storage": "^1.14.1",
-      "@react-native-community/datetimepicker": "3.0.4",
-      "@react-native-community/picker": "^1.8.1",
-      "@react-navigation/native": "^5.9.3",
-      "@react-navigation/stack": "^5.14.3",
-      "date-fns": "^2.19.0",
-      "expo": "^40.0.1",
-      "expo-asset": "~8.2.1",
-      "expo-clipboard": "~1.0.1",
-      "expo-constants": "~9.3.3",
-      "expo-facebook": "~9.1.0",
-      "expo-font": "~8.4.0",
-      "expo-splash-screen": "~0.8.1",
-      "install": "^0.13.0",
-      "react": "^17.0.1",
-      "react-dom": "^17.0.1",
-      "react-native": "^0.63.4",
-      "react-native-async-storage": "^0.0.1",
-      "react-native-gesture-handler": "~1.8.0",
-      "react-native-mmkv-storage": "^0.5.2",
-      "react-native-screens": "~2.15.2",
-      "react-native-sectioned-multi-select": "^0.8.1",
-      "react-native-vector-icons": "^8.1.0",
-      "react-native-web": "^0.15.0"
-    },
-    "devDependencies": {
-      "@types/react": "~16.9.35",
-      "@types/react-native": "~0.63.2",
-      "typescript": "~4.0.0"
-    }
+      "dependencies": {
+          "@expo/vector-icons": "^12.0.4",
+          "@react-native-async-storage/async-storage": "^1.14.1",
+          "@react-navigation/native": "^5.9.3",
+          "@react-navigation/stack": "^5.14.3",
+          "@types/react-native-vector-icons": "^6.4.6",
+          "date-fns": "^2.19.0",
+          "expo": "^40.0.1",
+          "expo-asset": "~8.2.1",
+          "expo-clipboard": "~1.0.1",
+          "expo-constants": "~9.3.3",
+          "expo-facebook": "~9.1.0",
+          "expo-font": "~8.4.0",
+          "expo-splash-screen": "~0.8.1",
+          "install": "^0.13.0",
+          "moment": "^2.29.1",
+          "react": "^17.0.1",
+          "react-dom": "^17.0.1",
+          "react-native": "^0.63.4",
+          "react-native-async-storage": "^0.0.1",
+          "react-native-date-ranges": "^2.5.0",
+          "react-native-gesture-handler": "~1.8.0",
+          "react-native-mmkv-storage": "^0.5.2",
+          "react-native-picker-select": "^8.0.4",
+          "react-native-range-datepicker": "^1.9.1",
+          "react-native-screens": "~2.15.2",
+          "react-native-sectioned-multi-select": "^0.8.1",
+          "react-native-vector-icons": "^8.1.0",
+          "react-native-web": "^0.15.0"
+      },
+      "devDependencies": {
+          "@types/react": "~16.9.35",
+          "@types/react-native": "~0.63.2",
+          "typescript": "~4.0.0"
+      }
   }
 
 yarn manifest: 
@@ -1274,10 +1287,22 @@ Lockfile:
     dependencies:
       cross-spawn "^6.0.5"
   
-  "@expo/vector-icons@^12.0.0", "@expo/vector-icons@^12.0.3":
+  "@expo/vector-icons@^12.0.0":
     version "12.0.3"
     resolved "https://registry.yarnpkg.com/@expo/vector-icons/-/vector-icons-12.0.3.tgz#d7379a3a6bfd4189bc6aed9b9d295f3aca6a5ece"
     integrity sha512-KlQ1MC2ff/CBYV/Nsu+O7wa712I0plb5N5PdMhYxLbVGW2KkULEbAoFp04nab3R4eej/Tq10G+yjTu04q16n3g==
+    dependencies:
+      lodash.frompairs "^4.0.1"
+      lodash.isequal "^4.5.0"
+      lodash.isstring "^4.0.1"
+      lodash.omit "^4.5.0"
+      lodash.pick "^4.4.0"
+      lodash.template "^4.5.0"
+  
+  "@expo/vector-icons@^12.0.4":
+    version "12.0.4"
+    resolved "https://registry.yarnpkg.com/@expo/vector-icons/-/vector-icons-12.0.4.tgz#52061fffab83ca74af52288b5f839b090f7dabed"
+    integrity sha512-/EFbXri7jZmqj1jTY6wpauvMN0DY0Epic003d43yWqrScLlVERaxXrOR07BNuCZvVMHBAzXN4VbOzUUUTq6j8g==
     dependencies:
       lodash.frompairs "^4.0.1"
       lodash.isequal "^4.5.0"
@@ -1811,17 +1836,10 @@ Lockfile:
       sudo-prompt "^9.0.0"
       wcwidth "^1.0.1"
   
-  "@react-native-community/datetimepicker@3.0.4":
-    version "3.0.4"
-    resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-3.0.4.tgz#ad3efa90fab78fc3c0710abf3cb06d2976603140"
-    integrity sha512-IsBkemz1XYubH5twfQPC/xleZdILA5SEUaLJ2C86IbnIOctb6suk8tB6uT9VxQkCsw4zjkrlqt9p9LGx9DJ97w==
-    dependencies:
-      invariant "^2.2.4"
-  
-  "@react-native-community/picker@^1.8.1":
-    version "1.8.1"
-    resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.8.1.tgz#94f14f0aad98fa7592967b941be97deec95c3805"
-    integrity sha512-Sj9DzX1CSnmYiuEQ5fQhExoo4XjSKoZkqLPAAybycq6RHtCuWppf+eJXRMCOJki25BlKSSt+qVqg0fIe//ujNQ==
+  "@react-native-picker/picker@^1.8.3":
+    version "1.15.0"
+    resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-1.15.0.tgz#f571a8b013e001a840db905b21ec18e9d205f01b"
+    integrity sha512-TYdhavldt3ami860fVgYv2mf0d1u5YhMQ6kTw+soX/a1rYbpRCRjdz01sEQXwCW8oL7/lzHakOFnwqCo6JazDw==
   
   "@react-navigation/core@^5.15.2":
     version "5.15.2"
@@ -1899,6 +1917,21 @@ Lockfile:
     version "15.7.3"
     resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
     integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
+  
+  "@types/react-native-vector-icons@^6.4.6":
+    version "6.4.6"
+    resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.6.tgz#848e3b14572def56212cafbf5cb1254b445bfb41"
+    integrity sha512-lAyxNfMd5L1xZvXWsGcJmNegDf61TAp40uL6ashNNWj9W3IrDJO59L9+9inh0Y2MsEZpLTdxzVU8Unb4/0FQng==
+    dependencies:
+      "@types/react" "*"
+      "@types/react-native" "*"
+  
+  "@types/react-native@*":
+    version "0.64.4"
+    resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.64.4.tgz#9f11bef7dd5520801884829c73b19d75aa42e73c"
+    integrity sha512-VqnlmadGkD5usREvnuyVpWDS1W8f6cCz6MP5fZdgONsaZ9/Ijfb9Iq9MZ5O3bnW1OyJixDX9HtSp3COsFSLD8Q==
+    dependencies:
+      "@types/react" "*"
   
   "@types/react-native@~0.63.2":
     version "0.63.51"
@@ -4873,6 +4906,16 @@ Lockfile:
     dependencies:
       minimist "^1.2.5"
   
+  moment-range@2.2.0:
+    version "2.2.0"
+    resolved "https://registry.yarnpkg.com/moment-range/-/moment-range-2.2.0.tgz#b02575778a4ac50a65777939f5c5d757f83fcd85"
+    integrity sha1-sCV1d4pKxQpld3k59cXXV/g/zYU=
+  
+  moment@^2.17.1, moment@^2.22.1, moment@^2.29.1:
+    version "2.29.1"
+    resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
+    integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
+  
   ms@2.0.0:
     version "2.0.0"
     resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
@@ -5402,7 +5445,7 @@ Lockfile:
     dependencies:
       asap "~2.0.6"
   
-  prop-types@^15.6.0, prop-types@^15.7.2:
+  prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.7.2:
     version "15.7.2"
     resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
     integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -5481,6 +5524,16 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-native-async-storage/-/react-native-async-storage-0.0.1.tgz#5f2ef5ff30eae64b4248e265b534e72ea41cdc69"
     integrity sha1-Xy71/zDq5ktCSOJltTTnLqQc3Gk=
   
+  react-native-date-ranges@^2.5.0:
+    version "2.5.0"
+    resolved "https://registry.yarnpkg.com/react-native-date-ranges/-/react-native-date-ranges-2.5.0.tgz#aab58a3351606ce7a8a35a12e7d1c4e00db4a75d"
+    integrity sha512-ewQZ84eBtaF3joS7cP93ANGrE8puMbfbr6pSpfGG8B5j0w/or1k/Pi8ix2b45321ZFYj7s77LKcyDnTiGAQidw==
+    dependencies:
+      moment "^2.22.1"
+      moment-range "2.2.0"
+      prop-types "^15.6.1"
+      react ">=16.0.0-alpha.12"
+  
   react-native-gesture-handler@~1.8.0:
     version "1.8.0"
     resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.8.0.tgz#18f61f51da50320f938957b0ee79bc58f47449dc"
@@ -5500,6 +5553,22 @@ Lockfile:
     version "0.5.2"
     resolved "https://registry.yarnpkg.com/react-native-mmkv-storage/-/react-native-mmkv-storage-0.5.2.tgz#1463e5b443ce3a1d3eb0c2fa89cdb424d49e9883"
     integrity sha512-GtxYu0oTYwNfx2Ts+zpYfFyyVy8NJM96YMjQnHII8KaMRo/SYx81YR/EALYlWXLg/bBzErqUR4R9pKEu0N7jQQ==
+  
+  react-native-picker-select@^8.0.4:
+    version "8.0.4"
+    resolved "https://registry.yarnpkg.com/react-native-picker-select/-/react-native-picker-select-8.0.4.tgz#3f7f1f42df69b06e7d2c10338288332a6c40fd10"
+    integrity sha512-orBjPIwBkV5oipyVw263YNMI56f6Kj3p/ejabZoCYYNSG3AiLVVhC2RqsxMgDA7IayyURAW+AlV+mDJyVqLBkg==
+    dependencies:
+      "@react-native-picker/picker" "^1.8.3"
+      lodash.isequal "^4.5.0"
+  
+  react-native-range-datepicker@^1.9.1:
+    version "1.9.1"
+    resolved "https://registry.yarnpkg.com/react-native-range-datepicker/-/react-native-range-datepicker-1.9.1.tgz#bb01f0aa850cbc965cc12420b40abc66f2c7a78f"
+    integrity sha512-CIhTbenWyOo30R6UiuvQdM2giaRHQorhu7ML7tQDFcGiukamCFNn+jT+FDC9dBbDPuByAIY9nWFAJu+8D9fVWg==
+    dependencies:
+      moment "^2.17.1"
+      prop-types "^15.6.0"
   
   react-native-safe-area-context@3.1.9:
     version "3.1.9"
@@ -5587,6 +5656,14 @@ Lockfile:
     version "0.13.4"
     resolved "https://registry.yarnpkg.com/react-timer-mixin/-/react-timer-mixin-0.13.4.tgz#75a00c3c94c13abe29b43d63b4c65a88fc8264d3"
     integrity sha512-4+ow23tp/Tv7hBM5Az5/Be/eKKF7DIvJ09voz5LyHGQaqqz9WV8YMs31eFvcYQs7d451LSg7kDJV70XYN/Ug/Q==
+  
+  react@>=16.0.0-alpha.12:
+    version "17.0.2"
+    resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
+    integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
+    dependencies:
+      loose-envify "^1.1.0"
+      object-assign "^4.1.1"
   
   react@^17.0.1:
     version "17.0.1"
