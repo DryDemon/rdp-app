@@ -113,7 +113,7 @@ export default function Create({ navigation, route: { params } }: any) {
 	>([]);
 	const [showMoreLeaguesDisplay, setshowMoreLeaguesDisplay] = useState(false);
 
-	const [sportShow, setSportShow] = useState<string | undefined>(undefined);
+	const [sportShow, setSportShow] = useState<string | undefined>("1");
 
 	useEffect(() => {
 		setJwt(params.jwt);
@@ -434,7 +434,7 @@ export default function Create({ navigation, route: { params } }: any) {
 								Attention futur roi, tu peut sélectionner au
 								maximum 5 compétitions !
 							</SubText>
-							<RNPickerSelect
+							{/* <RNPickerSelect
 								style={DropDownPickerStyleSheep}
 								useNativeAndroidPickerStyle={false}
 								onValueChange={(value) => {
@@ -449,7 +449,7 @@ export default function Create({ navigation, route: { params } }: any) {
 									{ label: "Tennis", value: "13" },
 									{ label: "Basketball", value: "18" },
 								]}
-							/>
+							/> */}
 							<TextInput
 								style={styles.inputSearch}
 								value={leagueSearch}
