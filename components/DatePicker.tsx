@@ -1,20 +1,36 @@
 import React, { useState } from "react";
-import { View, Text, TextTitle, SubText, SubHeadline } from "./Themed";
-import { Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, TextTitle, SubText, SubHeadline, Button } from "./Themed";
+import {
+	Alert,
+	Image,
+	Modal,
+	StyleSheet,
+	TouchableOpacity,
+} from "react-native";
 import format from "date-fns/format";
-import DatepickerRange from "react-native-range-datepicker";
+// import DatePicker from "react-native-date-ranges";
+import DateRange from "../components/customDateRangePicker/src/DateRange.jsx";
+import DatePicker from "../components/customDateRangePicker";
+import { Dimensions } from "react-native";
 
 import Icon from "react-native-vector-icons/FontAwesome";
 import Colors from "../constants/Colors";
+import moment from "moment";
 
-export function DatePicker(props: any) {
+// moment.locale("fr");
+
+export function DatePickerPerso(props: any) {
 	const [showDatePicker, setShowDatePicker] = useState(false);
 	const [beenSet, setbeenSet] = useState(false);
+	const [focus, setFocus] = useState("startDate");
 
 	return (
 		<View>
 			<TouchableOpacity
-				style={{ flexDirection: "row", justifyContent: "space-between"}}
+				style={{
+					flexDirection: "row",
+					justifyContent: "space-between",
+				}}
 				onPress={() => {
 					if (showDatePicker) setShowDatePicker(false);
 					else setShowDatePicker(true);
@@ -23,15 +39,20 @@ export function DatePicker(props: any) {
 				<View style={styles.dateContainer}>
 					<View>
 						<Icon
-							style={[{backgroundColor: Colors.greenBcg,} ,styles.gameLogo]}
+							style={[
+								{ backgroundColor: Colors.greenBcg },
+								styles.gameLogo,
+							]}
 							name="calendar"
 							size={24}
 							color={Colors.green}
 						/>
 					</View>
-					<View style={{flex:1,}} >
+					<View style={{ flex: 1 }}>
 						{!beenSet && (
-							<SubHeadline style={styles.text}>{props.initTextBegin}</SubHeadline>
+							<SubHeadline style={styles.text}>
+								{props.initTextBegin}
+							</SubHeadline>
 						)}
 						{beenSet && (
 							<Text style={styles.text}>
@@ -43,17 +64,20 @@ export function DatePicker(props: any) {
 				<View style={styles.dateContainer}>
 					<View>
 						<Icon
-							style={[{backgroundColor: Colors.redBcg,} ,styles.gameLogo]}
+							style={[
+								{ backgroundColor: Colors.redBcg },
+								styles.gameLogo,
+							]}
 							name="calendar"
 							size={24}
 							color={Colors.red}
-							
-
 						/>
 					</View>
-					<View style={{flex:1}}>
+					<View style={{ flex: 1 }}>
 						{!beenSet && (
-							<SubHeadline style={styles.text}>{props.initTextEnd}</SubHeadline>
+							<SubHeadline style={styles.text}>
+								{props.initTextEnd}
+							</SubHeadline>
 						)}
 						{beenSet && (
 							<Text style={styles.text}>
@@ -63,29 +87,117 @@ export function DatePicker(props: any) {
 					</View>
 				</View>
 			</TouchableOpacity>
-			{showDatePicker && (
-				<DatepickerRange
-					onClose={() => {
-						setShowDatePicker(false);
-					}}
-					dayHeadings={["D", "L", "M", "M", "J", "V", "S"]}
-					maxMonth={2}
-					buttonColor={Colors.rdpColor}
-					todayColor={Colors.rdpColor}
-					selectedBackgroundColor={Colors.rdpColor}
-					startDate={format(props.start, "ddMMyyyy")}
-					untilDate={format(props.end, "ddMMyyyy")}
-                    placeHolderStart={"Date de Début"}
-                    placeHolderUntil={"Date de Fin"}
-                    onConfirm={(startDate: number, untilDate: number) => {
-						props.setStart(new Date(startDate));
-						props.setEnd(new Date(untilDate));
+			<View style={styles.dateRangePickerContainer}>
+				<Modal
+					animationType="slide"
+					onRequestClose={() => setShowDatePicker(false)}
+					transparent={false}
+					visible={showDatePicker}
+				>
+					<View style={{ flex: 1, flexDirection: "column" }}>
+						<View style={{ height: "90%" }}>
+							<DateRange
+								// headFormat={this.props.headFormat}
+								customStyles={{
+									// headerDateTitle: { display: "none" }, // title Date style
+								}}
+								markText={"Selectionner une date"}
+								onDatesChange={(data: any) => {
+									const { startDate, endDate, focusedInput } =
+										data;
+									if (focusedInput) setFocus(focusedInput);
 
-						setbeenSet(true);
-						setShowDatePicker(false);
+									let tempStartDate = startDate instanceof moment? startDate?.toDate() : startDate 
+									let tempEndDate = endDate instanceof moment? endDate?.toDate() : endDate 
+
+									if (tempStartDate) props.setStart(tempStartDate);
+									if (tempEndDate) {props.setEnd(tempEndDate); setbeenSet(true)}
+
+									// if(tempEndDate && tempEndDate < props.start){ //Si jamais les deux dates sont inversées
+									// 	props.setStart(tempEndDate)
+									// 	props.setEnd(props.start)
+									// }
+									
+								}}
+								isDateBlocked={(date: any) => {
+									if(moment(date).isBefore(new Date()) === true) return true;
+									return moment(date).isAfter(moment().add(1, 'M'));
+									return false;
+								}}
+								startDate={moment(props.start)}
+								endDate={moment(props.end)}
+								focusedInput={focus}
+								selectedBgColor={Colors.rdpColor}
+								selectedTextColor={"white"}
+								mode={"range"}
+								currentDate={moment()}
+							/>
+						</View>
+						<View
+							style={{
+								paddingBottom: "5%",
+								width: "100%",
+								height: "10%",
+								flexDirection: "row",
+								justifyContent: "center",
+								alignItems: "center",
+							}}
+						>
+							<Button
+								onPress={() => setShowDatePicker(false)}
+								style={{
+									container: {
+										width: "80%",
+										marginHorizontal: "3%",
+									},
+									text: { fontSize: 20 },
+								}}
+								// primary
+								title={"Confirmer"}
+							/>
+						</View>
+					</View>
+				</Modal>
+{/* 
+				<DatePicker
+					style={{ width: 350, height: 45 }}
+					customStyles={{
+						placeholderText: { fontSize: 20 }, // placeHolder style
+						headerStyle: {}, // title container style
+						headerMarkTitle: {}, // title mark style
+						headerDateTitle: { display: "none" }, // title Date style
+						contentInput: { display: "none" }, //content text container style
+						contentText: {}, //after selected text Style
+					}} // optional
+					centerAlign // optional text will align center or not
+					allowFontScaling={false} // optional
+					placeholder={""}
+					mode={"range"}
+					customButton={(onConfirm: any) => (
+						<Button
+							onPress={onConfirm}
+							style={{
+								container: {
+									width: "80%",
+									marginHorizontal: "3%",
+								},
+								text: { fontSize: 20 },
+							}}
+							// primary
+							title={"Confirmer"}
+						/>
+					)}
+					selectedBgColor={Colors.rdpColor}
+					headFormat={"DD/MM/YYYY"}
+					markText={"Selectionner une Date"}
+					onConfirm={(data: {
+						startDate: string;
+						endDate: string;
+					}) => {
+						console.log(JSON.stringify(data));
 					}}
-				/>
-			)}
+				/> */}
+			</View>
 		</View>
 	);
 }
@@ -120,6 +232,11 @@ const styles = StyleSheet.create({
 		color: Colors.black,
 		fontSize: 14,
 		textAlign: "center",
-
+	},
+	dateRangePickerContainer: {
+		// position: "absolute",
+		// position:
+		// position: "relative",
+		// zIndex: 123,
 	},
 });

@@ -188,7 +188,7 @@ export function TextInput(props: TextInputProps) {
 	let shadowOpacity = 0.32;
 	let shadowRadius = 2.46;
 
-	let elevation = 4;
+	// let elevation = 4;
 
 	const flex = 0;
 	const flexGrow = 0;
@@ -210,7 +210,7 @@ export function TextInput(props: TextInputProps) {
 					shadowOffset,
 					shadowOpacity,
 					shadowRadius,
-					elevation,
+					// elevation,
 				},
 				style,
 			]}
