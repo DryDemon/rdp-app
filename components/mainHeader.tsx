@@ -12,16 +12,14 @@ import Colors from "../constants/Colors";
 import Constants from "expo-constants";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ShowBonus } from "./showBonus";
+
+import * as Svg from "react-native-svg";
+import { MainLogoSvgComponent } from "./mainHeaderSvgLogo";
 
 export function MainHeader(props: any) {
 	const [arrow, setArrow] = useState(<></>);
 
-	const {
-		back,
-		navigation,
-		...otherProps
-	} = props;
+	const { back, navigation, ...otherProps } = props;
 
 	const backgroundColor = Colors.white;
 
@@ -72,6 +70,7 @@ export function MainHeader(props: any) {
 
 	return (
 		<View>
+			{/* <Text>a</Text> */}
 			<View
 				style={[
 					{
@@ -79,10 +78,10 @@ export function MainHeader(props: any) {
 						height,
 						width,
 						marginTop,
-						paddingHorizontal: 24,
+						// paddingHorizontal: 24,
 						flexDirection: "row",
 						alignItems: "center",
-						justifyContent: "space-between",
+						// justifyContent: "space-between",
 						shadowColor: "rgba(0,0,0, 0.24)",
 						shadowOffset: {
 							width: 0,
@@ -102,29 +101,8 @@ export function MainHeader(props: any) {
 					]}
 				>
 					<View>{arrow}</View>
-					<View
-						style={[
-							{
-								marginLeft: 12,
-							},
-						]}
-					>
-						<Text
-							style={[
-								{
-									color,
-									fontWeight,
-									fontStyle: "italic",
-									fontSize: 20,
-									lineHeight: 26,
-									textAlignVertical: "center",
-
-									// fontFamily: "Orkney",
-								},
-							]}
-						>
-							ROI DU PRONO MAIN HEADER
-						</Text>
+					<View style={{ width: 100, height: 43 }}>
+						<MainLogoSvgComponent />
 					</View>
 				</View>
 				<View
@@ -132,6 +110,8 @@ export function MainHeader(props: any) {
 						{
 							flexDirection: "row",
 							alignItems: "center",
+							justifyContent: "flex-end",
+							marginLeft: "auto",
 						},
 					]}
 				>

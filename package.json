@@ -28,6 +28,7 @@
         "react-native-range-datepicker": "^1.9.1",
         "react-native-screens": "~2.15.2",
         "react-native-sectioned-multi-select": "^0.8.1",
+        "react-native-svg": "12.1.0",
         "react-native-vector-icons": "^8.1.0",
         "react-native-web": "^0.15.0"
     },
