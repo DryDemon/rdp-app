@@ -1,5 +1,4 @@
 design
 bug latence
-calendrier
 
 mettre de côté les paris live
