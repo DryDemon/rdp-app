@@ -25,6 +25,7 @@ import { GameSchema } from "../src/interaces/interfacesGame";
 import { MyLeaguesDash } from "../components/MyLeaguesDash";
 import { GameHeader } from "../components/gameHeader";
 import { PublicLeaguesDash } from "../components/PublicLeaguesDash";
+import { MainHeader } from "../components/mainHeader";
 
 async function fetchUserGames(jwt: string) {
 	const rawResponse = await fetch(
@@ -133,7 +134,7 @@ export default function Dashboard({ navigation, route: { params } }: any) {
 
 	return (
 		<View>
-			<GameHeader navigation={navigation} />
+			<MainHeader jwt={jwt} navigation={navigation} />
 			<ViewContainer>
 				<BasicScrollView isHeaderShown={true}>
 					<MyLeaguesDash

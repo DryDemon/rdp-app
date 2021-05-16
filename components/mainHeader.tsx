@@ -70,7 +70,6 @@ export function MainHeader(props: any) {
 
 	return (
 		<View>
-			{/* <Text>a</Text> */}
 			<View
 				style={[
 					{
@@ -105,24 +104,31 @@ export function MainHeader(props: any) {
 						<MainLogoSvgComponent />
 					</View>
 				</View>
-				<View
-					style={[
-						{
-							flexDirection: "row",
-							alignItems: "center",
-							justifyContent: "flex-end",
-							marginLeft: "auto",
-						},
-					]}
-				>
-					<TouchableOpacity onPress={logout}>
-						<MaterialCommunityIcons
-							name="logout"
-							size={24}
-							color={Colors.black}
-						/>
-					</TouchableOpacity>
-				</View>
+
+				{props.jwt ? (
+					<View
+						style={[
+							{
+								flexDirection: "row",
+								alignItems: "center",
+								justifyContent: "flex-end",
+								marginLeft: "auto",
+								marginRight:10,
+								marginBottom:4,
+							},
+						]}
+					>
+						<TouchableOpacity onPress={logout}>
+							<MaterialCommunityIcons
+								name="logout"
+								size={24}
+								color={Colors.black}
+							/>
+						</TouchableOpacity>
+					</View>
+				) : (
+					<View></View>
+				)}
 			</View>
 		</View>
 	);
