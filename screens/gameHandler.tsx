@@ -228,6 +228,11 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 	useState<JSX.Element | undefined>(undefined);
 	const [gameShowBonusContainer, setGameShowBonusContainer] =
 		useState<JSX.Element | undefined>(undefined);
+	const [gameFooterContainer, setGameFooterContainer] =
+		useState<JSX.Element | undefined>(undefined);
+	useState<JSX.Element | undefined>(undefined);
+	const [gameHeaderContainer, setGameHeaderContainer] =
+		useState<JSX.Element | undefined>(undefined);
 
 	useEffect(() => {
 		setGameInfoContainer(
@@ -301,13 +306,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 				setPage={pageSetter}
 			/>
 		);
-	}, [
-		betChoiceListGameHandler,
-		betChoiceMainInfo,
-		jwt,
-		user,
-		game,
-	]);
+	}, [betChoiceListGameHandler, betChoiceMainInfo, jwt, user, game]);
 	useEffect(() => {
 		setGameMatchStatsContainer(
 			<GameMatchsStats
@@ -341,9 +340,19 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 		);
 	}, [toggleShowBonus, game, user, jwt]);
 
-	//todo add Swipeable?
-	return (
-		<View>
+	useEffect(() => {
+		setGameFooterContainer(
+			<GameFooter
+				betChoiceList={betChoiceListGameHandler}
+				joinCode={game?.joinCode}
+				page={page}
+				setPage={(goto: typeof page) => pageSetter(goto)}
+			/>
+		);
+	}, [page, game, betChoiceListGameHandler]);
+
+	useEffect(() => {
+		setGameHeaderContainer(
 			<GameHeader
 				canShowBonus={!game?.isPublic}
 				toggleShowBonus={toggleShowBonus}
@@ -369,6 +378,13 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 					pageSetter("gameInfo");
 				}}
 			/>
+		);
+	}, [game, page]);
+
+	//todo add Swipeable?
+	return (
+		<View>
+			{gameHeaderContainer}
 
 			<ViewContainer
 				style={
@@ -468,12 +484,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 					<GameScrollView>{gameShowBonusContainer}</GameScrollView>
 				</ViewContainer>
 			) : null}
-			<GameFooter
-				betChoiceList={betChoiceListGameHandler}
-				joinCode={game?.joinCode}
-				page={page}
-				setPage={(goto: typeof page) => pageSetter(goto)}
-			/>
+			{gameFooterContainer}
 		</View>
 	);
 }
