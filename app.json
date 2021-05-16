@@ -2,7 +2,7 @@
     "expo": {
         "name": "Roi Du Prono",
         "slug": "RDP",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "orientation": "portrait",
         "icon": "./assets/images/favicon.png",
         "scheme": "myapp",
@@ -21,7 +21,8 @@
         ],
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "com.roiduprono.RDP"
+            "bundleIdentifier": "com.roiduprono.RDP",
+            "buildNumber": "2.0.0"
         },
         "android": {
             "adaptiveIcon": {
@@ -30,6 +31,7 @@
             },
             "permissions": [],
             "package": "com.roiduprono.RDP",
+            "versionCode": 2
         },
         "web": {
             "favicon": "./assets/images/favicon.png"
