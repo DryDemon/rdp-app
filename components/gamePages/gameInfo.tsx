@@ -77,6 +77,7 @@ export default function GameInfo(props: any) {
 			<Text>{item.username}</Text>
 		</View>
 	);
+
 	return (
 		<View>
 			<SmallLineBreak />

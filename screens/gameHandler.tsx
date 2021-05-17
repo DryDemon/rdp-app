@@ -59,7 +59,7 @@ async function getCurrentGame(joinCode: string, jwt: string) {
 export default function GameHandler({ navigation, route: { params } }: any) {
 	const [jwt, setJwt] = useState<string>("");
 	const [user, setUser] = useState<User>();
-	const [game, setGame] = useState<GameSchema>();
+	const [game, setGame] = useState<GameSchema | undefined>();
 
 	const [page, setPage] = useState<
 		| "gameClassement"
@@ -196,10 +196,6 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 		loadGameData();
 	}
 
-	// //reload game data each time
-	// useEffect(() => {
-	// 	if (!game) loadGameData();
-	// }, [joinCode, jwt]);
 	useEffect(() => {
 		setJwt(params.jwt);
 		setUser(params.user);
@@ -210,27 +206,20 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 		useState<JSX.Element | undefined>(undefined);
 	const [gameClassementContainer, setGameClassementContainer] =
 		useState<JSX.Element | undefined>(undefined);
-	useState<JSX.Element | undefined>(undefined);
 	const [gamePlaceBetContainer, setGamePlaceBetContainer] =
 		useState<JSX.Element | undefined>(undefined);
-	useState<JSX.Element | undefined>(undefined);
 	const [gameListBetContainer, setGameListBetContainer] =
 		useState<JSX.Element | undefined>(undefined);
-	useState<JSX.Element | undefined>(undefined);
 	const [gameCartContainer, setGameCartContainer] =
 		useState<JSX.Element | undefined>(undefined);
-	useState<JSX.Element | undefined>(undefined);
 	const [gameMatchStatsContainer, setGameMatchStatsContainer] =
 		useState<JSX.Element | undefined>(undefined);
-	useState<JSX.Element | undefined>(undefined);
 	const [gamePlayerStatsContainer, setGamePlayerStatsContainer] =
 		useState<JSX.Element | undefined>(undefined);
-	useState<JSX.Element | undefined>(undefined);
 	const [gameShowBonusContainer, setGameShowBonusContainer] =
 		useState<JSX.Element | undefined>(undefined);
 	const [gameFooterContainer, setGameFooterContainer] =
 		useState<JSX.Element | undefined>(undefined);
-	useState<JSX.Element | undefined>(undefined);
 	const [gameHeaderContainer, setGameHeaderContainer] =
 		useState<JSX.Element | undefined>(undefined);
 
@@ -307,6 +296,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 			/>
 		);
 	}, [betChoiceListGameHandler, betChoiceMainInfo, jwt, user, game]);
+
 	useEffect(() => {
 		setGameMatchStatsContainer(
 			<GameMatchsStats
@@ -327,18 +317,19 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 			/>
 		);
 	}, [user, game, userIdSelectedShowStats]);
-	useEffect(() => {
-		setGameShowBonusContainer(
-			<ShowBonus
-				toggleShowBonus={toggleShowBonus}
-				joinCode={game?.joinCode}
-				game={game}
-				user={user}
-				jwt={jwt}
-				setPage={pageSetter}
-			/>
-		);
-	}, [toggleShowBonus, game, user, jwt]);
+
+	// useEffect(() => {
+	// 	setGameShowBonusContainer(
+	// 		<ShowBonus
+	// 			toggleShowBonus={toggleShowBonus}
+	// 			joinCode={game?.joinCode}
+	// 			game={game}
+	// 			user={user}
+	// 			jwt={jwt}
+	// 			setPage={pageSetter}
+	// 		/>
+	// 	);
+	// }, [toggleShowBonus, game, user, jwt]);
 
 	useEffect(() => {
 		setGameFooterContainer(
@@ -423,7 +414,7 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 						: { display: "none" }
 				}
 			>
-				<GameScrollView>{GameCart}</GameScrollView>
+				<GameScrollView>{gameCartContainer}</GameScrollView>
 			</ViewContainer>
 
 			<ViewContainer
