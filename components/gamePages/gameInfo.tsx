@@ -48,17 +48,17 @@ export default function GameInfo(props: any) {
 					"Rejoins moi sur Roi Du Prono et viens dans mon contest : " +
 					joinCode,
 			});
-			if (result.action === Share.sharedAction) {
+			if (result?.action === Share.sharedAction) {
 				if (result.activityType) {
 					// shared with activity type of result.activityType
 				} else {
 					// shared
 				}
-			} else if (result.action === Share.dismissedAction) {
+			} else if (result?.action === Share.dismissedAction) {
 				// dismissed
 			}
 		} catch (error) {
-			alert(error.message);
+			// alert(error.message);
 		}
 	};
 
