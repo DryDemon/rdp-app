@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
 		borderRadius: 12,
 	},
 	betContainerShowMore: {
-		width: 48,
+		minWidth: 48,
 	},
 	betContainerSelected: {
 		justifyContent: "space-between",
