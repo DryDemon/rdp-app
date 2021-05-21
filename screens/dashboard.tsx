@@ -42,6 +42,30 @@ export default function Dashboard({ navigation, route: { params } }: any) {
 	const [games, setGames] = useState<Array<GameSchema>>([]);
 	const [publicGames, setPublicGames] = useState<Array<GameSchema>>([]);
 
+	function checkInCaseGamesHasntLoaded() {
+		setTimeout(function () {
+			if(games.length == 0){
+				//fetch games
+				if (jwt) {
+					fetchUserGames(jwt).then((content) => {
+						let isConnected = content.isConnected;
+						let publicGames = content.publicGames;
+						let privateGames = content.privateGames;
+						if (isConnected == 0) {
+							AsyncStorage.setItem("@jwt", "");
+							navigation.navigate("Login");
+						} else {
+							setGames(privateGames);
+							setPublicGames(publicGames);
+						}
+					});
+				}		
+
+			}
+		}, 5000);
+	}
+	checkInCaseGamesHasntLoaded();
+
 	if (!jwt || !user) {
 		try {
 			if (!jwt) {
