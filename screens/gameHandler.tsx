@@ -116,6 +116,27 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 	}
 
 	useEffect(() => {
+		//check to see if two bets have the same matchId, if yes, remove one
+		let listAlreadySelected: string[] = [];
+
+		setBetChoiceListGameHandler(
+			betChoiceListGameHandler.filter((value: any) => {
+				if (
+					listAlreadySelected.some(
+						(alreadySelected: string) =>
+							alreadySelected == value.matchId
+					)
+				) {
+					return false;
+				} else {
+					listAlreadySelected.push(value.matchId);
+					return true;
+				}
+			})
+		);
+	}, [betChoiceMainInfo]);
+
+	useEffect(() => {
 		if (userIdSelectedShowStats && userIdSelectedShowStats != "")
 			pageSetter("gamePlayerStats");
 	}, [userIdSelectedShowStats]);
