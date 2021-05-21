@@ -120,6 +120,37 @@ export default function Create({ navigation, route: { params } }: any) {
 		setUser(params.user);
 	}, [params]);
 
+	function loadCompetitionsData() {
+		let creationDateInFunct = new Date(dateCreationForm); // dateCreation est en fait un string
+		let endDateInFunct = new Date(dateEndForm); // dateEnd est en fait un string
+
+		if (
+			!isNaN(creationDateInFunct.getTime()) &&
+			!isNaN(endDateInFunct.getTime())
+		) {
+			getLeaguesForSportsBetweenTwoDates(
+				creationDateInFunct,
+				endDateInFunct,
+				sportShow
+			).then((leagues) => {
+				if (leagues) {
+					setLeaguesList(leagues);
+
+					let cpyleagueDisplay = leaguesSearchDisplay;
+					//on enleve les leagues qui ne sont plus dispo aux dates choisis ou aux sports choisis
+					cpyleagueDisplay = cpyleagueDisplay.filter(
+						(valueFrom: leagueDisplay) =>
+							leagues.some(
+								(valueTo: LeagueSchema) =>
+									valueTo.leagueId == valueFrom.leagueId
+							)
+					);
+					setLeaguesSearchDisplay(cpyleagueDisplay);
+				}
+			});
+		}
+	}
+
 	function validateForm() {
 		let isValid = true;
 		if (name.length < 4) {
@@ -288,35 +319,13 @@ export default function Create({ navigation, route: { params } }: any) {
 	}, [name, logoUrl, leaguesSearchDisplay, dateEndForm, dateCreationForm]);
 
 	useEffect(() => {
-		let creationDateInFunct = new Date(dateCreationForm); // dateCreation est en fait un string
-		let endDateInFunct = new Date(dateEndForm); // dateEnd est en fait un string
-
-		if (
-			!isNaN(creationDateInFunct.getTime()) &&
-			!isNaN(endDateInFunct.getTime())
-		) {
-			getLeaguesForSportsBetweenTwoDates(
-				creationDateInFunct,
-				endDateInFunct,
-				sportShow
-			).then((leagues) => {
-				if (leagues) {
-					setLeaguesList(leagues);
-
-					let cpyleagueDisplay = leaguesSearchDisplay;
-					//on enleve les leagues qui ne sont plus dispo aux dates choisis ou aux sports choisis
-					cpyleagueDisplay = cpyleagueDisplay.filter(
-						(valueFrom: leagueDisplay) =>
-							leagues.some(
-								(valueTo: LeagueSchema) =>
-									valueTo.leagueId == valueFrom.leagueId
-							)
-					);
-					setLeaguesSearchDisplay(cpyleagueDisplay);
-				}
-			});
-		}
+		loadCompetitionsData();
 	}, [dateCreationForm, dateEndForm, sportShow]);
+
+	useEffect(() => {
+		loadCompetitionsData(); //Do it on start to get values directly
+	}, [])
+
 
 	// function toggleSportChoiceId(id: string) {
 	// 	let cpySportChoice = [...sportChoice];
