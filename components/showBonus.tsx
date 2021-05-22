@@ -107,11 +107,13 @@ function getBonusNameFromType(bonus: BonusInterface) {
 		case 0: //pas de bonus
 			return "Tu t'es fait niqué";
 		case 1: // multiplier la cote d'un pari
-			return "Multiplier la côte d'un de tes paris par " + bonus.multiplier;
+			return (
+				"Multiplier la côte d'un de tes paris par " + bonus.multiplier
+			);
 		case 2: // enlever des crédits à un adversaire
-			return "Voler "+bonus.creditBonus+" Crédits a ton adversaire";
+			return "Voler " + bonus.creditBonus + " Crédits a ton adversaire";
 		case 3: // se rajouter des crédits, pas utilisé
-			return "Voler "+bonus.creditBonus+" Crédits a ton adversaire";
+			return "Voler " + bonus.creditBonus + " Crédits a ton adversaire";
 		case 4: // annuler le pari d'un adversaire
 			return "Annuler le pari d'un adversaire";
 
@@ -264,22 +266,21 @@ export function ShowBonus(props: any) {
 	}
 
 	return (
-		<View style={styles.container}>
-			<GameScrollView>
-				<View style={styles.titleContainer}>
-					<TextTitle>Bonus</TextTitle>
-					<TouchableOpacity
-						style={styles.closeComponent}
-						onPress={toggleShowBonus}
-					>
-						<AntDesign name="close" size={20} color={"#000"} />
-					</TouchableOpacity>
-				</View>
-				<SmallLineBreak />
-				{userBonus
-					? userBonus.map((data: BonusInterface) => renderBonus(data))
-					: null}
-			</GameScrollView>
+		<View>
+			<SmallLineBreak />
+			<View style={styles.titleContainer}>
+				<TextTitle>Bonus</TextTitle>
+				<TouchableOpacity
+					style={styles.closeComponent}
+					onPress={toggleShowBonus}
+				>
+					<AntDesign name="close" size={20} color={"#000"} />
+				</TouchableOpacity>
+			</View>
+			<SmallLineBreak />
+			{userBonus
+				? userBonus.map((data: BonusInterface) => renderBonus(data))
+				: null}
 		</View>
 	);
 }

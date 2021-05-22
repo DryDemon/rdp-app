@@ -339,18 +339,18 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 		);
 	}, [user, game, userIdSelectedShowStats]);
 
-	// useEffect(() => {
-	// 	setGameShowBonusContainer(
-	// 		<ShowBonus
-	// 			toggleShowBonus={toggleShowBonus}
-	// 			joinCode={game?.joinCode}
-	// 			game={game}
-	// 			user={user}
-	// 			jwt={jwt}
-	// 			setPage={pageSetter}
-	// 		/>
-	// 	);
-	// }, [toggleShowBonus, game, user, jwt]);
+	useEffect(() => {
+		setGameShowBonusContainer(
+			<ShowBonus
+				toggleShowBonus={toggleShowBonus}
+				joinCode={game?.joinCode}
+				game={game}
+				user={user}
+				jwt={jwt}
+				setPage={(goto: typeof page) => pageSetter(goto)}
+			/>
+		);
+	}, [game, user, jwt]);
 
 	useEffect(() => {
 		setGameFooterContainer(
