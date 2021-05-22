@@ -270,12 +270,12 @@ export function ShowBonus(props: any) {
 			<SmallLineBreak />
 			<View style={styles.titleContainer}>
 				<TextTitle>Bonus</TextTitle>
-				<TouchableOpacity
+				{/* <TouchableOpacity
 					style={styles.closeComponent}
 					onPress={toggleShowBonus}
 				>
 					<AntDesign name="close" size={20} color={"#000"} />
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 			</View>
 			<SmallLineBreak />
 			{userBonus
