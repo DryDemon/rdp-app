@@ -218,9 +218,14 @@ export default function GameHandler({ navigation, route: { params } }: any) {
 	}
 
 	useEffect(() => {
-		setJwt(params.jwt);
-		setUser(params.user);
-		setGame(params.game);
+		try{
+			setJwt(params.jwt);
+			setUser(params.user);
+			setGame(params.game);
+		}catch(e){
+			//is not connected
+			navigation.navigate("Dashboard");
+		}
 	}, [params]);
 
 	const [gameInfoContainer, setGameInfoContainer] =
