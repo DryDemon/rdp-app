@@ -35,7 +35,7 @@ export function PublicLeaguesDash(props: any) {
 	return (
 		<View>
 			{publicGames ? (
-				<TextTitle style={{ marginTop: 24 }}>
+				<TextTitle style={{ marginVertical: 24 }}>
 					Les contest publiques
 				</TextTitle>
 			) : null}
