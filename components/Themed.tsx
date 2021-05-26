@@ -63,6 +63,8 @@ export function TextLabel(props: TextProps) {
 	return <Text style={[{ fontSize, fontWeight }, style]} {...otherProps} />;
 }
 
+
+
 export function TextTitle(props: TextProps) {
 	const { style, ...otherProps } = props;
 	const fontSize = 28;

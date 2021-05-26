@@ -108,6 +108,7 @@ export default function Login({ navigation, route: { params } }: any) {
 				<TextTitle style={styles.topTitle}>
 					Bon retour parmi nous,
 				</TextTitle>
+				<TextTitle>Salut</TextTitle>
 				{user?.username ? (
 					<TextMainTitle>Roi {user?.username}!</TextMainTitle>
 				) : null}
