@@ -225,12 +225,6 @@ export function Button(props: TouchableOpacityProps | any) {
 	let { bgColor, title, style, disabled, onPress, ...otherProps } = props;
 
 	if (!bgColor) bgColor = useThemeColor("rdpColor");
-	const height = 48;
-	let borderRadius = 12;
-	let paddingHorizontal = 40;
-	let paddingVertical = 14;
-	let color = Colors.white;
-	let textAlign = "center";
 
 	let buttonStyle = StyleSheet.create({
 		enabledContainer: {
@@ -238,6 +232,59 @@ export function Button(props: TouchableOpacityProps | any) {
 			borderRadius: 12,
 			paddingHorizontal: 40,
 			paddingVertical: 14,
+			backgroundColor: Colors.rdpColor,
+		},
+		disabledContainer: {
+			height: 48,
+			borderRadius: 12,
+			paddingHorizontal: 40,
+			paddingVertical: 14,
+			backgroundColor: Colors.buttonDisable,
+		},
+		enabledText: { color: Colors.white, textAlign: "center" },
+		disabledText: { color: Colors.white, textAlign: "center", },
+	});
+
+	return (
+		<TouchableOpacity
+			style={[
+				disabled
+					? buttonStyle.disabledContainer
+					: buttonStyle.enabledContainer,
+				style,
+			]}
+			{...otherProps}
+			onPress={disabled ? () => {} : onPress}
+		>
+			<Text
+				style={[
+					disabled
+						? buttonStyle.disabledText
+						: buttonStyle.enabledText,
+					style,
+				]}
+				{...otherProps}
+			>
+				{title}
+			</Text>
+		</TouchableOpacity>
+	);
+}
+export function ValidedButton(props: TouchableOpacityProps | any) {
+	let { bgColor, title, style, disabled, onPress, ...otherProps } = props;
+
+	if (!bgColor) bgColor = useThemeColor("rdpColor");
+	
+
+	let buttonStyle = StyleSheet.create({
+		enabledContainer: {
+			height: 48,
+			borderRadius: 12,
+			width: 167,
+			marginLeft: "auto",
+			marginRight: "auto",
+			paddingHorizontal: 12,
+			paddingVertical: 12,
 			backgroundColor: Colors.rdpColor,
 		},
 		disabledContainer: {
