@@ -16,6 +16,8 @@ import { GameIcon } from "./GameIcon";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Colors from "../constants/Colors";
 import { SERVER_API_URL } from "../constants/Server";
+import Icon from "../components/CustomIcon";
+
 
 async function addUserInAGame(joinCode: string, jwt: string) {
 	const rawResponse = await fetch(

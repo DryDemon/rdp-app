@@ -11,6 +11,7 @@ import Octicons from "react-native-vector-icons/Octicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Colors from "../constants/Colors";
 import Constants from "expo-constants";
+import Icon from "../components/CustomIcon";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -123,8 +124,8 @@ export function MainHeader(props: any) {
 						]}
 					>
 						<TouchableOpacity onPress={logout}>
-							<MaterialCommunityIcons
-								name="logout"
+							<Icon
+								icon="menu"
 								size={24}
 								color={Colors.black}
 							/>

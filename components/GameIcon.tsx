@@ -9,6 +9,8 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { validURL } from "../src/smallFuncts";
 import Feather from "react-native-vector-icons/Feather";
+import Icon from "../components/CustomIcon";
+
 
 async function addUserInAGame(joinCode: string, jwt: string) {
 	const rawResponse = await fetch(
@@ -67,8 +69,8 @@ export function GameIcon(props: any) {
 							justifyContent: "center",
 						}}
 					>
-						<Feather
-							name="plus-circle"
+						<Icon
+							icon="plus-circle"
 							size={28}
 							color={"#2F4858"}
 						/>

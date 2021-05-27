@@ -26,6 +26,7 @@ import { GameIcon } from "./GameIcon";
 import Colors from "../constants/Colors";
 import { SeeDetails } from "./seeDetailsPlayerBet";
 import { getSystemName } from "./renderBetInput";
+import Icon from "../components/CustomIcon";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
@@ -144,17 +145,17 @@ export function PlayerBet(props: any) {
 						{system ? systemName : null}
 					</Text>
 					{bet.status == 0 ? ( //EN cOURS
-						<MaterialCommunityIcons
-							style={styles.icon}
-							name="progress-clock"
+						<Icon
+							//style={styles.icon}
+							icon="progress-clock"
 							size={24}
 							color={"#000"}
 						/>
 					) : null}
 					{bet.status == 1 ? ( //WIN
-						<EvilIcons
-							style={styles.icon}
-							name="trophy"
+						<Icon
+							//style={styles.icon}
+							icon="trophy"
 							size={24}
 							color={"#5BD18F"}
 						/>
@@ -166,9 +167,9 @@ export function PlayerBet(props: any) {
 								backgroundColor: Colors.lightRed,
 							}}
 						>
-							<Entypo
-								style={styles.icon}
-								name="cross"
+							<Icon
+								//style={styles.icon}
+								icon="close-small"
 								size={24}
 								color={"#000"}
 							/>
@@ -176,9 +177,9 @@ export function PlayerBet(props: any) {
 					) : null}
 					{(canCancelBet || canDivideBet) && canShowBonus ? (
 						<TouchableOpacity onPress={toggleShowBetOption}>
-							<Entypo
-								style={styles.icon}
-								name="dots-three-vertical"
+							<Icon
+								//style={styles.icon}
+								icon="more_vertical"
 								size={24}
 								color={"black"}
 							/>

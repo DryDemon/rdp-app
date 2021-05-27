@@ -4,7 +4,7 @@ import { StyleSheet, Image, TouchableOpacity } from "react-native";
 import { View, Text } from "./Themed";
 
 import arrowIcon from "../assets/images/arrow_black.png";
-
+import Icon from "../components/CustomIcon";
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import Octicons from "react-native-vector-icons/Octicons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -138,8 +138,8 @@ export function GameHeader(props: any) {
 								},
 							]}
 						>
-							<EvilIcons
-								name="question"
+							<Icon
+								icon="info"
 								size={24}
 								color={"#A9AAB0"}
 							/>
@@ -163,16 +163,16 @@ export function GameHeader(props: any) {
 								},
 							]}
 						>
-							<Octicons
-								name="gift"
+							<Icon
+								icon="bonus"
 								size={24}
 								color={Colors.black}
 							/>
 						</TouchableOpacity>
 					) : undefined}
 					<TouchableOpacity onPress={logout}>
-						<MaterialCommunityIcons
-							name="logout"
+						<Icon
+							icon="menu"
 							size={24}
 							color={Colors.black}
 						/>
