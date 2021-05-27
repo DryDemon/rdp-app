@@ -634,7 +634,7 @@ export default function GameCart(props: any) {
 				>
 					<Text
 						style={
-							type == "simple" ? { color: "white" } : undefined
+							type == "simple" ? { color: "white", textAlign: "center" } : {textAlign: "center"}
 						}
 					>
 						Simple
@@ -650,7 +650,7 @@ export default function GameCart(props: any) {
 				>
 					<Text
 						style={
-							type == "combiné" ? { color: "white" } : undefined
+							type == "combiné" ? { color: "white", textAlign: "center"} : {textAlign: "center"}
 						}
 					>
 						Combiné

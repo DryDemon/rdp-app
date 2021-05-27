@@ -144,8 +144,8 @@ export default function GameListBets(props: any) {
 							<Text
 								style={
 									filter == value
-										? { color: "white", fontSize: 16 }
-										: { fontSize: 16 }
+										? { color: "white", fontSize: 14, textAlign:"center" }
+										: { fontSize: 14, textAlign:"center" }
 								}
 							>
 								{value}
