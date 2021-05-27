@@ -4,6 +4,7 @@ import { StyleSheet, Image, TouchableOpacity } from "react-native";
 import { View, Text } from "./Themed";
 
 import arrowIcon from "../assets/images/arrow_black.png";
+import logo from "../assets/images/logo.png";
 
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import Octicons from "react-native-vector-icons/Octicons";
@@ -13,7 +14,7 @@ import Constants from "expo-constants";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import * as Svg from "react-native-svg";
+// import * as Svg from "react-native-svg";
 import { MainLogoSvgComponent } from "./mainHeaderSvgLogo";
 
 export function MainHeader(props: any) {
@@ -100,8 +101,11 @@ export function MainHeader(props: any) {
 					]}
 				>
 					<View>{arrow}</View>
-					<View style={{ width: 100, height: 43 }}>
-						<MainLogoSvgComponent />
+					<View style={{ width: 61, height: 43 }}>
+						<Image
+							source={logo}
+							style={{ width: 61, height: 43 }}
+						/>
 					</View>
 				</View>
 
@@ -113,8 +117,8 @@ export function MainHeader(props: any) {
 								alignItems: "center",
 								justifyContent: "flex-end",
 								marginLeft: "auto",
-								marginRight:10,
-								marginBottom:4,
+								marginRight: 10,
+								marginBottom: 4,
 							},
 						]}
 					>
