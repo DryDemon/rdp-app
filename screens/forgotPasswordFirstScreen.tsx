@@ -17,6 +17,7 @@ import {
 	BasicScrollView,
 	SubText,
 	SmallLineBreak,
+	ValidedButton,
 } from "../components/Themed";
 import { SERVER_API_URL } from "../constants/Server";
 import { FontAwesome } from "@expo/vector-icons";
@@ -129,7 +130,7 @@ export default function ForgotPasswordFirstScreen({
 				<TextWarning>{alertEmail}</TextWarning>
 
 				<SmallLineBreak />
-				<Button
+				<ValidedButton
 					title={"Continuer"}
 					onPress={gotoForgotPasswordSecondPage}
 				/>

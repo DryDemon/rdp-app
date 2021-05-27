@@ -20,6 +20,7 @@ import {
 	SubText,
 	SmallLineBreak,
 	BasicScrollView,
+	ValidedButton,
 } from "../components/Themed";
 import { ENVIRONEMENT } from "../constants/Environement";
 import { SERVER_API_URL } from "../constants/Server";
@@ -576,7 +577,7 @@ export default function Create({ navigation, route: { params } }: any) {
 								/>
 							</View>
 						) : null}
-						<Button title={"Creer"} onPress={() => onCreate()} />
+						<ValidedButton title={"Creer"} onPress={() => onCreate()} />
 						<View
 							style={styles.separator} //forandroid manly
 						></View>

@@ -15,6 +15,7 @@ import {
 	TextWarning,
 	LineBreak,
 	BasicScrollView,
+	ValidedButton,
 } from "../components/Themed";
 import { SERVER_API_URL } from "../constants/Server";
 import { FontAwesome } from "@expo/vector-icons";
@@ -108,7 +109,6 @@ export default function Login({ navigation, route: { params } }: any) {
 				<TextTitle style={styles.topTitle}>
 					Bon retour parmi nous,
 				</TextTitle>
-				<TextTitle>Salut</TextTitle>
 				{user?.username ? (
 					<TextMainTitle>Roi {user?.username}!</TextMainTitle>
 				) : null}
@@ -165,20 +165,20 @@ export default function Login({ navigation, route: { params } }: any) {
 					</Text>
 				{/* </TouchableOpacity>	 */}
 				<LineBreak />
-				<Button title={"Me Connecter"} onPress={onLogin} />
+				<ValidedButton title={"Me Connecter"} onPress={onLogin} />
 				<LineBreak />
 				<View style={styles.felxRow}>
 					<Text
 						style={styles.subCta}
 						onPress={() => navigation.navigate("Register")}
 					>
-						Tu n'as pas de compte?
+						Pas encore de compte Roi du Prono? 
 					</Text>
 					<Text
 						style={[styles.link, styles.subCta]}
 						onPress={() => navigation.navigate("Register")}
 					>
-						Inscris toi!
+						Inscris-toi ici ! 
 					</Text>
 				</View>
 				<LineBreak />
