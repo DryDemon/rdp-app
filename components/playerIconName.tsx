@@ -15,6 +15,7 @@ import Colors from "../constants/Colors";
 import { SERVER_API_URL } from "../constants/Server";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { userStatsInterface } from "../src/interaces/interfacesGame";
+import Icon from "../components/CustomIcon";
 
 export function PlayerIconName(props: any) {
 	const user: userStatsInterface = props.user;
@@ -26,7 +27,7 @@ export function PlayerIconName(props: any) {
 		return (
 			<TouchableOpacity onPress={() => {onSelect()}}>
 				<Text>1</Text>
-				<MaterialCommunityIcons name="crown" size={20} color={"#000"} />
+				<Icon icon="crown" size={20} color={"#000"} />
 
 				<Text style={styles.mainClassementUsername}>
 					{user.username}

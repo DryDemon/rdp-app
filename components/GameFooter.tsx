@@ -9,6 +9,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
+import Icon from "../components/CustomIcon";
 
 export function GameFooter(props: any) {
 	const { page, setPage,  joinCode,betChoiceList,  ...otherProps } = props;
@@ -61,8 +62,8 @@ export function GameFooter(props: any) {
 							: styles.untouched
 					}
 				>
-					<EvilIcons
-						name="chart"
+					<Icon
+						icon="menu-rank"
 						size={24}
 						color={page == "gameClassement" ? Colors.white : Colors.black}
 					/>
@@ -81,8 +82,8 @@ export function GameFooter(props: any) {
 							: styles.untouched
 					}
 				>
-					<MaterialCommunityIcons
-						name="progress-clock"
+					<Icon
+						icon="menu-all_bets"
 						size={24}
 						color={page == "gameListBets" ? Colors.white : Colors.black}
 					/>
@@ -101,8 +102,8 @@ export function GameFooter(props: any) {
 							: styles.untouched
 					}
 				>
-					<FontAwesome5
-						name="coins"
+					<Icon
+						icon="menu-coin"
 						size={24}
 						color={page == "gamePlaceBet" ? Colors.white : Colors.black}
 					/>
@@ -122,8 +123,8 @@ export function GameFooter(props: any) {
 								: styles.untouched
 						}
 					>
-						<Feather
-							name="shopping-cart"
+						<Icon
+							icon="menu-cart"
 							size={24}
 							color={page == "gameCart" ? Colors.white : Colors.black}
 						/>
@@ -150,10 +151,10 @@ export function GameFooter(props: any) {
 							: styles.untouched
 					}
 				>
-					<FontAwesome
-						name="calendar-check-o"
+					<Icon
+						icon="menu-result"
 						size={24}
-						color={page == "gameMatchStats" ? Colors.white : Colors.black}
+						color={page == "menu-result" ? Colors.white : Colors.black}
 					/>
 				</View>
 			</TouchableOpacity>

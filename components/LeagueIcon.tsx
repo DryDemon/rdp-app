@@ -5,6 +5,8 @@ import { LeagueSchema } from "../src/interaces/interfacesQuotes";
 
 import EvilIcons from "react-native-vector-icons/EvilIcons";
 import Colors from "../constants/Colors";
+import Icon from "../components/CustomIcon";
+
 
 export function LeagueIcon(props: any) {
 	const league: LeagueSchema = props.league;
