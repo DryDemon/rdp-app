@@ -70,7 +70,7 @@ export function GameIcon(props: any) {
 						}}
 					>
 						<Icon
-							icon="plus-circle"
+							icon="plus_circle"
 							size={28}
 							color={"#2F4858"}
 						/>
