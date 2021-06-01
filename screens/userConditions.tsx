@@ -160,7 +160,7 @@ export default function userConditions({ navigation, route: { params } }: any) {
 					d'accès, de modification, de rectification et de suppression
 					des données les concernantauprès de l'Organisateur de ce
 					jeu. Pour cela, il suffit d'envoyer un email à
-					contact@roiduprono.comen précisant votre demande. Roi du
+					contact@roiduprono.com en précisant votre demande. Roi du
 					Prono est une marque déposée à l'INPI sousle numéro 4763067.
 				</Text>
 
