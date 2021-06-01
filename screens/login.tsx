@@ -109,9 +109,9 @@ export default function Login({ navigation, route: { params } }: any) {
 				<TextTitle style={styles.topTitle}>
 					Bon retour parmi nous,
 				</TextTitle>
-				{user?.username ? (
+				{/* {user?.username ? (
 					<TextMainTitle>Roi {user?.username}!</TextMainTitle>
-				) : null}
+				) : null} */}
 				{/* <View style={{ flexDirection: "row" }}>
 					<View style={{ flex: 1, alignItems: "center" }}>
 						<FontAwesome.Button
