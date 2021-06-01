@@ -102,7 +102,7 @@ export function MainHeader(props: any) {
 					]}
 				>
 					<View>{arrow}</View>
-					<View style={{ width: 61, height: 43 }}>
+					<View style={{ width: 61, height: 43, marginLeft:24 }}>
 						<Image
 							source={logo}
 							style={{ width: 61, height: 43 }}
