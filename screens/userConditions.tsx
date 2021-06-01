@@ -87,48 +87,48 @@ export default function userConditions({ navigation, route: { params } }: any) {
 				<TextSubTitle> Bienvenue sur le Roi du Prono. </TextSubTitle>
 
 				<Text>
-					Cette page (et tous les documents auxquels elle seréfère)
+					Cette page (et tous les documents auxquels elle se réfère)
 					vous informe sur les conditions dans lesquelles vous pouvez
-					utiliser l'application Roidu Prono telle que disponible sur
+					utiliser l'application Roi du Prono telle que disponible sur
 					l'App Store et Google Play (désigné comme le « Site » dans
-					les prochainsparagraphes), en tant que simple visiteur ou
+					les prochains paragraphes), en tant que simple visiteur ou
 					qu'utilisateur inscrit (désigné par "vous"dans les prochains
 					paragraphes). En utilisant ce site, vous déclarez accepter
 					expressément sansréserve les présentes conditions
 					d'utilisation et vous vous engagez à les respecter. Si vous
-					n'acceptezpas les présentes conditions générales
-					d'utilisation ou n'importe quelle disposition prévuepar tout
+					n'acceptez pas les présentes conditions générales
+					d'utilisation ou n'importe quelle disposition prévue par tout
 					autre document auquel elles se réfèrent, nous vous demandons
-					de vous abstenir d'utiliserce site.
+					de vous abstenir d'utiliser ce site.
 				</Text>
 
 				<TextSubTitle>1. Gestion des données personnelles</TextSubTitle>
 
 				<Text>
-					Roi du Prono protège vos données personnelles et votrevie
+					Roi du Prono protège vos données personnelles et votre vie
 					privée conformément aux règles européennes et françaises les
-					plus strictes applicablesen la matière. Les données
-					personnelles saisies par l'utilisateurlors de la création de
+					plus strictes applicables en la matière. Les données
+					personnelles saisies par l'utilisateur lors de la création de
 					son compte sont les suivantes : adresse électronique, mot de
 					passe. Des données personnelles peuvent aussi être
 					renseignées/modifiéessur la page « mon compte » : civilité,
-					code postal, ville, pays, consentementpour recevoir les
+					code postal, ville, pays, consentement pour recevoir les
 					alertes concernant votre contest, consentement pour recevoir
-					des newslettersdu Site et consentement pour recevoir des
+					des newsletters du Site et consentement pour recevoir des
 					newsletters des partenaires du Site. Enfin, d'autres données
 					publiques dites « de navigation» sont collectées mais en
 					aucun cas elles ne permettent votre identification :
-					l'adresseIP (adresse de l'ordinateur), le fournisseur
+					l'adresse IP (adresse de l'ordinateur), le fournisseur
 					d'accès internet (ISP), le type et la langue du
 					navigateur,les contenus des cookies reçus, la date et
-					l'heure de chaque connexion, les pages visitéessur le site
+					l'heure de chaque connexion, les pages visitées sur le site
 					et les clics réalisés, le canal de connexion vers le site
 					Roi du Prono.
 				</Text>
 
 				<TextSubTitle>
 					2. Utilisation, modification et suppression des
-					donnéescollectées
+					données collectées
 				</TextSubTitle>
 
 				<Text>Les données collectées sont nécessaires pour :</Text>
@@ -136,7 +136,7 @@ export default function userConditions({ navigation, route: { params } }: any) {
 				<TextSubTitle> ● Créer et gérer votre compte </TextSubTitle>
 
 				<TextSubTitle>
-					● Vous contacter suite à une de vos sollicitations oudans le
+					● Vous contacter suite à une de vos sollicitations ou dans le
 					cadre de l'administration du site et des services proposés
 				</TextSubTitle>
 				<TextSubTitle>
@@ -150,18 +150,18 @@ export default function userConditions({ navigation, route: { params } }: any) {
 				</TextSubTitle>
 
 				<Text>
-					Vous pouvez à tout moment modifier vos données surla page «
+					Vous pouvez à tout moment modifier vos données sur la page «
 					mon compte ». Vous pouvez notamment vous désabonner des
-					emails envoyés par leSite sur cette page, ou bien en
+					emails envoyés par le Site sur cette page, ou bien en
 					cliquant sur le lien de désabonnement présent en bas de
 					l'email. En ce qui concerne la suppression : en
-					applicationde la loi " Informatique et Libertés " du 6
-					janvier 1978 modifiée, les participants disposentd'un droit
+					application de la loi " Informatique et Libertés " du 6
+					janvier 1978 modifiée, les participants disposent d'un droit
 					d'accès, de modification, de rectification et de suppression
-					des données les concernantauprès de l'Organisateur de ce
+					des données les concernant auprès de l'Organisateur de ce
 					jeu. Pour cela, il suffit d'envoyer un email à
 					contact@roiduprono.com en précisant votre demande. Roi du
-					Prono est une marque déposée à l'INPI sousle numéro 4763067.
+					Prono est une marque déposée à l'INPI sous le numéro 4763067.
 				</Text>
 
 				<TextSubTitle>
@@ -170,30 +170,30 @@ export default function userConditions({ navigation, route: { params } }: any) {
 
 				<Text>
 					Vous ne devez pas en aucun cas commettre des
-					agissementsdélictueux à l'encontre du site notamment en
+					agissements délictueux à l'encontre du site notamment en
 					introduisant sciemment des virus, chevauxde Troie, vers
 					informatiques, « bombes à retardement », ou tout autre
-					matériel nuisibleou technologiquement dangereux pour le
-					site. Vous ne devez pas tenter d'obtenir un accèsnon
+					matériel nuisible ou technologiquement dangereux pour le
+					site. Vous ne devez pas tenter d'obtenir un accès non
 					autorisé au site, au serveur sur lequel le site est stocké
-					ou n'importe quel serveur, ordinateurou base de données
+					ou n'importe quel serveur, ordinateur ou base de données
 					connectés au site.
 				</Text>
 
 				<Text>
 					Vous ne devez en aucun cas tenter de nuire au bon
 					fonctionnement du site, par une attaque en déni de service.
-					En violant cette disposition, vous commettez un délitpénal
+					En violant cette disposition, vous commettez un délit pénal
 					en application des articles 323-1 et suivants du Code Pénal,
-					relatifs à la répression desatteintes aux systèmes de
+					relatifs à la répression des atteintes aux systèmes de
 					traitement automatisé de données La responsabilité de Roi du
-					Prono ne pourra pas êtreengagée en cas de pertes ou dommages
+					Prono ne pourra pas être engagée en cas de pertes ou dommages
 					causés par un virus, ou tout autre matériel
 					technologiquementnuisible qui pourraient infecter votre
 					équipement informatique, vos programmes informatiques,vos
 					données ou autres, en raison de votre utilisation du site ou
 					des téléchargementsque vous aurez effectué, ou contenus que
-					vous aurez publié sur notre site, ou sur toutsite Web auquel
+					vous aurez publié sur notre site, ou sur tout site Web auquel
 					il est lié.
 				</Text>
 
@@ -202,21 +202,21 @@ export default function userConditions({ navigation, route: { params } }: any) {
 				</TextSubTitle>
 
 				<Text>
-					Les présentes conditions générales d'utilisation,et tous
+					Les présentes conditions générales d'utilisation, et tous
 					documents auxquels elles font référence, sont soumis à la
 					loi française. Les juridictions françaises ont compétence
-					exclusivepour toute action judiciaire dont le fondement est
-					lié à une visite sur notre site ou l'utilisationde nos
+					exclusive pour toute action judiciaire dont le fondement est
+					lié à une visite sur notre site ou l'utilisation de nos
 					services. Toutefois Roi du Prono se réserve le droit
-					d'engager des poursuitesà votre encontre, en cas de
+					d'engager des poursuites à votre encontre, en cas de
 					violation des présentes conditions générales d'utilisation,
-					dansvotre pays de résidence ou tout autre pays concerné.
+					dans votre pays de résidence ou tout autre pays concerné.
 				</Text>
 
 				<TextSubTitle> 5. Réclamations</TextSubTitle>
 
 				<Text>
-					Si vous avez des réclamations au sujet des donnéesfigurant
+					Si vous avez des réclamations au sujet des données figurant
 					sur le site, ou concernant le jeu, vous pouvez nous
 					contacter par email à l'adresse suivante:
 					contact@roiduprono.com, en détaillant l'objet de votre
@@ -226,12 +226,12 @@ export default function userConditions({ navigation, route: { params } }: any) {
 				<TextSubTitle> 6. Utilisations interdites</TextSubTitle>
 
 				<Text>
-					Vous acceptez également de ne pas reproduire, copierou
+					Vous acceptez également de ne pas reproduire, copier ou
 					revendre toute partie du site en violation des dispositions
-					des conditions généralesd'utilisation du site Roi du Prono.
+					des conditions générales d'utilisation du site Roi du Prono.
 					Vous acceptez également de ne pas accéder sans
-					autorisation,interférer, endommager ou perturber une partie
-					du site, tout équipement ou réseau surlequel le site est
+					autorisation, interférer, endommager ou perturber une partie
+					du site, tout équipement ou réseau sur lequel le site est
 					stocké, tous les logiciels utilisés dans la fourniture du
 					Site, ou tout équipementou réseau ou logiciel appartenant à
 					un tiers ou utilisé par un tiers.
@@ -242,24 +242,24 @@ export default function userConditions({ navigation, route: { params } }: any) {
 				<Text>
 					Roi du Prono déterminera, à sa seule discrétion, s'ily a eu
 					violation de la présente politique d'utilisation responsable
-					lors de votre utilisationde notre site. En cas de la
+					lors de votre utilisation de notre site. En cas de la
 					violation de cette politique d'utilisation, Roi du Prono
-					pourra prendreles mesures appropriées. Sans préjudice de ce
-					qui précède, le fait de ne pas se conformer à laprésente
+					pourra prendre les mesures appropriées. Sans préjudice de ce
+					qui précède, le fait de ne pas se conformer à la présente
 					politique d'utilisation responsable constitue une violation
-					substantielle des conditionsgénérales d'utilisation du site
+					substantielle des conditions générales d'utilisation du site
 					aux termes desquelles vous êtes autorisé à utiliser le
 					site,et peut entraîner tout ou partie des mesures suivantes
 					:
 				</Text>
 
 				<TextSubTitle>
-					● le retrait immédiat, temporaire ou permanent de votredroit
+					● le retrait immédiat, temporaire ou permanent de votre droit
 					d'utiliser le site ;
 				</TextSubTitle>
 
 				<TextSubTitle>
-					● la suppression immédiate, temporaire ou définitivede tout
+					● la suppression immédiate, temporaire ou définitive de tout
 					contenu ou matériel affiché ou téléchargé par vous sur le
 					site ;
 				</TextSubTitle>
@@ -271,10 +271,10 @@ export default function userConditions({ navigation, route: { params } }: any) {
 				<Text>
 					Roi du Prono peut actualiser le Site régulièrement,et peut
 					modifier son contenu à tout moment. En cas de nécessité, Roi
-					du Prono se réserve le droitde suspendre l'accès au site, ou
-					de le fermer indéfiniment. Tous contenus publiés sur lesite
+					du Prono se réserve le droit de suspendre l'accès au site, ou
+					de le fermer indéfiniment. Tous contenus publiés sur le site
 					peuvent s'avérer ne plus être à jour, à tout moment, et Roi
-					du Prono n'a aucune obligation de lesactualiser.
+					du Prono n'a aucune obligation de les actualiser.
 				</Text>
 
 				<LineBreak />
