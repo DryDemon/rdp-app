@@ -38,8 +38,7 @@ import { GameFooter } from "../../components/GameFooter";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
 export default function GameInfo(props: any) {
-	const { jwt, user, joinCode, game, logoUrl, ...otherProps } =
-		props;
+	const { jwt, user, joinCode, game, logoUrl, ...otherProps } = props;
 
 	const onShare = async () => {
 		try {
@@ -144,6 +143,17 @@ export default function GameInfo(props: any) {
 						return renderPlayerList(item, index);
 					})}
 				</View>
+				{game?.userStats?.map((item: any, index: number) => (
+					<SmallLineBreak />
+				))}
+
+				{/* <SmallLineBreak />
+				<SmallLineBreak />
+				<SmallLineBreak />
+				<SmallLineBreak />
+				<SmallLineBreak />
+				<SmallLineBreak /> */}
+				<SmallLineBreak />
 			</View>
 		</View>
 	);
