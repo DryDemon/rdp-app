@@ -1,41 +1,41 @@
 {
-    "expo": {
-        "name": "Roi Du Prono",
-        "slug": "RDP",
-        "version": "1.0.5",
-        "orientation": "portrait",
-        "icon": "./assets/images/favicon.png",
-        "scheme": "myapp",
-        "userInterfaceStyle": "automatic",
-        "splash": {
-            "image": "./assets/images/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
-        "owner": "roi-du-prono",
-        "updates": {
-            "fallbackToCacheTimeout": 0
-        },
-        "assetBundlePatterns": [
-            "**/*"
-        ],
-        "ios": {
-            "supportsTablet": true,
-            "bundleIdentifier": "com.roiduprono.RDP",
-            "buildNumber": "1.0.5"
-        },
-        "android": {
-            "adaptiveIcon": {
-                "foregroundImage": "./assets/images/adaptive-icon.png",
-                "backgroundColor": "#FFFFFF"
-            },
-            "permissions": [],
-            "package": "com.roiduprono.RDP",
-            "versionCode": 5
-        },
-        "web": {
-            "favicon": "./assets/images/favicon.png"
-        },
-        "description": ""
-    }
+  "expo": {
+    "name": "Roi Du Prono",
+    "slug": "RDP",
+    "version": "1.0.5",
+    "orientation": "portrait",
+    "icon": "./assets/images/favicon.png",
+    "scheme": "myapp",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "owner": "roi-du-prono",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.roiduprono.RDP",
+      "buildNumber": "1.0.5"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "permissions": [],
+      "package": "com.roiduprono.RDP",
+      "versionCode": 5
+    },
+    "web": {
+      "favicon": "./assets/images/favicon.png"
+    },
+    "description": ""
+  }
 }
