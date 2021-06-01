@@ -125,7 +125,7 @@ export function RenderBetInput(props: any) {
 							maxLength={10}
 							keyboardType="numeric"
 							style={styles.input}
-							value={value}
+							value={value + ""}
 							onChangeText={(mise) => {
 								onChange(mise);
 							}}
@@ -133,7 +133,10 @@ export function RenderBetInput(props: any) {
 						/>
 						<TouchableOpacity
 							style={styles.button}
-							onPress={() => onChange(++value)}
+							onPress={() => {
+								onChange(+value + 1);
+								value = +value + 1;
+							}}
 						>
 							<Text style={styles.buttonText}>+</Text>
 						</TouchableOpacity>
